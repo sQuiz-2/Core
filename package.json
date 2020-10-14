@@ -1,0 +1,32 @@
+{
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "commitizen": "^4.1.2",
+    "concurrently": "^5.3.0",
+    "cz-conventional-changelog": "^3.2.0",
+    "husky": "^4.2.5"
+  },
+  "scripts": {
+    "start": "concurrently -n API,SERVER,CLIENT -c blue.bold,yellow.bold,green.bold 'yarn:api dev' 'yarn:server dev' 'yarn:client web'",
+    "api": "yarn workspace squiz-api",
+    "client": "yarn workspace squiz-client",
+    "server": "yarn workspace squiz-server",
+    "lint": "yarn workspaces run lint",
+    "type-check": "yarn workspaces run type-check",
+    "commit": "npx git-cz",
+    "tsc": "echo No no no"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true"
+    }
+  }
+}

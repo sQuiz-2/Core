@@ -1,0 +1,25 @@
+version: "3.5"
+
+services:
+  db-squiz:
+    container_name: db-squiz
+    image: postgres:12.2-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: lucid
+      POSTGRES_USER: lucid
+      POSTGRES_DB: lucid
+    volumes:
+      - db-squiz:/data/postgres/db-squiz
+    ports:
+      - "5432:5432"
+
+  adminer:
+    container_name: admirer
+    image: adminer
+    restart: unless-stopped
+    ports:
+      - 8080:8080
+
+volumes:
+  db-squiz:

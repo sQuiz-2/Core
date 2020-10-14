@@ -1,0 +1,54 @@
+{
+  "expo": {
+    "name": "sQuiz",
+    "description": "Quiz de culture générale en ligne avec différents niveaux",
+    "slug": "sQuiz",
+    "privacy": "public",
+    "githubUrl": "https://github.com/sQuiz-2",
+    "userInterfaceStyle": "dark",
+    "backgroundColor": "#24243E",
+    "primaryColor": "#24243E",
+    "platforms": ["ios", "android", "web"],
+    "version": "0.8.2",
+    "orientation": "portrait",
+    "icon": "./assets/icon-medium.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#24243E"
+    },
+    "androidStatusBar": {
+      "barStyle": "light-content",
+      "backgroundColor": "#00000000",
+      "translucent": true
+    },
+    "androidNavigationBar": {
+      "barStyle": "light-content",
+      "backgroundColor": "#24243E"
+    },
+    "updates": {
+      "enabled": true,
+      "checkAutomatically": "ON_LOAD",
+      "fallbackToCacheTimeout": 15000
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true
+    },
+    "web": {
+      "favicon": "./assets/icon-remove-bg.png",
+      "name": "sQuiz",
+      "shortName": "sQuiz",
+      "lang": "fr-FR",
+      "themeColor": "#24243E",
+      "description": "Quiz de culture générale en ligne avec différents niveaux",
+      "backgroundColor": "#24243E",
+      "preferRelatedApplications": true,
+      "splash": {
+        "backgroundColor": "#24243E",
+        "image": "./assets/splash.png",
+        "resizeMode": "contain"
+      }
+    }
+  }
+}

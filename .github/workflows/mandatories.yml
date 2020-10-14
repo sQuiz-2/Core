@@ -1,0 +1,34 @@
+name: "Check mandatories (lint, tsc)"
+
+on: [pull_request]
+
+jobs:
+  lint-build:
+    name: lint, test and type check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: yarn install
+      - run: yarn api build
+      - run: yarn lint
+      - run: yarn type-check
+  lhci:
+    name: Lighthouse
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 10.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 10.x
+      - run: yarn install
+      - uses: expo/expo-github-action@v5
+        with:
+          expo-version: 3.x
+          expo-cache: true
+      - run: yarn client expo build:web --no-pwa
+      - name: run Lighthouse CI
+        working-directory: ./packages/client/
+        run: |
+          npm install -g @lhci/cli@0.4.x
+          lhci autorun

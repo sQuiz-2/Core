@@ -1,0 +1,36 @@
+{
+  "name": "squiz-server",
+  "version": "0.8.2",
+  "description": "",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
+    "build": "tsc --build",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint --ext '.js,.ts,.tsx' . --max-warnings=0"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "dotenv": "^8.2.0",
+    "socket.io": "^2.3.0",
+    "string-similarity": "^4.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^13.11.1",
+    "@types/socket.io": "^2.1.4",
+    "@typescript-eslint/eslint-plugin": "^2.30.0",
+    "@typescript-eslint/parser": "^2.30.0",
+    "eslint": "^6.8.0",
+    "eslint-config-universe": "^3.0.0",
+    "nodemon": "^2.0.3",
+    "prettier": "^2.0.4",
+    "squiz-api": "0.8.2",
+    "ts-node": "^8.8.2",
+    "typescript": "^4.0.3"
+  },
+  "eslintConfig": {
+    "extends": "universe/native"
+  }
+}
