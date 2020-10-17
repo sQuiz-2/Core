@@ -6,6 +6,7 @@ import { useRecoilValue } from 'recoil';
 
 import { fontFamilies } from '../constant/theme';
 import pseudoState from '../global/pseudoState';
+import AddRound from '../screens/Add';
 import Home from '../screens/Home';
 import Room from '../screens/Room';
 import SignIn from '../screens/SignIn';
@@ -55,6 +56,11 @@ export default function HomeStack() {
               headerBackTitleVisible: false,
               headerTitleAlign: 'left',
             }}
+          />
+          <Stack.Screen
+            name="Add"
+            options={{ headerTitle: () => <LogoTitle /> }}
+            component={AddRound}
           />
         </>
       )}

@@ -78,7 +78,7 @@ function AppWithProviders() {
       screens: {
         SignIn: 'sign-in',
         Home: '',
-        Upload: 'add-sound',
+        Add: 'add',
         Room: 'room/:id',
       },
     },
