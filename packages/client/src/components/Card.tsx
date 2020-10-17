@@ -19,7 +19,7 @@ export default function Card({ style, ...props }: ButtonProps) {
         {props.title.toUpperCase()}
       </Text>
       <Text style={[{ color: colors.primary }]} fontFamily="regular" fontSize="md">
-        {props.players} joueurs
+        {props.players} joueur{props.players > 1 && 's'}
       </Text>
     </TouchableOpacity>
   );
