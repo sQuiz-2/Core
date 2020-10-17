@@ -77,7 +77,7 @@ export default class DefaultSeeder extends BaseSeeder {
       // Initié
       {
         round: {
-          data: 'Combien y a-t-il de mois de 31 jours dans une année ?',
+          question: 'Combien y a-t-il de mois de 31 jours dans une année ?',
           themeId: 1,
           difficultyId: 1,
           validated: true,
@@ -86,7 +86,7 @@ export default class DefaultSeeder extends BaseSeeder {
       },
       {
         round: {
-          data: 'Avec quel pays la Suisse partage-t-elle la plus longue frontière ?',
+          question: 'Avec quel pays la Suisse partage-t-elle la plus longue frontière ?',
           themeId: 1,
           difficultyId: 1,
           validated: true,
@@ -96,7 +96,7 @@ export default class DefaultSeeder extends BaseSeeder {
       // Confirmé
       {
         round: {
-          data:
+          question:
             'En quelle année le premier prototype de la 205 est-il sorti des ateliers Peugeot ?',
           themeId: 1,
           difficultyId: 2,
@@ -106,7 +106,8 @@ export default class DefaultSeeder extends BaseSeeder {
       },
       {
         round: {
-          data: 'Quelle société de production audiovisuelle appartient à Christophe Dechavanne ?',
+          question:
+            'Quelle société de production audiovisuelle appartient à Christophe Dechavanne ?',
           themeId: 1,
           difficultyId: 2,
           validated: true,
@@ -116,7 +117,7 @@ export default class DefaultSeeder extends BaseSeeder {
       // Expert
       {
         round: {
-          data: 'Quel pays africain est également connu sous le nom de Pays des Braves ?',
+          question: 'Quel pays africain est également connu sous le nom de Pays des Braves ?',
           themeId: 1,
           difficultyId: 3,
           validated: true,
@@ -125,7 +126,7 @@ export default class DefaultSeeder extends BaseSeeder {
       },
       {
         round: {
-          data: 'Qui a incarné avec talent et panache le commissaire Valence à la télévision ?',
+          question: 'Qui a incarné avec talent et panache le commissaire Valence à la télévision ?',
           themeId: 1,
           difficultyId: 3,
           validated: true,

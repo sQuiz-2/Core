@@ -6,7 +6,7 @@ export default class Rounds extends BaseSchema {
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id');
-      table.string('data', 500);
+      table.string('question', 500);
       table.integer('theme_id').unsigned();
       table.foreign('theme_id').references('themes.id').onDelete('CASCADE');
       table.integer('difficulty_id').unsigned();
