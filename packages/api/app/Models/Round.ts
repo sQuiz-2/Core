@@ -9,7 +9,7 @@ export default class Round extends BaseModel {
   public id: number;
 
   @column()
-  public data: string;
+  public question: string;
 
   @hasMany(() => Answer)
   public answers: HasMany<typeof Answer>;

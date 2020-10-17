@@ -8,16 +8,9 @@ export default class RoundsController {
   }
 
   public async store({ request }: HttpContextContract) {
-    const { answers, data, difficultyId, themeId } = request.only([
-      'answers',
-      'data',
-      'difficultyId',
-      'themeId',
-    ]);
+    const { answers, ...RoundData } = await request.validate(RoundValidator);
     const round = await Round.create({
-      themeId,
-      data,
-      difficultyId,
+      ...RoundData,
       validated: false,
     });
     const createdAnswers = await round.related('answers').createMany(answers);
