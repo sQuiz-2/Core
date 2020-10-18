@@ -123,7 +123,7 @@ export default function AddRound() {
   }, []);
 
   return (
-    <CenterContainer>
+    <CenterContainer footerEnable>
       <View>
         <View style={styles.formPart}>
           <Text fontFamily="title" fontSize="md" style={styles.title}>
