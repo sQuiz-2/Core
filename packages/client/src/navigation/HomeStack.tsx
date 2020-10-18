@@ -1,9 +1,10 @@
+import { useTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import { Image } from 'react-native';
-import { useTheme } from 'react-native-paper';
 import { useRecoilValue } from 'recoil';
 
+import Header from '../components/Header';
 import { fontFamilies } from '../constant/theme';
 import pseudoState from '../global/pseudoState';
 import AddRound from '../screens/Add';
@@ -28,11 +29,13 @@ export default function HomeStack() {
     <Stack.Navigator
       headerMode="screen"
       screenOptions={{
-        title: 'sQuiz',
-        headerTitleAlign: 'center',
-        headerTintColor: colors.text,
-        headerStyle: { backgroundColor: colors.accent, borderBottomColor: colors.text },
-        headerTitleStyle: { fontFamily: fontFamilies.medium },
+        header: (props) => <Header {...props} />,
+        headerStyle: {
+          height: 80,
+          backgroundColor: colors.primary,
+          borderBottomColor: colors.border,
+          borderBottomWidth: 2,
+        },
       }}>
       {pseudo == null ? (
         <Stack.Screen
@@ -52,7 +55,7 @@ export default function HomeStack() {
             component={Room}
             options={{
               headerRight: () => <LogoTitle />,
-              headerStyle: { backgroundColor: colors.accent, borderBottomColor: colors.accent },
+              headerStyle: { backgroundColor: colors.primary, borderBottomColor: colors.border },
               headerBackTitleVisible: false,
               headerTitleAlign: 'left',
             }}

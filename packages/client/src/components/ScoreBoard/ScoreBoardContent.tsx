@@ -1,6 +1,6 @@
+import { useTheme } from '@react-navigation/native';
 import React from 'react';
 import { ScrollView, View, StyleSheet, Image, Platform } from 'react-native';
-import { useTheme } from 'react-native-paper';
 
 import { useSocketListener } from '../../utils/hooks/socketListener';
 import Text from '../Text';
@@ -56,7 +56,7 @@ export default function ScoreBoardContent() {
           </Text>
           <Text
             fontSize="lg"
-            fontFamily="medium"
+            fontFamily="title"
             style={[styles.score, { color: player.find ? 'gold' : colors.text }]}>
             {player.score}
           </Text>

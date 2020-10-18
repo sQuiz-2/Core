@@ -1,6 +1,6 @@
+import { useTheme } from '@react-navigation/native';
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { useTheme } from 'react-native-paper';
 
 import { useScreenWidth } from '../../utils/hooks/screenWidth';
 import GameInput from '../GameInput';

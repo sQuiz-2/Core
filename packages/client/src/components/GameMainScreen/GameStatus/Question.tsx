@@ -13,7 +13,7 @@ export default function Question({ question }: Question) {
   if (!question) return null;
 
   return (
-    <Text fontSize={fontSize} fontFamily="medium" style={styles.text}>
+    <Text fontSize={fontSize} fontFamily="title" style={styles.text}>
       {question}
     </Text>
   );

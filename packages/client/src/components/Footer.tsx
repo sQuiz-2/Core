@@ -1,8 +1,8 @@
 import { FontAwesome5 } from '@expo/vector-icons';
+import { useTheme } from '@react-navigation/native';
 import * as Linking from 'expo-linking';
 import React from 'react';
 import { StyleSheet, View, Platform } from 'react-native';
-import { useTheme } from 'react-native-paper';
 
 type CenterContainerProps = {
   enable: boolean;

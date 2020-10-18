@@ -1,16 +1,16 @@
 import AsyncStorage from '@react-native-community/async-storage';
-import { NavigationContainer, LinkingOptions } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
-import { Platform } from 'react-native';
-import { Provider as PaperProvider, ActivityIndicator } from 'react-native-paper';
+import { Platform, ActivityIndicator } from 'react-native';
 import { RecoilRoot, useSetRecoilState } from 'recoil';
 
 import CenterContainer from './src/components/CenterContainer';
 import Text from './src/components/Text';
-import theme from './src/constant/theme';
+import Theme from './src/constant/theme';
 import pseudoState from './src/global/pseudoState';
 import HomeStack from './src/navigation/HomeStack';
+import { Linking } from './src/navigation/Linking';
 import loadFonts from './src/utils/fonts';
 
 export default function App() {
@@ -30,13 +30,7 @@ export default function App() {
   return (
     <>
       <RecoilRoot>
-        {Platform.OS !== 'web' && !fontLoaded ? (
-          <ActivityIndicator focusable />
-        ) : (
-          <PaperProvider theme={theme}>
-            <AppWithProviders />
-          </PaperProvider>
-        )}
+        {Platform.OS !== 'web' && !fontLoaded ? <ActivityIndicator /> : <AppWithProviders />}
       </RecoilRoot>
       <StatusBar
         // eslint-disable-next-line react/style-prop-object
@@ -70,22 +64,8 @@ function AppWithProviders() {
     );
   }
 
-  const linking: LinkingOptions = {
-    prefixes: [],
-    enabled: true,
-    config: {
-      initialRouteName: 'Home',
-      screens: {
-        SignIn: 'sign-in',
-        Home: '',
-        Add: 'add',
-        Room: 'room/:id',
-      },
-    },
-  };
-
   return (
-    <NavigationContainer linking={linking}>
+    <NavigationContainer linking={Linking} theme={Theme}>
       <HomeStack />
     </NavigationContainer>
   );

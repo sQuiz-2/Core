@@ -1,6 +1,6 @@
+import { useTheme } from '@react-navigation/native';
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { useTheme } from 'react-native-paper';
 
 import { useScreenWidth } from '../../utils/hooks/screenWidth';
 import ScoreBoardContent from './ScoreBoardContent';
@@ -20,7 +20,7 @@ export default function ScoreBoard() {
       style={[
         styles.container,
         {
-          backgroundColor: colors.accent,
+          backgroundColor: colors.primary,
         },
         boardStyle,
       ]}>

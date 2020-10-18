@@ -1,6 +1,6 @@
+import { useTheme } from '@react-navigation/native';
 import React from 'react';
 import { StyleSheet, StyleProp, ViewStyle, View } from 'react-native';
-import { useTheme } from 'react-native-paper';
 
 import Footer from './Footer';
 

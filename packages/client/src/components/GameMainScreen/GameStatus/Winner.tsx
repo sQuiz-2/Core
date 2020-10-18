@@ -12,10 +12,10 @@ export default function Winner({ winner }: Winner) {
 
   return (
     <View style={styles.container}>
-      <Text fontSize={fontSize} fontFamily="medium" style={styles.text}>
+      <Text fontSize={fontSize} fontFamily="title" style={styles.text}>
         {winner}
       </Text>
-      <Text fontSize={fontSize} fontFamily="regular" style={styles.text}>
+      <Text fontSize={fontSize} fontFamily="title" style={styles.text}>
         gagne la partie !
       </Text>
     </View>

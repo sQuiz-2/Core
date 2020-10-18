@@ -1,6 +1,6 @@
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, useTheme } from '@react-navigation/native';
 import React, { useEffect } from 'react';
-import { ActivityIndicator, useTheme } from 'react-native-paper';
+import { ActivityIndicator } from 'react-native';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import io from 'socket.io-client';
 

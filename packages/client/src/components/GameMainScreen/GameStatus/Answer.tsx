@@ -21,10 +21,10 @@ export default function Answer({ answers }: Answer) {
 
   return (
     <>
-      <Text fontSize={fontSize} fontFamily="regular" style={styles.text}>
+      <Text fontSize={fontSize} fontFamily="title" style={styles.text}>
         {answers.length > 1 ? 'Les réponses étaient:' : 'La réponse était:'}
       </Text>
-      <Text fontSize={fontSize} fontFamily="medium" style={styles.text}>
+      <Text fontSize={fontSize} fontFamily="title" style={styles.text}>
         {formatedAnswer.length > 1 ? formatedAnswer.join(' / ') : formatedAnswer}
       </Text>
     </>

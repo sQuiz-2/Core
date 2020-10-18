@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
+import { useTheme } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { TextInput, StyleSheet, Platform } from 'react-native';
-import { useTheme } from 'react-native-paper';
 import { useSetRecoilState } from 'recoil';
 
 import Button from '../components/Button';
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     textAlign: 'center',
     height: 50,
-    fontFamily: fontFamilies.regular,
+    fontFamily: fontFamilies.title,
     fontSize: fontSizes.lg,
   },
 });

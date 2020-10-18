@@ -1,6 +1,6 @@
+import { useTheme } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ActivityIndicator } from 'react-native';
-import { useTheme } from 'react-native-paper';
 import io from 'socket.io-client';
 
 import Card from '../components/Card';
@@ -49,7 +49,7 @@ export default function Home({ navigation }: Props) {
 
   return (
     <CenterContainer footerEnable>
-      <Text fontFamily="medium" fontSize="lg">
+      <Text fontFamily="title" fontSize="lg">
         {error}
       </Text>
       <View style={styles.cardsContainter}>

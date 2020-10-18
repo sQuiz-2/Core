@@ -1,3 +1,4 @@
+import { useTheme } from '@react-navigation/native';
 import React, { useState, createRef } from 'react';
 import {
   View,
@@ -7,7 +8,6 @@ import {
   TextInputKeyPressEventData,
   Platform,
 } from 'react-native';
-import { useTheme } from 'react-native-paper';
 import { useRecoilValue } from 'recoil';
 
 import Button from '../components/Button';
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingLeft: 15,
     marginRight: 20,
-    fontFamily: fontFamilies.regular,
+    fontFamily: fontFamilies.text,
     fontSize: fontSizes.lg,
   },
 });

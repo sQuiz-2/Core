@@ -1,6 +1,6 @@
+import { useTheme } from '@react-navigation/native';
 import React, { ReactNode } from 'react';
 import { StyleProp, TextStyle, Text as RNText } from 'react-native';
-import { useTheme } from 'react-native-paper';
 
 import { fontSizes, fontFamilies } from '../constant/theme';
 
@@ -14,7 +14,7 @@ type TextProps = {
 export default function Text({ style, fontSize, fontFamily, ...props }: TextProps) {
   const { colors } = useTheme();
   const size = fontSizes[fontSize ? fontSize : 'md'];
-  const family = fontFamilies[fontFamily ? fontFamily : 'regular'];
+  const family = fontFamilies[fontFamily ? fontFamily : 'text'];
   return (
     <RNText
       style={[{ fontSize: size, fontFamily: family, color: colors.text }, style]}
