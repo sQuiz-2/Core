@@ -1,0 +1,12 @@
+[
+  {
+    "name": "Discord",
+    "icon": "discord",
+    "url": "Home"
+  },
+  {
+    "name": "Github",
+    "icon": "github",
+    "url": "Add"
+  }
+]
