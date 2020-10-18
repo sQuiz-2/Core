@@ -1,0 +1,12 @@
+[
+  {
+    "name": "Accueil",
+    "icon": "home",
+    "route": "Home"
+  },
+  {
+    "name": "FAQ",
+    "icon": "question",
+    "route": "Add"
+  }
+]
