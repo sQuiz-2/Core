@@ -4,8 +4,7 @@ import React from 'react';
 import { Image } from 'react-native';
 import { useRecoilValue } from 'recoil';
 
-import Header from '../components/Header';
-import { fontFamilies } from '../constant/theme';
+import Header from '../components/Header/Header';
 import pseudoState from '../global/pseudoState';
 import AddRound from '../screens/Add';
 import Home from '../screens/Home';
