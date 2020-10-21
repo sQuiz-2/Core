@@ -24,6 +24,7 @@ const enum GameEvent {
 export default class Quiz extends Room {
   answers: string[] = [];
   answerTimer: NodeJS.Timeout | null = null;
+  currentNumberOfValidAnswers: number = 0;
   displayAnswers: { answer: string; prefix: null | string }[] = [];
   isGuessTime: boolean = false;
   currentRound: Round | null = null;
@@ -33,11 +34,11 @@ export default class Quiz extends Room {
 
   /**
    * playerFoundAnswer:
-   * Add point to a player and update the scoreboard
+   * Add points to a player and update the scoreboard
    */
 
-  playerFoundAnswer = (player: Player) => {
-    player.addPoint(1);
+  playerFoundAnswer = (player: Player, rank: number) => {
+    player.performsValidAnswer(rank);
     this.emitToSocket('find', { status: 'gg' }, player.id);
     this.emitScoreBoard();
   };
@@ -120,15 +121,16 @@ export default class Quiz extends Room {
   };
 
   handleRound = () => {
+    this.currentNumberOfValidAnswers = 0;
     this.isGuessTime = true;
     this.emitRound();
-    this.setPlayersFind(false);
     this.emitScoreBoard();
     this.answerTimer = global.setTimeout(() => {
       this.roundsCounter++;
       this.emitRoundCounter();
       this.isGuessTime = false;
-      this.setPlayersCanGuess(true);
+      // Reset each player attributes to make them ready for the next round
+      this.resetPlayersForNewRound();
       this.emitAnswer();
     }, 15 * 1000);
   };
@@ -158,7 +160,8 @@ export default class Quiz extends Room {
     if (!guess || !player || this.answers.length < 1) return;
     const result = stringSimilarity.findBestMatch(guess.toLowerCase(), this.answers);
     if (player.canGuess === true && result.bestMatch.rating >= 0.8 && this.isGuessTime === true) {
-      this.playerFoundAnswer(player);
+      this.currentNumberOfValidAnswers++;
+      this.playerFoundAnswer(player, this.currentNumberOfValidAnswers);
     }
   };
 
@@ -172,8 +175,8 @@ export default class Quiz extends Room {
     this.emitRoundCounter();
   };
 
-  setPlayersCanGuess = (canGuess: boolean): void => {
-    this.players.forEach((player) => player.setCanGuess(canGuess));
+  resetPlayersForNewRound = (): void => {
+    this.players.forEach((player) => player.resetForNewRound());
   };
 
   setPlayersFind = (find: boolean): void => {
