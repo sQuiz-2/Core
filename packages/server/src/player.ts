@@ -11,6 +11,7 @@ export default class Player {
   id: string;
   name: string;
   score: number = 0;
+  streak: number = 0;
   canGuess: boolean = true;
   avatar: number = 0;
   find: boolean = false;
@@ -21,8 +22,28 @@ export default class Player {
     this.avatar = Math.floor(Math.random() * Math.floor(18));
   }
 
-  addPoint = (point: number) => {
-    this.score += point;
+  performsValidAnswer = (rank: number): void => {
+    let additionalPoints: number = 0;
+    switch (rank) {
+      case 1: {
+        additionalPoints = 3;
+        break;
+      }
+      case 2: {
+        additionalPoints = 2;
+        break;
+      }
+      case 3: {
+        additionalPoints = 1;
+        break;
+      }
+
+    }
+    // We limit the streak at 5
+    if (this.streak < 5) {
+      this.streak++;
+    }
+    this.score += this.streak + additionalPoints;
     this.find = true;
     this.canGuess = false;
   };
@@ -32,10 +53,13 @@ export default class Player {
     this.find = false;
   };
 
-  setCanGuess = (canGuess: boolean) => {
-    if (this.canGuess === !canGuess) {
-      this.canGuess = canGuess;
+  resetForNewRound = (): void => {
+    this.canGuess = true;
+    // If the answer was not found, we reset the streak counter
+    if (!this.find) {
+      this.streak = 0;
     }
+    this.find = false;
   };
 
   setFind = (find: boolean) => {
