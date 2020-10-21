@@ -37,7 +37,6 @@ export default class Player {
         additionalPoints = 1;
         break;
       }
-
     }
     // We limit the streak at 5
     if (this.streak < 5) {
