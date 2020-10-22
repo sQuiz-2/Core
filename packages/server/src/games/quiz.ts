@@ -21,6 +21,8 @@ const enum GameEvent {
   RoundCounter = 'roundCounter',
 }
 
+const GAME_MAX_GUESS = 4;
+
 export default class Quiz extends Room {
   answers: string[] = [];
   answerTimer: NodeJS.Timeout | null = null;
@@ -33,14 +35,18 @@ export default class Quiz extends Room {
   roundTimer: NodeJS.Timeout | null = null;
 
   /**
-   * playerFoundAnswer:
+   * playerGoodAnswer:
    * Add points to a player and update the scoreboard
    */
 
-  playerFoundAnswer = (player: Player, rank: number) => {
+  playerGoodAnswer = (player: Player, rank: number) => {
     player.performsValidAnswer(rank);
     this.emitToSocket('find', { status: 'gg' }, player.id);
     this.emitScoreBoard();
+  };
+
+  playerWrongAnswer = (player: Player) => {
+    player.performUnvalidAnswer();
   };
 
   /**
@@ -158,10 +164,18 @@ export default class Quiz extends Room {
   playerGuess = (id: string, guess: string) => {
     const player = this.getPlayer(id);
     if (!guess || !player || this.answers.length < 1) return;
+    if (this.isGuessTime === false || player.canPerformAnswer(GAME_MAX_GUESS) === false) return;
     const result = stringSimilarity.findBestMatch(guess.toLowerCase(), this.answers);
-    if (player.canGuess === true && result.bestMatch.rating >= 0.8 && this.isGuessTime === true) {
+
+    if (result.bestMatch.rating === 1) {
+      // correct answer
       this.currentNumberOfValidAnswers++;
-      this.playerFoundAnswer(player, this.currentNumberOfValidAnswers);
+      this.playerGoodAnswer(player, this.currentNumberOfValidAnswers);
+    } else if (result.bestMatch.rating >= 0.8) {
+      // almost correct answer
+    } else {
+      // bad answer
+      this.playerWrongAnswer(player);
     }
   };
 

@@ -13,6 +13,7 @@ export default class Player {
   score: number = 0;
   streak: number = 0;
   canGuess: boolean = true;
+  numberOfGuess: number = 0;
   avatar: number = 0;
   find: boolean = false;
 
@@ -21,6 +22,14 @@ export default class Player {
     this.name = props.name;
     this.avatar = Math.floor(Math.random() * Math.floor(18));
   }
+
+  canPerformAnswer = (maxGuess: number): boolean => {
+    return this.canGuess && this.numberOfGuess <= maxGuess;
+  };
+
+  performUnvalidAnswer = (): void => {
+    this.numberOfGuess++;
+  };
 
   performsValidAnswer = (rank: number): void => {
     let additionalPoints: number = 0;
@@ -54,6 +63,7 @@ export default class Player {
 
   resetForNewRound = (): void => {
     this.canGuess = true;
+    this.numberOfGuess = 0;
     // If the answer was not found, we reset the streak counter
     if (!this.find) {
       this.streak = 0;
