@@ -6,7 +6,6 @@ const Linking: LinkingOptions = {
   config: {
     initialRouteName: 'Home',
     screens: {
-      SignIn: 'sign-in',
       Home: '',
       Add: 'add',
       Room: 'room/:id',
