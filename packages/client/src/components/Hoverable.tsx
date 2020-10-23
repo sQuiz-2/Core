@@ -7,12 +7,10 @@ import {
   TouchableOpacityProps,
 } from 'react-native';
 
-type Props = {
+interface Props extends TouchableOpacityProps {
   onHover: StyleProp<ViewStyle>;
-  style: StyleProp<ViewStyle>;
   children: React.ReactNode;
-  passThrough: TouchableOpacityProps;
-};
+}
 
 export default function Hoverable({ onHover, style, ...passThrough }: Props) {
   const ref = useRef<TouchableOpacity | null>(null);
