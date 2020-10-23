@@ -15,7 +15,11 @@ export default function RoundCounter() {
   return (
     <View style={styles.container}>
       {Array.from({ length: roundCountInfo.total }, (v, k) => k).map((value) => {
-        return <Text fontSize="xl">{value >= roundCountInfo.current ? '○' : '●'}</Text>;
+        return (
+          <Text key={value} fontSize="xl">
+            {value >= roundCountInfo.current ? '○' : '●'}
+          </Text>
+        );
       })}
     </View>
   );
