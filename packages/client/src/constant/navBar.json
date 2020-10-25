@@ -1,12 +1,21 @@
-[
-  {
-    "name": "Accueil",
-    "icon": "home",
-    "route": "Home"
-  },
-  {
-    "name": "FAQ",
-    "icon": "question",
-    "route": "Add"
-  }
-]
+{
+  "Home": [
+    {
+      "name": "Accueil",
+      "icon": "home",
+      "route": "Home"
+    },
+    {
+      "name": "FAQ",
+      "icon": "question",
+      "route": "Add"
+    }
+  ],
+  "Room": [
+    {
+      "name": "Quitter",
+      "icon": "door-open",
+      "route": "Home"
+    }
+  ]
+}

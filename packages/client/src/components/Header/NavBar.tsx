@@ -4,16 +4,19 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import NavItems from '../../constant/navBar.json';
+import { Context } from '../../navigation/HomeStack';
 import Hoverable from '../Hoverable';
 import Text from '../Text';
 
 type Props = {
   currentName: string;
+  context: Context;
 };
 
-export default function NavBar({ currentName }: Props) {
+export default function NavBar({ currentName, context }: Props) {
   const { colors } = useTheme();
   const navigation = useNavigation();
+  const navItems = NavItems[context];
 
   function handlePress(route: string) {
     navigation.navigate(route);
@@ -21,7 +24,7 @@ export default function NavBar({ currentName }: Props) {
 
   return (
     <View style={styles.container}>
-      {NavItems.map(({ name, icon, route }) => {
+      {navItems.map(({ name, icon, route }) => {
         const bgColor = route === currentName ? colors.border : colors.primary;
         return (
           <Hoverable
@@ -44,6 +47,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginTop: -30,
   },
   navItem: {
     flexDirection: 'row',

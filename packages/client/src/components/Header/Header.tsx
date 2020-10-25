@@ -3,11 +3,16 @@ import { StackHeaderProps } from '@react-navigation/stack';
 import React from 'react';
 import { View, StyleSheet, Image } from 'react-native';
 
+import { Context } from '../../navigation/HomeStack';
 import Text from '../Text';
 import Logo from './Logo';
 import NavBar from './NavBar';
 
-export default function Header({ scene }: StackHeaderProps) {
+interface Props extends StackHeaderProps {
+  context?: Context;
+}
+
+export default function Header({ context, scene }: Props) {
   const { colors } = useTheme();
   return (
     <View
@@ -28,7 +33,7 @@ export default function Header({ scene }: StackHeaderProps) {
           <Text>m4gie</Text>
         </View>
       </View>
-      <NavBar currentName={scene.route.name} />
+      <NavBar currentName={scene.route.name} context={context ? context : 'Home'} />
     </View>
   );
 }
