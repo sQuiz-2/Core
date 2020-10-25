@@ -8,7 +8,6 @@ type Answer = {
 };
 
 export default function Answer({ answers }: Answer) {
-  console.log(answers);
   const fontSize = Platform.OS === 'web' ? 'xl' : 'md';
   const formatedAnswer = answers.map((answer) => {
     if (answer.prefix) {

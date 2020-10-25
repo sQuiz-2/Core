@@ -34,6 +34,7 @@ export default function GameCard({ style, ...props }: ButtonProps) {
 
 const styles = StyleSheet.create({
   gameCard: {
+    margin: 5,
     padding: 0,
     width: 250,
   },

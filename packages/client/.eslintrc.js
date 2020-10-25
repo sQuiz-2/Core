@@ -5,5 +5,6 @@ module.exports = {
     fetch: true,
     FormData: true,
     window: true,
+    __dirname: true,
   },
 };
