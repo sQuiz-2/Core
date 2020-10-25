@@ -3,13 +3,12 @@ import { View, StyleSheet } from 'react-native';
 
 import Card from '../Card/Card';
 import Footer from '../Footer';
+import GameInput from '../GameInput';
 import { QuizMainScreen } from '../GameMainScreen/';
 import RoundCounter from '../GameMainScreen/GameStatus/RoundCounter';
 import PlayerInfos from '../PlayerInfo';
 import RoomTitle from '../RoomTitle';
 import { ScoreBoard } from '../ScoreBoard';
-/* import GameInput from '../GameInput';
- */
 import Text from '../Text';
 
 export default function QuizContainer() {
@@ -34,9 +33,7 @@ export default function QuizContainer() {
             </Text>
           </View>
           <RoundCounter />
-          <Card>
-            <Text>Input</Text>
-          </Card>
+          <GameInput />
         </View>
       </View>
       <Footer enable />

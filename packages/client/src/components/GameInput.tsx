@@ -1,7 +1,6 @@
 import { useTheme } from '@react-navigation/native';
 import React, { useState, createRef } from 'react';
 import {
-  View,
   StyleSheet,
   TextInput,
   NativeSyntheticEvent,
@@ -10,16 +9,13 @@ import {
 } from 'react-native';
 import { useRecoilValue } from 'recoil';
 
-import Button from '../components/Button';
 import { fontSizes, fontFamilies } from '../constant/theme';
 import socketState from '../global/socket';
-import { useScreenWidth } from '../utils/hooks/screenWidth';
 
 export default function GameInput() {
   const [playerAnswer, setPlayerAnswer] = useState('');
   const socket = useRecoilValue(socketState);
   const { colors } = useTheme();
-  const isLargeScreen = useScreenWidth();
   const inputRef = createRef<TextInput>();
 
   function emitAnswer() {
@@ -44,37 +40,27 @@ export default function GameInput() {
   }
 
   return (
-    <View style={styles.answer}>
-      <TextInput
-        ref={inputRef}
-        value={playerAnswer}
-        onChangeText={(text) => setPlayerAnswer(text)}
-        onKeyPress={(e) => checkKey(e)}
-        multiline={false}
-        style={[
-          styles.input,
-          { backgroundColor: colors.text, width: isLargeScreen ? '30%' : '50%' },
-        ]}
-      />
-      <Button onPress={emitAnswer}>Envoyer</Button>
-    </View>
+    <TextInput
+      ref={inputRef}
+      value={playerAnswer}
+      onChangeText={(text) => setPlayerAnswer(text)}
+      onKeyPress={(e) => checkKey(e)}
+      multiline={false}
+      style={[
+        styles.input,
+        { backgroundColor: colors.card, shadowColor: colors.border, color: colors.text },
+      ]}
+    />
   );
 }
 
 const styles = StyleSheet.create({
-  answer: {
-    width: '100%',
-    justifyContent: 'center',
-    flexDirection: 'row',
-    marginTop: 'auto',
-    marginBottom: 10,
-  },
   input: {
     ...(Platform.OS === 'web' && { outlineWidth: 0 }),
-    borderRadius: 20,
-    paddingLeft: 15,
-    marginRight: 20,
     fontFamily: fontFamilies.text,
-    fontSize: fontSizes.lg,
+    fontSize: fontSizes.xxl,
+    borderRadius: 10,
+    padding: 20,
+    shadowOffset: { width: 0, height: 8 },
   },
 });
