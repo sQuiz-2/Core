@@ -9,6 +9,7 @@ const Linking: LinkingOptions = {
       Home: '',
       Add: 'add',
       Room: 'room/:id',
+      FAQ: 'faq',
     },
   },
 };

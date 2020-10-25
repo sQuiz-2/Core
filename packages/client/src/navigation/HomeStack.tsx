@@ -3,6 +3,7 @@ import React from 'react';
 
 import Header from '../components/Header/Header';
 import AddRound from '../screens/Add';
+import FAQ from '../screens/FAQ';
 import Home from '../screens/Home';
 import Room from '../screens/Room';
 import { HomeStackParamList } from '../typings/navigation';
@@ -27,6 +28,7 @@ export default function HomeStack() {
         }}
       />
       <Stack.Screen name="Add" component={AddRound} />
+      <Stack.Screen name="FAQ" component={FAQ} />
     </Stack.Navigator>
   );
 }
