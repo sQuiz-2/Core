@@ -61,6 +61,6 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: 'space-between',
     width: '60%',
-    marginLeft: 20,
+    paddingLeft: 20,
   },
 });
