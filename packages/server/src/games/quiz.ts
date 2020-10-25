@@ -167,7 +167,7 @@ export default class Quiz extends Room {
       return
     }
     if (!guess || !player || this.answers.length < 1) return;
-    if (this.isGuessTime === false || player.canPerformAnswer(this.currentRound?.maxNumberOfGuesses) === false) return;
+    if (this.isGuessTime === false || player.canPerformAnswer(this.currentRound!.maxNumberOfGuesses) === false) return;
     const result = stringSimilarity.findBestMatch(guess.toLowerCase(), this.answers);
 
     if (result.bestMatch.rating === 1) {
