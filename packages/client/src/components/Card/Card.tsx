@@ -26,7 +26,6 @@ const styles = StyleSheet.create({
   cardContainter: {
     borderRadius: 10,
     padding: 20,
-    margin: 5,
     shadowOffset: { width: 0, height: 8 },
   },
 });
