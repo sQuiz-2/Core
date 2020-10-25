@@ -1,6 +1,6 @@
+import { useTheme } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
 import { Animated, StyleSheet } from 'react-native';
-import { useTheme } from 'react-native-paper';
 import { useRecoilValue } from 'recoil';
 
 import { msTimerState } from '../global/timerState';
@@ -26,7 +26,7 @@ export default function Timer() {
         styles.progressBar,
         {
           width: progress.interpolate({ inputRange: [0, 100], outputRange: ['0%', '100%'] }),
-          backgroundColor: colors.accent,
+          backgroundColor: colors.primary,
           borderColor: colors.text,
         },
       ]}

@@ -4,9 +4,9 @@ import { StackNavigationProp } from '@react-navigation/stack';
 /** Root Home Stack */
 
 export type HomeStackParamList = {
-  SignIn: undefined;
   Home: undefined;
   Add: undefined;
+  FAQ: undefined;
   Room: { id: string };
 };
 

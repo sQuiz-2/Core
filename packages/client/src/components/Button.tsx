@@ -1,6 +1,6 @@
+import { useTheme } from '@react-navigation/native';
 import React from 'react';
-import { StyleSheet, StyleProp, ViewStyle } from 'react-native';
-import { Button as PaperButton, useTheme } from 'react-native-paper';
+import { StyleSheet, StyleProp, ViewStyle, TouchableOpacity } from 'react-native';
 
 type ButtonProps = {
   children: React.ReactNode;
@@ -12,8 +12,7 @@ type ButtonProps = {
 export default function Button({ style, ...props }: ButtonProps) {
   const { colors } = useTheme();
   return (
-    <PaperButton
-      focusable
+    <TouchableOpacity
       {...props}
       style={[
         styles.button,
@@ -21,7 +20,7 @@ export default function Button({ style, ...props }: ButtonProps) {
         style,
       ]}>
       {props.children}
-    </PaperButton>
+    </TouchableOpacity>
   );
 }
 

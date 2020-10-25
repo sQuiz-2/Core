@@ -7,7 +7,7 @@ export default function Info() {
   const fontSize = Platform.OS === 'web' ? 'xl' : 'md';
 
   return (
-    <Text fontSize={fontSize} fontFamily="regular" style={styles.text}>
+    <Text fontSize={fontSize} fontFamily="title" style={styles.text}>
       La partie va bientôt commencer !
     </Text>
   );

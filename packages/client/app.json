@@ -11,7 +11,7 @@
     "platforms": ["ios", "android", "web"],
     "version": "0.8.2",
     "orientation": "portrait",
-    "icon": "./assets/icon-medium.png",
+    "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -36,7 +36,7 @@
       "supportsTablet": true
     },
     "web": {
-      "favicon": "./assets/icon-remove-bg.png",
+      "favicon": "./assets/icon.png",
       "name": "sQuiz",
       "shortName": "sQuiz",
       "lang": "fr-FR",

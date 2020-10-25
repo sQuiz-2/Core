@@ -1,8 +1,15 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Picker } from '@react-native-community/picker';
+import { useTheme } from '@react-navigation/native';
 import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, Platform, TextInput, View, TouchableOpacity } from 'react-native';
-import { useTheme, ActivityIndicator } from 'react-native-paper';
+import {
+  StyleSheet,
+  Platform,
+  TextInput,
+  View,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
 
 import Button from '../components/Button';
 import CenterContainer from '../components/CenterContainer';
@@ -116,10 +123,10 @@ export default function AddRound() {
   }, []);
 
   return (
-    <CenterContainer>
+    <CenterContainer footerEnable>
       <View>
         <View style={styles.formPart}>
-          <Text fontFamily="medium" fontSize="md" style={styles.title}>
+          <Text fontFamily="title" fontSize="md" style={styles.title}>
             Catégorie:
           </Text>
           <Picker
@@ -140,7 +147,7 @@ export default function AddRound() {
         </View>
 
         <View style={styles.formPart}>
-          <Text fontFamily="medium" fontSize="md" style={styles.title}>
+          <Text fontFamily="title" fontSize="md" style={styles.title}>
             Difficulté:
           </Text>
           <Picker
@@ -161,7 +168,7 @@ export default function AddRound() {
         </View>
 
         <View style={styles.formPart}>
-          <Text fontFamily="medium" fontSize="md" style={styles.title}>
+          <Text fontFamily="title" fontSize="md" style={styles.title}>
             Question:
           </Text>
           <TextInput
@@ -173,7 +180,7 @@ export default function AddRound() {
         </View>
 
         <View style={styles.formPart}>
-          <Text fontFamily="medium" fontSize="md" style={styles.title}>
+          <Text fontFamily="title" fontSize="md" style={styles.title}>
             Réponse(s):
           </Text>
           <View
@@ -220,7 +227,7 @@ export default function AddRound() {
 
         <View style={styles.errors}>
           {errors.map((error) => (
-            <Text fontFamily="medium" fontSize="sm" key={error.rule}>
+            <Text fontFamily="title" fontSize="sm" key={error.rule}>
               {error.message}
             </Text>
           ))}
@@ -264,7 +271,7 @@ const styles = StyleSheet.create({
     ...(Platform.OS === 'web' && { outlineWidth: 0 }),
     textAlign: 'center',
     height: 30,
-    fontFamily: fontFamilies.regular,
+    fontFamily: fontFamilies.text,
     fontSize: fontSizes.md,
     margin: 4,
   },
