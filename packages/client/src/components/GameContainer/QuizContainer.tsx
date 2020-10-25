@@ -1,54 +1,69 @@
-import { useTheme } from '@react-navigation/native';
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import { useScreenWidth } from '../../utils/hooks/screenWidth';
-import GameInput from '../GameInput';
+import Card from '../Card/Card';
+import Footer from '../Footer';
 import { QuizMainScreen } from '../GameMainScreen/';
 import RoundCounter from '../GameMainScreen/GameStatus/RoundCounter';
+import PlayerInfos from '../PlayerInfo';
+import RoomTitle from '../RoomTitle';
 import { ScoreBoard } from '../ScoreBoard';
+/* import GameInput from '../GameInput';
+ */
+import Text from '../Text';
 
 export default function QuizContainer() {
-  const { colors } = useTheme();
-  const isLargeScreen = useScreenWidth();
-
   return (
-    <View
-      style={[
-        styles.container,
-        { backgroundColor: colors.primary },
-        isLargeScreen && { flexDirection: 'row' },
-      ]}>
-      {!isLargeScreen && <QuizMainScreen />}
-      <ScoreBoard />
-      {isLargeScreen ? (
-        <>
-          <View style={styles.gameContainer}>
-            <RoundCounter />
-            <View style={styles.info}>
+    <>
+      <View style={styles.container}>
+        <View style={styles.info}>
+          <Card style={styles.card}>
+            <RoomTitle />
+          </Card>
+          <Card style={[styles.card, { flexGrow: 1 }]}>
+            <ScoreBoard />
+          </Card>
+          <Card>
+            <PlayerInfos />
+          </Card>
+        </View>
+        <View style={styles.game}>
+          <View style={{ alignItems: 'center', justifyContent: 'center', flexGrow: 1 }}>
+            <Text fontFamily="text" fontSize="xxl">
               <QuizMainScreen />
-            </View>
-            <GameInput />
+            </Text>
           </View>
-        </>
-      ) : (
-        <GameInput />
-      )}
-    </View>
+          <RoundCounter />
+          <Card>
+            <Text>Input</Text>
+          </Card>
+        </View>
+      </View>
+      <Footer enable />
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    width: '50%',
+    alignSelf: 'center',
+    flexDirection: 'row',
+    paddingTop: 30,
+    paddingBottom: 30,
+    flexGrow: 1,
   },
-  gameContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+  card: {
+    marginBottom: 25,
   },
   info: {
-    marginTop: 'auto',
-    marginBottom: 'auto',
+    flexGrow: 1,
+    width: '40%',
+  },
+  game: {
+    flexGrow: 1,
+    justifyContent: 'space-between',
+    width: '60%',
+    marginLeft: 20,
   },
 });
