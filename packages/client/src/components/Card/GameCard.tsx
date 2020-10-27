@@ -7,7 +7,8 @@ import Text from '../Text';
 import Card from './Card';
 
 type ButtonProps = {
-  title: string;
+  color: [string, string];
+  name: string;
   players: number;
   style?: StyleProp<ViewStyle>;
   onPress?: (id?: any) => void;
@@ -18,12 +19,12 @@ export default function GameCard({ style, ...props }: ButtonProps) {
   return (
     <TouchableOpacity onPress={props.onPress}>
       <Card style={styles.gameCard}>
-        <LinearGradient colors={['#a8e063', '#56ab2f']} style={styles.content}>
+        <LinearGradient colors={props.color} style={styles.content} start={[1.0, 0.0]} end={[0.0, 1.0]}>
           <Text style={[{ color: colors.text }, styles.title]} fontFamily="title" fontSize="xxl">
-            {props.title.toUpperCase()}
+            {props.name.toUpperCase()}
           </Text>
           <Text style={[{ color: colors.text }]} fontFamily="text" fontSize="md">
-            {props.players} joueur{props.players > 1 && 's'}
+            {(props.players > 0 && props.players) || "Aucun"} joueur{props.players > 1 && 's'}
           </Text>
           <Image source={require('../../../assets/images/question.png')} style={[styles.image]} />
         </LinearGradient>

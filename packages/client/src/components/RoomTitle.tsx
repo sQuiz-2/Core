@@ -1,6 +1,7 @@
 import { useTheme } from '@react-navigation/native';
 import React from 'react';
 import { ActivityIndicator } from 'react-native';
+import { Difficulty } from 'squiz-api/app/enums/Difficulty';
 
 import { useSocketListener } from '../utils/hooks/socketListener';
 import CenterContainer from './CenterContainer';
@@ -8,7 +9,7 @@ import Text from './Text';
 
 export default function QuizContainer() {
   const { colors } = useTheme();
-  const roomInfos: { title: string; difficulty: string } | null = useSocketListener('infos', null);
+  const roomInfos: { difficulty: Difficulty } | null = useSocketListener('infos', null);
 
   if (!roomInfos) {
     return (
@@ -17,10 +18,9 @@ export default function QuizContainer() {
       </CenterContainer>
     );
   }
-
   return (
     <Text fontFamily="title" fontSize="xxl">
-      SALON {roomInfos.difficulty.toLocaleUpperCase()}
+      SALON {roomInfos.difficulty.name.toLocaleUpperCase()}
     </Text>
   );
 }

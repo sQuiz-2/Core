@@ -1,7 +1,6 @@
-import { BaseModel, column, belongsTo, BelongsTo } from '@ioc:Adonis/Lucid/Orm';
+import { BaseModel, column, computed } from '@ioc:Adonis/Lucid/Orm';
+import { Difficulty, DifficultyEnum, GetDifficultyFromId } from 'App/Enums/Difficulty';
 import { DateTime } from 'luxon';
-
-import Difficulty from './Difficulty';
 
 export default class Game extends BaseModel {
   @column({ isPrimary: true })
@@ -10,11 +9,13 @@ export default class Game extends BaseModel {
   @column()
   public title: string;
 
-  @column()
-  public difficultyId: number;
+  @column({ serializeAs: 'difficultyId' })
+  public difficultyId: DifficultyEnum;
 
-  @belongsTo(() => Difficulty)
-  public difficulty: BelongsTo<typeof Difficulty>;
+  @computed()
+  public get difficulty(): Difficulty {
+    return GetDifficultyFromId(this.difficultyId);
+  }
 
   @column()
   public available: boolean;

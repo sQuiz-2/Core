@@ -2,6 +2,7 @@ import { useTheme } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ActivityIndicator } from 'react-native';
 import io from 'socket.io-client';
+import { Difficulty } from 'squiz-api/App/Enums/Difficulty';
 
 import { GameCard } from '../components/Card';
 import CenterContainer from '../components/CenterContainer';
@@ -16,7 +17,7 @@ type Props = {
 export default function Home({ navigation }: Props) {
   const { colors } = useTheme();
   const [rooms, setRooms] = useState<
-    { title: string; difficulty: string; id: string; players: number }[]
+    { title: string; difficulty: Difficulty; id: string; players: number }[]
   >([]);
   const [error, setError] = useState<string | null>(null);
   let socket = null;
@@ -29,7 +30,7 @@ export default function Home({ navigation }: Props) {
     });
     socket.on(
       'rooms',
-      (data: { title: string; difficulty: string; id: string; players: number }[]) => {
+      (data: { title: string; difficulty: Difficulty; id: string; players: number }[]) => {
         setRooms(data);
       }
     );
@@ -46,7 +47,6 @@ export default function Home({ navigation }: Props) {
       </CenterContainer>
     );
   }
-
   return (
     <CenterContainer footerEnable>
       <Text fontFamily="title" fontSize="lg">
@@ -58,7 +58,8 @@ export default function Home({ navigation }: Props) {
             key={room.id}
             onPress={() => navigate(room.id)}
             players={room.players}
-            title={room.difficulty}
+            name={room.difficulty.name}
+            color={room.difficulty.color}
           />
         ))}
       </View>
