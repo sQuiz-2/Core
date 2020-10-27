@@ -41,7 +41,7 @@ export default class RoomPool {
 
   getRooms = () => {
     const roomNames = this.rooms.map(({ title, id, players, difficulty }) => {
-      return { title, id, players: players.length, difficulty: difficulty.title };
+      return { title, id, players: players.length, difficulty };
     });
     return roomNames;
   };

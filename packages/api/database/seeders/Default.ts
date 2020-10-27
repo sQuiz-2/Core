@@ -1,5 +1,5 @@
 import BaseSeeder from '@ioc:Adonis/Lucid/Seeder';
-import Difficulty from 'App/Models/Difficulty';
+import { DifficultyEnum } from 'App/Enums/Difficulty';
 import Game from 'App/Models/Game';
 import Round from 'App/Models/Round';
 import Theme from 'App/Models/Theme';
@@ -7,7 +7,6 @@ import Theme from 'App/Models/Theme';
 export default class DefaultSeeder extends BaseSeeder {
   public async run() {
     await this.Themes();
-    await this.Difficulties();
     await this.Games();
     await this.Rounds();
   }
@@ -33,40 +32,22 @@ export default class DefaultSeeder extends BaseSeeder {
     ]);
   }
 
-  public async Difficulties() {
-    const uniqueKey = 'title';
-    await Difficulty.updateOrCreateMany(uniqueKey, [
-      {
-        title: 'initié',
-        level: 1,
-      },
-      {
-        title: 'confirmé',
-        level: 2,
-      },
-      {
-        title: 'expert',
-        level: 3,
-      },
-    ]);
-  }
-
   public async Games() {
     const uniqueKey = 'title';
     await Game.updateOrCreateMany(uniqueKey, [
       {
         title: 'Culture générale',
-        difficultyId: 1, // Initié
+        difficultyId: DifficultyEnum.Beginner, // Initié
         available: true,
       },
       {
         title: 'Culture générale',
-        difficultyId: 2, // Confirmé
+        difficultyId: DifficultyEnum.Intermediate, // Confirmé
         available: true,
       },
       {
         title: 'Culture générale',
-        difficultyId: 3, // Expert
+        difficultyId: DifficultyEnum.Expert, // Expert
         available: true,
       },
     ]);
@@ -79,7 +60,7 @@ export default class DefaultSeeder extends BaseSeeder {
         round: {
           question: 'Combien y a-t-il de mois de 31 jours dans une année ?',
           themeId: 1,
-          difficultyId: 1,
+          difficultyId: DifficultyEnum.Beginner,
           validated: true,
         },
         answers: [{ answer: '7' }],
@@ -88,7 +69,7 @@ export default class DefaultSeeder extends BaseSeeder {
         round: {
           question: 'Avec quel pays la Suisse partage-t-elle la plus longue frontière ?',
           themeId: 1,
-          difficultyId: 1,
+          difficultyId: DifficultyEnum.Beginner,
           validated: true,
         },
         answers: [{ answer: 'France', prefix: 'La' }],
@@ -109,7 +90,7 @@ export default class DefaultSeeder extends BaseSeeder {
           question:
             'En quelle année le premier prototype de la 205 est-il sorti des ateliers Peugeot ?',
           themeId: 1,
-          difficultyId: 2,
+          difficultyId: DifficultyEnum.Intermediate,
           validated: true,
         },
         answers: [{ answer: '1981', prefix: 'En' }],
@@ -119,7 +100,7 @@ export default class DefaultSeeder extends BaseSeeder {
           question:
             'Quelle société de production audiovisuelle appartient à Christophe Dechavanne ?',
           themeId: 1,
-          difficultyId: 2,
+          difficultyId: DifficultyEnum.Intermediate,
           validated: true,
         },
         answers: [{ answer: 'Coyote' }],
@@ -129,7 +110,7 @@ export default class DefaultSeeder extends BaseSeeder {
         round: {
           question: 'Quel pays africain est également connu sous le nom de Pays des Braves ?',
           themeId: 1,
-          difficultyId: 3,
+          difficultyId: DifficultyEnum.Expert,
           validated: true,
         },
         answers: [{ answer: 'Djibouti' }],
@@ -138,7 +119,7 @@ export default class DefaultSeeder extends BaseSeeder {
         round: {
           question: 'Qui a incarné avec talent et panache le commissaire Valence à la télévision ?',
           themeId: 1,
-          difficultyId: 3,
+          difficultyId: DifficultyEnum.Expert,
           validated: true,
         },
         answers: [{ answer: 'Bernard Tapie' }, { answer: 'Tapie' }],

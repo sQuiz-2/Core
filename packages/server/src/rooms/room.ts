@@ -4,6 +4,7 @@
 
 import { EventEmitter } from 'events';
 import { Namespace, Socket } from 'socket.io';
+import { Difficulty } from 'squiz-api/app/Enums/Difficulty';
 
 import Player from '../player';
 
@@ -11,7 +12,7 @@ export type RoomProps = {
   nameSpace: Namespace;
   roomNumber: string;
   title: string;
-  difficulty: { title: string; level: number; id: number };
+  difficulty: Difficulty;
 };
 
 export const enum RoomStatus {
@@ -30,7 +31,7 @@ const enum RoomEvent {
 }
 
 export default class Room {
-  difficulty: { title: string; level: number; id: number };
+  difficulty: Difficulty;
   event: EventEmitter = new EventEmitter();
   id: string;
   nameSpace: Namespace; // Socket.io room namespace
@@ -106,11 +107,7 @@ export default class Room {
   };
 
   sendRoomInfos = (socket: Socket) => {
-    this.emitToSocket(
-      RoomEvent.Infos,
-      { difficulty: this.difficulty.title, title: this.title },
-      socket.id,
-    );
+    this.emitToSocket(RoomEvent.Infos, { difficulty: this.difficulty }, socket.id);
   };
 
   setStatus = (status: RoomStatus) => {

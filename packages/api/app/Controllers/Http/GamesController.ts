@@ -4,7 +4,7 @@ import GameValidator from 'App/Validators/GameValidator';
 
 export default class GamesController {
   public async index() {
-    return Game.query().preload('difficulty');
+    return Game.query();
   }
 
   public async store({ request }: HttpContextContract) {

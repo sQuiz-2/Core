@@ -1,8 +1,8 @@
-import { BaseModel, column, hasMany, HasMany, BelongsTo, belongsTo } from '@ioc:Adonis/Lucid/Orm';
+import { BaseModel, column, hasMany, HasMany, computed } from '@ioc:Adonis/Lucid/Orm';
+import { Difficulty, DifficultyEnum, GetDifficultyFromId } from 'App/Enums/Difficulty';
 import { DateTime } from 'luxon';
 
 import Answer from './Answer';
-import Difficulty from './Difficulty';
 
 export default class Round extends BaseModel {
   @column({ isPrimary: true })
@@ -14,11 +14,13 @@ export default class Round extends BaseModel {
   @hasMany(() => Answer)
   public answers: HasMany<typeof Answer>;
 
-  @column()
-  public difficultyId: number;
+  @column({ serializeAs: 'difficultyId' })
+  public difficultyId: DifficultyEnum;
 
-  @belongsTo(() => Difficulty)
-  public difficulty: BelongsTo<typeof Difficulty>;
+  @computed()
+  public get difficulty(): Difficulty {
+    return GetDifficultyFromId(this.difficultyId);
+  }
 
   @column()
   public themeId: number;
