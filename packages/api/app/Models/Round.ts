@@ -32,6 +32,6 @@ export default class Round extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true, serializeAs: 'updatedAt' })
   public updatedAt: DateTime;
 
-  @column({serializeAs: 'maxNumberOfGuesses'})
+  @column({ serializeAs: 'maxNumberOfGuesses' })
   public maxNumberOfGuesses: number;
 }

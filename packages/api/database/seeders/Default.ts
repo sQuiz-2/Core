@@ -101,7 +101,7 @@ export default class DefaultSeeder extends BaseSeeder {
           validated: true,
           maxNumberOfGuesses: 1,
         },
-        answers: [{answer: 'Non'}, {answer: 'No'}]
+        answers: [{ answer: 'Non' }, { answer: 'No' }],
       },
       // Confirmé
       {
