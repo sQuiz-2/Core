@@ -1,5 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { schema, rules } from '@ioc:Adonis/Core/Validator';
+import { DifficultyEnum } from 'App/Enums/Difficulty';
 
 export default class RoundValidator {
   constructor(private ctx: HttpContextContract) {}
@@ -13,7 +14,7 @@ export default class RoundValidator {
       }),
     ),
     themeId: schema.number([rules.exists({ table: 'themes', column: 'id' })]),
-    difficultyId: schema.number([rules.exists({ table: 'difficulties', column: 'id' })]),
+    difficultyId: schema.number([rules.range(0, Object.keys(DifficultyEnum).length)]),
   });
 
   public cacheKey = this.ctx.routeKey;
@@ -32,6 +33,6 @@ export default class RoundValidator {
     'themeId.required': 'Thème manquant',
     'themeId.exists': "Le thème sélectionné n'existe pas 🤔",
     'difficultyId.required': 'Difficulté manquante',
-    'difficultyId.exists': "La difficulté sélectionnée n'existe pas 🤔",
+    'difficultyId.range': "La difficulté sélectionnée n'existe pas 🤔",
   };
 }

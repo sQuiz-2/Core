@@ -32,7 +32,6 @@ export default class DefaultSeeder extends BaseSeeder {
     ]);
   }
 
-
   public async Games() {
     const uniqueKey = 'title';
     await Game.updateOrCreateMany(uniqueKey, [

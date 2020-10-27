@@ -7,7 +7,7 @@ export default class GameValidator {
 
   public schema = schema.create({
     title: schema.string({ trim: true }, [rules.maxLength(80)]),
-    difficultyId: schema.number([rules.range(0, Object.keys(DifficultyEnum).length / 2)]),
+    difficultyId: schema.number([rules.range(0, Object.keys(DifficultyEnum).length)]),
   });
 
   public cacheKey = this.ctx.routeKey;
@@ -15,6 +15,6 @@ export default class GameValidator {
   public messages = {
     'title.required': 'Un titre est requis',
     'difficultyId.required': 'Une difficulté est requise',
-    'difficultyId.exists': 'Difficulté inconnue',
+    'difficultyId.range': 'Difficulté inconnue',
   };
 }
