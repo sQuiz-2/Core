@@ -21,8 +21,6 @@ const enum GameEvent {
   RoundCounter = 'roundCounter',
 }
 
-const GAME_MAX_GUESS = 4;
-
 export default class Quiz extends Room {
   answers: string[] = [];
   answerTimer: NodeJS.Timeout | null = null;
@@ -163,8 +161,17 @@ export default class Quiz extends Room {
 
   playerGuess = (id: string, guess: string) => {
     const player = this.getPlayer(id);
+    // currentRound can be null so we check that the currentRound exists
+    if (!this.currentRound) {
+      console.log('Error: No current round');
+      return;
+    }
     if (!guess || !player || this.answers.length < 1) return;
-    if (this.isGuessTime === false || player.canPerformAnswer(GAME_MAX_GUESS) === false) return;
+    if (
+      this.isGuessTime === false ||
+      player.canPerformAnswer(this.currentRound!.maxNumberOfGuesses) === false
+    )
+      return;
     const result = stringSimilarity.findBestMatch(guess.toLowerCase(), this.answers);
 
     if (result.bestMatch.rating === 1) {

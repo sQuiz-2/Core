@@ -93,6 +93,16 @@ export default class DefaultSeeder extends BaseSeeder {
         },
         answers: [{ answer: 'France', prefix: 'La' }],
       },
+      {
+        round: {
+          question: 'La guerre de cent ans a-t-elle duré cent années?',
+          themeId: 1,
+          difficultyId: 1,
+          validated: true,
+          maxNumberOfGuesses: 1,
+        },
+        answers: [{ answer: 'Non' }, { answer: 'No' }],
+      },
       // Confirmé
       {
         round: {
