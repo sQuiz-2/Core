@@ -1,7 +1,7 @@
 import { useTheme } from '@react-navigation/native';
 import React from 'react';
 import { ActivityIndicator } from 'react-native';
-import { Difficulty } from 'squiz-api/app/enums/Difficulty';
+import { Difficulty } from 'squiz-api/app/Enums/Difficulty';
 
 import { useSocketListener } from '../utils/hooks/socketListener';
 import CenterContainer from './CenterContainer';

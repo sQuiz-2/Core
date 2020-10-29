@@ -3,11 +3,11 @@ import { StyleSheet, Platform, View } from 'react-native';
 
 import Text from '../../Text';
 
-type Winner = {
+type WinnerProps = {
   winner: string;
 };
 
-export default function Winner({ winner }: Winner) {
+export default function Winner({ winner }: WinnerProps) {
   const fontSize = Platform.OS === 'web' ? 'xl' : 'md';
 
   return (
