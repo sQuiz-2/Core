@@ -14,7 +14,7 @@ export default class Round extends BaseModel {
   @hasMany(() => Answer)
   public answers: HasMany<typeof Answer>;
 
-  @column({ serializeAs: 'difficultyId' })
+  @column()
   public difficultyId: DifficultyEnum;
 
   @computed()
@@ -28,12 +28,12 @@ export default class Round extends BaseModel {
   @column()
   public validated: boolean;
 
-  @column.dateTime({ autoCreate: true, serializeAs: 'createdAt' })
+  @column.dateTime({ autoCreate: true })
   public createdAt: DateTime;
 
-  @column.dateTime({ autoCreate: true, autoUpdate: true, serializeAs: 'updatedAt' })
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime;
 
-  @column({ serializeAs: 'maxNumberOfGuesses' })
+  @column()
   public maxNumberOfGuesses: number;
 }
