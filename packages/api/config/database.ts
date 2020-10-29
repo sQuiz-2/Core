@@ -103,7 +103,11 @@ const databaseConfig: DatabaseConfig & { orm: Partial<OrmConfig> } = {
   | - Or define a custom function to compute the primary key for a given model.
   |
   */
-  orm: {},
+  orm: {
+    getSerializeAsKey: (_model, key) => {
+      return key;
+    },
+  },
 };
 
 export default databaseConfig;

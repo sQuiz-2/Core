@@ -9,7 +9,7 @@ export default class Game extends BaseModel {
   @column()
   public title: string;
 
-  @column({ serializeAs: 'difficultyId' })
+  @column()
   public difficultyId: DifficultyEnum;
 
   @computed()
