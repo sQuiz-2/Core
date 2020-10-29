@@ -46,8 +46,6 @@ export default function QuizMainScreen() {
       case RoomStatus.Ended:
         setTime(10);
         break;
-      default:
-        setTime(20);
     }
   }, [status]);
 
