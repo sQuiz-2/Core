@@ -3,11 +3,11 @@ import { StyleSheet, Platform } from 'react-native';
 
 import Text from '../../Text';
 
-type Answer = {
+type AnswerProps = {
   answers: { answer: string; prefix: null | string }[];
 };
 
-export default function Answer({ answers }: Answer) {
+export default function Answer({ answers }: AnswerProps) {
   const fontSize = Platform.OS === 'web' ? 'xl' : 'md';
   const formatedAnswer = answers.map((answer) => {
     if (answer.prefix) {

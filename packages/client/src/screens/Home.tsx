@@ -2,7 +2,7 @@ import { useTheme } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ActivityIndicator } from 'react-native';
 import io from 'socket.io-client';
-import { Difficulty } from 'squiz-api/App/Enums/Difficulty';
+import { Difficulty } from 'squiz-api/app/Enums/Difficulty';
 
 import { GameCard } from '../components/Card';
 import CenterContainer from '../components/CenterContainer';

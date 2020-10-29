@@ -3,11 +3,11 @@ import { StyleSheet, Platform } from 'react-native';
 
 import Text from '../../Text';
 
-type Question = {
+type QuestionProps = {
   question: string;
 };
 
-export default function Question({ question }: Question) {
+export default function Question({ question }: QuestionProps) {
   const fontSize = Platform.OS === 'web' ? 'xl' : 'md';
 
   if (!question) return null;
