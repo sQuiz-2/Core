@@ -1,12 +1,13 @@
 import { useTheme } from '@react-navigation/native';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Animated, StyleSheet } from 'react-native';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useRecoilState } from 'recoil';
 
-import { msTimerState } from '../global/timerState';
+import timerState from '../global/timerState';
+import Text from './Text';
 
 export default function Timer() {
-  const timer = useRecoilValue(msTimerState);
+  /*   const timer = useRecoilValue(msTimerState);
   const [progress, setProgress] = useState(new Animated.Value(0));
   const { colors } = useTheme();
 
@@ -31,6 +32,29 @@ export default function Timer() {
         },
       ]}
     />
+  ); */
+
+  const [time, setTime] = useRecoilState(timerState);
+  const interval = useRef<null | NodeJS.Timeout>(null);
+
+  useEffect(() => {
+    // Check if a counter is already created
+    if (interval.current !== null) {
+      if (time <= 0) {
+        clearInterval(interval.current);
+        interval.current = null;
+      }
+      return;
+    }
+    interval.current = setInterval(() => {
+      setTime((time) => time - 1);
+    }, 1 * 1000);
+  }, [time]);
+
+  return (
+    <Text fontFamily="title" fontSize="xxl">
+      {time}
+    </Text>
   );
 }
 
