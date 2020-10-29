@@ -11,6 +11,8 @@ import { useRecoilValue } from 'recoil';
 
 import { fontSizes, fontFamilies } from '../constant/theme';
 import socketState from '../global/socket';
+import Card from './Card/Card';
+import { GameTimer } from './Timer';
 
 export default function GameInput() {
   const [playerAnswer, setPlayerAnswer] = useState('');
@@ -40,27 +42,29 @@ export default function GameInput() {
   }
 
   return (
-    <TextInput
-      ref={inputRef}
-      value={playerAnswer}
-      onChangeText={(text) => setPlayerAnswer(text)}
-      onKeyPress={(e) => checkKey(e)}
-      multiline={false}
-      style={[
-        styles.input,
-        { backgroundColor: colors.card, shadowColor: colors.border, color: colors.text },
-      ]}
-    />
+    <Card style={styles.container}>
+      <TextInput
+        ref={inputRef}
+        value={playerAnswer}
+        onChangeText={(text) => setPlayerAnswer(text)}
+        onKeyPress={(e) => checkKey(e)}
+        multiline={false}
+        style={[styles.input, { color: colors.text }]}
+      />
+      <GameTimer />
+    </Card>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+  },
   input: {
     ...(Platform.OS === 'web' && { outlineWidth: 0 }),
     fontFamily: fontFamilies.text,
     fontSize: fontSizes.xxl,
-    borderRadius: 10,
-    padding: 20,
-    shadowOffset: { width: 0, height: 8 },
+    flexGrow: 1,
+    minWidth: 10,
   },
 });
