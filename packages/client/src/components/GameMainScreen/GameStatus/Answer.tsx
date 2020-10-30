@@ -1,5 +1,6 @@
+import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
-import { StyleSheet, Platform } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import Text from '../../Text';
 
@@ -8,7 +9,6 @@ type AnswerProps = {
 };
 
 export default function Answer({ answers }: AnswerProps) {
-  const fontSize = Platform.OS === 'web' ? 'xl' : 'md';
   const formatedAnswer = answers.map((answer) => {
     if (answer.prefix) {
       return `${answer.prefix} ${answer.answer}`;
@@ -19,20 +19,29 @@ export default function Answer({ answers }: AnswerProps) {
   if (answers.length <= 0) return null;
 
   return (
-    <>
-      <Text fontSize={fontSize} fontFamily="title" style={styles.text}>
-        {answers.length > 1 ? 'Les réponses étaient:' : 'La réponse était:'}
-      </Text>
-      <Text fontSize={fontSize} fontFamily="title" style={styles.text}>
-        {formatedAnswer.length > 1 ? formatedAnswer.join(' / ') : formatedAnswer}
-      </Text>
-    </>
+    <View style={{ paddingTop: 20 }}>
+      <LinearGradient
+        colors={['#a8e063', '#56ab2f']}
+        style={styles.container}
+        start={[1.0, 0.0]}
+        end={[0.0, 1.0]}>
+        <Text fontSize="lg" style={styles.answers}>
+          {formatedAnswer.length > 1 ? formatedAnswer.join(' / ') : formatedAnswer}
+        </Text>
+      </LinearGradient>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  text: {
-    padding: Platform.OS === 'web' ? 10 : 2,
+  answers: {
     textAlign: 'center',
+    fontWeight: 'bold',
+  },
+  container: {
+    paddingTop: 20,
+    shadowOffset: undefined,
+    paddingVertical: 20,
+    borderRadius: 10,
   },
 });
