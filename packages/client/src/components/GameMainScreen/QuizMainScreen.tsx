@@ -6,7 +6,7 @@ import timerState from '../../global/timerState';
 import { useSocketListener } from '../../utils/hooks/socketListener';
 import Answer from './GameStatus/Answer';
 import Info from './GameStatus/Info';
-import Question from './GameStatus/Question';
+import Question, { QuestionType } from './GameStatus/Question';
 import Winner from './GameStatus/Winner';
 
 export enum RoomStatus {
@@ -24,7 +24,7 @@ export default function QuizMainScreen() {
   const answers: Answers = useSocketListener('answer', []);
   const status: { status: RoomStatus } = useSocketListener('status', RoomStatus.Waiting);
   const winner: string = useSocketListener('winner', 'UnPseudoRandom');
-  const question: null | { question: string } = useSocketListener('question', null);
+  const question: null | QuestionType = useSocketListener('question', null);
 
   useEffect(() => {
     if (!answers) return;
@@ -53,10 +53,13 @@ export default function QuizMainScreen() {
     case RoomStatus.Starting:
       return <Info />;
     case RoomStatus.InProgress:
-      if (isQuestionTime && question) {
-        return <Question question={question.question} />;
-      } else if (answers) {
-        return <Answer answers={answers} />;
+      if (question) {
+        return (
+          <>
+            <Question question={question} />
+            {!isQuestionTime && <Answer answers={answers} />}
+          </>
+        );
       }
       break;
     case RoomStatus.Ended:
