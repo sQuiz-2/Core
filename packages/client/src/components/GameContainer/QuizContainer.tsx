@@ -9,7 +9,6 @@ import RoundCounter from '../GameMainScreen/GameStatus/RoundCounter';
 import PlayerInfos from '../PlayerInfo';
 import RoomTitle from '../RoomTitle';
 import { ScoreBoard } from '../ScoreBoard';
-import Text from '../Text';
 
 export default function QuizContainer() {
   return (
@@ -19,7 +18,7 @@ export default function QuizContainer() {
           <Card style={styles.card}>
             <RoomTitle />
           </Card>
-          <Card style={[styles.card, { flexGrow: 1 }]}>
+          <Card style={[styles.card, styles.grow]}>
             <ScoreBoard />
           </Card>
           <Card>
@@ -27,10 +26,8 @@ export default function QuizContainer() {
           </Card>
         </View>
         <View style={styles.game}>
-          <View style={{ alignItems: 'center', justifyContent: 'center', flexGrow: 1 }}>
-            <Text fontFamily="text" fontSize="xxl">
-              <QuizMainScreen />
-            </Text>
+          <View style={styles.grow}>
+            <QuizMainScreen />
           </View>
           <RoundCounter />
           <GameInput />
@@ -51,7 +48,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   card: {
-    marginBottom: 25,
+    marginBottom: 20,
   },
   info: {
     flexGrow: 1,
@@ -62,5 +59,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: '60%',
     paddingLeft: 20,
+  },
+  grow: {
+    flexGrow: 1,
   },
 });

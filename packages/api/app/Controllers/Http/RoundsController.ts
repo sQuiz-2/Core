@@ -4,7 +4,7 @@ import RoundValidator from 'App/Validators/RoundValidator';
 
 export default class RoundsController {
   public async index() {
-    return Round.query().where('validated', true).preload('answers');
+    return Round.query().where('validated', true).preload('answers').preload('theme');
   }
 
   public async store({ request }: HttpContextContract) {
@@ -43,7 +43,8 @@ export default class RoundsController {
     const rounds = await Round.query()
       .where('validated', true)
       .whereIn('difficulty_id', difficulties)
-      .preload('answers');
+      .preload('answers')
+      .preload('theme');
     const selectRounds: Round[] = [];
     for (let i = 0; i < 100 && rounds.length > 0; i++) {
       const rand = Math.floor(Math.random() * rounds.length);

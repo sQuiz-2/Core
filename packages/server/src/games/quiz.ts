@@ -68,7 +68,12 @@ export default class Quiz extends Room {
     const newRound = this.rounds.shift();
     if (newRound) {
       this.currentRound = newRound;
-      this.emit(GameEvent.Question, { question: this.currentRound.question });
+      this.emit(GameEvent.Question, {
+        question: this.currentRound.question,
+        maxRound: 15,
+        currentRound: this.roundsCounter,
+        theme: this.currentRound.theme.title,
+      });
       this.answers = newRound.answers.map((answer: Answer) => answer.answer.toLowerCase());
       this.displayAnswers = newRound.answers;
     }
