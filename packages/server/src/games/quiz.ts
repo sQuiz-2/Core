@@ -161,6 +161,7 @@ export default class Quiz extends Room {
   initGame = () => {
     this.fetchRounds();
     this.resetRoom();
+    this.resetPlayers();
     this.event.on(GameEvent.Start, () => this.gameLoop());
   };
 

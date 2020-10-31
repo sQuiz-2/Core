@@ -59,6 +59,7 @@ export default class Player {
 
   reset = () => {
     this.score = 0;
+    this.streak = 0;
     this.find = false;
   };
 
