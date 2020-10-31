@@ -31,7 +31,9 @@ export default function ScoreBoard() {
           {players.length}
         </Text>
       </View>
-      <ScoreBoardContent players={players} />
+      <View style={styles.grow}>
+        <ScoreBoardContent players={players} />
+      </View>
     </>
   );
 }
@@ -41,5 +43,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingBottom: 10,
+  },
+  grow: {
+    flexGrow: 1,
   },
 });
