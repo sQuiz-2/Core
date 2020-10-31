@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Dimensions, ScaledSize } from 'react-native';
 
+export type ScreenWidth = 'sm' | 'md' | 'xl';
+
 export function useScreenWidth() {
   const [dimensions, setDimensions] = useState(Dimensions.get('window'));
 
@@ -12,5 +14,7 @@ export function useScreenWidth() {
     return () => Dimensions.removeEventListener('change', onDimensionsChange);
   }, []);
 
-  return dimensions.width >= 1024;
+  if (dimensions.width < 768) return 'sm';
+  else if (dimensions.width < 1280) return 'md';
+  else return 'xl';
 }
