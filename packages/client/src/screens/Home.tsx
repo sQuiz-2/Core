@@ -9,6 +9,8 @@ import CenterContainer from '../components/CenterContainer';
 import Text from '../components/Text';
 import getEnv from '../constant/index';
 import { HomeNavigationProp } from '../typings/navigation';
+import { useScreenWidth } from '../utils/hooks/screenWidth';
+import responsive from '../utils/responsive';
 
 type Props = {
   navigation: HomeNavigationProp<'Home'>;
@@ -16,6 +18,7 @@ type Props = {
 
 export default function Home({ navigation }: Props) {
   const { colors } = useTheme();
+  const styles = useHomeStyle();
   const [rooms, setRooms] = useState<
     { title: string; difficulty: Difficulty; id: string; players: number }[]
   >([]);
@@ -67,8 +70,13 @@ export default function Home({ navigation }: Props) {
   );
 }
 
-const styles = StyleSheet.create({
-  cardsContainter: {
-    flexDirection: 'row',
-  },
-});
+function useHomeStyle() {
+  const screenWidth = useScreenWidth();
+
+  const styles = StyleSheet.create({
+    cardsContainter: {
+      flexDirection: responsive(screenWidth, 'column', 'row', 'row'),
+    },
+  });
+  return styles;
+}
