@@ -8,7 +8,11 @@ export type Player = {
   find: boolean;
 };
 
-const playerInfoState = atom<Player | null>({
+export interface DisplayPlayer extends Player {
+  position: number;
+}
+
+const playerInfoState = atom<DisplayPlayer | null>({
   key: 'playerInfoState',
   default: null,
 });

@@ -1,11 +1,11 @@
 import React from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 
-import { Player } from '../../global/playerInfoState';
+import { DisplayPlayer } from '../../global/playerInfoState';
 import PlayerRow from './playerRow';
 
 type Props = {
-  players: Player[];
+  players: DisplayPlayer[];
 };
 
 export default function ScoreBoardContent({ players }: Props) {

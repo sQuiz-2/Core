@@ -1,21 +1,25 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
-import playerInfoState, { Player } from '../../global/playerInfoState';
+import playerInfoState, { Player, DisplayPlayer } from '../../global/playerInfoState';
 import socketState from '../../global/socket';
 import { useSocketListener } from '../../utils/hooks/socketListener';
+import { setPlayersPosition } from '../../utils/players';
 import Text from '../Text';
 import ScoreBoardContent from './ScoreBoardContent';
 
 export default function ScoreBoard() {
   const players: Player[] = useSocketListener('players', []);
+  const [displayPlayers, setDisplayPlayers] = useState<DisplayPlayer[]>([]);
   const socket = useRecoilValue(socketState);
   const setPlayerInfo = useSetRecoilState(playerInfoState);
 
   useEffect(() => {
     if (!socket || players.length === 0) return;
-    const playerInfos = players.find((player) => player.id === socket.id);
+    const dPlayers = setPlayersPosition(players);
+    setDisplayPlayers(dPlayers);
+    const playerInfos = dPlayers.find((player) => player.id === socket.id);
     if (playerInfos) {
       setPlayerInfo(playerInfos);
     }
@@ -32,7 +36,7 @@ export default function ScoreBoard() {
         </Text>
       </View>
       <View style={styles.grow}>
-        <ScoreBoardContent players={players} />
+        <ScoreBoardContent players={displayPlayers} />
       </View>
     </>
   );
