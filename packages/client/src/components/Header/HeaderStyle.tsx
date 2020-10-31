@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 
 import { useScreenWidth } from '../../utils/hooks/screenWidth';
 import responsive from '../../utils/responsive';
+
 export default function useHeaderStyle() {
   const { colors } = useTheme();
   const screenWidth = useScreenWidth();
@@ -23,7 +24,7 @@ export default function useHeaderStyle() {
       flexDirection: responsive(screenWidth, 'column', 'row', 'row'),
       display: responsive(screenWidth, 'none', 'flex', 'flex'),
       alignItems: 'center',
-      width: responsive(screenWidth, '98%', '98%', '50%'),
+      width: responsive(screenWidth, '98%', '98%', '55%'),
     },
   });
   return styles;

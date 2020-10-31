@@ -1,8 +1,9 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
 import Card from '../../Card/Card';
 import Text from '../../Text';
+import useQuestionStyle from './QuestionStyle';
 
 export type QuestionType = {
   question: string;
@@ -16,10 +17,12 @@ type QuestionProps = {
 };
 
 export default function Question({ question }: QuestionProps) {
+  const styles = useQuestionStyle();
+
   if (!question) return null;
 
   return (
-    <Card style={styles.container}>
+    <Card>
       <View style={styles.infoTop}>
         <Text fontSize="md" style={styles.questionCounter}>
           Question {question.currentRound + 1}/{question.maxRound}
@@ -32,18 +35,3 @@ export default function Question({ question }: QuestionProps) {
     </Card>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {},
-  infoTop: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  question: {
-    textAlign: 'center',
-    paddingVertical: 40,
-  },
-  questionCounter: {
-    fontWeight: 'bold',
-  },
-});

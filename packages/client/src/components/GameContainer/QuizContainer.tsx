@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 
 import Card from '../Card/Card';
 import Footer from '../Footer';
@@ -9,8 +9,10 @@ import RoundCounter from '../GameMainScreen/GameStatus/RoundCounter';
 import PlayerInfos from '../PlayerInfo';
 import RoomTitle from '../RoomTitle';
 import { ScoreBoard } from '../ScoreBoard';
+import useQuizContainerStyle from './QuizContainerStyle';
 
 export default function QuizContainer() {
+  const styles = useQuizContainerStyle();
   return (
     <>
       <View style={styles.container}>
@@ -37,30 +39,3 @@ export default function QuizContainer() {
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    width: '50%',
-    alignSelf: 'center',
-    flexDirection: 'row',
-    paddingTop: 30,
-    paddingBottom: 30,
-    flexGrow: 1,
-  },
-  card: {
-    marginBottom: 20,
-  },
-  info: {
-    flexGrow: 1,
-    width: '40%',
-  },
-  game: {
-    flexGrow: 1,
-    justifyContent: 'space-between',
-    width: '60%',
-    paddingLeft: 20,
-  },
-  grow: {
-    flexGrow: 1,
-  },
-});
