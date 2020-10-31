@@ -1,12 +1,13 @@
 import { FontAwesome5 } from '@expo/vector-icons';
 import { useTheme, useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 
 import NavItems from '../../constant/navBar.json';
 import { Context } from '../../navigation/HomeStack';
 import Hoverable from '../Hoverable';
 import Text from '../Text';
+import useNavBarStyle from './NavBarStyle';
 
 type Props = {
   currentName: string;
@@ -17,6 +18,7 @@ export default function NavBar({ currentName, context }: Props) {
   const { colors } = useTheme();
   const navigation = useNavigation();
   const navItems = NavItems[context];
+  const styles = useNavBarStyle();
 
   function handlePress(route: string) {
     navigation.navigate(route);
@@ -29,7 +31,7 @@ export default function NavBar({ currentName, context }: Props) {
         return (
           <Hoverable
             key={name}
-            style={[styles.navItem, { borderColor: colors.border, backgroundColor: bgColor }]}
+            style={[styles.navItem, { backgroundColor: bgColor }]}
             onHover={{ backgroundColor: colors.border }}
             onPress={() => handlePress(route)}>
             <FontAwesome5 name={icon} size={20} color={colors.text} />
@@ -42,29 +44,3 @@ export default function NavBar({ currentName, context }: Props) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: -30,
-  },
-  navItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderRightWidth: 2,
-    borderLeftWidth: 2,
-    borderTopWidth: 2,
-    borderTopStartRadius: 5,
-    borderTopEndRadius: 5,
-    paddingHorizontal: '1rem',
-    paddingVertical: '.25rem',
-    marginRight: '1.5rem',
-    backgroundColor: 'transparent',
-  },
-  navText: {
-    marginLeft: '.5rem',
-    textTransform: 'uppercase',
-    letterSpacing: 1,
-  },
-});
