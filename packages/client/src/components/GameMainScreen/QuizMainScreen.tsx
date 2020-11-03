@@ -21,7 +21,7 @@ export default function QuizMainScreen() {
   const setTime = useSetRecoilState(timerState);
   const setIsQuestionTime = useSetRecoilState(isQuestionTimeState);
   const status: { status: RoomStatus } = useSocketListener('status', RoomStatus.Waiting);
-  const winner: string = useSocketListener('winner', 'UnPseudoRandom');
+  const winnerList: string[] = useSocketListener('winner', ['UnPseudoRandom']);
   const question: null | QuestionType = useSocketListener('question', null);
   const answers: AnswerType[] = useSocketListener('answer', []);
   const gameStartSound = useSound({ source: require('../../../assets/sounds/game-start.mp3') });
@@ -50,7 +50,7 @@ export default function QuizMainScreen() {
         </>
       );
     case RoomStatus.Ended:
-      return <Winner winner={winner} />;
+      return <Winner winner={winnerList[0]} />;
   }
   return <Info />;
 }

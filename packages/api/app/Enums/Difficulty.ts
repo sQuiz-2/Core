@@ -3,6 +3,7 @@ export type Difficulty = {
   name: string;
   level: number;
   color: [string, string];
+  xpMultiplier: number;
 };
 
 export enum DifficultyEnum {
@@ -19,6 +20,7 @@ export function GetDifficultyFromId(difficulty: DifficultyEnum): Difficulty {
         name: 'Initié',
         level: 1,
         color: ['#a8e063', '#56ab2f'],
+        xpMultiplier: 1,
       };
     case DifficultyEnum.Intermediate:
       return {
@@ -26,6 +28,7 @@ export function GetDifficultyFromId(difficulty: DifficultyEnum): Difficulty {
         name: 'Confirmé',
         level: 1,
         color: ['#ca6642', '#da9f48'],
+        xpMultiplier: 2,
       };
     case DifficultyEnum.Expert:
       return {
@@ -33,6 +36,7 @@ export function GetDifficultyFromId(difficulty: DifficultyEnum): Difficulty {
         name: 'Expert',
         level: 1,
         color: ['#c04572', '#dc6747'],
+        xpMultiplier: 3,
       };
   }
 }
