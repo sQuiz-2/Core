@@ -20,7 +20,8 @@
     "prettier": "^2.1.2",
     "typescript": "^4.0.5",
     "youch": "^2.1.1",
-    "youch-terminal": "^1.0.1"
+    "youch-terminal": "^1.0.1",
+    "@types/socket.io": "^2.1.11"
   },
   "dependencies": {
     "@adonisjs/auth": "^5.0.2",
@@ -32,6 +33,7 @@
     "phc-bcrypt": "^1.0.3",
     "proxy-addr": "^2.0.6",
     "reflect-metadata": "^0.1.13",
+    "socket.io": "^2.3.0",
     "source-map-support": "^0.5.19"
   },
   "eslintConfig": {
