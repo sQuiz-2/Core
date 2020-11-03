@@ -125,11 +125,11 @@ export default class Quiz extends Room {
     let topPlayers: Player[] = [];
     let maxScore: number = -1;
     if (this.players.length > 0) {
-      this.players.forEach(player => {
+      this.players.forEach((player) => {
         if (player.score > maxScore) {
           topPlayers = [player];
           maxScore = player.score;
-        } else if (player.score == maxScore) {
+        } else if (player.score === maxScore) {
           topPlayers.push(player);
         }
       });
@@ -156,20 +156,20 @@ export default class Quiz extends Room {
   finishRound = () => {
     // Send winners to the frontend for everyone
     const topPlayers = this.getTopPlayers();
-    let topPlayerNames: string[] = [];
+    const topPlayerNames: string[] = [];
     if (topPlayers !== null) {
-      topPlayers.forEach(player => {
+      topPlayers.forEach((player) => {
         topPlayerNames.push(player.name);
       });
     }
     this.emit(GameEvent.Winner, topPlayerNames);
-    
+
     // End the room and reset everyone
     this.setStatus(RoomStatus.Ended);
     if (this.roundTimer) {
       clearInterval(this.roundTimer);
     }
-    
+
     // After 10 Seconds, reset everyone and the room. Be ready for the next round
     global.setTimeout(() => {
       this.resetPlayers();
