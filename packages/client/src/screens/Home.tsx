@@ -26,7 +26,7 @@ export default function Home({ navigation }: Props) {
   let socket = null;
 
   useEffect(function mount() {
-    socket = io(getEnv().serverUrl, { reconnectionAttempts: 3 });
+    socket = io(getEnv().backendUrl, { reconnectionAttempts: 3 });
     socket.on('full', (error: string) => {
       navigation.navigate('Home');
       setError(error);

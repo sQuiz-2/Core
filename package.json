@@ -10,10 +10,9 @@
     "husky": "^4.2.5"
   },
   "scripts": {
-    "start": "concurrently -n API,SERVER,CLIENT -c blue.bold,yellow.bold,green.bold 'yarn:api dev' 'yarn:server dev' 'yarn:client web'",
+    "start": "concurrently -n BACKEND,CLIENT -c blue.bold,green.bold 'yarn:api dev' 'yarn:client web'",
     "api": "yarn workspace squiz-api",
     "client": "yarn workspace squiz-client",
-    "server": "yarn workspace squiz-server",
     "lint": "yarn workspaces run lint",
     "type-check": "yarn workspaces run type-check",
     "commit": "npx git-cz",

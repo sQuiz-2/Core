@@ -14,8 +14,6 @@ Only the first time you run the project:
 `yarn`   
 `docker-compose up -d`  
 `cp ./packages/api/.env.example ./packages/api/.env`  
-`cp ./packages/server/.env.example ./packages/server/.env`  
-`yarn api cmd build`  
 `yarn api cmd migration:run`  
 `yarn api cmd db:seed`  
 `yarn start`

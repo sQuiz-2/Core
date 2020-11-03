@@ -16,7 +16,7 @@ export default function Room({ route }: HomeNavigatorProps<'Room'>) {
   useFocusEffect(
     React.useCallback(() => {
       if (!pseudo) return;
-      const socket = io(getEnv().serverUrl + route.params.id, {
+      const socket = io(getEnv().backendUrl + route.params.id, {
         query: {
           pseudo,
         },

@@ -12,7 +12,7 @@ export default function client(endpoint: string, { ...customConfig }: RequestIni
   if (body) {
     config.body = JSON.stringify(body);
   }
-  return fetch(`${getEnv().apiUrl}${endpoint}`, config).then(async (response) => {
+  return fetch(`${getEnv().backendUrl}${endpoint}`, config).then(async (response) => {
     const data = await response.json();
     if (response.ok) {
       return data;

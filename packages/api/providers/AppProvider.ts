@@ -26,6 +26,7 @@ export default class AppProvider {
      * words do not import during ace commands.
      */
     if (App.default.environment === 'web') {
+      await import('../start/roomPool');
       await import('../start/socket');
     }
   }

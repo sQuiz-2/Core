@@ -2,14 +2,13 @@
  * Quizz game object
  */
 
+import Answer from 'App/Models/Answer';
+import Round from 'App/Models/Round';
 import { Socket } from 'socket.io';
-import Answer from 'squiz-api/app/Models/Answer';
-import Round from 'squiz-api/app/Models/Round';
 import stringSimilarity from 'string-similarity';
 
-import Player from '../player';
-import { getRandomRounds } from '../requests';
-import Room, { RoomStatus } from '../rooms/room';
+import Player from './Player';
+import Room, { RoomStatus } from './Room';
 
 const enum GameEvent {
   Answer = 'answer',
@@ -37,33 +36,33 @@ export default class Quiz extends Room {
    * Add points to a player and update the scoreboard
    */
 
-  playerGoodAnswer = (player: Player, rank: number) => {
+  private playerGoodAnswer(player: Player, rank: number) {
     player.performsValidAnswer(rank);
     this.emitToSocket('find', { status: 'gg' }, player.id);
     this.emitScoreBoard();
-  };
+  }
 
-  playerWrongAnswer = (player: Player) => {
+  private playerWrongAnswer(player: Player) {
     player.performUnvalidAnswer();
-  };
+  }
 
   /**
    * emitAnswer:
    * Emit the answer to players
    */
 
-  emitAnswer = () => {
+  private emitAnswer() {
     this.emit(GameEvent.Answer, this.displayAnswers);
-  };
+  }
 
   /**
    * emitRound:
    * Fetch rounds if needed and send it to players
    */
 
-  emitRound = async () => {
+  private async emitRound() {
     if (this.rounds.length <= 0) {
-      await this.fetchRounds();
+      await this.setRandomRounds();
     }
     const newRound = this.rounds.shift();
     if (newRound) {
@@ -77,27 +76,18 @@ export default class Quiz extends Room {
       this.answers = newRound.answers.map((answer: Answer) => answer.answer.toLowerCase());
       this.displayAnswers = newRound.answers;
     }
-  };
+  }
 
   /**
    * emitRoundCounter:
    * Emit the rounds counters to players
    */
 
-  emitRoundCounter = () => {
+  private emitRoundCounter() {
     this.emit(GameEvent.RoundCounter, { total: 15, current: this.roundsCounter });
-  };
+  }
 
-  /**
-   * fetchRounds:
-   * Fetch new random rounds
-   */
-
-  fetchRounds = async () => {
-    this.rounds = await getRandomRounds([this.difficulty.id]);
-  };
-
-  gameLoop = () => {
+  private gameLoop() {
     this.resetRoom();
     this.setStatus(RoomStatus.Starting);
     // Be prepared. Loading time before the game starts
@@ -109,19 +99,19 @@ export default class Quiz extends Room {
         this.handleRound();
       }
     }, 20 * 1000);
-  };
+  }
 
-  gameStop = () => {
+  public gameStop() {
     if (this.roundTimer) {
       clearInterval(this.roundTimer);
     }
     if (this.answerTimer) {
       clearInterval(this.answerTimer);
     }
-  };
+  }
 
   // getTopPlayerss will return the list of players having the maximum score.
-  getTopPlayers = (): Player[] | null => {
+  private getTopPlayers(): Player[] | null {
     let topPlayers: Player[] = [];
     let maxScore: number = -1;
     if (this.players.length > 0) {
@@ -136,9 +126,9 @@ export default class Quiz extends Room {
       return topPlayers;
     }
     return null;
-  };
+  }
 
-  handleRound = () => {
+  private handleRound() {
     this.currentNumberOfValidAnswers = 0;
     this.isGuessTime = true;
     this.emitRound();
@@ -151,9 +141,9 @@ export default class Quiz extends Room {
       this.resetPlayersForNewRound();
       this.emitAnswer();
     }, 15 * 1000);
-  };
+  }
 
-  finishRound = () => {
+  private finishRound() {
     // Send winners to the frontend for everyone
     const topPlayers = this.getTopPlayers();
     const topPlayerNames: string[] = [];
@@ -178,16 +168,16 @@ export default class Quiz extends Room {
       this.setStatus(RoomStatus.Waiting);
       this.event.emit(GameEvent.Start);
     }, 10 * 1000);
-  };
+  }
 
-  initGame = () => {
-    this.fetchRounds();
+  public initGame() {
+    this.setRandomRounds();
     this.resetRoom();
     this.resetPlayers();
     this.event.on(GameEvent.Start, () => this.gameLoop());
-  };
+  }
 
-  playerGuess = (id: string, guess: string) => {
+  private playerGuess(id: string, guess: string) {
     const player = this.getPlayer(id);
     // currentRound can be null so we check that the currentRound exists
     if (!this.currentRound) {
@@ -212,30 +202,41 @@ export default class Quiz extends Room {
       // bad answer
       this.playerWrongAnswer(player);
     }
-  };
+  }
 
-  resetPlayers = () => {
+  private resetPlayers() {
     this.players.forEach((player) => player.reset());
-  };
+  }
 
-  resetRoom = () => {
+  private resetRoom() {
     this.roundsCounter = 0;
     this.emitRoundCounter();
-  };
+  }
 
-  resetPlayersForNewRound = (): void => {
+  private resetPlayersForNewRound(): void {
     this.players.forEach((player) => player.resetForNewRound());
-  };
+  }
 
-  setPlayersFind = (find: boolean): void => {
-    this.players.forEach((player) => player.setFind(find));
-  };
-
-  startGame = (socket: Socket) => {
+  public startGame(socket: Socket) {
     this.emitStatusToSocket(socket.id);
     if (this.status === RoomStatus.Waiting && this.players.length >= 1) {
       this.event.emit(GameEvent.Start);
     }
     socket.on(GameEvent.Guess, (guess) => this.playerGuess(socket.id, guess));
-  };
+  }
+
+  private async setRandomRounds() {
+    const rounds = await Round.query()
+      .where('validated', true)
+      .where('difficulty_id', this.difficulty.id)
+      .preload('answers')
+      .preload('theme');
+    const selectRounds: Round[] = [];
+    for (let i = 0; i < 100 && rounds.length > 0; i++) {
+      const rand = Math.floor(Math.random() * rounds.length);
+      selectRounds.push(rounds[rand]);
+      rounds.splice(rand, 1);
+    }
+    this.rounds = selectRounds;
+  }
 }

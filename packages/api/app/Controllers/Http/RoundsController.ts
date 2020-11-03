@@ -35,22 +35,4 @@ export default class RoundsController {
     round.delete();
     return round;
   }
-
-  public async random({ request }: HttpContextContract) {
-    const { difficulties = [] }: { difficulties: number[] } = request.only(['difficulties']);
-
-    if (!difficulties) return [];
-    const rounds = await Round.query()
-      .where('validated', true)
-      .whereIn('difficulty_id', difficulties)
-      .preload('answers')
-      .preload('theme');
-    const selectRounds: Round[] = [];
-    for (let i = 0; i < 100 && rounds.length > 0; i++) {
-      const rand = Math.floor(Math.random() * rounds.length);
-      selectRounds.push(rounds[rand]);
-      rounds.splice(rand, 1);
-    }
-    return selectRounds;
-  }
 }

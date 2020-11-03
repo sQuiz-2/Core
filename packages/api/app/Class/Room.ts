@@ -6,7 +6,7 @@ import { EventEmitter } from 'events';
 import { Namespace, Socket } from 'socket.io';
 import { Difficulty } from 'squiz-api/app/Enums/Difficulty';
 
-import Player from '../player';
+import Player from './Player';
 
 export type RoomProps = {
   nameSpace: Namespace;
@@ -46,47 +46,47 @@ export default class Room {
     this.difficulty = difficulty;
   }
 
-  addPlayer = (socket: Socket) => {
+  private addPlayer(socket: Socket) {
     this.players.push(new Player({ name: socket.handshake.query.pseudo, id: socket.id }));
     this.emitScoreBoard();
-  };
+  }
 
-  emit = (event: string, data: any) => {
+  public emit(event: string, data: any) {
     this.nameSpace.emit(event, data);
-  };
+  }
 
-  emitScoreBoard = () => {
+  public emitScoreBoard() {
     this.sortPlayers();
     this.emit(RoomEvent.Players, this.getPlayers());
-  };
+  }
 
-  emitStatus = () => {
+  public emitStatus() {
     this.emit(RoomEvent.Status, { status: this.status });
-  };
+  }
 
-  emitStatusToSocket = (id: string) => {
+  public emitStatusToSocket(id: string) {
     this.emitToSocket(RoomEvent.Status, { status: this.status }, id);
-  };
+  }
 
-  emitToSocket = (event: string, data: any, id: string) => {
+  public emitToSocket(event: string, data: any, id: string) {
     this.nameSpace.to(id).emit(event, data);
-  };
+  }
 
-  gameStop = () => {};
+  public gameStop() {}
 
-  getPlayer = (id: string): Player | undefined => {
+  public getPlayer(id: string): Player | undefined {
     return this.players.find((player) => player.id === id);
-  };
+  }
 
-  getPlayers = (): { name: string; score: number; avatar: number }[] => {
+  public getPlayers(): { name: string; score: number; avatar: number }[] {
     return this.players.map(({ name, score, avatar, id, find }) => {
       return { name, score, avatar, id, find };
     });
-  };
+  }
 
-  initGame = () => {};
+  public initGame() {}
 
-  roomLoop = (): void => {
+  public roomLoop(): void {
     this.nameSpace.on(RoomEvent.Connection, (socket: Socket) => {
       this.sendRoomInfos(socket);
       this.addPlayer(socket);
@@ -99,25 +99,25 @@ export default class Room {
         }
       });
     });
-  };
+  }
 
-  removePlayer = (socket: Socket) => {
+  private removePlayer(socket: Socket) {
     this.players = this.players.filter(({ id }) => id !== socket.id);
     this.emitScoreBoard();
-  };
+  }
 
-  sendRoomInfos = (socket: Socket) => {
+  private sendRoomInfos(socket: Socket) {
     this.emitToSocket(RoomEvent.Infos, { difficulty: this.difficulty }, socket.id);
-  };
+  }
 
-  setStatus = (status: RoomStatus) => {
+  public setStatus(status: RoomStatus) {
     this.status = status;
     this.emit(RoomEvent.Status, { status: this.status });
-  };
+  }
 
-  sortPlayers = () => {
+  public sortPlayers() {
     this.players.sort((a, b) => b.score - a.score);
-  };
+  }
 
-  startGame(socket: Socket) {}
+  public startGame(_socket: Socket) {}
 }
