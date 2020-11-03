@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 
 import isQuestionTimeState from '../../global/isQuestionTimeState';
 import timerState from '../../global/timerState';
 import { useSocketListener } from '../../utils/hooks/socketListener';
-import Answer from './GameStatus/Answer';
+import { useSound } from '../../utils/hooks/sound';
+import Answer, { AnswerType } from './GameStatus/Answer';
 import Info from './GameStatus/Info';
 import Question, { QuestionType } from './GameStatus/Question';
 import Winner from './GameStatus/Winner';
@@ -16,31 +17,20 @@ export enum RoomStatus {
   Ended,
 }
 
-type Answers = { answer: string; prefix: null | string }[];
-
 export default function QuizMainScreen() {
-  const [isQuestionTime, setIsQuestionTime] = useRecoilState(isQuestionTimeState);
   const setTime = useSetRecoilState(timerState);
-  const answers: Answers = useSocketListener('answer', []);
+  const setIsQuestionTime = useSetRecoilState(isQuestionTimeState);
   const status: { status: RoomStatus } = useSocketListener('status', RoomStatus.Waiting);
   const winner: string = useSocketListener('winner', 'UnPseudoRandom');
   const question: null | QuestionType = useSocketListener('question', null);
-
-  useEffect(() => {
-    if (!answers) return;
-    setIsQuestionTime(false);
-    setTime(5);
-  }, [answers]);
-
-  useEffect(() => {
-    if (!question) return;
-    setIsQuestionTime(true);
-    setTime(15);
-  }, [question]);
+  const answers: AnswerType[] = useSocketListener('answer', []);
+  const gameStartSound = useSound({ source: require('../../../assets/sounds/game-start.mp3') });
 
   useEffect(() => {
     switch (status.status) {
       case RoomStatus.Starting:
+        gameStartSound.play();
+        setIsQuestionTime(true);
         setTime(20);
         break;
       case RoomStatus.Ended:
@@ -53,15 +43,12 @@ export default function QuizMainScreen() {
     case RoomStatus.Starting:
       return <Info />;
     case RoomStatus.InProgress:
-      if (question) {
-        return (
-          <>
-            <Question question={question} />
-            {!isQuestionTime && <Answer answers={answers} />}
-          </>
-        );
-      }
-      break;
+      return (
+        <>
+          <Question question={question} />
+          <Answer answers={answers} />
+        </>
+      );
     case RoomStatus.Ended:
       return <Winner winner={winner} />;
   }
