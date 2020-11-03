@@ -23,7 +23,7 @@ export default function QuizMainScreen() {
   const setTime = useSetRecoilState(timerState);
   const answers: Answers = useSocketListener('answer', []);
   const status: { status: RoomStatus } = useSocketListener('status', RoomStatus.Waiting);
-  const winner: string = useSocketListener('winner', 'UnPseudoRandom');
+  const winnerList: string[] = useSocketListener('winner', ['UnPseudoRandom']);
   const question: null | QuestionType = useSocketListener('question', null);
 
   useEffect(() => {
@@ -63,7 +63,7 @@ export default function QuizMainScreen() {
       }
       break;
     case RoomStatus.Ended:
-      return <Winner winner={winner} />;
+      return <Winner winner={winnerList[0]} />;
   }
   return <Info />;
 }

@@ -100,11 +100,11 @@ export default class Quiz extends Room {
   gameLoop = () => {
     this.resetRoom();
     this.setStatus(RoomStatus.Starting);
+    // Be prepared. Loading time before the game starts
     this.roundTimer = global.setInterval(() => {
       this.setStatus(RoomStatus.InProgress);
-      const topPlayer = this.getTopPlayer();
-      if (topPlayer && this.roundsCounter >= 15) {
-        this.handleWin(topPlayer);
+      if (this.roundsCounter >= this.rounds.length) {
+        this.finishRound();
       } else {
         this.handleRound();
       }
@@ -120,11 +120,20 @@ export default class Quiz extends Room {
     }
   };
 
-  getTopPlayer = (): Player | null => {
+  // getTopPlayer will return the list of players having the maximum score.
+  getTopPlayer = (): Player[] | null => {
+    let topPlayers: Player[] = [];
+    let maxScore: number = -1;
     if (this.players.length > 0) {
-      return this.players.reduce(function (prev, current) {
-        return prev.score > current.score ? prev : current;
+      this.players.forEach(player => {
+        if (player.score > maxScore) {
+          topPlayers = [player];
+          maxScore = player.score;
+        } else if (player.score == maxScore) {
+          topPlayers.push(player);
+        }
       });
+      return topPlayers;
     }
     return null;
   };
@@ -135,23 +144,36 @@ export default class Quiz extends Room {
     this.emitRound();
     this.emitScoreBoard();
     this.answerTimer = global.setTimeout(() => {
+      this.isGuessTime = false;
       this.roundsCounter++;
       this.emitRoundCounter();
-      this.isGuessTime = false;
       // Reset each player attributes to make them ready for the next round
       this.resetPlayersForNewRound();
       this.emitAnswer();
     }, 15 * 1000);
   };
 
-  handleWin = (topPlayer: Player) => {
+  finishRound = () => {
+    // Send winners to the frontend for everyone
+    const topPlayers = this.getTopPlayer();
+    let topPlayerNames: string[] = [];
+    if (topPlayers !== null) {
+      topPlayers.forEach(player => {
+        topPlayerNames.push(player.name);
+      });
+    }
+    this.emit(GameEvent.Winner, topPlayerNames);
+    
+    // End the room and reset everyone
     this.setStatus(RoomStatus.Ended);
-    this.emit(GameEvent.Winner, topPlayer.name);
     if (this.roundTimer) {
       clearInterval(this.roundTimer);
     }
+    
+    // After 10 Seconds, reset everyone and the room. Be ready for the next round
     global.setTimeout(() => {
       this.resetPlayers();
+      this.emitScoreBoard();
       this.resetRoom();
       this.setStatus(RoomStatus.Waiting);
       this.event.emit(GameEvent.Start);
@@ -194,7 +216,6 @@ export default class Quiz extends Room {
 
   resetPlayers = () => {
     this.players.forEach((player) => player.reset());
-    this.emitScoreBoard();
   };
 
   resetRoom = () => {
