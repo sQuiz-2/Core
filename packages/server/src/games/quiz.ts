@@ -120,8 +120,8 @@ export default class Quiz extends Room {
     }
   };
 
-  // getTopPlayer will return the list of players having the maximum score.
-  getTopPlayer = (): Player[] | null => {
+  // getTopPlayerss will return the list of players having the maximum score.
+  getTopPlayers = (): Player[] | null => {
     let topPlayers: Player[] = [];
     let maxScore: number = -1;
     if (this.players.length > 0) {
@@ -155,7 +155,7 @@ export default class Quiz extends Room {
 
   finishRound = () => {
     // Send winners to the frontend for everyone
-    const topPlayers = this.getTopPlayer();
+    const topPlayers = this.getTopPlayers();
     let topPlayerNames: string[] = [];
     if (topPlayers !== null) {
       topPlayers.forEach(player => {
