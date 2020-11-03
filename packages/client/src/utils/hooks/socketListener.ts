@@ -15,9 +15,18 @@ export function useSocketListener(event: string, defaultValue: any) {
   function listen() {
     if (socket === null) return;
     if (listener.current?.hasListeners) {
-      listener.current.removeAllListeners();
+      listener.current.removeEventListener(event);
     }
     listener.current = socket.on(event, (data: any) => setData(data));
   }
+
+  useEffect(() => {
+    return () => {
+      if (listener.current?.hasListeners) {
+        listener.current.removeEventListener(event);
+      }
+    };
+  }, []);
+
   return data;
 }

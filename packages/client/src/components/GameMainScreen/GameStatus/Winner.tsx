@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, Platform, View } from 'react-native';
 
+import { useSound } from '../../../utils/hooks/sound';
 import Text from '../../Text';
 
-type WinnerProps = {
-  winner: string;
-};
-
-export default function Winner({ winner }: WinnerProps) {
+export default function Winner({ winner }: { winner: string }) {
+  const sound = useSound({ source: require('../../../../assets/sounds/game-end.mp3') });
   const fontSize = Platform.OS === 'web' ? 'xl' : 'md';
+
+  useEffect(() => {
+    sound.play();
+  }, [sound]);
 
   return (
     <View style={styles.container}>

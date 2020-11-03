@@ -43,6 +43,13 @@ export default function Timer({ time, ...circularProgress }: Props) {
     }, 1 * 1000);
   }, [textTime]);
 
+  useEffect(() => {
+    return () => {
+      if (!interval.current) return;
+      clearInterval(interval.current);
+    };
+  }, []);
+
   return (
     <CircularProgress progress={animatedTime} {...circularProgress}>
       <Text fontSize="md">{textTime}</Text>

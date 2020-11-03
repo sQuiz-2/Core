@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View } from 'react-native';
+import { useSetRecoilState } from 'recoil';
 
+import isQuestionTimeState from '../../../global/isQuestionTimeState';
+import timerState from '../../../global/timerState';
+import { useSound } from '../../../utils/hooks/sound';
 import Card from '../../Card/Card';
 import Text from '../../Text';
 import useQuestionStyle from './QuestionStyle';
@@ -12,12 +16,24 @@ export type QuestionType = {
   theme: string;
 };
 
-type QuestionProps = {
-  question: QuestionType;
+export type QuestionProps = {
+  question: QuestionType | null;
 };
 
 export default function Question({ question }: QuestionProps) {
   const styles = useQuestionStyle();
+  const setIsQuestionTime = useSetRecoilState(isQuestionTimeState);
+  const setTime = useSetRecoilState(timerState);
+  const startRoundSound = useSound({
+    source: require('../../../../assets/sounds/round-start.mp3'),
+  });
+
+  useEffect(() => {
+    if (!question) return;
+    setIsQuestionTime(true);
+    setTime(15);
+    startRoundSound.play();
+  }, [question]);
 
   if (!question) return null;
 

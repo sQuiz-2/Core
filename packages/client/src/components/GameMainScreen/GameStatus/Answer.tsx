@@ -1,14 +1,22 @@
 import { LinearGradient } from 'expo-linear-gradient';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { useSetRecoilState, useRecoilState } from 'recoil';
 
+import isQuestionTimeState from '../../../global/isQuestionTimeState';
+import timerState from '../../../global/timerState';
 import Text from '../../Text';
 
+export type AnswerType = { answer: string; prefix: null | string };
+
 type AnswerProps = {
-  answers: { answer: string; prefix: null | string }[];
+  answers: AnswerType[];
 };
 
 export default function Answer({ answers }: AnswerProps) {
+  const [isQuestionTime, setIsQuestionTime] = useRecoilState(isQuestionTimeState);
+  const setTime = useSetRecoilState(timerState);
+
   const formatedAnswer = answers.map((answer) => {
     if (answer.prefix) {
       return `${answer.prefix} ${answer.answer}`;
@@ -16,7 +24,13 @@ export default function Answer({ answers }: AnswerProps) {
     return answer.answer;
   });
 
-  if (answers.length <= 0) return null;
+  useEffect(() => {
+    if (!answers) return;
+    setIsQuestionTime(false);
+    setTime(5);
+  }, [answers]);
+
+  if (isQuestionTime || answers.length <= 0) return null;
 
   return (
     <View style={{ paddingTop: 20 }}>

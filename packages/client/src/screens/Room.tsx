@@ -3,7 +3,7 @@ import React from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import io from 'socket.io-client';
 
-import { Quiz } from '../components/Game';
+import { QuizConainer } from '../components/GameContainer';
 import getEnv from '../constant/index';
 import pseudoState from '../global/pseudoState';
 import socketState from '../global/socket';
@@ -27,5 +27,5 @@ export default function Room({ route }: HomeNavigatorProps<'Room'>) {
     }, [pseudo])
   );
 
-  return <Quiz />;
+  return <QuizConainer />;
 }
