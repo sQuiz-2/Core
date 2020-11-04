@@ -4,7 +4,7 @@
 
 import { EventEmitter } from 'events';
 import { Namespace, Socket } from 'socket.io';
-import { Difficulty } from 'squiz-api/app/Enums/Difficulty';
+import { Difficulty } from 'squiz-backend/app/Enums/Difficulty';
 
 import Player from './Player';
 
