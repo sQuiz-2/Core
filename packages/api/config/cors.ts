@@ -44,11 +44,7 @@ const corsConfig: CorsConfig = {
   |                     one of the above values.
   |
   */
-  origin: [
-    Env.get('APP_URL', 'https://squiz.m4gie.com') as string,
-    Env.get('SERVER_URL', 'https://server.squiz.m4gie.com') as string,
-    'http://localhost:3000',
-  ],
+  origin: [Env.get('APP_URL', 'https://squiz.m4gie.com') as string],
 
   /*
   |--------------------------------------------------------------------------
