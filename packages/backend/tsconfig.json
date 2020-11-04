@@ -9,9 +9,11 @@
     "rootDir": "./",
     "sourceMap": true,
     "paths": {
-      "App/*": ["./packages/backend/app/*"],
-      "Contracts/*": ["./packages/backend/contracts/*"]
+      "App/*": ["./app/*"],
+      "Config/*": ["./config/*"],
+      "Contracts/*": ["./contracts/*"],
+      "Database/*": ["./database/*"]
     },
-    "types": ["@adonisjs/core", "@adonisjs/lucid", "@adonisjs/auth"]
+    "types": ["@adonisjs/core", "@adonisjs/repl", "@adonisjs/lucid", "@adonisjs/auth"]
   }
 }
