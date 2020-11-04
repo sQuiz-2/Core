@@ -13,9 +13,9 @@ Run in these commands at the root of the repository to start the project:
 Only the first time you run the project:  
 `yarn`   
 `docker-compose up -d`  
-`cp ./packages/api/.env.example ./packages/api/.env`  
-`yarn api cmd migration:run`  
-`yarn api cmd db:seed`  
+`cp ./packages/backend/.env.example ./packages/backend/.env`  
+`yarn backend cmd migration:run`  
+`yarn backend cmd db:seed`  
 `yarn start`
 
 Every time you want to run the project:  

@@ -12,7 +12,7 @@ const ENV: Env = {
     backendUrl: 'http://127.0.0.1:3333/',
   },
   prod: {
-    backendUrl: 'https://api.squiz.m4gie.com/',
+    backendUrl: 'https://backend.squiz.m4gie.com/',
   },
 };
 

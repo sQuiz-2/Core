@@ -9,5 +9,5 @@
     "resolveJsonModule": true,
     "strict": true
   },
-  "references": [{ "path": "../api" }]
+  "references": [{ "path": "../backend" }]
 }
