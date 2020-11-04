@@ -22,10 +22,14 @@ export default class AppProvider {
     const App = await import('@ioc:Adonis/Core/Application');
 
     /**
-     * Only import socket file, when environment is `web`. In other
+     * Only import socket and RoomPool file, when environment is `web`. In other
      * words do not import during ace commands.
      */
     if (App.default.environment === 'web') {
+      /**
+       * Room pool needs to be init before the socket
+       * beacause we use the RoomPool in the socket
+       */
       await import('../start/roomPool');
       await import('../start/socket');
     }
