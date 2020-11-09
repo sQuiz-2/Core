@@ -1,4 +1,3 @@
-import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
@@ -8,10 +7,11 @@ import { RecoilRoot, useSetRecoilState } from 'recoil';
 import CenterContainer from './src/components/CenterContainer';
 import Text from './src/components/Text';
 import Theme from './src/constant/theme';
-import pseudoState from './src/global/pseudoState';
+import userState, { User } from './src/global/userState';
 import HomeStack from './src/navigation/HomeStack';
 import { Linking } from './src/navigation/Linking';
 import loadFonts from './src/utils/fonts';
+import { getFromStore, StorageEnum } from './src/utils/storage';
 
 export default function App() {
   const [fontLoaded, setFontLoaded] = useState(false);
@@ -42,16 +42,16 @@ export default function App() {
 
 function AppWithProviders() {
   const [isLoading, setIsLoading] = useState(true);
-  const setPseudo = useSetRecoilState(pseudoState);
+  const setUser = useSetRecoilState(userState);
 
   useEffect(function mount() {
-    getPseudo();
+    getUser();
   }, []);
 
-  async function getPseudo() {
-    const value = await AsyncStorage.getItem('pseudo');
-    if (value) {
-      setPseudo(JSON.parse(value));
+  async function getUser() {
+    const user = await getFromStore<User>(StorageEnum.User);
+    if (user) {
+      setUser(user);
     }
     setIsLoading(false);
   }

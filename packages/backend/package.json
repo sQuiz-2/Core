@@ -28,6 +28,7 @@
     "@adonisjs/core": "^5.0.4-preview-rc",
     "@adonisjs/lucid": "^9.0.3",
     "@adonisjs/repl": "^1.0.0",
+    "got": "^11.8.0",
     "luxon": "^1.25.0",
     "pg": "^8.4.2",
     "phc-bcrypt": "^1.0.3",

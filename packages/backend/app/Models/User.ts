@@ -1,6 +1,8 @@
 import Hash from '@ioc:Adonis/Core/Hash';
-import { column, beforeSave, BaseModel } from '@ioc:Adonis/Lucid/Orm';
+import { column, beforeSave, BaseModel, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm';
 import { DateTime } from 'luxon';
+
+import OauthToken from './OauthToken';
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
@@ -10,10 +12,16 @@ export default class User extends BaseModel {
   public email: string;
 
   @column()
+  public username: string;
+
+  @column()
   public password: string;
 
   @column()
   public rememberMeToken?: string;
+
+  @hasMany(() => OauthToken)
+  public oAuthToken: HasMany<typeof OauthToken>;
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime;

@@ -6,6 +6,7 @@ import { Difficulty } from 'squiz-backend/app/Enums/Difficulty';
 
 import { GameCard } from '../components/Card';
 import CenterContainer from '../components/CenterContainer';
+import ProfileContainer from '../components/Home/Profile/ProfileContainer';
 import Text from '../components/Text';
 import getEnv from '../constant/index';
 import { HomeNavigationProp } from '../typings/navigation';
@@ -55,6 +56,7 @@ export default function Home({ navigation }: Props) {
       <Text fontFamily="title" fontSize="lg">
         {error}
       </Text>
+      <ProfileContainer />
       <View style={styles.cardsContainter}>
         {rooms.map((room) => (
           <GameCard

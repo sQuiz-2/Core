@@ -2,11 +2,13 @@ import React from 'react';
 import { View, StyleSheet, Image } from 'react-native';
 import { useRecoilValue } from 'recoil';
 
-import pseudoState from '../../global/pseudoState';
+import userState from '../../global/userState';
 import Text from '../Text';
 
 export default function Profile() {
-  const pseudo = useRecoilValue(pseudoState);
+  const { username } = useRecoilValue(userState);
+
+  if (!username) return null;
 
   return (
     <View style={styles.container}>
@@ -16,7 +18,7 @@ export default function Profile() {
         }}
         style={styles.image}
       />
-      <Text>{pseudo}</Text>
+      <Text>{username}</Text>
     </View>
   );
 }

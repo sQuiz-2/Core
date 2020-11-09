@@ -36,3 +36,4 @@ Route.post('rounds/random', 'RoundsController.random');
 
 Route.post('/login', 'AuthController.login');
 Route.post('/password', 'AuthController.password').middleware('auth');
+Route.post('/oauth', 'AuthController.oauth');
