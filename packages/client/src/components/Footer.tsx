@@ -8,11 +8,11 @@ import footerIcons from '../constant/footerIcons.json';
 import Hoverable from './Hoverable';
 import Text from './Text';
 
-type CenterContainerProps = {
+type FooterProps = {
   enable: boolean;
 };
 
-export default function Footer({ enable }: CenterContainerProps) {
+export default function Footer({ enable }: FooterProps) {
   const { colors } = useTheme();
 
   function openLink(url: string) {

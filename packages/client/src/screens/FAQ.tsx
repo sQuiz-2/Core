@@ -1,6 +1,6 @@
 import React from 'react';
 
-import CenterContainer from '../components/CenterContainer';
+import { CenterContainer } from '../components/Containers';
 import Text from '../components/Text';
 
 export default function FAQ() {

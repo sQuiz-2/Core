@@ -1,8 +1,9 @@
 import { useTheme } from '@react-navigation/native';
 import React from 'react';
-import { StyleSheet, StyleProp, ViewStyle, View } from 'react-native';
+import { StyleProp, ViewStyle, View } from 'react-native';
 
-import Footer from './Footer';
+import Footer from '../../Footer';
+import styles from './CenterContainerStyle';
 
 type CenterContainerProps = {
   children: React.ReactNode;
@@ -25,11 +26,3 @@ export default function CenterContainer({
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
