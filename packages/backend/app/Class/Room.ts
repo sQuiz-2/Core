@@ -2,8 +2,9 @@
  * Room object
  */
 
-import { Difficulty } from 'App/Enums/Difficulty';
 import { EventEmitter } from 'events';
+import { Difficulty } from 'shared/src/enums/Difficulty';
+import { RoomStatus, RoomEvent } from 'shared/src/enums/Room';
 import { Namespace, Socket } from 'socket.io';
 
 import Player from './Player';
@@ -14,21 +15,6 @@ export type RoomProps = {
   title: string;
   difficulty: Difficulty;
 };
-
-export const enum RoomStatus {
-  Waiting,
-  Starting,
-  InProgress,
-  Ended,
-}
-
-const enum RoomEvent {
-  Connection = 'connection',
-  Disconnect = 'disconnect',
-  Players = 'players',
-  Status = 'status',
-  Infos = 'infos',
-}
 
 export default class Room {
   difficulty: Difficulty;
