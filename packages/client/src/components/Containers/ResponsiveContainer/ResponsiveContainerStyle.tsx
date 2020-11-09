@@ -8,7 +8,8 @@ export default function useResponsiveContainerStyle() {
 
   const styles = StyleSheet.create({
     container: {
-      width: responsive(screenWidth, '95%', '90%', '55%'),
+      width: responsive(screenWidth, '95%', '90%', '75%'),
+      maxWidth: 1300,
       alignSelf: 'center',
       flexDirection: 'row',
       paddingTop: 30,
