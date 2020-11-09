@@ -24,7 +24,8 @@ export default function useHeaderStyle() {
       flexDirection: responsive(screenWidth, 'column', 'row', 'row'),
       display: responsive(screenWidth, 'none', 'flex', 'flex'),
       alignItems: 'center',
-      width: responsive(screenWidth, '98%', '98%', '55%'),
+      width: responsive(screenWidth, '98%', '98%', '75%'),
+      maxWidth: 1300,
     },
   });
   return styles;
