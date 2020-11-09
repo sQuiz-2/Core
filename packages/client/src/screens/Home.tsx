@@ -6,7 +6,7 @@ import { EmitRoom } from 'shared/src/typings/Room';
 import io from 'socket.io-client';
 
 import { CenterContainer } from '../components/Containers';
-import HomeContainer from '../components/Home/HomeContainer';
+import { HomeContainer } from '../components/Home';
 import getEnv from '../constant/index';
 import { HomeNavigationProp } from '../typings/navigation';
 

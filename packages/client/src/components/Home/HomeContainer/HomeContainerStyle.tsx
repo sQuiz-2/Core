@@ -12,7 +12,7 @@ export default function useHomeContainerStyle() {
     },
     info: {
       width: responsive(screenWidth, '90%', '40%', '40%'),
-      display: responsive(screenWidth, 'none', 'flex', 'flex'),
+      alignSelf: responsive(screenWidth, 'center', 'auto', 'auto'),
     },
     rooms: {
       flexDirection: responsive(screenWidth, 'column', 'row', 'row'),
