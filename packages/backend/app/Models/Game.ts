@@ -1,6 +1,6 @@
 import { BaseModel, column, computed } from '@ioc:Adonis/Lucid/Orm';
-import { Difficulty, DifficultyEnum, GetDifficultyFromId } from 'App/Enums/Difficulty';
 import { DateTime } from 'luxon';
+import { Difficulty, DifficultyEnum, GetDifficultyFromId } from 'shared/src/enums/Difficulty';
 
 export default class Game extends BaseModel {
   @column({ isPrimary: true })

@@ -1,10 +1,10 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
-import { ProviderEnum } from 'App/Enums/oAuthProviders';
 import User from 'App/Models/User';
 import Twitch from 'App/Utils/oAuth/Twitch';
 import LoginValidator from 'App/Validators/LoginValidator';
 import OAuthValidator from 'App/Validators/OAuthValidator';
 import PasswordValidator from 'App/Validators/PasswordValidator';
+import { ProviderEnum } from 'shared/src/enums/oAuthProviders';
 
 export default class AuthController {
   public async login({ request, auth, response }: HttpContextContract) {
