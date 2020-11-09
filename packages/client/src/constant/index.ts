@@ -1,6 +1,5 @@
 type EnvVars = {
-  serverUrl: string;
-  apiUrl: string;
+  backendUrl: string;
 };
 
 type Env = {
@@ -10,12 +9,10 @@ type Env = {
 
 const ENV: Env = {
   dev: {
-    serverUrl: 'http://127.0.0.1:4240/',
-    apiUrl: 'http://127.0.0.1:3333/',
+    backendUrl: 'http://127.0.0.1:3333/',
   },
   prod: {
-    serverUrl: 'https://socket.squiz.m4gie.com/',
-    apiUrl: 'https://api.squiz.m4gie.com/',
+    backendUrl: 'https://backend.squiz.m4gie.com/',
   },
 };
 

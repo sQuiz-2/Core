@@ -2,7 +2,7 @@ import { useTheme } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ActivityIndicator } from 'react-native';
 import io from 'socket.io-client';
-import { Difficulty } from 'squiz-api/app/Enums/Difficulty';
+import { Difficulty } from 'squiz-backend/app/Enums/Difficulty';
 
 import { GameCard } from '../components/Card';
 import CenterContainer from '../components/CenterContainer';
@@ -26,7 +26,7 @@ export default function Home({ navigation }: Props) {
   let socket = null;
 
   useEffect(function mount() {
-    socket = io(getEnv().serverUrl, { reconnectionAttempts: 3 });
+    socket = io(getEnv().backendUrl, { reconnectionAttempts: 3 });
     socket.on('full', (error: string) => {
       navigation.navigate('Home');
       setError(error);

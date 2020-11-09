@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: yarn install
-      - run: yarn api build
+      - run: yarn backend build
       - run: yarn lint
       - run: yarn type-check
   lhci:
