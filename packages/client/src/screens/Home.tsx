@@ -1,17 +1,14 @@
 import { useTheme } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, ActivityIndicator } from 'react-native';
+import { ActivityIndicator } from 'react-native';
 import { Difficulty } from 'shared/src/enums/Difficulty';
+import { EmitRoom } from 'shared/src/typings/Room';
 import io from 'socket.io-client';
 
-import { GameCard } from '../components/Card';
-import CenterContainer from '../components/CenterContainer';
-import ProfileContainer from '../components/Home/Profile/ProfileContainer';
-import Text from '../components/Text';
+import { CenterContainer } from '../components/Containers';
+import HomeContainer from '../components/Home/HomeContainer';
 import getEnv from '../constant/index';
 import { HomeNavigationProp } from '../typings/navigation';
-import { useScreenWidth } from '../utils/hooks/screenWidth';
-import responsive from '../utils/responsive';
 
 type Props = {
   navigation: HomeNavigationProp<'Home'>;
@@ -19,10 +16,7 @@ type Props = {
 
 export default function Home({ navigation }: Props) {
   const { colors } = useTheme();
-  const styles = useHomeStyle();
-  const [rooms, setRooms] = useState<
-    { title: string; difficulty: Difficulty; id: string; players: number }[]
-  >([]);
+  const [rooms, setRooms] = useState<EmitRoom[]>([]);
   const [error, setError] = useState<string | null>(null);
   let socket = null;
 
@@ -40,10 +34,6 @@ export default function Home({ navigation }: Props) {
     );
   }, []);
 
-  function navigate(id: string) {
-    navigation.navigate('Room', { id });
-  }
-
   if (!error && rooms.length < 1) {
     return (
       <CenterContainer>
@@ -51,34 +41,5 @@ export default function Home({ navigation }: Props) {
       </CenterContainer>
     );
   }
-  return (
-    <CenterContainer footerEnable>
-      <Text fontFamily="title" fontSize="lg">
-        {error}
-      </Text>
-      <ProfileContainer />
-      <View style={styles.cardsContainter}>
-        {rooms.map((room) => (
-          <GameCard
-            key={room.id}
-            onPress={() => navigate(room.id)}
-            players={room.players}
-            name={room.difficulty.name}
-            color={room.difficulty.color}
-          />
-        ))}
-      </View>
-    </CenterContainer>
-  );
-}
-
-function useHomeStyle() {
-  const screenWidth = useScreenWidth();
-
-  const styles = StyleSheet.create({
-    cardsContainter: {
-      flexDirection: responsive(screenWidth, 'column', 'row', 'row'),
-    },
-  });
-  return styles;
+  return <HomeContainer rooms={rooms} />;
 }
