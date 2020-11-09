@@ -1,0 +1,22 @@
+{
+  "name": "shared",
+  "version": "1.0.0",
+  "description": "shared stuff in squiz",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "type-check": "tsc --noEmit",
+    "lint": "eslint --ext '.js,.ts,.tsx' . --max-warnings=0"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.6.1",
+    "@typescript-eslint/parser": "^4.6.1",
+    "eslint": "^7.13.0",
+    "eslint-config-universe": "^6.0.0",
+    "prettier": "^2.1.2",
+    "typescript": "^4.0.5"
+  },
+  "eslintConfig": {
+    "extends": "universe/node"
+  }
+}
