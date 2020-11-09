@@ -12,7 +12,8 @@ export default function useGameCardStyle() {
       width: responsive(screenWidth, '90%', 'auto', 'auto'),
     },
     gameCard: {
-      margin: responsive(screenWidth, 8, 5, 5),
+      marginHorizontal: responsive(screenWidth, 0, 5, 5),
+      marginVertical: responsive(screenWidth, 8, 0, 0),
       padding: 0,
     },
     content: {
