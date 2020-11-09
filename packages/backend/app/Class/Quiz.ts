@@ -225,7 +225,7 @@ export default class Quiz extends Room {
     socket.on(GameEvent.Guess, (guess) => this.playerGuess(socket.id, guess));
   }
 
-  private async setRandomRounds() {
+  private async pullRandomRounds() {
     const rounds = await Round.query()
       .where('validated', true)
       .where('difficulty_id', this.difficulty.id)
