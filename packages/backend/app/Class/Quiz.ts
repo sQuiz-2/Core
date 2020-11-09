@@ -62,7 +62,7 @@ export default class Quiz extends Room {
 
   private async emitRound() {
     if (this.rounds.length <= 0) {
-      await this.setRandomRounds();
+      await this.pullRandomRounds();
     }
     const newRound = this.rounds.shift();
     if (newRound) {
@@ -171,7 +171,7 @@ export default class Quiz extends Room {
   }
 
   public initGame() {
-    this.setRandomRounds();
+    this.pullRandomRounds();
     this.resetRoom();
     this.resetPlayers();
     this.event.on(GameEvent.Start, () => this.gameLoop());
