@@ -1,5 +1,6 @@
 import Game from 'App/Models/Game';
 import Ws from 'App/Services/Ws';
+import { EmitRoom } from 'shared/src/typings/Room';
 
 import Quiz from './Quiz';
 import Room from './Room';
@@ -38,9 +39,11 @@ class RoomPool {
    * Return all rooms
    */
   public getRooms() {
-    const roomNames = this.rooms.map(({ title, id, players, difficulty }) => {
-      return { title, id, players: players.length, difficulty };
-    });
+    const roomNames = this.rooms.map(
+      ({ title, id, players, difficulty }): EmitRoom => {
+        return { title, id, players: players.length, difficulty };
+      },
+    );
     return roomNames;
   }
 }
