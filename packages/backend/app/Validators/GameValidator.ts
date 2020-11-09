@@ -1,6 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { schema, rules } from '@ioc:Adonis/Core/Validator';
-import { DifficultyEnum } from 'App/Enums/Difficulty';
+import { DifficultyEnum } from 'shared/src/enums/Difficulty';
 
 export default class GameValidator {
   constructor(private ctx: HttpContextContract) {}

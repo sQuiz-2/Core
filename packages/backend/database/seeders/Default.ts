@@ -1,8 +1,8 @@
 import BaseSeeder from '@ioc:Adonis/Lucid/Seeder';
-import { DifficultyEnum } from 'App/Enums/Difficulty';
 import Game from 'App/Models/Game';
 import Round from 'App/Models/Round';
 import Theme from 'App/Models/Theme';
+import { DifficultyEnum } from 'shared/src/enums/Difficulty';
 
 export default class DefaultSeeder extends BaseSeeder {
   public async run() {

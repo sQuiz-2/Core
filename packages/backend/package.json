@@ -36,7 +36,8 @@
     "reflect-metadata": "^0.1.13",
     "socket.io": "^2.3.0",
     "source-map-support": "^0.5.19",
-    "string-similarity": "^4.0.2"
+    "string-similarity": "^4.0.2",
+    "shared": "1.0.0"
   },
   "eslintConfig": {
     "extends": "universe/node"

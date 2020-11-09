@@ -1,6 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { schema } from '@ioc:Adonis/Core/Validator';
-import { ProviderEnum } from 'App/Enums/oAuthProviders';
+import { ProviderEnum } from 'shared/src/enums/oAuthProviders';
 
 export default class OAuthValidator {
   constructor(protected ctx: HttpContextContract) {}

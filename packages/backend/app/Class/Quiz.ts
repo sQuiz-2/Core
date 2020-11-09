@@ -4,21 +4,13 @@
 
 import Answer from 'App/Models/Answer';
 import Round from 'App/Models/Round';
+import { GameEvent } from 'shared/src/enums/Game';
+import { RoomStatus } from 'shared/src/enums/Room';
 import { Socket } from 'socket.io';
 import stringSimilarity from 'string-similarity';
 
 import Player from './Player';
-import Room, { RoomStatus } from './Room';
-
-const enum GameEvent {
-  Answer = 'answer',
-  Guess = 'guess',
-  Question = 'question',
-  Start = 'start',
-  Stop = 'stop',
-  Winner = 'winner',
-  RoundCounter = 'roundCounter',
-}
+import Room from './Room';
 
 export default class Quiz extends Room {
   answers: string[] = [];
