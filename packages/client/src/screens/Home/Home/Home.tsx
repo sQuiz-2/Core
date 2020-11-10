@@ -5,10 +5,10 @@ import { Difficulty } from 'shared/src/enums/Difficulty';
 import { EmitRoom } from 'shared/src/typings/Room';
 import io from 'socket.io-client';
 
-import { CenterContainer } from '../components/Containers';
-import { HomeContainer } from '../components/Home';
-import getEnv from '../constant/index';
-import { HomeNavigationProp } from '../typings/navigation';
+import { CenterContainer } from '../../../components/Containers';
+import getEnv from '../../../constant/index';
+import { HomeNavigationProp } from '../../../typings/navigation';
+import HomeContainer from '../HomeContainer';
 
 type Props = {
   navigation: HomeNavigationProp<'Home'>;

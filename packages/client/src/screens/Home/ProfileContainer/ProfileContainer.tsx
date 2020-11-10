@@ -2,9 +2,9 @@ import React from 'react';
 import { View } from 'react-native';
 import { useRecoilValue } from 'recoil';
 
+import Card from '../../../components/Card/Card';
+import Text from '../../../components/Text';
 import userState from '../../../global/userState';
-import Card from '../../Card/Card';
-import Text from '../../Text';
 import ProfileConnected from '../ProfileConnected';
 import ProfileNotConnected from '../ProfileNotConnected';
 import useProfileContainerStyle from './ProfileContainerStyle';

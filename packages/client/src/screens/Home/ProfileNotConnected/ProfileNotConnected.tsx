@@ -4,9 +4,9 @@ import React from 'react';
 import { TouchableOpacity, ActivityIndicator, View } from 'react-native';
 import { GetProviders } from 'shared/src/enums/oAuthProviders';
 
+import { CenterContainer } from '../../../components/Containers';
+import Text from '../../../components/Text';
 import useOAuthTwitch from '../../../utils/hooks/oAuthTwitch';
-import { CenterContainer } from '../../Containers';
-import Text from '../../Text';
 import useProfileNotConnectedStyle from './ProfileNotConnectedStyle';
 
 export default function ProfileNotConnected() {

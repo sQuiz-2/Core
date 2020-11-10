@@ -1,11 +1,10 @@
 import React from 'react';
 import { Image, View } from 'react-native';
 
-import Text from '../../Text';
-import useProfileConnectedStyle from './ProfileConnectedStyle';
+import Text from '../../../components/Text';
+import styles from './ProfileConnectedStyle';
 
 export default function ProfileConnected() {
-  const styles = useProfileConnectedStyle();
   return (
     <View style={styles.container}>
       <View style={styles.item}>

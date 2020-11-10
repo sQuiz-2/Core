@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { EmitRoom } from 'shared/src/typings/Room';
 
-import { GameCard } from '../../Card';
+import { GameCard } from '../../../components/Card';
 
 type HomeRoomProps = {
   rooms: EmitRoom[];

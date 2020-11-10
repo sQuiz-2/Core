@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { EmitRoom } from 'shared/src/typings/Room';
 
-import { ResponsiveContainer } from '../../Containers';
+import { ResponsiveContainer } from '../../../components/Containers';
 import HomeRooms from '../HomeRooms/HomeRooms';
 import ProfileContainer from '../ProfileContainer';
 import useHomeContainerStyle from './HomeContainerStyle';
