@@ -14,6 +14,9 @@ const styles = StyleSheet.create({
     height: 94,
     width: 94,
   },
+  title: {
+    fontWeight: 'bold',
+  },
 });
 
 export default styles;

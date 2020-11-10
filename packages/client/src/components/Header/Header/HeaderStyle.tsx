@@ -1,8 +1,8 @@
 import { useTheme } from '@react-navigation/native';
 import { StyleSheet } from 'react-native';
 
-import { useScreenWidth } from '../../utils/hooks/screenWidth';
-import responsive from '../../utils/responsive';
+import { useScreenWidth } from '../../../utils/hooks/screenWidth';
+import responsive from '../../../utils/responsive';
 
 export default function useHeaderStyle() {
   const { colors } = useTheme();
