@@ -1,6 +1,8 @@
 import { useTheme } from '@react-navigation/native';
 import React from 'react';
-import { StyleSheet, StyleProp, ViewStyle, View, ViewProps } from 'react-native';
+import { StyleProp, ViewStyle, View, ViewProps } from 'react-native';
+
+import styles from './CardStyle';
 
 interface CardProps extends ViewProps {
   style?: StyleProp<ViewStyle>;
@@ -21,11 +23,3 @@ export default function Card({ style, ...props }: CardProps) {
     />
   );
 }
-
-const styles = StyleSheet.create({
-  cardContainter: {
-    borderRadius: 10,
-    padding: 20,
-    shadowOffset: { width: 0, height: 8 },
-  },
-});
