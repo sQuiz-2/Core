@@ -37,3 +37,7 @@ Route.post('rounds/random', 'RoundsController.random');
 Route.post('/login', 'AuthController.login');
 Route.post('/password', 'AuthController.password').middleware('auth');
 Route.post('/oauth', 'AuthController.oauth');
+
+Route.resource('news', 'NewsController')
+  .apiOnly()
+  .middleware({ store: 'auth', update: 'auth', destroy: 'auth', show: 'auth' });
