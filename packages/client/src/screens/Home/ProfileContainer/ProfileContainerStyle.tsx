@@ -8,14 +8,7 @@ export default function useProfileContainerStyle() {
 
   return StyleSheet.create({
     container: {
-      paddingBottom: 30,
       marginBottom: responsive(screenWidth, 8, 0, 0),
-    },
-    title: {
-      fontWeight: '600',
-    },
-    content: {
-      paddingTop: 10,
     },
   });
 }

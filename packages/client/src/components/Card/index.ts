@@ -1,3 +1,4 @@
 import GameCard from './GameCard';
+import TitleCard from './TitleCard';
 
-export { GameCard };
+export { GameCard, TitleCard };
