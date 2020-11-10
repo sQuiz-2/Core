@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 import Button from '../components/Button';
-import CenterContainer from '../components/CenterContainer';
+import { CenterContainer } from '../components/Containers';
 import Text from '../components/Text';
 import { fontSizes, fontFamilies } from '../constant/theme';
 import request from '../utils/request';

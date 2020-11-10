@@ -3,10 +3,10 @@ import { useTheme, useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { View } from 'react-native';
 
-import NavItems from '../../constant/navBar.json';
-import { Context } from '../../navigation/HomeStack';
-import Hoverable from '../Hoverable';
-import Text from '../Text';
+import NavItems from '../../../constant/navBar.json';
+import { Context } from '../../../navigation/HomeStack';
+import Hoverable from '../../Hoverable';
+import Text from '../../Text';
 import useNavBarStyle from './NavBarStyle';
 
 type Props = {

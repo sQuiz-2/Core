@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Platform, ActivityIndicator } from 'react-native';
 import { RecoilRoot, useSetRecoilState } from 'recoil';
 
-import CenterContainer from './src/components/CenterContainer';
+import { CenterContainer } from './src/components/Containers';
 import Text from './src/components/Text';
 import Theme from './src/constant/theme';
 import userState, { User } from './src/global/userState';

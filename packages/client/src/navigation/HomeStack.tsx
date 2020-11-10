@@ -1,7 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 
-import Header from '../components/Header/Header';
+import Header from '../components/Header';
 import AddRound from '../screens/Add';
 import FAQ from '../screens/FAQ';
 import Home from '../screens/Home';
