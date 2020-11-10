@@ -1,4 +1,3 @@
-import { useTheme } from '@react-navigation/native';
 import React from 'react';
 import { View } from 'react-native';
 import { useRecoilValue } from 'recoil';
@@ -6,12 +5,12 @@ import { useRecoilValue } from 'recoil';
 import userState from '../../../global/userState';
 import Card from '../../Card/Card';
 import Text from '../../Text';
+import ProfileConnected from '../ProfileConnected';
 import ProfileNotConnected from '../ProfileNotConnected';
 import useProfileContainerStyle from './ProfileContainerStyle';
 
 export default function ProfileContainer() {
   const user = useRecoilValue(userState);
-  const { colors } = useTheme();
   const styles = useProfileContainerStyle();
 
   return (
@@ -20,11 +19,7 @@ export default function ProfileContainer() {
         PROFIL
       </Text>
       <View style={styles.content}>
-        {user.token ? (
-          <Text style={{ color: colors.text }}>Logged !</Text>
-        ) : (
-          <ProfileNotConnected />
-        )}
+        {user.token ? <ProfileConnected /> : <ProfileNotConnected />}
       </View>
     </Card>
   );
