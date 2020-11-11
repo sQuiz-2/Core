@@ -13,7 +13,7 @@ import Player from './Player';
 import Room from './Room';
 
 export default class Quiz extends Room {
-  answers: string[] = [];
+  answersValues: string[] = [];
   answerTimer: NodeJS.Timeout | null = null;
   currentNumberOfValidAnswers: number = 0;
   displayAnswers: { answer: string; prefix: null | string }[] = [];
@@ -65,7 +65,11 @@ export default class Quiz extends Room {
         currentRound: this.roundsCounter,
         theme: this.currentRound.theme.title,
       });
-      this.answers = newRound.answers.map((answer: Answer) => answer.answer.toLowerCase());
+      this.answersValues = []
+      newRound.answers.forEach(answer => {
+        let answersList: Answer[] = answer.extrapolateAnswer()
+        this.answersValues = this.answersValues.concat(answersList.map((answer: Answer) => answer.normalizedValue()));
+      });
       this.displayAnswers = newRound.answers;
     }
   }
@@ -176,13 +180,13 @@ export default class Quiz extends Room {
       console.log('Error: No current round');
       return;
     }
-    if (!guess || !player || this.answers.length < 1) return;
+    if (!guess || !player || this.answersValues.length < 1) return;
     if (
       this.isGuessTime === false ||
       player.canPerformAnswer(this.currentRound!.maxNumberOfGuesses) === false
     )
       return;
-    const result = stringSimilarity.findBestMatch(guess.toLowerCase(), this.answers);
+    const result = stringSimilarity.findBestMatch(guess.toLowerCase(), this.answersValues);
 
     if (result.bestMatch.rating === 1) {
       // correct answer
