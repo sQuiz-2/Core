@@ -1,10 +1,9 @@
+import { useScreenWidth } from '@Src/utils/hooks/screenWidth';
+import responsive from '@Src/utils/responsive';
 import { useTheme } from '@react-navigation/native';
 import { StyleSheet } from 'react-native';
 
-import { useScreenWidth } from '../../../utils/hooks/screenWidth';
-import responsive from '../../../utils/responsive';
-
-export default function useHomeNewsStyle() {
+export default function useGameEndQuestionStyle() {
   const { colors } = useTheme();
   const screenWidth = useScreenWidth();
 
@@ -17,12 +16,6 @@ export default function useHomeNewsStyle() {
     scroll: {
       paddingRight: 20,
       maxHeight: 250,
-    },
-    separator: {
-      paddingBottom: 20,
-      marginBottom: 20,
-      borderBottomColor: colors.border,
-      borderBottomWidth: 1,
     },
   });
 }

@@ -1,16 +1,17 @@
+import { QuizConainer } from '@Src/components/GameContainer';
+import getEnv from '@Src/constant/index';
+import socketState from '@Src/global/socket';
+import userState from '@Src/global/userState';
+import { HomeNavigatorProps } from '@Src/typings/navigation';
 import { useFocusEffect } from '@react-navigation/native';
 import React from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import io from 'socket.io-client';
 
-import { QuizConainer } from '../components/GameContainer';
-import getEnv from '../constant/index';
-import socketState from '../global/socket';
-import userState from '../global/userState';
-import { HomeNavigatorProps } from '../typings/navigation';
+import GameEnd from '../GameEnd';
 
 export default function Room({ route }: HomeNavigatorProps<'Room'>) {
-  const setSocket = useSetRecoilState(socketState);
+  /* const setSocket = useSetRecoilState(socketState);
   const { username } = useRecoilValue(userState);
 
   useFocusEffect(
@@ -25,7 +26,7 @@ export default function Room({ route }: HomeNavigatorProps<'Room'>) {
       setSocket(socket);
       return () => socket.close();
     }, [username])
-  );
+  ); */
 
-  return <QuizConainer />;
+  return <GameEnd />;
 }

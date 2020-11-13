@@ -1,10 +1,10 @@
+import Text from '@Src/components/Text';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { useTheme } from '@react-navigation/native';
 import React from 'react';
 import { View } from 'react-native';
 import News from 'squiz-backend/app/Models/News';
 
-import Text from '../../../components/Text';
 import styles from './HomeNewsItemStyle';
 
 type HomeNewsItemProps = {

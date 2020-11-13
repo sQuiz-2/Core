@@ -1,7 +1,6 @@
+import { useScreenWidth } from '@Src/utils/hooks/screenWidth';
+import responsive from '@Src/utils/responsive';
 import { StyleSheet } from 'react-native';
-
-import { useScreenWidth } from '../../../utils/hooks/screenWidth';
-import responsive from '../../../utils/responsive';
 
 export default function useResponsiveContainerStyle() {
   const screenWidth = useScreenWidth();

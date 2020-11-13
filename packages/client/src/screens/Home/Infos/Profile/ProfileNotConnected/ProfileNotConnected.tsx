@@ -1,12 +1,12 @@
+import { CenterContainer } from '@Src/components/Containers';
+import Text from '@Src/components/Text';
+import useOAuthTwitch from '@Src/utils/hooks/oAuthTwitch';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { useTheme } from '@react-navigation/native';
 import React from 'react';
 import { TouchableOpacity, ActivityIndicator, View } from 'react-native';
 import { GetProviders } from 'shared/src/enums/oAuthProviders';
 
-import { CenterContainer } from '../../../components/Containers';
-import Text from '../../../components/Text';
-import useOAuthTwitch from '../../../utils/hooks/oAuthTwitch';
 import useProfileNotConnectedStyle from './ProfileNotConnectedStyle';
 
 export default function ProfileNotConnected() {

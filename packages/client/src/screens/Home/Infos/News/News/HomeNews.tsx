@@ -1,11 +1,10 @@
+import { TitleCard } from '@Src/components/Card';
+import client from '@Src/utils/request';
 import React, { useState, useEffect } from 'react';
-import { View } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+import { View, ScrollView } from 'react-native';
 import News from 'squiz-backend/app/Models/News';
 
-import { TitleCard } from '../../../components/Card';
-import client from '../../../utils/request';
-import HomeNewsItem from '../HomeNewsItem';
+import HomeNewsItem from '../NewsItem';
 import useHomeNewsStyle from './HomeNewsStyle';
 
 export default function HomeNews() {

@@ -3,9 +3,9 @@ import { View } from 'react-native';
 import { EmitRoom } from 'shared/src/typings/Room';
 
 import { ResponsiveContainer } from '../../../components/Containers';
-import HomeNews from '../HomeNews';
-import HomeRooms from '../HomeRooms/HomeRooms';
-import ProfileContainer from '../ProfileContainer';
+import HomeNews from '../Infos/News/News';
+import HomeProfile from '../Infos/Profile/Profile';
+import HomeRooms from '../Rooms/HomeRooms';
 import useHomeContainerStyle from './HomeContainerStyle';
 
 type HomeContainerProp = {
@@ -17,7 +17,7 @@ export default function HomeContainer({ rooms }: HomeContainerProp) {
   return (
     <ResponsiveContainer style={styles.container}>
       <View style={styles.info}>
-        <ProfileContainer />
+        <HomeProfile />
         <HomeNews />
       </View>
       <View style={styles.rooms}>

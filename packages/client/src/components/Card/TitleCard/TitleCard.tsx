@@ -1,7 +1,7 @@
+import Text from '@Src/components/Text';
 import React from 'react';
 import { View, StyleProp, ViewStyle } from 'react-native';
 
-import Text from '../../../components/Text';
 import Card from '../Card';
 import styles from './TitleCardStyle';
 
