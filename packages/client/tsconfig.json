@@ -8,5 +8,6 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "strict": true
-  }
+  },
+  "references": [{ "path": "../backend" }]
 }
