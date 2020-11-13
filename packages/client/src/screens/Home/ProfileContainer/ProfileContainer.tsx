@@ -1,9 +1,7 @@
 import React from 'react';
-import { View } from 'react-native';
 import { useRecoilValue } from 'recoil';
 
-import Card from '../../../components/Card/Card';
-import Text from '../../../components/Text';
+import { TitleCard } from '../../../components/Card';
 import userState from '../../../global/userState';
 import ProfileConnected from '../ProfileConnected';
 import ProfileNotConnected from '../ProfileNotConnected';
@@ -14,13 +12,8 @@ export default function ProfileContainer() {
   const styles = useProfileContainerStyle();
 
   return (
-    <Card style={styles.container}>
-      <Text style={styles.title} fontFamily="title" fontSize="xxl">
-        PROFIL
-      </Text>
-      <View style={styles.content}>
-        {user.token ? <ProfileConnected /> : <ProfileNotConnected />}
-      </View>
-    </Card>
+    <TitleCard title="PROFIL" containerStyle={styles.container}>
+      {user.token ? <ProfileConnected /> : <ProfileNotConnected />}
+    </TitleCard>
   );
 }
