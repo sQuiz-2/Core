@@ -1,10 +1,8 @@
 import { ResponsiveContainer } from '@Src/components/Containers';
 import { DisplayPlayer } from '@Src/global/playerInfoState';
-import socketState from '@Src/global/socket';
 import { useSound } from '@Src/utils/hooks/sound';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { View } from 'react-native';
-import { useRecoilValue } from 'recoil';
 
 import GameEndQuestion from '../Details/Questions';
 import RoomGameEndResult from '../Details/Results';
@@ -18,7 +16,6 @@ type RoomGameEndContainerProps = {
 export default function RoomGameEndContainer({ players }: RoomGameEndContainerProps) {
   const styles = useGameEndStyle();
   const gameEndSound = useSound({ source: require('@Assets/sounds/game-end.mp3') });
-  const socket = useRecoilValue(socketState);
 
   useEffect(() => {
     gameEndSound.play();
