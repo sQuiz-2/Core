@@ -1,13 +1,28 @@
-import { useScreenWidth } from '@Src/utils/hooks/screenWidth';
-import responsive from '@Src/utils/responsive';
-import { useTheme } from '@react-navigation/native';
 import { StyleSheet } from 'react-native';
 
-export default function useGameEndResultStyle() {
-  const { colors } = useTheme();
-  const screenWidth = useScreenWidth();
+const styles = StyleSheet.create({
+  container: {
+    paddingBottom: 30,
+  },
+  topContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  textContainer: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    justifyContent: 'center',
+  },
+  positionContainer: {
+    flexDirection: 'row',
+  },
+  title: {
+    fontWeight: '600',
+  },
+  content: {
+    paddingTop: 20,
+  },
+});
 
-  return StyleSheet.create({
-    container: {},
-  });
-}
+export default styles;

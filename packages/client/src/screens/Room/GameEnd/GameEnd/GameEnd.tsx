@@ -15,7 +15,7 @@ export default function RoomGameEndContainer() {
         <GameEndScoreBoard />
       </View>
       <View style={styles.details}>
-        <RoomGameEndResult />
+        <RoomGameEndResult players={10} score={42} position={1} />
         <GameEndQuestion />
       </View>
     </ResponsiveContainer>
