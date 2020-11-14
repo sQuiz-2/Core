@@ -6,3 +6,14 @@ export type EmitRoom = {
   id: string;
   players: number;
 };
+
+export type EmitQuestion = {
+  question: string;
+  currentRound: number;
+  maxRound: number;
+  theme: string;
+};
+
+export type EmitAnswer = {
+  answer: string;
+};

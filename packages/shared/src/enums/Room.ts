@@ -1,11 +1,11 @@
-export const enum RoomStatus {
+export enum RoomStatus {
   Waiting,
   Starting,
   InProgress,
   Ended,
 }
 
-export const enum RoomEvent {
+export enum RoomEvent {
   Connection = 'connection',
   Disconnect = 'disconnect',
   Players = 'players',

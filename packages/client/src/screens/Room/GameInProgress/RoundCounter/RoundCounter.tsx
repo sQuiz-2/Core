@@ -1,9 +1,10 @@
+import Text from '@Src/components/Text';
+import { useSocketListener } from '@Src/utils/hooks/socketListener';
 import { useTheme } from '@react-navigation/native';
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 
-import { useSocketListener } from '../../../utils/hooks/socketListener';
-import Text from '../../Text';
+import styles from './RoundCounterStyle';
 
 export default function RoundCounter() {
   const { colors } = useTheme();
@@ -31,16 +32,3 @@ export default function RoundCounter() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginVertical: 10,
-  },
-  dot: {
-    width: 20,
-    height: 20,
-    borderRadius: 50,
-  },
-});

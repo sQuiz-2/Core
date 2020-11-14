@@ -1,5 +1,6 @@
-import ScoreBoard from './ScoreBoard';
-import ScoreBoardContent from './ScoreBoardContent';
+import Scoreboard from './Scoreboard';
 import ScoreboardRow from './ScoreboardRow';
 
-export { ScoreBoard, ScoreBoardContent, ScoreboardRow };
+export { ScoreboardRow };
+
+export default Scoreboard;

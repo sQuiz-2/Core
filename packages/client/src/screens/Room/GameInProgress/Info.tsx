@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Platform } from 'react-native';
 
-import Text from '../../Text';
+import Text from '../../../components/Text';
 
 export default function Info() {
   const fontSize = Platform.OS === 'web' ? 'xl' : 'md';

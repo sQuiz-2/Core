@@ -16,9 +16,7 @@ export default function PlayerRow({ player, containerStyle, textStyle }: Props) 
   const { colors } = useTheme();
   return (
     <View key={player.id} style={[styles.card, containerStyle]}>
-      <Text
-        fontSize="lg"
-        style={[styles.pseudo, { color: player.find ? 'gold' : colors.text }, textStyle]}>
+      <Text fontSize="lg" style={[{ color: player.find ? 'gold' : colors.text }, textStyle]}>
         {player.position}
       </Text>
       <Text

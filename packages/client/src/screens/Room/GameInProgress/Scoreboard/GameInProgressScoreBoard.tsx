@@ -1,13 +1,14 @@
+import Scoreboard from '@Src/components/ScoreBoard';
+import Text from '@Src/components/Text';
+import playerInfoState, { Player, DisplayPlayer } from '@Src/global/playerInfoState';
+import socketState from '@Src/global/socket';
+import { useSocketListener } from '@Src/utils/hooks/socketListener';
+import { setPlayersPosition } from '@Src/utils/players';
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
-import playerInfoState, { Player, DisplayPlayer } from '../../global/playerInfoState';
-import socketState from '../../global/socket';
-import { useSocketListener } from '../../utils/hooks/socketListener';
-import { setPlayersPosition } from '../../utils/players';
-import Text from '../Text';
-import ScoreBoardContent from './ScoreBoardContent';
+import styles from './GameInProgressScoreboardStyle';
 
 export default function ScoreBoard() {
   const players: Player[] = useSocketListener('players', []);
@@ -36,19 +37,8 @@ export default function ScoreBoard() {
         </Text>
       </View>
       <View style={styles.grow}>
-        <ScoreBoardContent players={displayPlayers} />
+        <Scoreboard players={displayPlayers} />
       </View>
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  top: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingBottom: 10,
-  },
-  grow: {
-    flexGrow: 1,
-  },
-});
