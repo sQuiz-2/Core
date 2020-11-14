@@ -1,10 +1,8 @@
 import { useScreenWidth } from '@Src/utils/hooks/screenWidth';
 import responsive from '@Src/utils/responsive';
-import { useTheme } from '@react-navigation/native';
 import { StyleSheet } from 'react-native';
 
 export default function useGameEndQuestionStyle() {
-  const { colors } = useTheme();
   const screenWidth = useScreenWidth();
 
   return StyleSheet.create({
@@ -15,7 +13,13 @@ export default function useGameEndQuestionStyle() {
     },
     scroll: {
       paddingRight: 20,
-      maxHeight: 250,
+      maxHeight: 300,
+    },
+    roundContainer: {
+      paddingVertical: 10,
+    },
+    question: {
+      fontWeight: 'bold',
     },
   });
 }

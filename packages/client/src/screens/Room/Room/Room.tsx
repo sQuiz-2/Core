@@ -1,12 +1,12 @@
-import { QuizConainer } from '@Src/components/GameContainer';
+/* import { QuizConainer } from '@Src/components/GameContainer';
 import getEnv from '@Src/constant/index';
 import socketState from '@Src/global/socket';
-import userState from '@Src/global/userState';
+import userState from '@Src/global/userState'; */
 import { HomeNavigatorProps } from '@Src/typings/navigation';
-import { useFocusEffect } from '@react-navigation/native';
+/* import { useFocusEffect } from '@react-navigation/native'; */
 import React from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import io from 'socket.io-client';
+/* import { useRecoilValue, useSetRecoilState } from 'recoil';
+import io from 'socket.io-client'; */
 
 import GameEnd from '../GameEnd';
 

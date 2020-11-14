@@ -1,3 +1,4 @@
+import { DisplayPlayer } from '@Src/global/playerInfoState';
 import React, { useState } from 'react';
 import { View } from 'react-native';
 
@@ -6,10 +7,10 @@ import GameEndScoreboardSwitch from '../ScoreboardSwitch';
 import GameEndTopScoreBoard from '../TopScoreboard/';
 import styles from './GameEndScoreboardStyle';
 
-const players = [
-  { id: 0, name: 'Xari', score: 90, position: 1 },
-  { id: 0, name: 'Pod', score: 70, position: 2 },
-  { id: 0, name: 'Khalis', score: 60, position: 3 },
+const players: DisplayPlayer[] = [
+  { id: '0', name: 'Xari', score: 90, position: 1, avatar: 0, find: false },
+  { id: '1', name: 'Pod', score: 70, position: 2, avatar: 0, find: false },
+  { id: '2', name: 'Khalis', score: 60, position: 3, avatar: 0, find: false },
 ];
 
 export default function GameEndScoreBoard() {
