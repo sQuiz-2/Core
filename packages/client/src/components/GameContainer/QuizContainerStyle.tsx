@@ -18,6 +18,9 @@ export default function useQuizContainerStyle() {
     card: {
       marginBottom: 20,
     },
+    scoreboard: {
+      paddingRight: 0,
+    },
     info: {
       flexGrow: 1,
       width: '40%',

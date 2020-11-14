@@ -1,3 +1,6 @@
+import { CenterContainer } from '@Src/components/Containers';
+import getEnv from '@Src/constant/index';
+import { HomeNavigationProp } from '@Src/typings/navigation';
 import { useTheme } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
 import { ActivityIndicator } from 'react-native';
@@ -5,9 +8,6 @@ import { Difficulty } from 'shared/src/enums/Difficulty';
 import { EmitRoom } from 'shared/src/typings/Room';
 import io from 'socket.io-client';
 
-import { CenterContainer } from '../../../components/Containers';
-import getEnv from '../../../constant/index';
-import { HomeNavigationProp } from '../../../typings/navigation';
 import HomeContainer from '../HomeContainer';
 
 type Props = {

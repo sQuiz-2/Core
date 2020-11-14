@@ -3,14 +3,14 @@ import { View } from 'react-native';
 import { useRecoilValue } from 'recoil';
 
 import playerInfoState from '../global/playerInfoState';
-import PlayerRow from './ScoreBoard/playerRow';
+import { ScoreboardRow } from './ScoreBoard/';
 
 export default function PlayerInfos() {
   const playerInfos = useRecoilValue(playerInfoState);
   if (!playerInfos) return null;
   return (
     <View>
-      <PlayerRow player={playerInfos} />
+      <ScoreboardRow player={playerInfos} />
     </View>
   );
 }

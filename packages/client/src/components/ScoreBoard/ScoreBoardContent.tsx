@@ -2,7 +2,7 @@ import React from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 
 import { DisplayPlayer } from '../../global/playerInfoState';
-import PlayerRow from './playerRow';
+import ScoreboardRow from './ScoreboardRow';
 
 type Props = {
   players: DisplayPlayer[];
@@ -12,7 +12,7 @@ export default function ScoreBoardContent({ players }: Props) {
   return (
     <ScrollView style={styles.container}>
       {players.map((player) => (
-        <PlayerRow player={player} key={player.id} />
+        <ScoreboardRow player={player} key={player.id} />
       ))}
     </ScrollView>
   );
@@ -26,5 +26,6 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     overflow: 'hidden',
+    paddingRight: 20,
   },
 });

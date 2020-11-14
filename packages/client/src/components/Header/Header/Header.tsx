@@ -1,8 +1,8 @@
+import { Context } from '@Src/navigation/HomeStack';
 import { StackHeaderProps } from '@react-navigation/stack';
 import React from 'react';
 import { View } from 'react-native';
 
-import { Context } from '../../../navigation/HomeStack';
 import Logo from '../Logo';
 import NavBar from '../NavBar';
 import Profile from '../Profile';

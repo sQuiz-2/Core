@@ -6,8 +6,8 @@ import styles from './LogoStyle';
 export default function Logo() {
   return (
     <View style={styles.logoContainer}>
-      <Image source={require('../../../../assets/icon-medium.png')} style={styles.icon} />
-      <Image source={require('../../../../assets/title.png')} style={styles.title} />
+      <Image source={require('@Assets/icon-medium.png')} style={styles.icon} />
+      <Image source={require('@Assets/title.png')} style={styles.title} />
     </View>
   );
 }

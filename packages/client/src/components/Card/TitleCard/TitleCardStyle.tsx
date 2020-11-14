@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   content: {
-    paddingTop: 15,
+    paddingTop: 20,
   },
 });
 
