@@ -1,31 +1,25 @@
+import Card from '@Src/components/Card/Card';
+import Text from '@Src/components/Text';
+import isQuestionTimeState from '@Src/global/isQuestionTimeState';
+import timerState from '@Src/global/timerState';
+import { useSound } from '@Src/utils/hooks/sound';
 import React, { useEffect } from 'react';
 import { View } from 'react-native';
 import { useSetRecoilState } from 'recoil';
+import { EmitQuestion } from 'shared/src/typings/Room';
 
-import isQuestionTimeState from '../../../global/isQuestionTimeState';
-import timerState from '../../../global/timerState';
-import { useSound } from '../../../utils/hooks/sound';
-import Card from '../../Card/Card';
-import Text from '../../Text';
-import useQuestionStyle from './QuestionStyle';
+import useGameInProgressQuestionStyle from './GameInProgressQuestionStyle.tsx';
 
-export type QuestionType = {
-  question: string;
-  currentRound: number;
-  maxRound: number;
-  theme: string;
+export type GameInProgressProps = {
+  question: EmitQuestion | null;
 };
 
-export type QuestionProps = {
-  question: QuestionType | null;
-};
-
-export default function Question({ question }: QuestionProps) {
-  const styles = useQuestionStyle();
+export default function GameInProgressQuestion({ question }: GameInProgressProps) {
+  const styles = useGameInProgressQuestionStyle();
   const setIsQuestionTime = useSetRecoilState(isQuestionTimeState);
   const setTime = useSetRecoilState(timerState);
   const startRoundSound = useSound({
-    source: require('../../../../assets/sounds/round-start.mp3'),
+    source: require('@Assets/sounds/round-start.mp3'),
   });
 
   useEffect(() => {

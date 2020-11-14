@@ -1,15 +1,15 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-  card: {
+  container: {
     flexDirection: 'row',
-    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginVertical: 10,
   },
-  pseudo: {
-    paddingLeft: 10,
-  },
-  score: {
-    marginLeft: 'auto',
+  dot: {
+    width: 20,
+    height: 20,
+    borderRadius: 50,
   },
 });
 

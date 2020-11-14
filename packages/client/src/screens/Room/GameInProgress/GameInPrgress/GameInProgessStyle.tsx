@@ -1,9 +1,8 @@
+import { useScreenWidth } from '@Src/utils/hooks/screenWidth';
+import responsive from '@Src/utils/responsive';
 import { StyleSheet } from 'react-native';
 
-import { useScreenWidth } from '../../utils/hooks/screenWidth';
-import responsive from '../../utils/responsive';
-
-export default function useQuizContainerStyle() {
+export default function useGameInProgessStyle() {
   const screenWidth = useScreenWidth();
 
   const styles = StyleSheet.create({
