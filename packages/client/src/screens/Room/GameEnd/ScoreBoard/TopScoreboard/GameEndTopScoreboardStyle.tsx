@@ -6,16 +6,24 @@ export default function useGameEndTopScoreboardStyle() {
   const screenWidth = useScreenWidth();
 
   return StyleSheet.create({
+    container: {
+      width: '100%',
+    },
     imageContainer: {
-      paddingVertical: 40,
+      paddingTop: 40,
+      display: responsive(screenWidth, 'none', 'flex', 'flex'),
+      alignItems: 'center',
     },
     image: {
-      display: responsive(screenWidth, 'none', 'flex', 'flex'),
       width: 307,
       height: 278,
     },
-    topContainer: {
+    scroll: {
       maxHeight: 250,
+      paddingRight: 10,
+    },
+    topContainer: {
+      paddingTop: 40,
     },
     topItem: {
       paddingHorizontal: 5,

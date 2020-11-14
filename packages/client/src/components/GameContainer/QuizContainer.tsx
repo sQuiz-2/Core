@@ -19,7 +19,7 @@ export default function QuizContainer() {
         <Card style={styles.card}>
           <RoomTitle />
         </Card>
-        <Card style={[styles.card, styles.grow]}>
+        <Card style={[styles.card, styles.grow, styles.scoreboard]}>
           <ScoreBoard />
         </Card>
         <Card>

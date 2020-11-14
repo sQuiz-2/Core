@@ -26,5 +26,6 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     overflow: 'hidden',
+    paddingRight: 20,
   },
 });

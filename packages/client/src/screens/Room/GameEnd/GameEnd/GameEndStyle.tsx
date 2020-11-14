@@ -12,6 +12,7 @@ export default function useGameEndStyle() {
     scoreboard: {
       width: responsive(screenWidth, '90%', '40%', '40%'),
       alignSelf: responsive(screenWidth, 'center', 'auto', 'auto'),
+      flexGrow: 1,
     },
     details: {
       width: responsive(screenWidth, '100%', '60%', '60%'),
