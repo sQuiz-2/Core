@@ -1,13 +1,9 @@
-import { useScreenWidth } from '@Src/utils/hooks/screenWidth';
-import responsive from '@Src/utils/responsive';
-import { useTheme } from '@react-navigation/native';
 import { StyleSheet } from 'react-native';
 
-export default function useGameEndScoreboardStyle() {
-  const { colors } = useTheme();
-  const screenWidth = useScreenWidth();
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+  },
+});
 
-  return StyleSheet.create({
-    container: {},
-  });
-}
+export default styles;

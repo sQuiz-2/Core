@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
-import { View, Text } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { View } from 'react-native';
 
-import useGameEndScoreboardStyle from './GameEndScoreboardStyle';
+import GameEndFullScoreboard from '../FullScoreboard';
+import GameEndScoreboardSwitch from '../ScoreboardSwitch';
+import GameEndTopScoreBoard from '../TopScoreboard/';
+import styles from './GameEndScoreboardStyle';
 
 export default function GameEndScoreBoard() {
   const [displayTop, setDisplayTop] = useState(true);
-  const styles = useGameEndScoreboardStyle();
 
   return (
-    <View>
-      <TouchableOpacity>
-        <Text>Hello World</Text>
-      </TouchableOpacity>
+    <View style={styles.container}>
+      <GameEndScoreboardSwitch displayTop={displayTop} setDisplayTop={setDisplayTop} />
+      {displayTop ? <GameEndTopScoreBoard /> : <GameEndFullScoreboard />}
     </View>
   );
 }
