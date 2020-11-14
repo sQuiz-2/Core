@@ -2,27 +2,31 @@ import Card from '@Src/components/Card/Card';
 import { ResponsiveContainer } from '@Src/components/Containers';
 import GameInput from '@Src/components/GameInput';
 import PlayerInfos from '@Src/components/PlayerInfo';
-import RoomTitle from '@Src/components/RoomTitle';
+import { DisplayPlayer } from '@Src/global/playerInfoState';
 import timerState from '@Src/global/timerState';
 import { useSocketListener } from '@Src/utils/hooks/socketListener';
 import { useSound } from '@Src/utils/hooks/sound';
 import React, { useEffect } from 'react';
 import { View } from 'react-native';
 import { useSetRecoilState } from 'recoil';
+import { Difficulty } from 'shared/src/enums/Difficulty';
 import { RoomStatus } from 'shared/src/enums/Room';
 import { EmitQuestion, EmitAnswer } from 'shared/src/typings/Room';
 
 import GameInProgressAnswer from '../Answer';
 import GameInProgressQuestion from '../Question';
+import RoomTitle from '../RoomTitle';
 import RoundCounter from '../RoundCounter';
 import Scoreboard from '../Scoreboard';
 import useGameInProgessStyle from './GameInProgessStyle';
 
 type GameInProgessProps = {
   status: RoomStatus;
+  players: DisplayPlayer[];
+  roomInfos: { difficulty: Difficulty } | null;
 };
 
-export default function GameInProgess({ status }: GameInProgessProps) {
+export default function GameInProgess({ status, players, roomInfos }: GameInProgessProps) {
   const styles = useGameInProgessStyle();
   const setTime = useSetRecoilState(timerState);
   const question: null | EmitQuestion = useSocketListener('question', null);
@@ -41,13 +45,13 @@ export default function GameInProgess({ status }: GameInProgessProps) {
     <ResponsiveContainer>
       <View style={styles.info}>
         <Card style={styles.card}>
-          <RoomTitle />
+          <RoomTitle roomInfos={roomInfos} />
         </Card>
         <Card style={[styles.card, styles.grow, styles.scoreboard]}>
-          <Scoreboard />
+          <Scoreboard players={players} />
         </Card>
         <Card>
-          <PlayerInfos />
+          <PlayerInfos players={players} />
         </Card>
       </View>
       <View style={styles.game}>

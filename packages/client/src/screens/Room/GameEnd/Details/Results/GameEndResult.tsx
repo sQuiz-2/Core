@@ -1,18 +1,21 @@
 import Card from '@Src/components/Card';
 import Text from '@Src/components/Text';
 import { Timer } from '@Src/components/Timer';
+import { DisplayPlayer } from '@Src/global/playerInfoState';
+import useGetPlayer from '@Src/utils/hooks/getPlayer';
 import React from 'react';
 import { View } from 'react-native';
 
 import styles from './GameEndResultStyle';
 
 type RoomGameEndResultProps = {
-  score: number;
-  position: number;
-  players: number;
+  players: DisplayPlayer[];
 };
 
-export default function RoomGameEndResult({ score, position, players }: RoomGameEndResultProps) {
+export default function RoomGameEndResult({ players }: RoomGameEndResultProps) {
+  const player = useGetPlayer(players);
+
+  if (!player) return null;
   return (
     <Card style={styles.container}>
       <View style={styles.topContainer}>
@@ -24,16 +27,16 @@ export default function RoomGameEndResult({ score, position, players }: RoomGame
       <View style={styles.content}>
         <View style={styles.textContainer}>
           <View style={styles.positionContainer}>
-            <Text fontSize="xxl">{position}</Text>
-            <Text fontSize="xl">{position === 1 ? 'er' : 'ème'}</Text>
+            <Text fontSize="xxl">{player.position}</Text>
+            <Text fontSize="xl">{player.position === 1 ? 'er' : 'ème'}</Text>
           </View>
           <Text fontSize="xl">
-            /{players} joueur{players > 1 && 's'}
+            /{players.length} joueur{players.length > 1 && 's'}
           </Text>
         </View>
         <View style={styles.textContainer}>
-          <Text fontSize="xxl">{score} </Text>
-          <Text fontSize="xl">point{score > 1 && 's'}</Text>
+          <Text fontSize="xxl">{player.score} </Text>
+          <Text fontSize="xl">point{player.score > 1 && 's'}</Text>
         </View>
       </View>
     </Card>

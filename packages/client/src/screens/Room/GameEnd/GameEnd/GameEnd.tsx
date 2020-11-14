@@ -1,4 +1,5 @@
 import { ResponsiveContainer } from '@Src/components/Containers';
+import { DisplayPlayer } from '@Src/global/playerInfoState';
 import { useSound } from '@Src/utils/hooks/sound';
 import React, { useEffect } from 'react';
 import { View } from 'react-native';
@@ -8,7 +9,11 @@ import RoomGameEndResult from '../Details/Results';
 import GameEndScoreBoard from '../ScoreBoard';
 import useGameEndStyle from './GameEndStyle';
 
-export default function RoomGameEndContainer() {
+type RoomGameEndContainerProps = {
+  players: DisplayPlayer[];
+};
+
+export default function RoomGameEndContainer({ players }: RoomGameEndContainerProps) {
   const styles = useGameEndStyle();
   const gameEndSound = useSound({ source: require('@Assets/sounds/game-end.mp3') });
 
@@ -19,10 +24,10 @@ export default function RoomGameEndContainer() {
   return (
     <ResponsiveContainer style={styles.container}>
       <View style={styles.scoreboard}>
-        <GameEndScoreBoard />
+        <GameEndScoreBoard players={players} />
       </View>
       <View style={styles.details}>
-        <RoomGameEndResult players={10} score={42} position={1} />
+        <RoomGameEndResult players={players} />
         <GameEndQuestion />
       </View>
     </ResponsiveContainer>

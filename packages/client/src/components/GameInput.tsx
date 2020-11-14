@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
   input: {
     ...(Platform.OS === 'web' && { outlineWidth: 0 }),
     fontFamily: fontFamilies.text,
-    fontSize: fontSizes.xxl,
+    fontSize: fontSizes.lg,
     flexGrow: 1,
     minWidth: 10,
   },
