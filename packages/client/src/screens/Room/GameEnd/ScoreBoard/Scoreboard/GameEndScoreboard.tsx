@@ -7,13 +7,11 @@ import GameEndScoreboardSwitch from '../ScoreboardSwitch';
 import GameEndTopScoreBoard from '../TopScoreboard/';
 import styles from './GameEndScoreboardStyle';
 
-const players: DisplayPlayer[] = [
-  { id: '0', name: 'Xari', score: 90, position: 1, avatar: 0, find: false },
-  { id: '1', name: 'Pod', score: 70, position: 2, avatar: 0, find: false },
-  { id: '2', name: 'Khalis', score: 60, position: 3, avatar: 0, find: false },
-];
+type GameEndScoreBoardProps = {
+  players: DisplayPlayer[];
+};
 
-export default function GameEndScoreBoard() {
+export default function GameEndScoreBoard({ players }: GameEndScoreBoardProps) {
   const [displayTop, setDisplayTop] = useState(true);
   const topPlayers = players.filter((player) => player.position < 4);
 
