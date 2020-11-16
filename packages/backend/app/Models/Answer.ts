@@ -18,24 +18,22 @@ export default class Answer extends BaseModel {
   public updatedAt: DateTime;
 
   public extrapolateAnswer(): Answer[] {
-    const listOfPrefixes = ["un", "une", "le", "la", "les", "des"]
-    let listOfAnswers: Answer[] = [this]
-    listOfPrefixes.forEach(prefix => {
-      let newAnswer = new Answer();
-      newAnswer.answer = prefix + " " + this.answer;
-      listOfAnswers.push(
-        newAnswer
-      );
+    const listOfPrefixes = ['un', 'une', 'le', 'la', 'les', 'des'];
+    const listOfAnswers: Answer[] = [this];
+    listOfPrefixes.forEach((prefix) => {
+      const newAnswer = new Answer();
+      newAnswer.answer = prefix + ' ' + this.answer;
+      listOfAnswers.push(newAnswer);
     });
-    return listOfAnswers
-  };
+    return listOfAnswers;
+  }
 
   public normalizedValue(): string {
-    let value: string = this.answer
+    let value: string = this.answer;
     // ToLowerCase
-    value = value.toLowerCase()
+    value = value.toLowerCase();
     // Remove accents
-    value = value.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-    return value
+    value = value.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    return value;
   }
 }

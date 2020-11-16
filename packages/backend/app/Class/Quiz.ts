@@ -65,10 +65,12 @@ export default class Quiz extends Room {
         currentRound: this.roundsCounter,
         theme: this.currentRound.theme.title,
       });
-      this.answersValues = []
-      newRound.answers.forEach(answer => {
-        let answersList: Answer[] = answer.extrapolateAnswer()
-        this.answersValues = this.answersValues.concat(answersList.map((answer: Answer) => answer.normalizedValue()));
+      this.answersValues = [];
+      newRound.answers.forEach((answer) => {
+        const answersList: Answer[] = answer.extrapolateAnswer();
+        this.answersValues = this.answersValues.concat(
+          answersList.map((answer: Answer) => answer.normalizedValue()),
+        );
       });
       this.displayAnswers = newRound.answers;
     }
