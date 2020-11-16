@@ -16,7 +16,7 @@ export default class Quiz extends Room {
   answersValues: string[] = [];
   answerTimer: NodeJS.Timeout | null = null;
   currentNumberOfValidAnswers: number = 0;
-  displayAnswers: { answer: string; prefix: null | string }[] = [];
+  displayAnswers: { answer: string }[] = [];
   isGuessTime: boolean = false;
   currentRound: Round | null = null;
   rounds: Round[] = [];

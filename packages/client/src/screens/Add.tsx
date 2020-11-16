@@ -21,7 +21,6 @@ import { titleCase } from '../utils/text';
 const ROUND_LIMIT = 6;
 
 type Answer = {
-  prefix: string;
   answer: string;
 };
 
@@ -37,7 +36,7 @@ type Difficulty = {
 
 export default function AddRound() {
   const { colors } = useTheme();
-  const [answers, setAnswers] = useState([{ prefix: '', answer: '' }]);
+  const [answers, setAnswers] = useState([{ answer: '' }]);
   const [question, setQuestion] = useState('');
   const [themes, setThemes] = useState<Theme[]>([]);
   const [themeId, setThemeId] = useState(1);
