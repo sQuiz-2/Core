@@ -11,7 +11,7 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: "**/node_modules"
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock')
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
       - run: yarn install
       - run: yarn lint
       - run: yarn type-check
@@ -28,7 +28,7 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: "**/node_modules"
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock')
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
       - run: yarn install
       - uses: expo/expo-github-action@v5
         with:
