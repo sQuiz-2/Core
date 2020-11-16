@@ -8,10 +8,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock')
       - run: yarn install
-      - run: yarn backend build
       - run: yarn lint
       - run: yarn type-check
+      - run: yarn test
   lhci:
     name: Lighthouse
     runs-on: ubuntu-latest
@@ -21,6 +25,10 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 12.x
+      - uses: actions/cache@v2
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock')
       - run: yarn install
       - uses: expo/expo-github-action@v5
         with:
