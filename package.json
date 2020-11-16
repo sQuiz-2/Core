@@ -13,6 +13,7 @@
     "start": "concurrently -n BACKEND,CLIENT -c blue.bold,green.bold 'yarn:backend dev' 'yarn:client web'",
     "backend": "yarn workspace squiz-backend",
     "client": "yarn workspace squiz-client",
+    "test": "yarn workspaces run test",
     "lint": "yarn workspaces run lint",
     "type-check": "yarn workspaces run type-check",
     "commit": "npx git-cz",
