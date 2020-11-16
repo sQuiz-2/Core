@@ -53,7 +53,7 @@ export default function AddRound() {
   }
 
   function addAnswer() {
-    const moreAnswers = [...answers, { prefix: '', answer: '' }];
+    const moreAnswers = [...answers, { answer: '' }];
     setAnswers(moreAnswers);
   }
 
@@ -76,7 +76,7 @@ export default function AddRound() {
       if (firstPrefixRef.current) {
         firstPrefixRef.current.clear();
       }
-      setAnswers([{ prefix: '', answer: '' }]);
+      setAnswers([{ answer: '' }]);
       setQuestion('');
       setErrors([
         {
@@ -196,12 +196,6 @@ export default function AddRound() {
                     flexDirection: 'row',
                     alignItems: 'center',
                   }}>
-                  <TextInput
-                    ref={index === 0 ? firstPrefixRef : null}
-                    style={[styles.input, { backgroundColor: colors.text }]}
-                    placeholder={`Déterminant ${index + 1}`}
-                    onChange={(data) => updateAnswer(data.nativeEvent.text, index, 'prefix')}
-                  />
                   <TextInput
                     ref={index === 0 ? firstAnswerRef : null}
                     style={[styles.input, { backgroundColor: colors.text }]}
