@@ -30,3 +30,5 @@ export type EmitScoreDetails = {
   streak: number;
   position: number;
 };
+
+export type EmitRanks = number[];

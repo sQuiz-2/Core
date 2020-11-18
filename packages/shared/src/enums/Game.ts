@@ -4,5 +4,14 @@ export enum GameEvent {
   AnswerIsValid = 'answerIsValid',
   Question = 'question',
   RoundCounter = 'roundCounter',
+  Ranks = 'ranks',
   ScoreDetail = 'scoreDetail',
+}
+
+export enum GameRank {
+  RoundComing = -1,
+  NotAnswered = 0,
+  First = 1,
+  Second = 2,
+  Third = 3,
 }
