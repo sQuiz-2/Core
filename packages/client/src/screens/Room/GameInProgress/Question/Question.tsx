@@ -2,20 +2,18 @@ import Card from '@Src/components/Card/Card';
 import Text from '@Src/components/Text';
 import isQuestionTimeState from '@Src/global/isQuestionTimeState';
 import timerState from '@Src/global/timerState';
+import { useSocketListener } from '@Src/utils/hooks/socketListener';
 import { useSound } from '@Src/utils/hooks/sound';
 import React, { useEffect } from 'react';
 import { View } from 'react-native';
 import { useSetRecoilState } from 'recoil';
 import { EmitQuestion } from 'shared/src/typings/Room';
 
-import useGameInProgressQuestionStyle from './GameInProgressQuestionStyle.tsx';
+import useGameInProgressQuestionStyle from './QuestionStyle';
 
-export type GameInProgressProps = {
-  question: EmitQuestion | null;
-};
-
-export default function GameInProgressQuestion({ question }: GameInProgressProps) {
+export default function GameInProgressQuestion() {
   const styles = useGameInProgressQuestionStyle();
+  const question: null | EmitQuestion = useSocketListener('question', null);
   const setIsQuestionTime = useSetRecoilState(isQuestionTimeState);
   const setTime = useSetRecoilState(timerState);
   const startRoundSound = useSound({

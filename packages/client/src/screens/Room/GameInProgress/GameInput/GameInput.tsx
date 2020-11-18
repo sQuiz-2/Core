@@ -1,23 +1,17 @@
+import Card from '@Src/components/Card/Card';
+import { GameTimer } from '@Src/components/Timer';
+import socketState from '@Src/global/socket';
+import { useSocketListener } from '@Src/utils/hooks/socketListener';
+import { useSound } from '@Src/utils/hooks/sound';
 import { useTheme } from '@react-navigation/native';
 import React, { useState, createRef, useEffect } from 'react';
-import {
-  StyleSheet,
-  TextInput,
-  NativeSyntheticEvent,
-  TextInputKeyPressEventData,
-  Platform,
-} from 'react-native';
+import { TextInput, NativeSyntheticEvent, TextInputKeyPressEventData } from 'react-native';
 import { useRecoilValue } from 'recoil';
 import { GameEvent } from 'shared/src/enums/Game';
 import { parseAnswer } from 'shared/src/functions/Answer';
 import { EmitAnswerIsValid } from 'shared/src/typings/Room';
 
-import { fontSizes, fontFamilies } from '../constant/theme';
-import socketState from '../global/socket';
-import { useSocketListener } from '../utils/hooks/socketListener';
-import { useSound } from '../utils/hooks/sound';
-import Card from './Card/Card';
-import { GameTimer } from './Timer';
+import styles from './GameInputStyle';
 
 export default function GameInput() {
   const [playerAnswer, setPlayerAnswer] = useState('');
@@ -25,8 +19,8 @@ export default function GameInput() {
   const { colors } = useTheme();
   const inputRef = createRef<TextInput>();
   const resultAnswer: null | EmitAnswerIsValid = useSocketListener(GameEvent.AnswerIsValid, null);
-  const foundSound = useSound({ source: require('../../assets/sounds/right.mp3') });
-  const wrongSound = useSound({ source: require('../../assets/sounds/wrong.mp3') });
+  const foundSound = useSound({ source: require('@Assets/sounds/right.mp3') });
+  const wrongSound = useSound({ source: require('@Assets/sounds/wrong.mp3') });
 
   useEffect(() => {
     if (!resultAnswer) return;
@@ -73,16 +67,3 @@ export default function GameInput() {
     </Card>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-  },
-  input: {
-    ...(Platform.OS === 'web' && { outlineWidth: 0 }),
-    fontFamily: fontFamilies.text,
-    fontSize: fontSizes.lg,
-    flexGrow: 1,
-    minWidth: 10,
-  },
-});

@@ -25,3 +25,8 @@ export type EmitAnswer = Answer[];
 export type EmitAnswerIsValid = {
   valid: boolean;
 };
+
+export type EmitScoreDetails = {
+  streak: number;
+  position: number;
+};

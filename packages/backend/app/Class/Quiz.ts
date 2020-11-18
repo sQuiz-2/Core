@@ -6,7 +6,7 @@ import Round from 'App/Models/Round';
 import { GameEvent } from 'shared/src/enums/Game';
 import { RoomStatus } from 'shared/src/enums/Room';
 import { parseAnswer } from 'shared/src/functions/Answer';
-import { EmitAnswer } from 'shared/src/typings/Room';
+import { EmitAnswer, EmitScoreDetails } from 'shared/src/typings/Room';
 import { Socket } from 'socket.io';
 import stringSimilarity from 'string-similarity';
 
@@ -35,8 +35,9 @@ export default class Quiz extends Room {
    */
 
   private playerGoodAnswer(player: Player, rank: number) {
-    player.performsValidAnswer(rank);
+    const scoreDetail: EmitScoreDetails = player.performsValidAnswer(rank);
     this.emitToSocket(GameEvent.AnswerIsValid, { valid: true }, player.id);
+    this.emitToSocket(GameEvent.ScoreDetail, scoreDetail, player.id);
     this.emitScoreBoard();
   }
 

@@ -4,4 +4,5 @@ export enum GameEvent {
   AnswerIsValid = 'answerIsValid',
   Question = 'question',
   RoundCounter = 'roundCounter',
+  ScoreDetail = 'scoreDetail',
 }
