@@ -30,7 +30,7 @@ export default class Player {
     this.numberOfGuess++;
   }
 
-  public performsValidAnswer(rank: number): void {
+  public performsValidAnswer(rank: number) {
     let additionalPoints: number = 0;
     switch (rank) {
       case 1: {
@@ -54,6 +54,7 @@ export default class Player {
     this.score += 4 + this.streak + additionalPoints;
     this.find = true;
     this.canGuess = false;
+    return { streak: this.streak, position: additionalPoints };
   }
 
   public reset() {
