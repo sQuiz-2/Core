@@ -32,3 +32,12 @@ export type EmitScoreDetails = {
 };
 
 export type EmitRanks = number[];
+
+export type Player = {
+  id: string;
+  name: string;
+  score: number;
+  rank: number;
+};
+
+export type EmitPlayer = Player[];

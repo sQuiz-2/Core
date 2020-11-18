@@ -19,6 +19,7 @@ export default class Player {
   avatar: number = 0;
   find: boolean = false;
   ranks: number[] = Array(15).fill(GameRank.RoundComing);
+  currentRank: number = GameRank.RoundComing;
 
   constructor(props: Props) {
     this.id = props.id;
@@ -51,6 +52,7 @@ export default class Player {
     }
     // Store rank of this round
     this.ranks[roundNumber] = rank;
+    this.currentRank = rank;
     // We limit the streak at 5
     if (this.streak < 5) {
       this.streak++;
@@ -71,6 +73,7 @@ export default class Player {
   }
 
   public resetForNewRound(): void {
+    this.currentRank = GameRank.RoundComing;
     this.canGuess = true;
     this.numberOfGuess = 0;
     // If the answer was not found, we reset the streak counter
