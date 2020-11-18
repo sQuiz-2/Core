@@ -10,7 +10,7 @@ import { EmitAnswer } from 'shared/src/typings/Room';
 import styles from './GameInProgressAnswerStyle';
 
 type GameInProgressAnswerProps = {
-  answers: EmitAnswer[];
+  answers: EmitAnswer;
 };
 
 export default function GameInProgressAnswer({ answers }: GameInProgressAnswerProps) {

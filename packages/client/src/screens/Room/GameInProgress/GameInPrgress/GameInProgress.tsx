@@ -30,7 +30,7 @@ export default function GameInProgess({ status, players, roomInfos }: GameInProg
   const styles = useGameInProgessStyle();
   const setTime = useSetRecoilState(timerState);
   const question: null | EmitQuestion = useSocketListener('question', null);
-  const answers: EmitAnswer[] = useSocketListener('answer', []);
+  const answers: EmitAnswer = useSocketListener('answer', []);
   const gameStartSound = useSound({ source: require('@Assets/sounds/game-start.mp3') });
 
   useEffect(() => {

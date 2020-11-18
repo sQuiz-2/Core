@@ -9,7 +9,7 @@ import HomeRooms from '../Rooms/HomeRooms';
 import useHomeContainerStyle from './HomeContainerStyle';
 
 type HomeContainerProp = {
-  rooms: EmitRoom[];
+  rooms: EmitRoom;
 };
 
 export default function HomeContainer({ rooms }: HomeContainerProp) {
