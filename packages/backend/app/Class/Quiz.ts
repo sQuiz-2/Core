@@ -2,10 +2,11 @@
  * Quizz game object
  */
 
-import Answer from 'App/Models/Answer';
 import Round from 'App/Models/Round';
 import { GameEvent } from 'shared/src/enums/Game';
 import { RoomStatus } from 'shared/src/enums/Room';
+import { parseAnswer } from 'shared/src/functions/Answer';
+import { EmitAnswer } from 'shared/src/typings/Room';
 import { Socket } from 'socket.io';
 import stringSimilarity from 'string-similarity';
 
@@ -13,10 +14,11 @@ import Player from './Player';
 import Room from './Room';
 
 export default class Quiz extends Room {
-  answersValues: string[] = [];
   answerTimer: NodeJS.Timeout | null = null;
+  currentAnswers: string[] = [];
   currentNumberOfValidAnswers: number = 0;
-  displayAnswers: { answer: string }[] = [];
+  endTimer: NodeJS.Timeout | null = null;
+  parsedAnswers: { answer: string }[] = [];
   isGuessTime: boolean = false;
   currentRound: Round | null = null;
   rounds: Round[] = [];
@@ -44,41 +46,32 @@ export default class Quiz extends Room {
    */
 
   private emitAnswer() {
-    this.emit(GameEvent.Answer, this.displayAnswers);
+    if (!this.currentRound) return;
+    const answers: EmitAnswer = this.currentRound.answers.map((answer) => answer);
+    this.emit(GameEvent.Answer, answers);
   }
 
   /**
    * emitRound:
-   * Fetch rounds if needed and send it to players
+   * Emit new rounds to the players
    */
 
   private async emitRound() {
-    if (this.rounds.length <= 0) {
-      await this.pullRandomRounds();
-    }
-    const newRound = this.rounds.shift();
-    if (newRound) {
-      this.currentRound = newRound;
-      this.emit(GameEvent.Question, {
-        question: this.currentRound.question,
-        maxRound: 15,
-        currentRound: this.roundsCounter,
-        theme: this.currentRound.theme.title,
-      });
-      this.answersValues = [];
-      newRound.answers.forEach((answer) => {
-        const answersList: Answer[] = answer.extrapolateAnswer();
-        this.answersValues = this.answersValues.concat(
-          answersList.map((answer: Answer) => answer.normalizedValue()),
-        );
-      });
-      this.displayAnswers = newRound.answers;
-    }
+    const newRound = this.rounds[this.roundsCounter];
+    if (!newRound) return;
+    this.currentRound = newRound;
+    this.emit(GameEvent.Question, {
+      question: this.currentRound.question,
+      maxRound: this.rounds.length,
+      currentRound: this.roundsCounter,
+      theme: this.currentRound.theme.title,
+    });
+    this.currentAnswers = newRound.answers.map(({ answer }) => parseAnswer(answer));
   }
 
   /**
    * emitRoundCounter:
-   * Emit the rounds counters to players
+   * Emit the rounds counters to the players
    */
 
   private emitRoundCounter() {
@@ -106,24 +99,9 @@ export default class Quiz extends Room {
     if (this.answerTimer) {
       clearInterval(this.answerTimer);
     }
-  }
-
-  // getTopPlayerss will return the list of players having the maximum score.
-  private getTopPlayers(): Player[] | null {
-    let topPlayers: Player[] = [];
-    let maxScore: number = -1;
-    if (this.players.length > 0) {
-      this.players.forEach((player) => {
-        if (player.score > maxScore) {
-          topPlayers = [player];
-          maxScore = player.score;
-        } else if (player.score === maxScore) {
-          topPlayers.push(player);
-        }
-      });
-      return topPlayers;
+    if (this.endTimer) {
+      clearInterval(this.endTimer);
     }
-    return null;
   }
 
   private handleRound() {
@@ -142,53 +120,36 @@ export default class Quiz extends Room {
   }
 
   private finishRound() {
-    // Send winners to the frontend for everyone
-    const topPlayers = this.getTopPlayers();
-    const topPlayerNames: string[] = [];
-    if (topPlayers !== null) {
-      topPlayers.forEach((player) => {
-        topPlayerNames.push(player.name);
-      });
-    }
-    this.emit(GameEvent.Winner, topPlayerNames);
-
     // End the room and reset everyone
     this.setStatus(RoomStatus.Ended);
     if (this.roundTimer) {
       clearInterval(this.roundTimer);
     }
 
-    // After 10 Seconds, reset everyone and the room. Be ready for the next round
-    global.setTimeout(() => {
-      this.resetPlayers();
-      this.emitScoreBoard();
-      this.resetRoom();
+    // After 10 Seconds, Be ready for the next round
+    this.endTimer = global.setTimeout(() => {
       this.setStatus(RoomStatus.Waiting);
-      this.event.emit(GameEvent.Start);
+      if (this.players.length > 0) {
+        this.event.emit(GameEvent.Start);
+      }
     }, 10 * 1000);
   }
 
   public initGame() {
-    this.pullRandomRounds();
-    this.resetRoom();
-    this.resetPlayers();
     this.event.on(GameEvent.Start, () => this.gameLoop());
   }
 
   private playerGuess(id: string, guess: string) {
     const player = this.getPlayer(id);
     // currentRound can be null so we check that the currentRound exists
-    if (!this.currentRound) {
-      console.log('Error: No current round');
-      return;
-    }
-    if (!guess || !player || this.answersValues.length < 1) return;
+    if (!this.currentRound) return;
+    if (!guess || !player || this.currentAnswers.length < 1) return;
     if (
       this.isGuessTime === false ||
       player.canPerformAnswer(this.currentRound!.maxNumberOfGuesses) === false
     )
       return;
-    const result = stringSimilarity.findBestMatch(guess.toLowerCase(), this.answersValues);
+    const result = stringSimilarity.findBestMatch(guess.toLowerCase(), this.currentAnswers);
 
     if (result.bestMatch.rating === 1) {
       // correct answer
@@ -207,8 +168,11 @@ export default class Quiz extends Room {
   }
 
   private resetRoom() {
+    this.resetPlayers();
+    this.pullRandomRounds();
     this.roundsCounter = 0;
     this.emitRoundCounter();
+    this.emitScoreBoard();
   }
 
   private resetPlayersForNewRound(): void {
@@ -230,7 +194,7 @@ export default class Quiz extends Room {
       .preload('answers')
       .preload('theme');
     const selectRounds: Round[] = [];
-    for (let i = 0; i < 100 && rounds.length > 0; i++) {
+    for (let i = 0; i < 15 && rounds.length > 0; i++) {
       const rand = Math.floor(Math.random() * rounds.length);
       selectRounds.push(rounds[rand]);
       rounds.splice(rand, 1);

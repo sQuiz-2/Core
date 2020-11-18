@@ -38,12 +38,10 @@ class RoomPool {
   /**
    * Return all rooms
    */
-  public getRooms() {
-    const roomNames = this.rooms.map(
-      ({ title, id, players, difficulty }): EmitRoom => {
-        return { title, id, players: players.length, difficulty };
-      },
-    );
+  public getRooms(): EmitRoom {
+    const roomNames = this.rooms.map(({ title, id, players, difficulty }) => {
+      return { title, id, players: players.length, difficulty };
+    });
     return roomNames;
   }
 }
