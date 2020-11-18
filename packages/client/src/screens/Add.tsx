@@ -21,7 +21,6 @@ import { titleCase } from '../utils/text';
 const ROUND_LIMIT = 6;
 
 type Answer = {
-  prefix: string;
   answer: string;
 };
 
@@ -37,7 +36,7 @@ type Difficulty = {
 
 export default function AddRound() {
   const { colors } = useTheme();
-  const [answers, setAnswers] = useState([{ prefix: '', answer: '' }]);
+  const [answers, setAnswers] = useState([{ answer: '' }]);
   const [question, setQuestion] = useState('');
   const [themes, setThemes] = useState<Theme[]>([]);
   const [themeId, setThemeId] = useState(1);
@@ -54,7 +53,7 @@ export default function AddRound() {
   }
 
   function addAnswer() {
-    const moreAnswers = [...answers, { prefix: '', answer: '' }];
+    const moreAnswers = [...answers, { answer: '' }];
     setAnswers(moreAnswers);
   }
 
@@ -77,7 +76,7 @@ export default function AddRound() {
       if (firstPrefixRef.current) {
         firstPrefixRef.current.clear();
       }
-      setAnswers([{ prefix: '', answer: '' }]);
+      setAnswers([{ answer: '' }]);
       setQuestion('');
       setErrors([
         {
@@ -197,12 +196,6 @@ export default function AddRound() {
                     flexDirection: 'row',
                     alignItems: 'center',
                   }}>
-                  <TextInput
-                    ref={index === 0 ? firstPrefixRef : null}
-                    style={[styles.input, { backgroundColor: colors.text }]}
-                    placeholder={`Déterminant ${index + 1}`}
-                    onChange={(data) => updateAnswer(data.nativeEvent.text, index, 'prefix')}
-                  />
                   <TextInput
                     ref={index === 0 ? firstAnswerRef : null}
                     style={[styles.input, { backgroundColor: colors.text }]}

@@ -9,7 +9,6 @@ export default class RoundValidator {
     question: schema.string({ trim: true }, [rules.maxLength(500)]),
     answers: schema.array([rules.distinct('answer')]).members(
       schema.object().members({
-        prefix: schema.string.optional({ trim: true }, [rules.maxLength(20)]),
         answer: schema.string({ trim: true }, [rules.maxLength(80)]),
       }),
     ),
@@ -28,8 +27,6 @@ export default class RoundValidator {
     'answers.*.answer.required': 'Un champ réponse ne peut pas être vide',
     'answers.*.answer.maxLength':
       'Les réponse ne peuvent pas faire plus de {{ options.maxLength }} caractères',
-    'answers.*.prefix.maxLength':
-      'Les préfix ne peuvent pas faire plus de {{ options.maxLength }} caractères',
     'themeId.required': 'Thème manquant',
     'themeId.exists': "Le thème sélectionné n'existe pas 🤔",
     'difficultyId.required': 'Difficulté manquante',

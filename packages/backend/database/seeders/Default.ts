@@ -72,7 +72,7 @@ export default class DefaultSeeder extends BaseSeeder {
           difficultyId: DifficultyEnum.Beginner,
           validated: true,
         },
-        answers: [{ answer: 'France', prefix: 'La' }],
+        answers: [{ answer: 'France' }],
       },
       {
         round: {
@@ -93,7 +93,7 @@ export default class DefaultSeeder extends BaseSeeder {
           difficultyId: DifficultyEnum.Intermediate,
           validated: true,
         },
-        answers: [{ answer: '1981', prefix: 'En' }],
+        answers: [{ answer: '1981' }],
       },
       {
         round: {
