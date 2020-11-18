@@ -8,6 +8,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web --https",
     "eject": "expo eject",
+    "test": "echo Coming soon 😛",
     "type-check": "tsc -b",
     "lint": "eslint --ext '.js,.ts,.tsx' . --max-warnings=0",
     "postinstall": "expo-yarn-workspaces postinstall"

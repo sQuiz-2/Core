@@ -23,7 +23,7 @@ export default class Player {
   }
 
   public canPerformAnswer(maxGuess: number): boolean {
-    return this.canGuess && this.numberOfGuess <= maxGuess;
+    return this.canGuess && this.numberOfGuess < maxGuess;
   }
 
   public performUnvalidAnswer(): void {

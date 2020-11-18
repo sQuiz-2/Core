@@ -4,7 +4,6 @@ import { HomeNavigationProp } from '@Src/typings/navigation';
 import { useTheme } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
 import { ActivityIndicator } from 'react-native';
-import { Difficulty } from 'shared/src/enums/Difficulty';
 import { EmitRoom } from 'shared/src/typings/Room';
 import io from 'socket.io-client';
 
@@ -16,7 +15,7 @@ type Props = {
 
 export default function Home({ navigation }: Props) {
   const { colors } = useTheme();
-  const [rooms, setRooms] = useState<EmitRoom[]>([]);
+  const [rooms, setRooms] = useState<EmitRoom>([]);
   const [error, setError] = useState<string | null>(null);
   let socket = null;
 
@@ -26,12 +25,9 @@ export default function Home({ navigation }: Props) {
       navigation.navigate('Home');
       setError(error);
     });
-    socket.on(
-      'rooms',
-      (data: { title: string; difficulty: Difficulty; id: string; players: number }[]) => {
-        setRooms(data);
-      }
-    );
+    socket.on('rooms', (data: EmitRoom) => {
+      setRooms(data);
+    });
   }, []);
 
   if (!error && rooms.length < 1) {

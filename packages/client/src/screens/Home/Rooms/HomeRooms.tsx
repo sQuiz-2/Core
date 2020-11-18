@@ -4,7 +4,7 @@ import React from 'react';
 import { EmitRoom } from 'shared/src/typings/Room';
 
 type HomeRoomProps = {
-  rooms: EmitRoom[];
+  rooms: EmitRoom;
 };
 
 export default function HomeRooms({ rooms }: HomeRoomProps) {

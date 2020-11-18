@@ -8,6 +8,7 @@ import {
   Platform,
 } from 'react-native';
 import { useRecoilValue } from 'recoil';
+import { parseAnswer } from 'shared/src/functions/Answer';
 
 import { fontSizes, fontFamilies } from '../constant/theme';
 import socketState from '../global/socket';
@@ -40,7 +41,8 @@ export default function GameInput() {
 
   function emitAnswer() {
     if (socket) {
-      socket.emit('guess', playerAnswer);
+      const parsedAnswer = parseAnswer(playerAnswer);
+      socket.emit('guess', parsedAnswer);
       setPlayerAnswer('');
       focus();
     }

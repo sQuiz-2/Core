@@ -1,11 +1,13 @@
 import { Difficulty } from '../enums/Difficulty';
 
-export type EmitRoom = {
+export type Room = {
   title: string;
   difficulty: Difficulty;
   id: string;
   players: number;
 };
+
+export type EmitRoom = Room[];
 
 export type EmitQuestion = {
   question: string;
@@ -14,6 +16,8 @@ export type EmitQuestion = {
   theme: string;
 };
 
-export type EmitAnswer = {
+export type Answer = {
   answer: string;
 };
+
+export type EmitAnswer = Answer[];

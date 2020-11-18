@@ -8,27 +8,35 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
       - run: yarn install
-      - run: yarn backend build
       - run: yarn lint
       - run: yarn type-check
-  lhci:
-    name: Lighthouse
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js 12.x
-        uses: actions/setup-node@v1
-        with:
-          node-version: 12.x
-      - run: yarn install
-      - uses: expo/expo-github-action@v5
-        with:
-          expo-version: 3.x
-          expo-cache: true
-      - run: yarn client expo build:web --no-pwa
-      - name: run Lighthouse CI
-        working-directory: ./packages/client/
-        run: |
-          npm install -g @lhci/cli@0.4.x
-          lhci autorun
+      - run: yarn test
+  # lhci:
+  #   name: Lighthouse
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Use Node.js 12.x
+  #       uses: actions/setup-node@v1
+  #       with:
+  #         node-version: 12.x
+  #     - uses: actions/cache@v2
+  #       with:
+  #         path: "**/node_modules"
+  #         key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+  #     - run: yarn install
+  #     - uses: expo/expo-github-action@v5
+  #       with:
+  #         expo-version: 3.x
+  #         expo-cache: true
+  #     - run: yarn client expo build:web --no-pwa
+  #     - name: run Lighthouse CI
+  #       working-directory: ./packages/client/
+  #       run: |
+  #         npm install -g @lhci/cli@0.4.x
+  #         lhci autorun

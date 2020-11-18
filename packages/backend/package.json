@@ -5,6 +5,7 @@
   "scripts": {
     "build": "node ace build",
     "dev": "node ace serve --watch",
+    "test": "echo Coming soon 😛",
     "type-check": "tsc --incremental false --composite false --noEmit",
     "lint": "eslint --ext '.js,.ts,.tsx' . --max-warnings=0",
     "cmd": "node ace"
