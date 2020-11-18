@@ -1,31 +1,37 @@
+import bronze from '@Assets/images/medals/bronze.png';
+import gold from '@Assets/images/medals/gold.png';
+import gray from '@Assets/images/medals/gray.png';
+import green from '@Assets/images/medals/green.png';
+import silver from '@Assets/images/medals/silver.png';
 import Text from '@Src/components/Text';
 import { useSocketListener } from '@Src/utils/hooks/socketListener';
-import { useTheme } from '@react-navigation/native';
 import React from 'react';
-import { View } from 'react-native';
+import { View, Image } from 'react-native';
+import { GameEvent, GameRank } from 'shared/src/enums/Game';
+import { EmitRanks } from 'shared/src/typings/Room';
 
-import styles from './RoundCounterStyle';
+import useRoundCounterStyle from './RoundCounterStyle';
 
 export default function RoundCounter() {
-  const { colors } = useTheme();
-  const roundCountInfo: null | {
-    current: number;
-    total: number;
-  } = useSocketListener('roundCounter', { current: 0, total: 15 });
-
-  if (!roundCountInfo) return null;
-
+  const styles = useRoundCounterStyle();
+  const ranks: EmitRanks = useSocketListener(GameEvent.Ranks, Array(15).fill(GameRank.RoundComing));
+  const images = [gray, gold, silver, bronze];
   return (
     <View style={styles.container}>
-      {Array.from({ length: roundCountInfo.total }, (v, k) => k).map((value) => {
+      {ranks.map((rank, value) => {
+        let image;
+        if (rank >= GameRank.NotAnswered && rank <= GameRank.Third) {
+          image = images[rank];
+        } else if (rank > GameRank.Third) {
+          image = green;
+        }
         return (
           <Text key={value} fontSize="xl">
-            <View
-              style={[
-                styles.dot,
-                { backgroundColor: value >= roundCountInfo.current ? colors.border : colors.text },
-              ]}
-            />
+            {image ? (
+              <Image source={image} style={{ width: 19, height: 27 }} />
+            ) : (
+              <View style={styles.dot} />
+            )}
           </Text>
         );
       })}

@@ -2,6 +2,8 @@
  * Player object
  */
 
+import { GameRank } from 'shared/src/enums/Game';
+
 type Props = {
   name: string;
   id: string;
@@ -16,6 +18,7 @@ export default class Player {
   numberOfGuess: number = 0;
   avatar: number = 0;
   find: boolean = false;
+  ranks: number[] = Array(15).fill(GameRank.RoundComing);
 
   constructor(props: Props) {
     this.id = props.id;
@@ -30,7 +33,7 @@ export default class Player {
     this.numberOfGuess++;
   }
 
-  public performsValidAnswer(rank: number) {
+  public performsValidAnswer(rank: number, roundNumber: number) {
     let additionalPoints: number = 0;
     switch (rank) {
       case 1: {
@@ -46,6 +49,8 @@ export default class Player {
         break;
       }
     }
+    // Store rank of this round
+    this.ranks[roundNumber] = rank;
     // We limit the streak at 5
     if (this.streak < 5) {
       this.streak++;
@@ -54,6 +59,7 @@ export default class Player {
     this.score += 4 + this.streak + additionalPoints;
     this.find = true;
     this.canGuess = false;
+
     return { streak: this.streak, position: additionalPoints };
   }
 
@@ -61,6 +67,7 @@ export default class Player {
     this.score = 0;
     this.streak = 0;
     this.find = false;
+    this.ranks = Array(15).fill(GameRank.RoundComing);
   }
 
   public resetForNewRound(): void {
