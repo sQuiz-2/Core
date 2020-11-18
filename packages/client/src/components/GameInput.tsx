@@ -8,7 +8,9 @@ import {
   Platform,
 } from 'react-native';
 import { useRecoilValue } from 'recoil';
+import { GameEvent } from 'shared/src/enums/Game';
 import { parseAnswer } from 'shared/src/functions/Answer';
+import { EmitAnswerIsValid } from 'shared/src/typings/Room';
 
 import { fontSizes, fontFamilies } from '../constant/theme';
 import socketState from '../global/socket';
@@ -17,22 +19,18 @@ import { useSound } from '../utils/hooks/sound';
 import Card from './Card/Card';
 import { GameTimer } from './Timer';
 
-type ResultAnswer = {
-  found: boolean;
-};
-
 export default function GameInput() {
   const [playerAnswer, setPlayerAnswer] = useState('');
   const socket = useRecoilValue(socketState);
   const { colors } = useTheme();
   const inputRef = createRef<TextInput>();
-  const resultAnswer: null | ResultAnswer = useSocketListener('result', null);
+  const resultAnswer: null | EmitAnswerIsValid = useSocketListener(GameEvent.AnswerIsValid, null);
   const foundSound = useSound({ source: require('../../assets/sounds/right.mp3') });
   const wrongSound = useSound({ source: require('../../assets/sounds/wrong.mp3') });
 
   useEffect(() => {
     if (!resultAnswer) return;
-    if (resultAnswer.found) {
+    if (resultAnswer.valid) {
       foundSound.play();
     } else {
       wrongSound.play();

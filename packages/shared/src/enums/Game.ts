@@ -1,9 +1,7 @@
-export const enum GameEvent {
+export enum GameEvent {
   Answer = 'answer',
   Guess = 'guess',
+  AnswerIsValid = 'answerIsValid',
   Question = 'question',
-  Start = 'start',
-  Stop = 'stop',
-  Winner = 'winner',
   RoundCounter = 'roundCounter',
 }

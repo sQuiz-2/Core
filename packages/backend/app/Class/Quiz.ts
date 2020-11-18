@@ -13,6 +13,10 @@ import stringSimilarity from 'string-similarity';
 import Player from './Player';
 import Room from './Room';
 
+enum EventEmiter {
+  Start = 'start',
+}
+
 export default class Quiz extends Room {
   answerTimer: NodeJS.Timeout | null = null;
   currentAnswers: string[] = [];
@@ -32,12 +36,13 @@ export default class Quiz extends Room {
 
   private playerGoodAnswer(player: Player, rank: number) {
     player.performsValidAnswer(rank);
-    this.emitToSocket('find', { status: 'gg' }, player.id);
+    this.emitToSocket(GameEvent.AnswerIsValid, { valid: true }, player.id);
     this.emitScoreBoard();
   }
 
   private playerWrongAnswer(player: Player) {
     player.performUnvalidAnswer();
+    this.emitToSocket(GameEvent.AnswerIsValid, { valid: false }, player.id);
   }
 
   /**
@@ -130,13 +135,13 @@ export default class Quiz extends Room {
     this.endTimer = global.setTimeout(() => {
       this.setStatus(RoomStatus.Waiting);
       if (this.players.length > 0) {
-        this.event.emit(GameEvent.Start);
+        this.event.emit(EventEmiter.Start);
       }
     }, 10 * 1000);
   }
 
   public initGame() {
-    this.event.on(GameEvent.Start, () => this.gameLoop());
+    this.event.on(EventEmiter.Start, () => this.gameLoop());
   }
 
   private playerGuess(id: string, guess: string) {
@@ -151,12 +156,10 @@ export default class Quiz extends Room {
       return;
     const result = stringSimilarity.findBestMatch(guess.toLowerCase(), this.currentAnswers);
 
-    if (result.bestMatch.rating === 1) {
+    if (result.bestMatch.rating >= 0.8) {
       // correct answer
       this.currentNumberOfValidAnswers++;
       this.playerGoodAnswer(player, this.currentNumberOfValidAnswers);
-    } else if (result.bestMatch.rating >= 0.8) {
-      // almost correct answer
     } else {
       // bad answer
       this.playerWrongAnswer(player);
@@ -182,7 +185,7 @@ export default class Quiz extends Room {
   public startGame(socket: Socket) {
     this.emitStatusToSocket(socket.id);
     if (this.status === RoomStatus.Waiting && this.players.length >= 1) {
-      this.event.emit(GameEvent.Start);
+      this.event.emit(EventEmiter.Start);
     }
     socket.on(GameEvent.Guess, (guess) => this.playerGuess(socket.id, guess));
   }
