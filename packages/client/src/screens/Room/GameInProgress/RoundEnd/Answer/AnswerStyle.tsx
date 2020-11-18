@@ -10,6 +10,8 @@ const styles = StyleSheet.create({
     shadowOffset: undefined,
     paddingVertical: 20,
     borderRadius: 10,
+    flex: 1,
+    justifyContent: 'center',
   },
 });
 

@@ -1,3 +1,3 @@
-import GameInProgressQuestion from './GameInProgressQuestion';
+import Question from './Question';
 
-export default GameInProgressQuestion;
+export default Question;
