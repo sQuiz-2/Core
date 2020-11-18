@@ -21,3 +21,7 @@ export type Answer = {
 };
 
 export type EmitAnswer = Answer[];
+
+export type EmitAnswerIsValid = {
+  valid: boolean;
+};
