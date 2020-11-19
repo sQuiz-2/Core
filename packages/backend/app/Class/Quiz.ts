@@ -6,7 +6,7 @@ import Round from 'App/Models/Round';
 import { GameEvent, GameRank } from 'shared/src/enums/Game';
 import { RoomStatus } from 'shared/src/enums/Room';
 import { parseAnswer } from 'shared/src/functions/Answer';
-import { EmitAnswer, EmitScoreDetails, EmitRanks } from 'shared/src/typings/Room';
+import { EmitAnswer, EmitScoreDetails, EmitRanks, EmitQuestions } from 'shared/src/typings/Room';
 import { Socket } from 'socket.io';
 import stringSimilarity from 'string-similarity';
 
@@ -70,6 +70,14 @@ export default class Quiz extends Room {
         this.emitRanks(player.id, player.ranks);
       }
     });
+  }
+
+  private emitQuestions() {
+    const questions: EmitQuestions = this.rounds.map(({ id, question, answers }) => {
+      const onlyAnswers = answers.map(({ answer }) => answer);
+      return { id, question, answers: onlyAnswers };
+    });
+    this.emit(GameEvent.Questions, questions);
   }
 
   /**
@@ -143,6 +151,7 @@ export default class Quiz extends Room {
   private finishRound() {
     // End the room and reset everyone
     this.setStatus(RoomStatus.Ended);
+    this.emitQuestions();
     if (this.roundTimer) {
       clearInterval(this.roundTimer);
     }
@@ -206,17 +215,23 @@ export default class Quiz extends Room {
   }
 
   private async pullRandomRounds() {
-    const rounds = await Round.query()
+    const roundIds = await Round.query()
+      .select('id')
       .where('validated', true)
-      .where('difficulty_id', this.difficulty.id)
-      .preload('answers')
-      .preload('theme');
-    const selectRounds: Round[] = [];
-    for (let i = 0; i < 15 && rounds.length > 0; i++) {
-      const rand = Math.floor(Math.random() * rounds.length);
-      selectRounds.push(rounds[rand]);
-      rounds.splice(rand, 1);
+      .where('difficulty_id', this.difficulty.id);
+    const selectIds: number[] = [];
+    for (let i = 0; selectIds.length < 15 && i < 30; i++) {
+      const rand = Math.floor(Math.random() * roundIds.length);
+      const randId = roundIds[rand].id;
+      if (selectIds.includes(randId)) continue;
+      selectIds.push(randId);
     }
-    this.rounds = selectRounds;
+    console.log(selectIds);
+    const rounds = await Round.query()
+      .whereIn('id', selectIds)
+      .preload('answers')
+      .preload('theme')
+      .limit(15);
+    this.rounds = rounds;
   }
 }

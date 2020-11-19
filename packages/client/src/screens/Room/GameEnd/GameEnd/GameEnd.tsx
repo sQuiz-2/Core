@@ -3,6 +3,7 @@ import { DisplayPlayer } from '@Src/global/playerInfoState';
 import { useSound } from '@Src/utils/hooks/sound';
 import React, { useEffect } from 'react';
 import { View } from 'react-native';
+import { EmitQuestions } from 'shared/src/typings/Room';
 
 import GameEndQuestion from '../Details/Questions';
 import RoomGameEndResult from '../Details/Results';
@@ -11,9 +12,10 @@ import useGameEndStyle from './GameEndStyle';
 
 type RoomGameEndContainerProps = {
   players: DisplayPlayer[];
+  questions: EmitQuestions;
 };
 
-export default function RoomGameEndContainer({ players }: RoomGameEndContainerProps) {
+export default function RoomGameEndContainer({ players, questions }: RoomGameEndContainerProps) {
   const styles = useGameEndStyle();
   const gameEndSound = useSound({ source: require('@Assets/sounds/game-end.mp3') });
 
@@ -28,7 +30,7 @@ export default function RoomGameEndContainer({ players }: RoomGameEndContainerPr
       </View>
       <View style={styles.details}>
         <RoomGameEndResult players={players} />
-        <GameEndQuestion />
+        <GameEndQuestion questions={questions} />
       </View>
     </ResponsiveContainer>
   );

@@ -6,6 +6,7 @@ export enum GameEvent {
   RoundCounter = 'roundCounter',
   Ranks = 'ranks',
   ScoreDetail = 'scoreDetail',
+  Questions = 'questions',
 }
 
 export enum GameRank {
