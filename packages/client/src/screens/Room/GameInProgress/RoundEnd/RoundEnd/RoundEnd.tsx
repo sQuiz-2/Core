@@ -14,8 +14,8 @@ import useRoundEndStyle from './RoundEndStyle';
 export default function RoundEnd() {
   const answers: EmitAnswer = useSocketListener(GameEvent.Answer, []);
   const score: EmitScoreDetails | null = useSocketListener(GameEvent.ScoreDetail, null);
-  const styles = useRoundEndStyle(score);
   const [scoreDetail, setScoreDetail] = useState<EmitScoreDetails | null>(null);
+  const styles = useRoundEndStyle(scoreDetail);
   const [isQuestionTime, setIsQuestionTime] = useRecoilState(isQuestionTimeState);
   const setTime = useSetRecoilState(timerState);
   const timeout = useRef<null | NodeJS.Timeout>(null);

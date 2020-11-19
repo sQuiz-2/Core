@@ -153,7 +153,7 @@ export default class Quiz extends Room {
       if (this.players.length > 0) {
         this.event.emit(EventEmiter.Start);
       }
-    }, 10 * 1000);
+    }, 30 * 1000);
   }
 
   public initGame() {
