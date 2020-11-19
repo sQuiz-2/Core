@@ -4,7 +4,7 @@ import Twitch from 'App/Utils/oAuth/Twitch';
 import LoginValidator from 'App/Validators/LoginValidator';
 import OAuthValidator from 'App/Validators/OAuthValidator';
 import PasswordValidator from 'App/Validators/PasswordValidator';
-import { ProviderEnum } from 'shared/src/enums/oAuthProviders';
+import { ProviderEnum } from 'App/enums/oAuthProviders';
 
 export default class AuthController {
   public async login({ request, auth, response }: HttpContextContract) {

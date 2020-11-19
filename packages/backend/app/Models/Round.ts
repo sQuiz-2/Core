@@ -7,8 +7,8 @@ import {
   belongsTo,
   BelongsTo,
 } from '@ioc:Adonis/Lucid/Orm';
+import { Difficulty, DifficultyEnum, GetDifficultyFromId } from 'App/enums/Difficulty';
 import { DateTime } from 'luxon';
-import { Difficulty, DifficultyEnum, GetDifficultyFromId } from 'shared/src/enums/Difficulty';
 
 import Answer from './Answer';
 import Theme from './Theme';

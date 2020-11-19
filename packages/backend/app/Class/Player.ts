@@ -2,7 +2,7 @@
  * Player object
  */
 
-import { GameRank } from 'shared/src/enums/Game';
+import { GameRank } from 'App/enums/Game';
 
 type Props = {
   name: string;

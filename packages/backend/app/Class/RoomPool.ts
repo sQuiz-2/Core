@@ -1,6 +1,6 @@
 import Game from 'App/Models/Game';
 import Ws from 'App/Services/Ws';
-import { EmitRoom } from 'shared/src/typings/Room';
+import { EmitRoom } from 'App/typings/Room';
 
 import Quiz from './Quiz';
 import Room from './Room';

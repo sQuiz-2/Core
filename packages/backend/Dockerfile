@@ -1,17 +1,16 @@
-FROM node:12.16.3-alpine as builder
-RUN apk add git --no-cache
+FROM node:14 as builder
 WORKDIR /app
-COPY package.json .
+COPY ./packages/backend/ ./packages/backend/
 COPY yarn.lock .
-COPY packages/ ./packages/
-RUN yarn install --pure-lockfile --non-interactive
-WORKDIR /app/packages/backend
-RUN node ace build --production
-WORKDIR /app/packages/backend/build
-RUN yarn install
+COPY package.json .
+RUN yarn install --frozen-lockfile --non-interactive
+WORKDIR /app/packages/backend/
+RUN node ace build --production --client=yarn
+RUN cp ../../yarn.lock ./build
 
-FROM node:12.16.3-alpine
+FROM node:14
 WORKDIR /app
-COPY --from=builder /app/packages/backend/build .
+COPY --from=builder /app/packages/backend/build ./
+RUN yarn install --prod --frozen-lockfile --non-interactive
 EXPOSE 3333
-CMD ["node", "server.js"]
+CMD [ "node", "server.js" ]

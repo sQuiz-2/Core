@@ -2,10 +2,10 @@
  * Room object
  */
 
+import { Difficulty } from 'App/enums/Difficulty';
+import { RoomStatus, RoomEvent } from 'App/enums/Room';
+import { EmitPlayer } from 'App/typings/Room';
 import { EventEmitter } from 'events';
-import { Difficulty } from 'shared/src/enums/Difficulty';
-import { RoomStatus, RoomEvent } from 'shared/src/enums/Room';
-import { EmitPlayer } from 'shared/src/typings/Room';
 import { Namespace, Socket } from 'socket.io';
 
 import Player from './Player';
