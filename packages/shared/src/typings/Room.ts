@@ -41,3 +41,9 @@ export type Player = {
 };
 
 export type EmitPlayer = Player[];
+
+export type EmitQuestions = {
+  id: number;
+  question: string;
+  answers: string[];
+}[];

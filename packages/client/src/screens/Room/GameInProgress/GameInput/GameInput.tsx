@@ -1,5 +1,6 @@
 import Card from '@Src/components/Card/Card';
 import { GameTimer } from '@Src/components/Timer';
+import isQuestionTimeState from '@Src/global/isQuestionTimeState';
 import socketState from '@Src/global/socket';
 import { useSocketListener } from '@Src/utils/hooks/socketListener';
 import { useSound } from '@Src/utils/hooks/sound';
@@ -16,6 +17,7 @@ import styles from './GameInputStyle';
 export default function GameInput() {
   const [playerAnswer, setPlayerAnswer] = useState('');
   const socket = useRecoilValue(socketState);
+  const isQuestionTime = useRecoilValue(isQuestionTimeState);
   const { colors } = useTheme();
   const inputRef = createRef<TextInput>();
   const resultAnswer: null | EmitAnswerIsValid = useSocketListener(GameEvent.AnswerIsValid, null);
@@ -32,7 +34,7 @@ export default function GameInput() {
   }, [resultAnswer]);
 
   function emitAnswer() {
-    if (socket) {
+    if (socket && isQuestionTime) {
       const parsedAnswer = parseAnswer(playerAnswer);
       socket.emit('guess', parsedAnswer);
       setPlayerAnswer('');
