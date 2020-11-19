@@ -7,11 +7,7 @@ export default class DefaultSeeder extends BaseSeeder {
     await Theme.updateOrCreateMany(uniqueKey, [
       {
         content:
-          "En plus de Twitch, vous pouvez désormais vous connecter via Twitter et Google. Il est d'ailleurs possible de lier plusieurs services sur un même compte via le profil. Les invités ne pourront plus jouer plus que 5 parties publiques. Ils ne pourront plus voter aux sondages, réagir aux actualités et rejoindre des parties privées. Les classements font leur apparition (en bêta : on attend vos retours).",
-      },
-      {
-        content:
-          'Un quiz (prononcé « kiz » ou « kouïz ») est un jeu qui consiste en un questionnaire permettant de tester des connaissances générales ou spécifiques ou des compétences.',
+          "Bienvenue sur la pre-Alpha de sQuiz, nous travaillons depuis quelques semaines sur ce projet. Le but de cette version est de trouver les bugs avant la sortie de l'Alpha. Les fonctionnalités telles que les avatars, l'expérience, les statistiques seront ajoutées dans des versions futures, nous tenons à avoir un jeu de base stable avant d'y ajouter de nouvelles fonctionnalités.",
       },
     ]);
   }

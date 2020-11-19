@@ -19,16 +19,17 @@ export default function HomeStack() {
       screenOptions={{
         header: (props) => <Header {...props} />,
       }}>
-      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="Home" options={{ title: 'sQuiz' }} component={Home} />
       <Stack.Screen
         name="Room"
         component={Room}
         options={{
           header: (props) => <Header {...props} context="Room" />,
+          title: 'sQuiz',
         }}
       />
-      <Stack.Screen name="Add" component={AddRound} />
-      <Stack.Screen name="FAQ" component={FAQ} />
+      <Stack.Screen name="Add" options={{ title: 'Ajouter | sQuiz' }} component={AddRound} />
+      <Stack.Screen name="FAQ" options={{ title: 'FAQ | sQuiz' }} component={FAQ} />
     </Stack.Navigator>
   );
 }
