@@ -1,4 +1,4 @@
-name: "Check mandatories (lint, tsc)"
+name: "Check mandatories (lint, types, tests)"
 
 on: [pull_request]
 

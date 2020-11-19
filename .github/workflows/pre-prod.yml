@@ -1,8 +1,9 @@
-name: "Publish new release"
+name: "Publish on pre-prod"
 
 on:
-  release:
-    types: published
+  push:
+    branches:
+      - pre-prod
 
 jobs:
   publish-client-mobile:
