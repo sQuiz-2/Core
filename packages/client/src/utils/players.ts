@@ -1,4 +1,6 @@
-import { Player, DisplayPlayer } from '../global/playerInfoState';
+import { Player } from 'shared/src/typings/Room';
+
+import { DisplayPlayer } from '../global/playerInfoState';
 
 export function setPlayersPosition(players: Player[]) {
   const displayPlayers: DisplayPlayer[] = [];

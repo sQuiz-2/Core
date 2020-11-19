@@ -5,6 +5,7 @@
 import { EventEmitter } from 'events';
 import { Difficulty } from 'shared/src/enums/Difficulty';
 import { RoomStatus, RoomEvent } from 'shared/src/enums/Room';
+import { EmitPlayer } from 'shared/src/typings/Room';
 import { Namespace, Socket } from 'socket.io';
 
 import Player from './Player';
@@ -43,7 +44,10 @@ export default class Room {
 
   public emitScoreBoard() {
     this.sortPlayers();
-    this.emit(RoomEvent.Players, this.getPlayers());
+    const players: EmitPlayer = this.players.map(({ id, name, score, currentRank }) => {
+      return { id, name, score, rank: currentRank };
+    });
+    this.emit(RoomEvent.Players, players);
   }
 
   public emitStatus() {
@@ -64,10 +68,8 @@ export default class Room {
     return this.players.find((player) => player.id === id);
   }
 
-  public getPlayers(): { name: string; score: number; avatar: number }[] {
-    return this.players.map(({ name, score, avatar, id, find }) => {
-      return { name, score, avatar, id, find };
-    });
+  public getPlayers() {
+    return this.players.map(({ id, name, score }) => ({ name, score, id }));
   }
 
   public initGame() {}

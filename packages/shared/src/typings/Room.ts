@@ -30,3 +30,14 @@ export type EmitScoreDetails = {
   streak: number;
   position: number;
 };
+
+export type EmitRanks = number[];
+
+export type Player = {
+  id: string;
+  name: string;
+  score: number;
+  rank: number;
+};
+
+export type EmitPlayer = Player[];

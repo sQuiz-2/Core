@@ -3,10 +3,10 @@
  */
 
 import Round from 'App/Models/Round';
-import { GameEvent } from 'shared/src/enums/Game';
+import { GameEvent, GameRank } from 'shared/src/enums/Game';
 import { RoomStatus } from 'shared/src/enums/Room';
 import { parseAnswer } from 'shared/src/functions/Answer';
-import { EmitAnswer, EmitScoreDetails } from 'shared/src/typings/Room';
+import { EmitAnswer, EmitScoreDetails, EmitRanks } from 'shared/src/typings/Room';
 import { Socket } from 'socket.io';
 import stringSimilarity from 'string-similarity';
 
@@ -35,9 +35,10 @@ export default class Quiz extends Room {
    */
 
   private playerGoodAnswer(player: Player, rank: number) {
-    const scoreDetail: EmitScoreDetails = player.performsValidAnswer(rank);
+    const scoreDetail: EmitScoreDetails = player.performsValidAnswer(rank, this.roundsCounter);
     this.emitToSocket(GameEvent.AnswerIsValid, { valid: true }, player.id);
     this.emitToSocket(GameEvent.ScoreDetail, scoreDetail, player.id);
+    this.emitRanks(player.id, player.ranks);
     this.emitScoreBoard();
   }
 
@@ -58,6 +59,29 @@ export default class Quiz extends Room {
   }
 
   /**
+   * emitMissingRanks:
+   * Emit ranks for players who didn't correctly answered
+   */
+
+  private emitMissingRanks() {
+    this.players.forEach((player) => {
+      if (player.ranks[this.roundsCounter] === GameRank.RoundComing) {
+        player.ranks[this.roundsCounter] = GameRank.NotAnswered;
+        this.emitRanks(player.id, player.ranks);
+      }
+    });
+  }
+
+  /**
+   * emitRanks:
+   * Emit player ranks
+   */
+
+  private emitRanks(id: string, ranks: EmitRanks) {
+    this.emitToSocket(GameEvent.Ranks, ranks, id);
+  }
+
+  /**
    * emitRound:
    * Emit new rounds to the players
    */
@@ -73,15 +97,6 @@ export default class Quiz extends Room {
       theme: this.currentRound.theme.title,
     });
     this.currentAnswers = newRound.answers.map(({ answer }) => parseAnswer(answer));
-  }
-
-  /**
-   * emitRoundCounter:
-   * Emit the rounds counters to the players
-   */
-
-  private emitRoundCounter() {
-    this.emit(GameEvent.RoundCounter, { total: 15, current: this.roundsCounter });
   }
 
   private gameLoop() {
@@ -116,9 +131,9 @@ export default class Quiz extends Room {
     this.emitRound();
     this.emitScoreBoard();
     this.answerTimer = global.setTimeout(() => {
+      this.emitMissingRanks();
       this.isGuessTime = false;
       this.roundsCounter++;
-      this.emitRoundCounter();
       // Reset each player attributes to make them ready for the next round
       this.resetPlayersForNewRound();
       this.emitAnswer();
@@ -138,7 +153,7 @@ export default class Quiz extends Room {
       if (this.players.length > 0) {
         this.event.emit(EventEmiter.Start);
       }
-    }, 10 * 1000);
+    }, 30 * 1000);
   }
 
   public initGame() {
@@ -175,7 +190,6 @@ export default class Quiz extends Room {
     this.resetPlayers();
     this.pullRandomRounds();
     this.roundsCounter = 0;
-    this.emitRoundCounter();
     this.emitScoreBoard();
   }
 

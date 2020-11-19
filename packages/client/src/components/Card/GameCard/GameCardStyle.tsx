@@ -7,7 +7,7 @@ export default function useGameCardStyle() {
 
   return StyleSheet.create({
     container: {
-      flexGrow: 1,
+      flex: 1,
       width: responsive(screenWidth, '90%', 'auto', 'auto'),
     },
     gameCard: {

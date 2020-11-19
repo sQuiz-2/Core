@@ -30,6 +30,7 @@ export default function GameEndTopScoreBoard({ players }: GameEndTopScoreBoardPr
                 <ScoreboardRow
                   player={player}
                   textStyle={{ color: player.position === 1 ? '#718D80' : colors.text }}
+                  displayMedal={false}
                 />
               </View>
             );

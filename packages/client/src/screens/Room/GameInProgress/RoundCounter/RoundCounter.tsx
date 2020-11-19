@@ -1,31 +1,23 @@
 import Text from '@Src/components/Text';
 import { useSocketListener } from '@Src/utils/hooks/socketListener';
-import { useTheme } from '@react-navigation/native';
+import { getMedalWithRank } from '@Src/utils/medals';
 import React from 'react';
-import { View } from 'react-native';
+import { View, Image } from 'react-native';
+import { GameEvent, GameRank } from 'shared/src/enums/Game';
+import { EmitRanks } from 'shared/src/typings/Room';
 
-import styles from './RoundCounterStyle';
+import useRoundCounterStyle from './RoundCounterStyle';
 
 export default function RoundCounter() {
-  const { colors } = useTheme();
-  const roundCountInfo: null | {
-    current: number;
-    total: number;
-  } = useSocketListener('roundCounter', { current: 0, total: 15 });
-
-  if (!roundCountInfo) return null;
-
+  const styles = useRoundCounterStyle();
+  const ranks: EmitRanks = useSocketListener(GameEvent.Ranks, Array(15).fill(GameRank.RoundComing));
   return (
     <View style={styles.container}>
-      {Array.from({ length: roundCountInfo.total }, (v, k) => k).map((value) => {
+      {ranks.map((rank, value) => {
+        const image = getMedalWithRank(rank);
         return (
           <Text key={value} fontSize="xl">
-            <View
-              style={[
-                styles.dot,
-                { backgroundColor: value >= roundCountInfo.current ? colors.border : colors.text },
-              ]}
-            />
+            {image ? <Image source={image} style={styles.medal} /> : <View style={styles.dot} />}
           </Text>
         );
       })}
