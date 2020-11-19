@@ -7,13 +7,19 @@ import styles from './ScoreboardStyle';
 
 type Props = {
   players: DisplayPlayer[];
+  displayMedal?: boolean;
 };
 
-export default function Scoreboard({ players }: Props) {
+export default function Scoreboard({ players, displayMedal = true }: Props) {
   return (
     <ScrollView style={styles.container}>
       {players.map((player) => (
-        <ScoreboardRow player={player} key={player.id} />
+        <ScoreboardRow
+          player={player}
+          key={player.id}
+          containerStyle={styles.row}
+          displayMedal={displayMedal}
+        />
       ))}
     </ScrollView>
   );

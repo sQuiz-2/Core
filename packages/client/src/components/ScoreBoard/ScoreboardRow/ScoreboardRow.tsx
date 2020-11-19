@@ -10,22 +10,32 @@ type Props = {
   player: DisplayPlayer;
   containerStyle?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
+  displayMedal?: boolean;
 };
 
-export default function PlayerRow({ player, containerStyle, textStyle }: Props) {
+export default function PlayerRow({
+  player,
+  containerStyle,
+  textStyle,
+  displayMedal = true,
+}: Props) {
   const image = getMedalWithRank(player.rank);
   return (
-    <View key={player.id} style={[styles.card, containerStyle]}>
-      <Text fontSize="lg" style={textStyle}>
-        {player.position}
-      </Text>
-      <Text fontSize="md" style={[styles.pseudo, textStyle]}>
-        {player.name}
-      </Text>
-      {image && <Image source={image} style={{ width: 16, height: 23 }} />}
-      <Text fontSize="md" style={[styles.score, textStyle]}>
-        {player.score}
-      </Text>
+    <View style={[styles.card, containerStyle]}>
+      <View style={styles.infoContainer}>
+        <Text fontSize="lg" style={textStyle}>
+          {player.position}
+        </Text>
+        <Text fontSize="md" style={[styles.pseudo, textStyle]}>
+          {player.name}
+        </Text>
+      </View>
+      <View style={styles.infoContainer}>
+        {displayMedal && image && <Image source={image} style={styles.medal} />}
+        <Text fontSize="md" style={[styles.score, textStyle]}>
+          {player.score}
+        </Text>
+      </View>
     </View>
   );
 }

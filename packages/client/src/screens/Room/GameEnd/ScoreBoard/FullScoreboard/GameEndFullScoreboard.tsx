@@ -15,7 +15,7 @@ export default function GameEndFullScoreBoard({ players }: GameEndFullScoreBoard
     <View style={styles.container}>
       <Card style={styles.card}>
         <View style={styles.grow}>
-          <Scoreboard players={players} />
+          <Scoreboard players={players} displayMedal={false} />
         </View>
       </Card>
     </View>

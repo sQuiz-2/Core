@@ -22,7 +22,7 @@ export default function RoomGameEndResult({ players }: RoomGameEndResultProps) {
         <Text style={styles.title} fontFamily="title" fontSize="xxl">
           RÉSULTATS
         </Text>
-        <Timer time={20} size={40} strokeWidth={3} />
+        <Timer time={30} size={40} strokeWidth={3} />
       </View>
       <View style={styles.content}>
         <View style={styles.textContainer}>

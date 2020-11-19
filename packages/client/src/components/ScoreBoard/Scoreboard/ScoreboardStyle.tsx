@@ -10,6 +10,9 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     paddingRight: 20,
   },
+  row: {
+    height: 23,
+  },
 });
 
 export default styles;
