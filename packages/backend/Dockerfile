@@ -3,7 +3,7 @@ RUN apk add git --no-cache
 WORKDIR /app
 COPY package.json .
 COPY yarn.lock .
-COPY packages/backend ./packages/backend
+COPY packages/ ./packages/
 RUN yarn install --pure-lockfile --non-interactive
 WORKDIR /app/packages/backend
 RUN node ace build --production
