@@ -1,12 +1,5 @@
 import { atom } from 'recoil';
-
-export type Player = {
-  name: string;
-  score: number;
-  avatar: number;
-  id: string;
-  find: boolean;
-};
+import { Player } from 'shared/src/typings/Room';
 
 export interface DisplayPlayer extends Player {
   position: number;

@@ -9,6 +9,11 @@ export default function useRoundCounterStyle() {
       flexDirection: 'row',
       justifyContent: 'space-between',
       marginVertical: 10,
+      height: 27,
+    },
+    medal: {
+      width: 19,
+      height: 27,
     },
     dot: {
       width: 20,
