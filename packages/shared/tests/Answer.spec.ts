@@ -1,7 +1,7 @@
 import test from 'japa';
 import { Assert } from 'japa/build/src/Assert';
 
-import { parseAnswer, normalizedValue, removePrefix } from '../src/functions/Answer';
+import parseAnswer, { normalizedValue, removePrefix } from '../src/functions/Answer';
 
 test('Parse answer', (assert: Assert) => {
   assert.equal(parseAnswer('le vélo'), 'velo');
