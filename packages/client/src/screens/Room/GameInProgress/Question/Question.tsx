@@ -4,10 +4,10 @@ import isQuestionTimeState from '@Src/global/isQuestionTimeState';
 import timerState from '@Src/global/timerState';
 import { useSocketListener } from '@Src/utils/hooks/socketListener';
 import { useSound } from '@Src/utils/hooks/sound';
+import { EmitQuestion } from '@squiz/shared';
 import React, { useEffect } from 'react';
 import { View } from 'react-native';
 import { useSetRecoilState } from 'recoil';
-import { EmitQuestion } from 'shared/src/typings/Room';
 
 import useGameInProgressQuestionStyle from './QuestionStyle';
 

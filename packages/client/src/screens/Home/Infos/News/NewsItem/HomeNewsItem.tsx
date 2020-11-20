@@ -1,9 +1,9 @@
 import Text from '@Src/components/Text';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { useTheme } from '@react-navigation/native';
+import { News } from '@squiz/shared';
 import React from 'react';
 import { View } from 'react-native';
-import News from 'squiz-backend/app/Models/News';
 
 import styles from './HomeNewsItemStyle';
 

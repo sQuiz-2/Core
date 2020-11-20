@@ -1,9 +1,9 @@
 import { ResponsiveContainer } from '@Src/components/Containers';
 import { DisplayPlayer } from '@Src/global/playerInfoState';
 import { useSound } from '@Src/utils/hooks/sound';
+import { EmitQuestions } from '@squiz/shared';
 import React, { useEffect } from 'react';
 import { View } from 'react-native';
-import { EmitQuestions } from 'shared/src/typings/Room';
 
 import GameEndQuestion from '../Details/Questions';
 import RoomGameEndResult from '../Details/Results';

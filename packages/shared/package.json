@@ -1,10 +1,12 @@
 {
-  "name": "shared",
+  "name": "@squiz/shared",
   "version": "1.0.0",
   "description": "shared stuff in squiz",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "license": "MIT",
   "scripts": {
+    "build": "tsc",
     "type-check": "tsc --noEmit",
     "lint": "eslint --ext '.js,.ts,.tsx' . --max-warnings=0",
     "test": "ts-node japaFile.ts"

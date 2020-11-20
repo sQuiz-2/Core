@@ -1,5 +1,5 @@
 {
-  "name": "squiz-client",
+  "name": "@squiz/client",
   "version": "0.8.2",
   "main": "__generated__/AppEntry.js",
   "scripts": {
@@ -11,7 +11,9 @@
     "test": "echo Coming soon 😛",
     "type-check": "tsc -b",
     "lint": "eslint --ext '.js,.ts,.tsx' . --max-warnings=0",
-    "postinstall": "expo-yarn-workspaces postinstall"
+    "postinstall": "expo-yarn-workspaces postinstall",
+    "prebuild-web": "tsc -b",
+    "build-web": "expo build:web"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.13.2",
@@ -19,6 +21,7 @@
     "@react-native-community/picker": "1.6.6",
     "@react-navigation/native": "^5.7.3",
     "@react-navigation/stack": "^5.9.0",
+    "@squiz/shared": "1.0.0",
     "expo": "^39.0.0",
     "expo-auth-session": "~2.0.0",
     "expo-av": "~8.6.0",
@@ -34,8 +37,7 @@
     "react-native-svg": "^12.1.0",
     "react-native-web": "~0.13.7",
     "recoil": "^0.0.13",
-    "socket.io-client": "^2.3.0",
-    "shared": "1.0.0"
+    "socket.io-client": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
@@ -51,7 +53,6 @@
     "expo-yarn-workspaces": "^1.2.1",
     "metro-config": "^0.59.0",
     "prettier": "^2.1.2",
-    "squiz-backend": "0.8.2",
     "typescript": "^4.0.5",
     "webpack-bundle-analyzer": "^3.8.0"
   },

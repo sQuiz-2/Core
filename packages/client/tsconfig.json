@@ -14,5 +14,5 @@
       "@Assets/*": ["./assets/*"]
     }
   },
-  "references": [{ "path": "../backend" }]
+  "references": [{ "path": "../shared" }]
 }

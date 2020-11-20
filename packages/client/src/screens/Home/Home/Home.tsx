@@ -2,9 +2,9 @@ import { CenterContainer } from '@Src/components/Containers';
 import getEnv from '@Src/constant/index';
 import { HomeNavigationProp } from '@Src/typings/navigation';
 import { useTheme } from '@react-navigation/native';
+import { EmitRoom } from '@squiz/shared';
 import React, { useState, useEffect } from 'react';
 import { ActivityIndicator } from 'react-native';
-import { EmitRoom } from 'shared/src/typings/Room';
 import io from 'socket.io-client';
 
 import HomeContainer from '../HomeContainer';

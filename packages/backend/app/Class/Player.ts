@@ -2,7 +2,7 @@
  * Player object
  */
 
-import { GameRank } from 'App/enums/Game';
+import { GameRank } from '@squiz/shared';
 
 type Props = {
   name: string;

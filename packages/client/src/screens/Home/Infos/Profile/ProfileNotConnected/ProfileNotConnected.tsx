@@ -3,9 +3,9 @@ import Text from '@Src/components/Text';
 import useOAuthTwitch from '@Src/utils/hooks/oAuthTwitch';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { useTheme } from '@react-navigation/native';
+import { GetProviders } from '@squiz/shared';
 import React from 'react';
 import { TouchableOpacity, ActivityIndicator, View } from 'react-native';
-import { GetProviders } from 'shared/src/enums/oAuthProviders';
 
 import useProfileNotConnectedStyle from './ProfileNotConnectedStyle';
 

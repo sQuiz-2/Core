@@ -1,8 +1,8 @@
 import { TitleCard } from '@Src/components/Card';
 import Text from '@Src/components/Text';
+import { EmitQuestions } from '@squiz/shared';
 import React from 'react';
 import { ScrollView, View } from 'react-native';
-import { EmitQuestions } from 'shared/src/typings/Room';
 
 import useGameEndQuestionStyle from './GameEndQuestionStyle';
 

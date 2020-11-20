@@ -1,10 +1,9 @@
 import Text from '@Src/components/Text';
 import { useSocketListener } from '@Src/utils/hooks/socketListener';
 import { getMedalWithRank } from '@Src/utils/medals';
+import { GameEvent, GameRank, EmitRanks } from '@squiz/shared';
 import React from 'react';
 import { View, Image } from 'react-native';
-import { GameEvent, GameRank } from 'shared/src/enums/Game';
-import { EmitRanks } from 'shared/src/typings/Room';
 
 import useRoundCounterStyle from './RoundCounterStyle';
 

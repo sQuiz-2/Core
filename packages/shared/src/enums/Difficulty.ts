@@ -6,11 +6,13 @@ export type Difficulty = {
   xpMultiplier: number;
 };
 
-export enum DifficultyEnum {
+enum DifficultyEnum {
   Beginner,
   Intermediate,
   Expert,
 }
+
+export default DifficultyEnum;
 
 export function GetDifficultyFromId(difficulty: DifficultyEnum): Difficulty {
   switch (difficulty) {

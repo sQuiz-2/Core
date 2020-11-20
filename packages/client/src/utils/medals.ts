@@ -3,7 +3,7 @@ import gold from '@Assets/images/medals/gold.png';
 import gray from '@Assets/images/medals/gray.png';
 import green from '@Assets/images/medals/green.png';
 import silver from '@Assets/images/medals/silver.png';
-import { GameRank } from 'shared/src/enums/Game';
+import { GameRank } from '@squiz/shared';
 
 export function getMedalWithRank(rank: number) {
   const images = [gray, gold, silver, bronze];

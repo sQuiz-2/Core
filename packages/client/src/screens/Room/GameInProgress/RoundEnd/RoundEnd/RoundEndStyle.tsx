@@ -1,7 +1,7 @@
 import { useScreenWidth } from '@Src/utils/hooks/screenWidth';
 import responsive from '@Src/utils/responsive';
+import { EmitScoreDetails } from '@squiz/shared';
 import { StyleSheet } from 'react-native';
-import { EmitScoreDetails } from 'shared/src/typings/Room';
 
 export default function useRoundEndStyle(scoreDetail: EmitScoreDetails | null) {
   const screenWidth = useScreenWidth();
