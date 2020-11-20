@@ -1,6 +1,6 @@
+import { EmitRoom } from '@squiz/shared';
 import React from 'react';
 import { View } from 'react-native';
-import { EmitRoom } from 'shared/src/typings/Room';
 
 import { ResponsiveContainer } from '../../../components/Containers';
 import HomeNews from '../Infos/News/News';

@@ -1,6 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { schema, rules } from '@ioc:Adonis/Core/Validator';
-import { DifficultyEnum } from 'shared/src/enums/Difficulty';
+import { DifficultyEnum } from '@squiz/shared';
 
 export default class RoundValidator {
   constructor(private ctx: HttpContextContract) {}

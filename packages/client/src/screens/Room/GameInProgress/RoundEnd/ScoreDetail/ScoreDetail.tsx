@@ -1,7 +1,7 @@
 import Text from '@Src/components/Text';
+import { EmitScoreDetails } from '@squiz/shared';
 import React from 'react';
 import { View, Image } from 'react-native';
-import { EmitScoreDetails } from 'shared/src/typings/Room';
 
 import useScoreDetailStyle from './ScoreDetailStyle';
 

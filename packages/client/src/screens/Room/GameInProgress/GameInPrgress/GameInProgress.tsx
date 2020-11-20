@@ -4,11 +4,10 @@ import PlayerInfos from '@Src/components/PlayerInfo';
 import { DisplayPlayer } from '@Src/global/playerInfoState';
 import timerState from '@Src/global/timerState';
 import { useSound } from '@Src/utils/hooks/sound';
+import { Difficulty, RoomStatus } from '@squiz/shared';
 import React, { useEffect } from 'react';
 import { View } from 'react-native';
 import { useSetRecoilState } from 'recoil';
-import { Difficulty } from 'shared/src/enums/Difficulty';
-import { RoomStatus } from 'shared/src/enums/Room';
 
 import GameInput from '../GameInput';
 import Question from '../Question';

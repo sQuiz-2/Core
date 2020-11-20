@@ -27,8 +27,10 @@ jobs:
         with:
           path: "**/node_modules"
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-      - run: yarn install
-      - run: expo publish
+      - run: |
+          yarn install
+          yarn shared build
+          expo publish
   publish-client-web:
     name: publish web client
     runs-on: ubuntu-latest
@@ -49,7 +51,7 @@ jobs:
         with:
           expo-version: 3.x
           expo-cache: true
-      - run: expo build:web
+      - run: yarn build-web
       - name: netlify deploy
         run: npx netlify-cli deploy --prod --dir web-build --auth ${{ secrets.NETLIFY_AUTH_TOKEN }} --site ${{ secrets.NETLIFY_SITE_ID }}
   publish-backend:

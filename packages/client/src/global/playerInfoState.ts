@@ -1,5 +1,5 @@
+import { Player } from '@squiz/shared';
 import { atom } from 'recoil';
-import { Player } from 'shared/src/typings/Room';
 
 export interface DisplayPlayer extends Player {
   position: number;

@@ -9,7 +9,7 @@ export default function ProfileConnected() {
     <View style={styles.container}>
       <View style={styles.item}>
         <Image source={require('@Assets/images/keyboard.png')} style={styles.image} />
-        <Text style={styles.title}>Partie Jouées</Text>
+        <Text style={styles.title}>Parties Jouées</Text>
         <Text>🚧</Text>
       </View>
       <View style={styles.item}>

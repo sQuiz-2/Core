@@ -1,12 +1,12 @@
 {
-  "name": "squiz-backend",
+  "name": "@squiz/backend",
   "version": "0.8.2",
   "private": true,
   "scripts": {
     "build": "node ace build",
     "dev": "node ace serve --watch",
     "test": "echo Coming soon 😛",
-    "type-check": "tsc --incremental false --composite false --noEmit",
+    "type-check": "tsc -b",
     "lint": "eslint --ext '.js,.ts,.tsx' . --max-warnings=0",
     "cmd": "node ace"
   },
@@ -18,7 +18,6 @@
     "adonis-preset-ts": "^1.1.0",
     "eslint": "^7.12.1",
     "eslint-config-universe": "^6.0.0",
-    "pino-pretty": "^4.3.0",
     "prettier": "^2.1.2",
     "typescript": "^4.0.5",
     "youch": "^2.1.1",
@@ -29,6 +28,7 @@
     "@adonisjs/core": "^5.0.4-preview-rc",
     "@adonisjs/lucid": "^9.0.3",
     "@adonisjs/repl": "^1.0.0",
+    "@squiz/shared": "1.0.0",
     "got": "^11.8.0",
     "luxon": "^1.25.0",
     "pg": "^8.4.2",
@@ -38,7 +38,7 @@
     "socket.io": "^2.3.0",
     "source-map-support": "^0.5.19",
     "string-similarity": "^4.0.2",
-    "shared": "1.0.0"
+    "pino-pretty": "^4.3.0"
   },
   "eslintConfig": {
     "extends": "universe/node"

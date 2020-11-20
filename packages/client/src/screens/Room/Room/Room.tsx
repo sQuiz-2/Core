@@ -4,12 +4,16 @@ import { HomeNavigatorProps } from '@Src/typings/navigation';
 import useSocketConnect from '@Src/utils/hooks/socketConnect';
 import { useSocketListener } from '@Src/utils/hooks/socketListener';
 import { setPlayersPosition } from '@Src/utils/players';
+import {
+  Difficulty,
+  GameEvent,
+  RoomStatus,
+  RoomEvent,
+  EmitPlayer,
+  EmitQuestions,
+} from '@squiz/shared';
 import React, { useState, useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
-import { Difficulty } from 'shared/src/enums/Difficulty';
-import { GameEvent } from 'shared/src/enums/Game';
-import { RoomStatus, RoomEvent } from 'shared/src/enums/Room';
-import { EmitPlayer, EmitQuestions } from 'shared/src/typings/Room';
 
 import GameEnd from '../GameEnd';
 import GameInProgess from '../GameInProgress/GameInPrgress';

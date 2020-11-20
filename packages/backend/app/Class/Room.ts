@@ -2,10 +2,8 @@
  * Room object
  */
 
+import { Difficulty, RoomStatus, RoomEvent, EmitPlayer } from '@squiz/shared';
 import { EventEmitter } from 'events';
-import { Difficulty } from 'shared/src/enums/Difficulty';
-import { RoomStatus, RoomEvent } from 'shared/src/enums/Room';
-import { EmitPlayer } from 'shared/src/typings/Room';
 import { Namespace, Socket } from 'socket.io';
 
 import Player from './Player';

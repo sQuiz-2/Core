@@ -1,9 +1,9 @@
 import { CenterContainer } from '@Src/components/Containers';
 import Text from '@Src/components/Text';
 import { useTheme } from '@react-navigation/native';
+import { Difficulty } from '@squiz/shared';
 import React from 'react';
 import { ActivityIndicator } from 'react-native';
-import { Difficulty } from 'shared/src/enums/Difficulty';
 
 type RoomTitleProps = {
   roomInfos: { difficulty: Difficulty } | null;

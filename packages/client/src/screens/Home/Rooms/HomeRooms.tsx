@@ -1,7 +1,7 @@
 import { GameCard } from '@Src/components/Card';
 import { useNavigation } from '@react-navigation/native';
+import { EmitRoom } from '@squiz/shared';
 import React from 'react';
-import { EmitRoom } from 'shared/src/typings/Room';
 
 type HomeRoomProps = {
   rooms: EmitRoom;

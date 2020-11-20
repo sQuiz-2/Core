@@ -1,8 +1,8 @@
 import { TitleCard } from '@Src/components/Card';
 import client from '@Src/utils/request';
+import { News } from '@squiz/shared';
 import React, { useState, useEffect } from 'react';
 import { View, ScrollView } from 'react-native';
-import News from 'squiz-backend/app/Models/News';
 
 import HomeNewsItem from '../NewsItem';
 import useHomeNewsStyle from './HomeNewsStyle';

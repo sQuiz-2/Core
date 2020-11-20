@@ -1,4 +1,4 @@
-export function parseAnswer(answer: string) {
+export default function parseAnswer(answer: string) {
   let result = normalizedValue(answer);
   result = removePrefix(result);
   return result;

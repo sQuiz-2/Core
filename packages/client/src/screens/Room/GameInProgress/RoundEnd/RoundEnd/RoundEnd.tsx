@@ -1,11 +1,10 @@
 import isQuestionTimeState from '@Src/global/isQuestionTimeState';
 import timerState from '@Src/global/timerState';
 import { useSocketListener } from '@Src/utils/hooks/socketListener';
+import { GameEvent, EmitAnswer, EmitScoreDetails } from '@squiz/shared';
 import React, { useEffect, useState, useRef } from 'react';
 import { View } from 'react-native';
 import { useSetRecoilState, useRecoilState } from 'recoil';
-import { GameEvent } from 'shared/src/enums/Game';
-import { EmitAnswer, EmitScoreDetails } from 'shared/src/typings/Room';
 
 import Answer from '../Answer';
 import ScoreDetail from '../ScoreDetail';

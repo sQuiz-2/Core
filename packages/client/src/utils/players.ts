@@ -1,4 +1,4 @@
-import { Player } from 'shared/src/typings/Room';
+import { Player } from '@squiz/shared';
 
 import { DisplayPlayer } from '../global/playerInfoState';
 

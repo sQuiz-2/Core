@@ -5,12 +5,10 @@ import socketState from '@Src/global/socket';
 import { useSocketListener } from '@Src/utils/hooks/socketListener';
 import { useSound } from '@Src/utils/hooks/sound';
 import { useTheme } from '@react-navigation/native';
+import { EmitAnswerIsValid, GameEvent, parseAnswer } from '@squiz/shared';
 import React, { useState, createRef, useEffect } from 'react';
 import { TextInput, NativeSyntheticEvent, TextInputKeyPressEventData } from 'react-native';
 import { useRecoilValue } from 'recoil';
-import { GameEvent } from 'shared/src/enums/Game';
-import { parseAnswer } from 'shared/src/functions/Answer';
-import { EmitAnswerIsValid } from 'shared/src/typings/Room';
 
 import styles from './GameInputStyle';
 

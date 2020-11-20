@@ -3,8 +3,6 @@
   "exclude": ["node_modules", "build"],
   "extends": "../../node_modules/adonis-preset-ts/tsconfig",
   "compilerOptions": {
-    "composite": true,
-    "declaration": true,
     "outDir": "build",
     "rootDir": "./",
     "sourceMap": true,
@@ -15,5 +13,6 @@
       "Database/*": ["./packages/backend/database/*"]
     },
     "types": ["@adonisjs/core", "@adonisjs/repl", "@adonisjs/lucid", "@adonisjs/auth"]
-  }
+  },
+  "references": [{ "path": "../shared" }]
 }

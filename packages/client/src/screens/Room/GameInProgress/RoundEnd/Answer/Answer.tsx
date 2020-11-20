@@ -1,7 +1,7 @@
 import Text from '@Src/components/Text';
+import { EmitAnswer } from '@squiz/shared';
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
-import { EmitAnswer } from 'shared/src/typings/Room';
 
 import styles from './AnswerStyle';
 

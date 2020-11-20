@@ -2,11 +2,17 @@
  * Quizz game object
  */
 
+import {
+  parseAnswer,
+  GameEvent,
+  GameRank,
+  RoomStatus,
+  EmitAnswer,
+  EmitScoreDetails,
+  EmitRanks,
+  EmitQuestions,
+} from '@squiz/shared';
 import Round from 'App/Models/Round';
-import { GameEvent, GameRank } from 'shared/src/enums/Game';
-import { RoomStatus } from 'shared/src/enums/Room';
-import { parseAnswer } from 'shared/src/functions/Answer';
-import { EmitAnswer, EmitScoreDetails, EmitRanks, EmitQuestions } from 'shared/src/typings/Room';
 import { Socket } from 'socket.io';
 import stringSimilarity from 'string-similarity';
 

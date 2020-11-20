@@ -1,4 +1,4 @@
-import { makeRedirectUri, useAuthRequest, ResponseType } from 'expo-auth-session';
+import { useAuthRequest, ResponseType } from 'expo-auth-session';
 import * as WebBrowser from 'expo-web-browser';
 import { useEffect, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
@@ -23,9 +23,7 @@ export default function useOAuthTwitch() {
       responseType: ResponseType.Code,
       clientId: getEnv().twitchClientId,
       // For usage in managed apps using the proxy
-      redirectUri: makeRedirectUri({
-        useProxy: false,
-      }),
+      redirectUri: 'https://squiz.m4gie.com/',
       scopes: ['openid', 'user_read'],
     },
     TwitchDiscovery
