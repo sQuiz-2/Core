@@ -6,31 +6,31 @@ on:
       - pre-prod
 
 jobs:
-  publish-client-mobile:
-    name: publish mobile client (android/iOS)
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: packages/client
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 12.x
-      - uses: expo/expo-github-action@v5
-        with:
-          expo-version: 3.x
-          expo-username: ${{ secrets.EXPO_CLI_USERNAME }}
-          expo-password: ${{ secrets.EXPO_CLI_PASSWORD }}
-          expo-cache: true
-      - uses: actions/cache@v2
-        with:
-          path: "**/node_modules"
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-      - run: |
-          yarn install
-          yarn shared build
-          expo publish
+  # publish-client-mobile:
+  #   name: publish mobile client (android/iOS)
+  #   runs-on: ubuntu-latest
+  #   defaults:
+  #     run:
+  #       working-directory: packages/client
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - uses: actions/setup-node@v1
+  #       with:
+  #         node-version: 12.x
+  #     - uses: expo/expo-github-action@v5
+  #       with:
+  #         expo-version: 3.x
+  #         expo-username: ${{ secrets.EXPO_CLI_USERNAME }}
+  #         expo-password: ${{ secrets.EXPO_CLI_PASSWORD }}
+  #         expo-cache: true
+  #     - uses: actions/cache@v2
+  #       with:
+  #         path: "**/node_modules"
+  #         key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+  #     - run: |
+  #         yarn install
+  #         yarn shared build
+  #         expo publish
   publish-client-web:
     name: publish web client
     runs-on: ubuntu-latest
