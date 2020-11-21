@@ -13,7 +13,14 @@
     "Database": "database",
     "Contracts": "contracts"
   },
-  "preloads": ["./start/routes", "./start/kernel"],
+  "preloads": [
+    "./start/routes",
+    "./start/kernel",
+    {
+      "file": "./start/validationRules",
+      "environment": ["web"]
+    }
+  ],
   "providers": ["./providers/AppProvider", "@adonisjs/core", "@adonisjs/lucid", "@adonisjs/auth"],
   "aceProviders": ["@adonisjs/repl"],
   "metaFiles": [".env", ".adonisrc.json"]

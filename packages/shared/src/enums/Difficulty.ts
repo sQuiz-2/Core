@@ -7,9 +7,9 @@ export type Difficulty = {
 };
 
 enum DifficultyEnum {
-  Beginner,
-  Intermediate,
-  Expert,
+  Beginner = 1,
+  Intermediate = 2,
+  Expert = 3,
 }
 
 export default DifficultyEnum;
