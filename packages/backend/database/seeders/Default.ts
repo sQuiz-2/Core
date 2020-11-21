@@ -15,19 +15,70 @@ export default class DefaultSeeder extends BaseSeeder {
     const uniqueKey = 'title';
     await Theme.updateOrCreateMany(uniqueKey, [
       {
-        title: 'culture générale', // Kind of category 'other'
+        title: 'télévision',
       },
       {
-        title: 'littérature',
+        title: 'web',
       },
       {
-        title: 'mathématiques',
+        title: 'sports',
+      },
+      {
+        title: 'animaux',
+      },
+      {
+        title: 'bande dessinée',
+      },
+      {
+        title: 'gastronomie',
       },
       {
         title: 'histoire',
       },
       {
+        title: 'informatique',
+      },
+      {
+        title: 'musique',
+      },
+      {
+        title: 'pays du monde',
+      },
+      {
+        title: 'archéologie',
+      },
+      {
+        title: 'arts',
+      },
+      {
         title: 'cinéma',
+      },
+      {
+        title: 'loisirs',
+      },
+      {
+        title: 'sciences',
+      },
+      {
+        title: 'tourisme',
+      },
+      {
+        title: 'célébrités',
+      },
+      {
+        title: 'culture générale', // Pretty name for the category "other"
+      },
+      {
+        title: 'géographie',
+      },
+      {
+        title: 'littérature',
+      },
+      {
+        title: 'nature',
+      },
+      {
+        title: 'vie quotidienne',
       },
     ]);
   }
@@ -59,7 +110,7 @@ export default class DefaultSeeder extends BaseSeeder {
       {
         round: {
           question: 'Combien y a-t-il de mois de 31 jours dans une année ?',
-          themeId: 1,
+          themeId: 18,
           difficultyId: DifficultyEnum.Beginner,
           validated: true,
         },
@@ -68,7 +119,7 @@ export default class DefaultSeeder extends BaseSeeder {
       {
         round: {
           question: 'Avec quel pays la Suisse partage-t-elle la plus longue frontière ?',
-          themeId: 1,
+          themeId: 18,
           difficultyId: DifficultyEnum.Beginner,
           validated: true,
         },
@@ -77,7 +128,7 @@ export default class DefaultSeeder extends BaseSeeder {
       {
         round: {
           question: 'La guerre de cent ans a-t-elle duré cent années?',
-          themeId: 1,
+          themeId: 18,
           difficultyId: 1,
           validated: true,
           maxNumberOfGuesses: 1,
@@ -89,7 +140,7 @@ export default class DefaultSeeder extends BaseSeeder {
         round: {
           question:
             'En quelle année le premier prototype de la 205 est-il sorti des ateliers Peugeot ?',
-          themeId: 1,
+          themeId: 18,
           difficultyId: DifficultyEnum.Intermediate,
           validated: true,
         },
@@ -99,7 +150,7 @@ export default class DefaultSeeder extends BaseSeeder {
         round: {
           question:
             'Quelle société de production audiovisuelle appartient à Christophe Dechavanne ?',
-          themeId: 1,
+          themeId: 18,
           difficultyId: DifficultyEnum.Intermediate,
           validated: true,
         },
@@ -109,7 +160,7 @@ export default class DefaultSeeder extends BaseSeeder {
       {
         round: {
           question: 'Quel pays africain est également connu sous le nom de Pays des Braves ?',
-          themeId: 1,
+          themeId: 18,
           difficultyId: DifficultyEnum.Expert,
           validated: true,
         },
@@ -118,7 +169,7 @@ export default class DefaultSeeder extends BaseSeeder {
       {
         round: {
           question: 'Qui a incarné avec talent et panache le commissaire Valence à la télévision ?',
-          themeId: 1,
+          themeId: 18,
           difficultyId: DifficultyEnum.Expert,
           validated: true,
         },
