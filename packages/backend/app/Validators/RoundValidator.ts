@@ -13,7 +13,7 @@ export default class RoundValidator {
       }),
     ),
     themeId: schema.number([rules.exists({ table: 'themes', column: 'id' })]),
-    difficultyId: schema.number([rules.range(0, Object.keys(DifficultyEnum).length)]),
+    difficultyId: schema.number([rules.enumNumber(Object.values(DifficultyEnum))]),
   });
 
   public cacheKey = this.ctx.routeKey;
@@ -30,6 +30,7 @@ export default class RoundValidator {
     'themeId.required': 'Thème manquant',
     'themeId.exists': "Le thème sélectionné n'existe pas 🤔",
     'difficultyId.required': 'Difficulté manquante',
-    'difficultyId.range': "La difficulté sélectionnée n'existe pas 🤔",
+    'difficultyId.enumNumber': "La difficulté sélectionnée n'existe pas 🤔",
+    'difficultyId.number': 'Ce paramètre doit être un nombre',
   };
 }

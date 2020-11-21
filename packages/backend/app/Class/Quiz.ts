@@ -232,7 +232,6 @@ export default class Quiz extends Room {
       if (selectIds.includes(randId)) continue;
       selectIds.push(randId);
     }
-    console.log(selectIds);
     const rounds = await Round.query()
       .whereIn('id', selectIds)
       .preload('answers')
