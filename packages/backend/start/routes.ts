@@ -19,6 +19,7 @@ Route.resource('themes', 'ThemesController')
 Route.resource('rounds', 'RoundsController')
   .apiOnly()
   .middleware({ /* store: 'auth', */ update: 'auth', destroy: 'auth' });
+Route.post('rounds/store-lot', 'RoundsController.storeLot');
 
 Route.resource('games', 'GamesController')
   .apiOnly()
@@ -31,8 +32,6 @@ Route.resource('difficulties', 'DifficultiesController')
 Route.resource('users', 'UsersController')
   .apiOnly()
   .middleware({ store: 'auth', update: 'auth', destroy: 'auth', index: 'auth', show: 'auth' });
-
-Route.post('rounds/random', 'RoundsController.random');
 
 Route.post('/login', 'AuthController.login');
 Route.post('/password', 'AuthController.password').middleware('auth');
