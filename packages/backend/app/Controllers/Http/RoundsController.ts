@@ -1,6 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import Round from 'App/Models/Round';
 import RoundValidator from 'App/Validators/RoundValidator';
+import RoundsValidator from 'App/Validators/RoundsValidator';
 
 export default class RoundsController {
   public async index() {
@@ -8,9 +9,9 @@ export default class RoundsController {
   }
 
   public async store({ request }: HttpContextContract) {
-    const { answers, ...RoundData } = await request.validate(RoundValidator);
+    const { answers, ...roundData } = await request.validate(RoundValidator);
     const round = await Round.create({
-      ...RoundData,
+      ...roundData,
       validated: false,
     });
     const createdAnswers = await round.related('answers').createMany(answers);
@@ -34,5 +35,17 @@ export default class RoundsController {
     const round = await Round.findOrFail(id);
     round.delete();
     return round;
+  }
+
+  public async storeLot({ request }: HttpContextContract) {
+    const { rounds } = await request.validate(RoundsValidator);
+
+    for (const { answers, ...roundData } of rounds) {
+      const round = await Round.create({
+        ...roundData,
+        validated: true,
+      });
+      await round.related('answers').createMany(answers);
+    }
   }
 }
