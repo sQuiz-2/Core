@@ -11,12 +11,12 @@ export function normalizedValue(str: string): string {
   return value;
 }
 
-export function removePrefix(str: string) {
-  const prefix = ['le', 'un', 'la', 'une', 'les', 'des'];
+export function removePrefix(str: string): string {
+  const prefix = ['le', 'un', 'la', 'une', 'les', 'des', 'de'];
   const splitAnswer = str.split(' ');
   if (prefix.includes(splitAnswer[0])) {
     splitAnswer.shift();
-    return splitAnswer.join(' ');
+    return removePrefix(splitAnswer.join(' '));
   }
   return str;
 }
