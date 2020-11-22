@@ -8,6 +8,7 @@ test('Parse answer', (assert: Assert) => {
   assert.equal(parseAnswer('DescriPTION'), 'description');
   assert.equal(parseAnswer('Guerre de cent ans'), 'guerre de cent ans');
   assert.equal(parseAnswer('Lécythiophilie'), 'lecythiophilie');
+  assert.equal(parseAnswer('De La Viande'), 'viande');
 });
 
 test('Normalized value', (assert: Assert) => {
@@ -21,4 +22,5 @@ test('Remove prefix', (assert: Assert) => {
   assert.equal(removePrefix('leedsichthys'), 'leedsichthys');
   assert.equal(removePrefix('abaissable'), 'abaissable');
   assert.equal(removePrefix('des réponses'), 'réponses');
+  assert.equal(removePrefix('de la viande'), 'viande');
 });
