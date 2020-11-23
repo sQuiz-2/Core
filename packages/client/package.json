@@ -1,7 +1,6 @@
 {
   "name": "@squiz/client",
   "version": "0.8.2",
-  "main": "__generated__/AppEntry.js",
   "scripts": {
     "dev": "expo start",
     "android": "expo start --android",
@@ -11,7 +10,6 @@
     "test": "echo Coming soon 😛",
     "type-check": "tsc -b",
     "lint": "eslint --ext '.js,.ts,.tsx' . --max-warnings=0",
-    "postinstall": "expo-yarn-workspaces postinstall",
     "prebuild-web": "tsc -b",
     "build-web": "expo build:web"
   },
@@ -47,10 +45,11 @@
     "@types/socket.io-client": "^1.4.32",
     "@typescript-eslint/eslint-plugin": "^4.6.0",
     "@typescript-eslint/parser": "^4.6.0",
+    "babel-loader": "^8.1.0",
+    "babel-plugin-module-resolver": "^4.0.0",
     "babel-preset-expo": "^8.3.0",
     "eslint": "^7.12.1",
     "eslint-config-universe": "^6.0.0",
-    "expo-yarn-workspaces": "^1.2.1",
     "metro-config": "^0.59.0",
     "prettier": "^2.1.2",
     "typescript": "^4.0.5",

@@ -17,8 +17,7 @@
     "test": "yarn workspaces run test",
     "lint": "yarn workspaces run lint",
     "type-check": "yarn workspaces run type-check",
-    "commit": "npx git-cz",
-    "tsc": "echo No no no"
+    "commit": "npx git-cz"
   },
   "config": {
     "commitizen": {
