@@ -11,12 +11,7 @@ In order to run the project in good conditions you need [docker](https://docs.do
 Run in these commands at the root of the repository to start the project:
 
 Only the first time you run the project:  
-`yarn`   
-`docker-compose up -d`  
-`cp ./packages/backend/.env.example ./packages/backend/.env`  
-`yarn backend cmd migration:run`  
-`yarn backend cmd db:seed`  
-`yarn start`
+`./scripts/init`
 
 Every time you want to run the project:  
 `yarn start`

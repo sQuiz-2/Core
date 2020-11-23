@@ -84,7 +84,7 @@ export default class DefaultSeeder extends BaseSeeder {
   }
 
   public async Games() {
-    const uniqueKey = 'title';
+    const uniqueKey = 'difficultyId';
     await Game.updateOrCreateMany(uniqueKey, [
       {
         title: 'Culture générale',
@@ -177,7 +177,7 @@ export default class DefaultSeeder extends BaseSeeder {
       },
     ];
     for (const i of rounds) {
-      const round = await Round.create(i.round);
+      const round = await Round.updateOrCreate({ question: i.round.question }, i.round);
       await round.related('answers').createMany(i.answers);
     }
   }
