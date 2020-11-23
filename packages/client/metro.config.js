@@ -1,3 +1,7 @@
-const { createMetroConfiguration } = require('expo-yarn-workspaces');
+const path = require('path');
 
-module.exports = createMetroConfiguration(__dirname);
+module.exports = {
+  projectRoot: __dirname,
+
+  watchFolders: [__dirname, path.resolve(__dirname, '../shared')],
+};

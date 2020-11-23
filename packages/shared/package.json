@@ -4,6 +4,8 @@
   "description": "shared stuff in squiz",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "source": "src/index.ts",
+  "react-native": "src/index.ts",
   "license": "MIT",
   "scripts": {
     "build": "tsc",

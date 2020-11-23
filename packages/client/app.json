@@ -49,6 +49,7 @@
         "image": "./assets/splash.png",
         "resizeMode": "contain"
       }
-    }
+    },
+    "entryPoint": "App.tsx"
   }
 }

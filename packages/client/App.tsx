@@ -1,4 +1,5 @@
 import { NavigationContainer } from '@react-navigation/native';
+import { registerRootComponent } from 'expo';
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
 import { Platform, ActivityIndicator } from 'react-native';
@@ -13,7 +14,9 @@ import { Linking } from './src/navigation/Linking';
 import loadFonts from './src/utils/fonts';
 import { getFromStore, StorageEnum } from './src/utils/storage';
 
-export default function App() {
+registerRootComponent(App);
+
+function App() {
   const [fontLoaded, setFontLoaded] = useState(false);
 
   async function loadRessources() {
