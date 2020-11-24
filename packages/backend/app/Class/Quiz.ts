@@ -11,6 +11,7 @@ import {
   EmitScoreDetails,
   EmitRanks,
   EmitQuestions,
+  EmitQuestion,
 } from '@squiz/shared';
 import Round from 'App/Models/Round';
 import { Socket } from 'socket.io';
@@ -78,6 +79,17 @@ export default class Quiz extends Room {
     });
   }
 
+  private emitQuestion(round: Round) {
+    const emitQuestion: EmitQuestion = {
+      question: round.question,
+      maxRound: this.rounds.length,
+      currentRound: this.roundsCounter,
+      theme: round.theme.title,
+      maxNumberOfGuesses: round.maxNumberOfGuesses,
+    };
+    this.emit(GameEvent.Question, emitQuestion);
+  }
+
   private emitQuestions() {
     const questions: EmitQuestions = this.rounds.map(({ id, question, answers }) => {
       const onlyAnswers = answers.map(({ answer }) => answer);
@@ -104,12 +116,7 @@ export default class Quiz extends Room {
     const newRound = this.rounds[this.roundsCounter];
     if (!newRound) return;
     this.currentRound = newRound;
-    this.emit(GameEvent.Question, {
-      question: this.currentRound.question,
-      maxRound: this.rounds.length,
-      currentRound: this.roundsCounter,
-      theme: this.currentRound.theme.title,
-    });
+    this.emitQuestion(newRound);
     this.currentAnswers = newRound.answers.map(({ answer }) => parseAnswer(answer));
   }
 
