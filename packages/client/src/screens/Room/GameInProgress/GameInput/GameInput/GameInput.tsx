@@ -1,18 +1,23 @@
 import Card from '@Src/components/Card/Card';
-import { GameTimer } from '@Src/components/Timer';
 import isQuestionTimeState from '@Src/global/isQuestionTimeState';
 import socketState from '@Src/global/socket';
 import { useSocketListener } from '@Src/utils/hooks/socketListener';
 import { useSound } from '@Src/utils/hooks/sound';
 import { useTheme } from '@react-navigation/native';
-import { EmitAnswerIsValid, GameEvent, parseAnswer } from '@squiz/shared';
+import { EmitAnswerIsValid, GameEvent, parseAnswer, EmitQuestion } from '@squiz/shared';
 import React, { useState, createRef, useEffect } from 'react';
 import { TextInput, NativeSyntheticEvent, TextInputKeyPressEventData } from 'react-native';
 import { useRecoilValue } from 'recoil';
 
+import GameTimer from '../GameTimer';
+import Life from '../Life';
 import styles from './GameInputStyle';
 
-export default function GameInput() {
+type GameInputProps = {
+  question: EmitQuestion | null;
+};
+
+export default function GameInput({ question }: GameInputProps) {
   const [playerAnswer, setPlayerAnswer] = useState('');
   const socket = useRecoilValue(socketState);
   const isQuestionTime = useRecoilValue(isQuestionTimeState);
@@ -21,6 +26,12 @@ export default function GameInput() {
   const resultAnswer: null | EmitAnswerIsValid = useSocketListener(GameEvent.AnswerIsValid, null);
   const foundSound = useSound({ source: require('@Assets/sounds/right.mp3') });
   const wrongSound = useSound({ source: require('@Assets/sounds/wrong.mp3') });
+  const [lifes, setLifes] = useState(4);
+
+  useEffect(() => {
+    if (!question) return;
+    setLifes(question.maxNumberOfGuesses);
+  }, [question]);
 
   useEffect(() => {
     if (!resultAnswer) return;
@@ -28,11 +39,12 @@ export default function GameInput() {
       foundSound.play();
     } else {
       wrongSound.play();
+      setLifes(lifes - 1);
     }
   }, [resultAnswer]);
 
   function emitAnswer() {
-    if (socket && isQuestionTime) {
+    if (socket && isQuestionTime && lifes > 0) {
       const parsedAnswer = parseAnswer(playerAnswer);
       socket.emit('guess', parsedAnswer);
       setPlayerAnswer('');
@@ -64,6 +76,7 @@ export default function GameInput() {
         style={[styles.input, { color: colors.text }]}
       />
       <GameTimer />
+      <Life lifes={lifes} />
     </Card>
   );
 }

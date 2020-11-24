@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Animated } from 'react-native';
 
-import Text from '../Text';
-import CircularProgress from './CircularProgress';
+import Text from '../../Text';
+import CircularProgress from '../CircularProgress';
 
 type Props = {
   size: number;
