@@ -1,8 +1,7 @@
+import Timer from '@Src/components/Timer';
+import timerState from '@Src/global/timerState';
 import React from 'react';
 import { useRecoilValue } from 'recoil';
-
-import timerState from '../../global/timerState';
-import Timer from './Timer';
 
 export default function GameTimer() {
   const originalTime = useRecoilValue(timerState);

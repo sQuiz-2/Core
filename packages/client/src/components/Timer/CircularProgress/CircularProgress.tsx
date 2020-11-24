@@ -1,7 +1,9 @@
 import { useTheme } from '@react-navigation/native';
 import React from 'react';
-import { StyleSheet, Animated, View } from 'react-native';
+import { Animated, View } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
+
+import styles from './CircularProgressStyle';
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 const { PI } = Math;
@@ -60,14 +62,3 @@ export default function CircularProgress({
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  circleSvg: {
-    position: 'absolute',
-    transform: [{ rotateZ: '-90deg' }], // Start the opening of the circle at the top
-  },
-});

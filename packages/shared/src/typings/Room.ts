@@ -14,6 +14,7 @@ export type EmitQuestion = {
   currentRound: number;
   maxRound: number;
   theme: string;
+  maxNumberOfGuesses: number;
 };
 
 export type Answer = {

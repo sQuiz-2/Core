@@ -3,8 +3,9 @@ import { ResponsiveContainer } from '@Src/components/Containers';
 import PlayerInfos from '@Src/components/PlayerInfo';
 import { DisplayPlayer } from '@Src/global/playerInfoState';
 import timerState from '@Src/global/timerState';
+import { useSocketListener } from '@Src/utils/hooks/socketListener';
 import { useSound } from '@Src/utils/hooks/sound';
-import { Difficulty, RoomStatus } from '@squiz/shared';
+import { Difficulty, RoomStatus, EmitQuestion } from '@squiz/shared';
 import React, { useEffect } from 'react';
 import { View } from 'react-native';
 import { useSetRecoilState } from 'recoil';
@@ -27,6 +28,7 @@ export default function GameInProgess({ status, players, roomInfos }: GameInProg
   const styles = useGameInProgessStyle();
   const setTime = useSetRecoilState(timerState);
   const gameStartSound = useSound({ source: require('@Assets/sounds/game-start.mp3') });
+  const question: null | EmitQuestion = useSocketListener('question', null);
 
   useEffect(() => {
     switch (status) {
@@ -51,11 +53,11 @@ export default function GameInProgess({ status, players, roomInfos }: GameInProg
       </View>
       <View style={styles.game}>
         <View style={styles.grow}>
-          <Question />
+          <Question question={question} />
           <RoundEnd />
         </View>
         <RoundCounter />
-        <GameInput />
+        <GameInput question={question} />
       </View>
     </ResponsiveContainer>
   );

@@ -1,6 +1,6 @@
 import Card from '@Src/components/Card';
 import Text from '@Src/components/Text';
-import { Timer } from '@Src/components/Timer';
+import Timer from '@Src/components/Timer';
 import { DisplayPlayer } from '@Src/global/playerInfoState';
 import useGetPlayer from '@Src/utils/hooks/getPlayer';
 import React from 'react';
