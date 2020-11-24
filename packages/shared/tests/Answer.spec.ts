@@ -23,4 +23,6 @@ test('Remove prefix', (assert: Assert) => {
   assert.equal(removePrefix('abaissable'), 'abaissable');
   assert.equal(removePrefix('des réponses'), 'réponses');
   assert.equal(removePrefix('de la viande'), 'viande');
+  assert.equal(removePrefix("l'ultimatum"), 'ultimatum');
+  assert.equal(removePrefix(''), '');
 });

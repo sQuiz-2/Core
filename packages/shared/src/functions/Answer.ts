@@ -12,6 +12,11 @@ export function normalizedValue(str: string): string {
 }
 
 export function removePrefix(str: string): string {
+  // special case : l'
+  if (str.startsWith("l'")) {
+    return str.substring(2);
+  }
+  // basic cases
   const prefix = ['le', 'un', 'la', 'une', 'les', 'des', 'de'];
   const splitAnswer = str.split(' ');
   if (prefix.includes(splitAnswer[0])) {
