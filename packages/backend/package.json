@@ -33,12 +33,13 @@
     "luxon": "^1.25.0",
     "pg": "^8.4.2",
     "phc-bcrypt": "^1.0.3",
+    "pino-datadog": "^2.0.1",
+    "pino-pretty": "^4.3.0",
     "proxy-addr": "^2.0.6",
     "reflect-metadata": "^0.1.13",
     "socket.io": "^2.3.0",
     "source-map-support": "^0.5.19",
-    "string-similarity": "^4.0.2",
-    "pino-pretty": "^4.3.0"
+    "string-similarity": "^4.0.2"
   },
   "eslintConfig": {
     "extends": "universe/node"

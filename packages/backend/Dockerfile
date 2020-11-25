@@ -18,4 +18,4 @@ COPY yarn.lock package.json ./
 RUN yarn install --prod --frozen-lockfile --non-interactive
 EXPOSE 3333
 WORKDIR /app/packages/backend
-CMD [ "node", "server.js" ]
+CMD node server.js | ../../node_modules/.bin/pino-datadog --key $DD_API_KEY

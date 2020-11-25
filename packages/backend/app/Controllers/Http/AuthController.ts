@@ -1,5 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { ProviderEnum } from '@squiz/shared';
+import AuthenticationException from 'App/Exceptions/AuthenticationException';
 import User from 'App/Models/User';
 import Twitch from 'App/Utils/oAuth/Twitch';
 import LoginValidator from 'App/Validators/LoginValidator';
@@ -7,21 +8,13 @@ import OAuthValidator from 'App/Validators/OAuthValidator';
 import PasswordValidator from 'App/Validators/PasswordValidator';
 
 export default class AuthController {
-  public async login({ request, auth, response }: HttpContextContract) {
+  public async login({ request, auth }: HttpContextContract) {
     const { email, password } = await request.validate(LoginValidator);
     try {
       const token = await auth.attempt(email, password);
       return { email, token: token.token };
     } catch (e) {
-      response.status(400);
-      switch (e.code) {
-        case 'E_INVALID_AUTH_PASSWORD':
-          return response.json({ errors: [{ message: 'Mot passe invalide', field: 'password' }] });
-        default:
-          return response.json({
-            errors: [{ message: 'The worst has happened ! (An error occurs)' }],
-          });
-      }
+      throw new AuthenticationException('Mot de passe invalide');
     }
   }
 
