@@ -1,4 +1,3 @@
-import { Exception } from '@poppinss/utils';
 import OAuthException, { OAuthExceptionCode } from 'App/Exceptions/OAuthException';
 import { twitchClientId, twitchClientSecrect, twitchRedirectUri } from 'Config/auth';
 import got from 'got';
