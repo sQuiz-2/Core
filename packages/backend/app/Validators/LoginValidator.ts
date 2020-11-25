@@ -15,6 +15,6 @@ export default class AuthValidator {
     'email.required': 'Votre email est requise',
     'email.email': "Format de l'email invalide",
     'email.exists': 'Email inconnue',
-    'password.required': 'Votre mot de passe requis',
+    'password.required': 'Votre mot de passe est requis',
   };
 }

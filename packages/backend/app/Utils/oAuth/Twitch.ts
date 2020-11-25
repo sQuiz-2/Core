@@ -1,4 +1,5 @@
 import { Exception } from '@poppinss/utils';
+import OAuthException, { OAuthExceptionCode } from 'App/Exceptions/OAuthException';
 import { twitchClientId, twitchClientSecrect, twitchRedirectUri } from 'Config/auth';
 import got from 'got';
 
@@ -34,6 +35,19 @@ export type oAuthData = {
   email: string;
   username: string;
   userId: string;
+};
+
+const TwitchException = {
+  'invalid client': OAuthExceptionCode.oAuhtInvalidClientId,
+  'missing client id': OAuthExceptionCode.oAuhtMissingClientId,
+  'invalid client secret': OAuthExceptionCode.oAuhtInvalidClientSecret,
+  'missing client secret': OAuthExceptionCode.oAuhtMissingClientSecret,
+  'Invalid authorization code': OAuthExceptionCode.oAuhtInvalidCode,
+  'missing code': OAuthExceptionCode.oAuhtMissingCode,
+  'invalid grant type': OAuthExceptionCode.oAuhtInvalidGrantType,
+  'Parameter redirect_uri does not match registered URI':
+    OAuthExceptionCode.oAuhtInvalidRedirectUri,
+  'missing redirect uri': OAuthExceptionCode.oAuhtMissingRedirectUri,
 };
 
 class Twitch {
@@ -78,7 +92,9 @@ class Twitch {
       this.refreshToken = bodyToken.refresh_token;
       return { token: this.token, refresh_token: this.refreshToken };
     } catch (e) {
-      throw new Exception('La connection a échouée.', 400, 'OAUTH_CONNECTION');
+      const errorMessage = e?.response?.body?.message;
+      const errorCode = TwitchException[errorMessage] || OAuthExceptionCode.oAuhtError;
+      throw new OAuthException('Erreur interne. (Twitch)', errorCode, errorMessage);
     }
   }
 
@@ -95,12 +111,10 @@ class Twitch {
       this.username = bodyUser.data[0].display_name;
       this.userId = bodyUser.data[0].id;
       return { email: this.email, username: this.username };
-    } catch {
-      throw new Exception(
-        "Une erreur est survenue lors de l'accès à vos donnés.",
-        400,
-        'OAUTH_INFOS',
-      );
+    } catch (e) {
+      const errorMessage = e?.response?.body?.message;
+      const errorCode = TwitchException[errorMessage] || OAuthExceptionCode.oAuhtError;
+      throw new OAuthException('Erreur interne. (Twitch)', errorCode, errorMessage);
     }
   }
 }
