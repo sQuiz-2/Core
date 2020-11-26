@@ -17,7 +17,7 @@ import HttpExceptionHandler from '@ioc:Adonis/Core/HttpExceptionHandler';
 import Logger from '@ioc:Adonis/Core/Logger';
 
 export default class ExceptionHandler extends HttpExceptionHandler {
-  protected ignoreStatuses = [400, 422, 401];
+  protected ignoreStatuses = [400, 403, 422, 401];
   constructor() {
     super(Logger);
   }

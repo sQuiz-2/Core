@@ -9,6 +9,7 @@ export default class UserSeeder extends BaseSeeder {
       await User.create({
         email: 'admin@admin.fr',
         password: 'secret',
+        staff: true,
       });
     }
   }
