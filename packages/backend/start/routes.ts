@@ -14,29 +14,30 @@ import Route from '@ioc:Adonis/Core/Route';
 
 Route.resource('themes', 'ThemesController')
   .apiOnly()
-  .middleware({ store: 'auth', update: 'auth', destroy: 'auth' });
+  .middleware({ '*': ['auth', 'admin'] });
 
 Route.resource('rounds', 'RoundsController')
   .apiOnly()
-  .middleware({ /* store: 'auth', */ update: 'auth', destroy: 'auth' });
-Route.post('rounds/store-lot', 'RoundsController.storeLot');
+  .middleware({ '*': ['auth', 'admin'] });
+Route.post('rounds/store-lot', 'RoundsController.storeLot').middleware(['auth', 'admin']);
 
 Route.resource('games', 'GamesController')
   .apiOnly()
-  .middleware({ store: 'auth', update: 'auth', destroy: 'auth' });
-
-Route.resource('difficulties', 'DifficultiesController')
-  .apiOnly()
-  .middleware({ store: 'auth', update: 'auth', destroy: 'auth' });
+  .middleware({ '*': ['auth', 'admin'] });
 
 Route.resource('users', 'UsersController')
   .apiOnly()
-  .middleware({ store: 'auth', update: 'auth', destroy: 'auth', index: 'auth', show: 'auth' });
+  .middleware({ '*': ['auth', 'admin'] });
 
 Route.post('/login', 'AuthController.login');
-Route.post('/password', 'AuthController.password').middleware('auth');
+Route.post('/password', 'AuthController.password').middleware(['auth', 'admin']);
 Route.post('/oauth', 'AuthController.oauth');
 
 Route.resource('news', 'NewsController')
   .apiOnly()
-  .middleware({ store: 'auth', update: 'auth', destroy: 'auth', show: 'auth' });
+  .middleware({
+    store: ['auth', 'admin'],
+    update: ['auth', 'admin'],
+    destroy: ['auth', 'admin'],
+    show: ['auth', 'admin'],
+  });
