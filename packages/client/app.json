@@ -11,9 +11,9 @@
     "platforms": ["ios", "android", "web"],
     "version": "0.8.2",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/icons/icon-square.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/icons/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#24243E"
     },
@@ -36,7 +36,7 @@
       "supportsTablet": true
     },
     "web": {
-      "favicon": "./assets/icon.png",
+      "favicon": "./assets/icons/icon-square.png",
       "name": "sQuiz",
       "shortName": "sQuiz",
       "lang": "fr-FR",
@@ -46,7 +46,7 @@
       "preferRelatedApplications": true,
       "splash": {
         "backgroundColor": "#24243E",
-        "image": "./assets/splash.png",
+        "image": "./assets/icons/splash.png",
         "resizeMode": "contain"
       }
     },
