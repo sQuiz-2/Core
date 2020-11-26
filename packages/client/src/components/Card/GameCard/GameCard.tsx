@@ -32,10 +32,7 @@ export default function GameCard({ style, ...props }: ButtonProps) {
           <Text style={[{ color: colors.text }]} fontFamily="text" fontSize="md">
             {(props.players > 0 && props.players) || 'Aucun'} joueur{props.players > 1 && 's'}
           </Text>
-          <Image
-            source={require('../../../../assets/images/question.png')}
-            style={[styles.image]}
-          />
+          <Image source={require('@Assets/images/question.png')} style={[styles.image]} />
         </LinearGradient>
       </Card>
     </TouchableOpacity>
