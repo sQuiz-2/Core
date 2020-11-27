@@ -3,7 +3,7 @@ import Text from '@Src/components/Text';
 import isQuestionTimeState from '@Src/global/isQuestionTimeState';
 import timerState from '@Src/global/timerState';
 import { useSound } from '@Src/utils/hooks/sound';
-import { EmitQuestion } from '@squiz/shared';
+import { EmitQuestion, GameTime } from '@squiz/shared';
 import React, { useEffect } from 'react';
 import { View } from 'react-native';
 import { useSetRecoilState } from 'recoil';
@@ -26,7 +26,7 @@ export default function GameInProgressQuestion({ question }: GameInProgressQuest
   useEffect(() => {
     if (!question) return;
     setIsQuestionTime(true);
-    setTime(15);
+    setTime(GameTime.Question);
     startRoundSound.play();
   }, [question]);
 

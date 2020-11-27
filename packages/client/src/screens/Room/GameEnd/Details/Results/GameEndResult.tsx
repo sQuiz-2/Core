@@ -3,6 +3,7 @@ import Text from '@Src/components/Text';
 import Timer from '@Src/components/Timer';
 import { DisplayPlayer } from '@Src/global/playerInfoState';
 import useGetPlayer from '@Src/utils/hooks/getPlayer';
+import { GameTime } from '@squiz/shared';
 import React from 'react';
 import { View } from 'react-native';
 
@@ -22,7 +23,7 @@ export default function RoomGameEndResult({ players }: RoomGameEndResultProps) {
         <Text style={styles.title} fontFamily="title" fontSize="xxl">
           RÉSULTATS
         </Text>
-        <Timer time={30} size={40} strokeWidth={3} />
+        <Timer time={GameTime.End} size={40} strokeWidth={3} />
       </View>
       <View style={styles.content}>
         <View style={styles.textContainer}>

@@ -16,3 +16,9 @@ export enum GameRank {
   Second = 2,
   Third = 3,
 }
+
+export enum GameTime {
+  Question = 13,
+  Answer = 5,
+  End = 30,
+}
