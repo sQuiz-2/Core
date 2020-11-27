@@ -10,15 +10,49 @@ type Props = {
 };
 
 export default class Player {
+  /**
+   * Unique socket id
+   */
   id: string;
+
+  /**
+   * Player name
+   */
   name: string;
+
+  /**
+   * Player score during this game
+   */
   score: number = 0;
+
+  /**
+   * Number of answered questions without failure aka streak
+   */
   streak: number = 0;
+
+  /**
+   * Boolean to allow or disallow the player to answer
+   */
   canGuess: boolean = true;
+
+  /**
+   * Number of guess made during a round
+   */
   numberOfGuess: number = 0;
-  avatar: number = 0;
+
+  /**
+   * Did the player found the answer
+   */
   find: boolean = false;
+
+  /**
+   * All ranks obtained during a game
+   */
   ranks: number[] = Array(15).fill(GameRank.RoundComing);
+
+  /**
+   * Rank obtained during the round
+   */
   currentRank: number = GameRank.RoundComing;
 
   constructor(props: Props) {
@@ -26,15 +60,27 @@ export default class Player {
     this.name = props.name;
   }
 
+  /**
+   * Check if the player can perfom an answer
+   */
   public canPerformAnswer(maxGuess: number): boolean {
     return this.canGuess && this.numberOfGuess < maxGuess;
   }
 
+  /**
+   * Decrement the number of allowed guesses
+   */
   public performUnvalidAnswer(): void {
     this.numberOfGuess++;
   }
 
-  public performsValidAnswer(rank: number, roundNumber: number) {
+  /**
+   * Compute player score
+   */
+  public performsValidAnswer(
+    rank: number,
+    roundNumber: number,
+  ): { streak: number; position: number } {
     let additionalPoints: number = 0;
     switch (rank) {
       case 1: {
@@ -65,13 +111,19 @@ export default class Player {
     return { streak: this.streak, position: additionalPoints };
   }
 
-  public reset() {
+  /**
+   * Reset values persisting across rounds
+   */
+  public resetForNewGame() {
     this.score = 0;
     this.streak = 0;
     this.find = false;
     this.ranks = Array(15).fill(GameRank.RoundComing);
   }
 
+  /**
+   * Reset player with inital values
+   */
   public resetForNewRound(): void {
     this.currentRank = GameRank.RoundComing;
     this.canGuess = true;
