@@ -6,12 +6,15 @@ import Quiz from './Quiz';
 import Room from './Room';
 
 class RoomPool {
+  /**
+   * Store all the rooms
+   */
   rooms: Room[] = [];
 
   /**
    * Fetch Games and create a room for each games
    */
-  public async init() {
+  public async init(): Promise<void> {
     const games = await Game.query();
     games.forEach((game) => {
       this.addRoom(game);
@@ -30,8 +33,6 @@ class RoomPool {
       roomNumber,
     };
     const room = new Quiz(roomData);
-    room.roomLoop();
-    room.initGame();
     this.rooms.push(room);
   }
 
