@@ -7,7 +7,7 @@ import Room from './Room';
 
 class RoomPool {
   /**
-   * Store all the rooms
+   * Store all rooms
    */
   rooms: Room[] = [];
 

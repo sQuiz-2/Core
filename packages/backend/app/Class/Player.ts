@@ -1,8 +1,4 @@
-/**
- * Player object
- */
-
-import { GameRank } from '@squiz/shared';
+import { GameRank, EmitScoreDetails } from '@squiz/shared';
 
 type Props = {
   name: string;
@@ -63,7 +59,7 @@ export default class Player {
   /**
    * Check if the player can perfom an answer
    */
-  public canPerformAnswer(maxGuess: number): boolean {
+  public canPerformGuess(maxGuess: number): boolean {
     return this.canGuess && this.numberOfGuess < maxGuess;
   }
 
@@ -77,10 +73,7 @@ export default class Player {
   /**
    * Compute player score
    */
-  public performsValidAnswer(
-    rank: number,
-    roundNumber: number,
-  ): { streak: number; position: number } {
+  public performsValidAnswer(rank: number, roundNumber: number): EmitScoreDetails {
     let additionalPoints: number = 0;
     switch (rank) {
       case 1: {
@@ -114,7 +107,7 @@ export default class Player {
   /**
    * Reset values persisting across rounds
    */
-  public resetForNewGame() {
+  public resetForNewGame(): void {
     this.score = 0;
     this.streak = 0;
     this.find = false;

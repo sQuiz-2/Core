@@ -1,7 +1,3 @@
-/**
- * Room object
- */
-
 import { Difficulty, RoomStatus, RoomEvent, EmitPlayer } from '@squiz/shared';
 import { EventEmitter } from 'events';
 import { Namespace, Socket } from 'socket.io';
@@ -59,6 +55,7 @@ export default class Room {
   private connection(socket: Socket): void {
     this.sendRoomInfos(socket);
     this.addPlayer(socket);
+    this.joinGame(socket);
     socket.on(RoomEvent.Disconnection, () => this.disconnection(socket));
   }
 
@@ -128,13 +125,25 @@ export default class Room {
     this.emit(RoomEvent.Players, players);
   }
 
-  public gameStop() {}
-
   /**
    * Get a player with a socket id
    */
   public getPlayer(id: string): Player | undefined {
     return this.players.find((player) => player.id === id);
+  }
+
+  /**
+   * Reset all players for a new game
+   */
+  public resetPlayersForNewGame() {
+    this.players.forEach((player) => player.resetForNewGame());
+  }
+
+  /**
+   * Reset all players for a new round
+   */
+  public resetPlayersForNewRound(): void {
+    this.players.forEach((player) => player.resetForNewRound());
   }
 
   /**
@@ -158,4 +167,7 @@ export default class Room {
   public sortPlayers(): void {
     this.players.sort((a, b) => b.score - a.score);
   }
+
+  public joinGame(_socket: Socket): void {}
+  public gameStop(): void {}
 }
