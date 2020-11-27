@@ -6,12 +6,15 @@ import Quiz from './Quiz';
 import Room from './Room';
 
 class RoomPool {
+  /**
+   * Store all rooms
+   */
   rooms: Room[] = [];
 
   /**
    * Fetch Games and create a room for each games
    */
-  public async init() {
+  public async init(): Promise<void> {
     const games = await Game.query();
     games.forEach((game) => {
       this.addRoom(game);
@@ -24,14 +27,11 @@ class RoomPool {
   public addRoom(game: Game): void {
     const roomNumber = this.rooms.length.toString(); // Get a unique ID for the room
     const roomData = {
-      title: game.title,
       difficulty: game.difficulty,
       nameSpace: Ws.io.of(roomNumber),
       roomNumber,
     };
     const room = new Quiz(roomData);
-    room.roomLoop();
-    room.initGame();
     this.rooms.push(room);
   }
 
@@ -39,8 +39,8 @@ class RoomPool {
    * Return all rooms
    */
   public getRooms(): EmitRoom {
-    const roomNames = this.rooms.map(({ title, id, players, difficulty }) => {
-      return { title, id, players: players.length, difficulty };
+    const roomNames = this.rooms.map(({ id, players, difficulty }) => {
+      return { id, players: players.length, difficulty };
     });
     return roomNames;
   }

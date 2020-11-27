@@ -1,7 +1,7 @@
 import isQuestionTimeState from '@Src/global/isQuestionTimeState';
 import timerState from '@Src/global/timerState';
 import { useSocketListener } from '@Src/utils/hooks/socketListener';
-import { GameEvent, EmitAnswer, EmitScoreDetails } from '@squiz/shared';
+import { GameEvent, EmitAnswer, EmitScoreDetails, GameTime } from '@squiz/shared';
 import React, { useEffect, useState, useRef } from 'react';
 import { View } from 'react-native';
 import { useSetRecoilState, useRecoilState } from 'recoil';
@@ -22,11 +22,11 @@ export default function RoundEnd() {
   useEffect(() => {
     if (!answers) return;
     setIsQuestionTime(false);
-    setTime(5);
+    setTime(GameTime.Answer);
     // Reset ScoreDetail at the begining of the next round
     timeout.current = setTimeout(() => {
       setScoreDetail(null);
-    }, 5 * 1000);
+    }, GameTime.Answer * 1000);
   }, [answers]);
 
   useEffect(() => {

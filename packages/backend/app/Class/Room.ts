@@ -1,7 +1,3 @@
-/**
- * Room object
- */
-
 import { Difficulty, RoomStatus, RoomEvent, EmitPlayer } from '@squiz/shared';
 import { EventEmitter } from 'events';
 import { Namespace, Socket } from 'socket.io';
@@ -11,36 +7,117 @@ import Player from './Player';
 export type RoomProps = {
   nameSpace: Namespace;
   roomNumber: string;
-  title: string;
   difficulty: Difficulty;
 };
 
 export default class Room {
-  difficulty: Difficulty;
-  event: EventEmitter = new EventEmitter();
+  /**
+   * Unique id identifier
+   */
   id: string;
-  nameSpace: Namespace; // Socket.io room namespace
-  players: Player[] = [];
-  status: RoomStatus = RoomStatus.Waiting;
-  title: string;
 
-  constructor({ title, nameSpace, roomNumber, difficulty }: RoomProps) {
-    this.nameSpace = nameSpace;
+  /**
+   * Socket.io room namespace
+   */
+  nameSpace: Namespace;
+
+  /**
+   * Difficulty allow us to fetch the correct questions
+   */
+  difficulty: Difficulty;
+
+  /**
+   * Send an event when the game can start
+   */
+  eventEmitter: EventEmitter = new EventEmitter();
+
+  /**
+   * We want to allow players to disconnect and reconnect,
+   * sockets are destroy if you leave a namespace, so we
+   * store all the players during the game
+   */
+  players: Player[] = [];
+
+  /**
+   * Current status of the room Waiting, Starting...
+   */
+  status: RoomStatus = RoomStatus.Waiting;
+
+  constructor({ nameSpace, roomNumber, difficulty }: RoomProps) {
+    this.nameSpace = nameSpace.on(RoomEvent.Connection, this.connection.bind(this));
     this.id = roomNumber;
-    this.title = title;
     this.difficulty = difficulty;
   }
 
-  private addPlayer(socket: Socket) {
+  /**
+   * Run on each socket connection
+   */
+  private connection(socket: Socket): void {
+    this.sendRoomInfos(socket);
+    this.addPlayer(socket);
+    this.joinGame(socket);
+    socket.on(RoomEvent.Disconnection, () => this.disconnection(socket));
+  }
+
+  /**
+   * Run on each socket deconnection
+   */
+  private disconnection(socket: Socket): void {
+    this.removePlayer(socket);
+    if (this.players.length <= 0) {
+      this.gameStop();
+      this.status = RoomStatus.Waiting;
+    }
+  }
+
+  /**
+   * Store a new player and emit the new scoreboard
+   */
+  private addPlayer(socket: Socket): void {
     this.players.push(new Player({ name: socket.handshake.query.pseudo, id: socket.id }));
     this.emitScoreBoard();
   }
 
-  public emit(event: string, data: any) {
+  /**
+   * Remove a player and emit the new scoreboard
+   */
+  private removePlayer(socket: Socket): void {
+    this.players = this.players.filter(({ id }) => id !== socket.id);
+    this.emitScoreBoard();
+  }
+
+  /**
+   * Emit data to all the sockets connected on this NameSpace
+   */
+  public emit(event: string, data: any): void {
     this.nameSpace.emit(event, data);
   }
 
-  public emitScoreBoard() {
+  /**
+   * Emit data to one socket
+   */
+  public emitToSocket(event: string, data: any, id: string): void {
+    this.nameSpace.to(id).emit(event, data);
+  }
+
+  /**
+   * Emit the room status to all connected sockets
+   */
+  public emitStatus(): void {
+    this.emit(RoomEvent.Status, { status: this.status });
+  }
+
+  /**
+   * Emit the room status to one socket
+   */
+  public emitStatusToSocket(id: string): void {
+    this.emitToSocket(RoomEvent.Status, { status: this.status }, id);
+  }
+
+  /**
+   * Sort the players and emit the scoreboard to all connected sockets
+   */
+  public emitScoreBoard(): void {
     this.sortPlayers();
     const players: EmitPlayer = this.players.map(({ id, name, score, currentRank }) => {
       return { id, name, score, rank: currentRank };
@@ -48,62 +125,49 @@ export default class Room {
     this.emit(RoomEvent.Players, players);
   }
 
-  public emitStatus() {
-    this.emit(RoomEvent.Status, { status: this.status });
-  }
-
-  public emitStatusToSocket(id: string) {
-    this.emitToSocket(RoomEvent.Status, { status: this.status }, id);
-  }
-
-  public emitToSocket(event: string, data: any, id: string) {
-    this.nameSpace.to(id).emit(event, data);
-  }
-
-  public gameStop() {}
-
+  /**
+   * Get a player with a socket id
+   */
   public getPlayer(id: string): Player | undefined {
     return this.players.find((player) => player.id === id);
   }
 
-  public getPlayers() {
-    return this.players.map(({ id, name, score }) => ({ name, score, id }));
+  /**
+   * Reset all players for a new game
+   */
+  public resetPlayersForNewGame() {
+    this.players.forEach((player) => player.resetForNewGame());
   }
 
-  public initGame() {}
-
-  public roomLoop(): void {
-    this.nameSpace.on(RoomEvent.Connection, (socket: Socket) => {
-      this.sendRoomInfos(socket);
-      this.addPlayer(socket);
-      this.startGame(socket);
-      socket.on(RoomEvent.Disconnect, () => {
-        this.removePlayer(socket);
-        if (this.players.length <= 0) {
-          this.gameStop();
-          this.status = RoomStatus.Waiting;
-        }
-      });
-    });
+  /**
+   * Reset all players for a new round
+   */
+  public resetPlayersForNewRound(): void {
+    this.players.forEach((player) => player.resetForNewRound());
   }
 
-  private removePlayer(socket: Socket) {
-    this.players = this.players.filter(({ id }) => id !== socket.id);
-    this.emitScoreBoard();
-  }
-
-  private sendRoomInfos(socket: Socket) {
+  /**
+   * Send room informations to a socket
+   */
+  private sendRoomInfos(socket: Socket): void {
     this.emitToSocket(RoomEvent.Infos, { difficulty: this.difficulty }, socket.id);
   }
 
-  public setStatus(status: RoomStatus) {
+  /**
+   * Edit room status and emit it to all connected sockets
+   */
+  public setStatus(status: RoomStatus): void {
     this.status = status;
-    this.emit(RoomEvent.Status, { status: this.status });
+    this.emitStatus();
   }
 
-  public sortPlayers() {
+  /**
+   * Sort all the players by score
+   */
+  public sortPlayers(): void {
     this.players.sort((a, b) => b.score - a.score);
   }
 
-  public startGame(_socket: Socket) {}
+  public joinGame(_socket: Socket): void {}
+  public gameStop(): void {}
 }

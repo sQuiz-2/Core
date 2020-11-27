@@ -1,7 +1,6 @@
 import { Difficulty } from '../enums/Difficulty';
 
 export type Room = {
-  title: string;
   difficulty: Difficulty;
   id: string;
   players: number;

@@ -5,7 +5,7 @@ import { DisplayPlayer } from '@Src/global/playerInfoState';
 import timerState from '@Src/global/timerState';
 import { useSocketListener } from '@Src/utils/hooks/socketListener';
 import { useSound } from '@Src/utils/hooks/sound';
-import { Difficulty, RoomStatus, EmitQuestion } from '@squiz/shared';
+import { Difficulty, RoomStatus, EmitQuestion, GameTime } from '@squiz/shared';
 import React, { useEffect } from 'react';
 import { View } from 'react-native';
 import { useSetRecoilState } from 'recoil';
@@ -33,7 +33,7 @@ export default function GameInProgess({ status, players, roomInfos }: GameInProg
   useEffect(() => {
     switch (status) {
       case RoomStatus.Starting:
-        setTime(20);
+        setTime(GameTime.Question + GameTime.Answer);
         gameStartSound.play();
     }
   }, [status]);

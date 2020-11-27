@@ -1,7 +1,3 @@
-/**
- * Quizz game object
- */
-
 import {
   parseAnswer,
   GameEvent,
@@ -12,36 +8,76 @@ import {
   EmitRanks,
   EmitQuestions,
   EmitQuestion,
+  GameTime,
 } from '@squiz/shared';
 import Round from 'App/Models/Round';
 import { Socket } from 'socket.io';
 import stringSimilarity from 'string-similarity';
 
 import Player from './Player';
-import Room from './Room';
+import Room, { RoomProps } from './Room';
 
 enum EventEmiter {
   Start = 'start',
 }
 
+const SECOND = 1000;
+
 export default class Quiz extends Room {
-  answerTimer: NodeJS.Timeout | null = null;
-  currentAnswers: string[] = [];
-  currentNumberOfValidAnswers: number = 0;
-  endTimer: NodeJS.Timeout | null = null;
-  parsedAnswers: { answer: string }[] = [];
-  isGuessTime: boolean = false;
-  currentRound: Round | null = null;
-  rounds: Round[] = [];
-  roundsCounter: number = 0;
+  /**
+   * Used for the interval between each rounds
+   */
   roundTimer: NodeJS.Timeout | null = null;
 
   /**
-   * playerGoodAnswer:
-   * Add points to a player and update the scoreboard
+   * Timout before emiting answer
    */
+  answerTimer: NodeJS.Timeout | null = null;
 
-  private playerGoodAnswer(player: Player, rank: number) {
+  /**
+   * Timout before starting a new game
+   */
+  endTimer: NodeJS.Timeout | null = null;
+
+  /**
+   * Rounds for the game
+   */
+  rounds: Round[] = [];
+
+  /**
+   * Answers for the current round
+   */
+  currentAnswers: string[] = [];
+
+  /**
+   * Number of valid answers given by the sockets for the current round
+   */
+  currentNumberOfValidAnswers: number = 0;
+
+  /**
+   * Boolean used to allow or disallow all sockets to give a guess
+   */
+  isGuessTime: boolean = false;
+
+  /**
+   * Current round data
+   */
+  currentRound: Round | null = null;
+
+  /**
+   * Keep track of the number of rounds done
+   */
+  roundsCounter: number = 0;
+
+  constructor(props: RoomProps) {
+    super(props);
+    this.eventEmitter.on(EventEmiter.Start, this.startGame.bind(this));
+  }
+
+  /**
+   * Compute player score and emit score updates
+   */
+  private playerGoodAnswer(player: Player, rank: number): void {
     const scoreDetail: EmitScoreDetails = player.performsValidAnswer(rank, this.roundsCounter);
     this.emitToSocket(GameEvent.AnswerIsValid, { valid: true }, player.id);
     this.emitToSocket(GameEvent.ScoreDetail, scoreDetail, player.id);
@@ -49,28 +85,27 @@ export default class Quiz extends Room {
     this.emitScoreBoard();
   }
 
-  private playerWrongAnswer(player: Player) {
+  /**
+   * Handle player wrong answer
+   */
+  private playerWrongAnswer(player: Player): void {
     player.performUnvalidAnswer();
     this.emitToSocket(GameEvent.AnswerIsValid, { valid: false }, player.id);
   }
 
   /**
-   * emitAnswer:
-   * Emit the answer to players
+   * Emit the answer to all connected sockets
    */
-
-  private emitAnswer() {
+  private emitAnswer(): void {
     if (!this.currentRound) return;
     const answers: EmitAnswer = this.currentRound.answers.map((answer) => answer);
     this.emit(GameEvent.Answer, answers);
   }
 
   /**
-   * emitMissingRanks:
-   * Emit ranks for players who didn't correctly answered
+   * Emit ranks for players who didn't answered correctly
    */
-
-  private emitMissingRanks() {
+  private emitMissingRanks(): void {
     this.players.forEach((player) => {
       if (player.ranks[this.roundsCounter] === GameRank.RoundComing) {
         player.ranks[this.roundsCounter] = GameRank.NotAnswered;
@@ -79,7 +114,10 @@ export default class Quiz extends Room {
     });
   }
 
-  private emitQuestion(round: Round) {
+  /**
+   * Emit round to all connected sockets
+   */
+  private emitCurrentRound(round: Round): void {
     const emitQuestion: EmitQuestion = {
       question: round.question,
       maxRound: this.rounds.length,
@@ -90,7 +128,10 @@ export default class Quiz extends Room {
     this.emit(GameEvent.Question, emitQuestion);
   }
 
-  private emitQuestions() {
+  /**
+   * Emit all rounds to all connected sockets
+   */
+  private emitAllRounds(): void {
     const questions: EmitQuestions = this.rounds.map(({ id, question, answers }) => {
       const onlyAnswers = answers.map(({ answer }) => answer);
       return { id, question, answers: onlyAnswers };
@@ -99,42 +140,108 @@ export default class Quiz extends Room {
   }
 
   /**
-   * emitRanks:
-   * Emit player ranks
+   * Emit ranks to a socket
    */
-
-  private emitRanks(id: string, ranks: EmitRanks) {
+  private emitRanks(id: string, ranks: EmitRanks): void {
     this.emitToSocket(GameEvent.Ranks, ranks, id);
   }
 
   /**
-   * emitRound:
-   * Emit new rounds to the players
+   * Init a new round
    */
-
-  private async emitRound() {
-    const newRound = this.rounds[this.roundsCounter];
-    if (!newRound) return;
-    this.currentRound = newRound;
-    this.emitQuestion(newRound);
-    this.currentAnswers = newRound.answers.map(({ answer }) => parseAnswer(answer));
+  private setNewCurrentRound(): Round | null {
+    const round = this.rounds[this.roundsCounter];
+    console.log(round);
+    if (!round) return null;
+    this.currentRound = round;
+    this.currentAnswers = round.answers.map(({ answer }) => parseAnswer(answer));
+    return round;
   }
 
-  private gameLoop() {
-    this.resetRoom();
-    this.setStatus(RoomStatus.Starting);
-    // Be prepared. Loading time before the game starts
-    this.roundTimer = global.setInterval(() => {
-      this.setStatus(RoomStatus.InProgress);
-      if (this.roundsCounter >= this.rounds.length) {
-        this.finishRound();
-      } else {
-        this.handleRound();
+  /**
+   * Check if the game is finish or not.
+   * Start a new round if it's not otherwise go to gameEnd
+   */
+  private startNewRound(): void {
+    this.emitScoreBoard();
+    this.setStatus(RoomStatus.InProgress);
+    if (this.roundsCounter >= this.rounds.length) {
+      this.gameEnd();
+    } else {
+      this.resetRoomForNewRound();
+      const round = this.setNewCurrentRound();
+      if (round) {
+        this.emitCurrentRound(round);
       }
-    }, 20 * 1000);
+      // Wait the round time then send the answer
+      this.answerTimer = setTimeout(() => this.roundEnd(), GameTime.Question * SECOND);
+    }
   }
 
-  public gameStop() {
+  /**
+   * Handle round end
+   */
+  private roundEnd(): void {
+    this.emitMissingRanks();
+    this.isGuessTime = false;
+    this.roundsCounter++;
+    this.resetPlayersForNewRound();
+    this.emitAnswer();
+  }
+
+  /**
+   * Start a new game
+   */
+  private startGame(): void {
+    this.resetRoomForNewGame();
+    this.setStatus(RoomStatus.Starting);
+    this.roundTimer = setInterval(
+      () => this.startNewRound(),
+      (GameTime.Question + GameTime.Answer) * SECOND,
+    );
+  }
+
+  /**
+   * Start the game if needed and create event listener for guesses
+   */
+  public joinGame(socket: Socket): void {
+    this.emitStatusToSocket(socket.id);
+    // We need at least one player to start the game
+    if (this.status === RoomStatus.Waiting && this.players.length >= 1) {
+      this.eventEmitter.emit(EventEmiter.Start);
+    }
+    socket.on(GameEvent.Guess, (guess) => this.playerGuess(socket.id, guess));
+  }
+
+  /**
+   * emit endGame infos and wait for restart
+   */
+  private gameEnd(): void {
+    // End the room and reset everyone
+    this.setStatus(RoomStatus.Ended);
+    this.emitAllRounds();
+    if (this.roundTimer) {
+      clearInterval(this.roundTimer);
+    }
+    // Loading time before the next game
+    this.endTimer = setTimeout(() => this.restartGame(), GameTime.End * SECOND);
+  }
+
+  /**
+   * Restart game or stop it if not enought sockets
+   */
+  private restartGame(): void {
+    if (this.players.length > 0) {
+      this.eventEmitter.emit(EventEmiter.Start);
+    } else {
+      this.setStatus(RoomStatus.Waiting);
+    }
+  }
+
+  /**
+   * Clear all timers
+   */
+  public gameStop(): void {
     if (this.roundTimer) {
       clearInterval(this.roundTimer);
     }
@@ -146,88 +253,64 @@ export default class Quiz extends Room {
     }
   }
 
-  private handleRound() {
-    this.currentNumberOfValidAnswers = 0;
-    this.isGuessTime = true;
-    this.emitRound();
-    this.emitScoreBoard();
-    this.answerTimer = global.setTimeout(() => {
-      this.emitMissingRanks();
-      this.isGuessTime = false;
-      this.roundsCounter++;
-      // Reset each player attributes to make them ready for the next round
-      this.resetPlayersForNewRound();
-      this.emitAnswer();
-    }, 15 * 1000);
-  }
-
-  private finishRound() {
-    // End the room and reset everyone
-    this.setStatus(RoomStatus.Ended);
-    this.emitQuestions();
-    if (this.roundTimer) {
-      clearInterval(this.roundTimer);
-    }
-
-    // After 10 Seconds, Be ready for the next round
-    this.endTimer = global.setTimeout(() => {
-      this.setStatus(RoomStatus.Waiting);
-      if (this.players.length > 0) {
-        this.event.emit(EventEmiter.Start);
-      }
-    }, 30 * 1000);
-  }
-
-  public initGame() {
-    this.event.on(EventEmiter.Start, () => this.gameLoop());
-  }
-
-  private playerGuess(id: string, guess: string) {
-    const player = this.getPlayer(id);
-    // currentRound can be null so we check that the currentRound exists
-    if (!this.currentRound) return;
-    if (!guess || !player || this.currentAnswers.length < 1) return;
+  /**
+   * Check if perform guess is possible
+   */
+  private canPerformGuess(player: Player | undefined, guess: string): boolean {
     if (
+      !this.currentRound ||
+      !guess ||
+      !player ||
+      this.currentAnswers.length < 1 ||
       this.isGuessTime === false ||
-      player.canPerformAnswer(this.currentRound!.maxNumberOfGuesses) === false
-    )
-      return;
-    const result = stringSimilarity.findBestMatch(guess.toLowerCase(), this.currentAnswers);
+      !player.canPerformGuess(this.currentRound.maxNumberOfGuesses)
+    ) {
+      return false;
+    }
+    return true;
+  }
 
+  /**
+   * Handle sockets guesses
+   */
+  private playerGuess(id: string, guess: string): void {
+    const player = this.getPlayer(id);
+    if (!this.canPerformGuess(player, guess)) {
+      return;
+    }
+    const result = stringSimilarity.findBestMatch(guess, this.currentAnswers);
     if (result.bestMatch.rating >= 0.8) {
       // correct answer
       this.currentNumberOfValidAnswers++;
-      this.playerGoodAnswer(player, this.currentNumberOfValidAnswers);
+      this.playerGoodAnswer(player!, this.currentNumberOfValidAnswers);
     } else {
       // bad answer
-      this.playerWrongAnswer(player);
+      this.playerWrongAnswer(player!);
     }
   }
 
-  private resetPlayers() {
-    this.players.forEach((player) => player.reset());
-  }
-
-  private resetRoom() {
-    this.resetPlayers();
+  /**
+   * Reset the room for a new game
+   */
+  private resetRoomForNewGame(): void {
+    this.resetPlayersForNewGame();
     this.pullRandomRounds();
     this.roundsCounter = 0;
     this.emitScoreBoard();
   }
 
-  private resetPlayersForNewRound(): void {
-    this.players.forEach((player) => player.resetForNewRound());
+  /**
+   * Reset the room for a new round
+   */
+  private resetRoomForNewRound(): void {
+    this.currentNumberOfValidAnswers = 0;
+    this.isGuessTime = true;
   }
 
-  public startGame(socket: Socket) {
-    this.emitStatusToSocket(socket.id);
-    if (this.status === RoomStatus.Waiting && this.players.length >= 1) {
-      this.event.emit(EventEmiter.Start);
-    }
-    socket.on(GameEvent.Guess, (guess) => this.playerGuess(socket.id, guess));
-  }
-
-  private async pullRandomRounds() {
+  /**
+   * Pull new random rounds
+   */
+  private async pullRandomRounds(): Promise<void> {
     const roundIds = await Round.query()
       .select('id')
       .where('validated', true)
