@@ -27,7 +27,6 @@ class RoomPool {
   public addRoom(game: Game): void {
     const roomNumber = this.rooms.length.toString(); // Get a unique ID for the room
     const roomData = {
-      title: game.title,
       difficulty: game.difficulty,
       nameSpace: Ws.io.of(roomNumber),
       roomNumber,
@@ -40,8 +39,8 @@ class RoomPool {
    * Return all rooms
    */
   public getRooms(): EmitRoom {
-    const roomNames = this.rooms.map(({ title, id, players, difficulty }) => {
-      return { title, id, players: players.length, difficulty };
+    const roomNames = this.rooms.map(({ id, players, difficulty }) => {
+      return { id, players: players.length, difficulty };
     });
     return roomNames;
   }
