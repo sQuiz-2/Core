@@ -51,6 +51,11 @@ export default class Player {
    */
   currentRank: number = GameRank.RoundComing;
 
+  /**
+   * Player is connected or not ?
+   */
+  disconnected: boolean = false;
+
   constructor(props: Props) {
     this.id = props.id;
     this.name = props.name;
@@ -128,9 +133,28 @@ export default class Player {
     this.find = false;
   }
 
+  /**
+   * Update player find status
+   */
   public setFind(find: boolean) {
     if (this.find === !find) {
       this.find = find;
     }
+  }
+
+  /**
+   * Update disconnected prop to true
+   */
+  public disconnect(): void {
+    this.disconnected = true;
+  }
+
+  /**
+   * Update disconnected prop to false and
+   * update player id
+   */
+  public reconnect(id: string): void {
+    this.disconnected = false;
+    this.id = id;
   }
 }

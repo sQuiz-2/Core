@@ -14,3 +14,8 @@ export enum RoomEvent {
   Rooms = 'rooms',
   RoomUpdate = 'roomUpdate',
 }
+
+export enum SocketErrors {
+  AlreadyConnected = 'Already connected',
+  MissingParameter = 'Missing parameter',
+}

@@ -1,4 +1,11 @@
-import { Difficulty, RoomStatus, RoomEvent, EmitPlayer, EmitRoomUpdate } from '@squiz/shared';
+import {
+  Difficulty,
+  RoomStatus,
+  RoomEvent,
+  EmitPlayer,
+  EmitRoomUpdate,
+  SocketErrors,
+} from '@squiz/shared';
 import Ws from 'App/Services/Ws';
 import { EventEmitter } from 'events';
 import { Namespace, Socket } from 'socket.io';
@@ -45,9 +52,38 @@ export default class Room {
 
   constructor({ roomNumber, difficulty }: RoomProps) {
     this.nameSpace = Ws.io.of(roomNumber);
+    this.nameSpace.use(this.preConnection.bind(this));
     this.nameSpace.on(RoomEvent.Connection, this.connection.bind(this));
     this.id = roomNumber;
     this.difficulty = difficulty;
+  }
+
+  /**
+   * Middleware to check if the player is not already connected
+   */
+  private preConnection(socket: Socket, next: (err?: any) => void): void {
+    const name = socket.handshake?.query?.pseudo;
+    if (!name) {
+      return next(new Error(SocketErrors.MissingParameter));
+    }
+    // Let's make sure you are not already in this room !
+    const player = this.getPlayerByName(name);
+    if (player) {
+      // Hummm how can you be here and also in the room ??? Have you been disconected ?
+      if (!player.disconnected) {
+        // It's seems you'r already playing in this room !
+        return next(new Error(SocketErrors.AlreadyConnected));
+      }
+      // Ok you have been disconnected,
+      // we are going to make a new link between your new connection and your saved data
+    }
+    // todo: authenticate the player
+    if (player) {
+      player.reconnect(socket.id);
+    } else {
+      this.addPlayer(name, socket.id);
+    }
+    next();
   }
 
   /**
@@ -55,7 +91,7 @@ export default class Room {
    */
   private connection(socket: Socket): void {
     this.emitRoomInfos(socket);
-    this.addPlayer(socket);
+    this.emitScoreBoard();
     this.joinGame(socket);
     this.updateRoom();
     socket.on(RoomEvent.Disconnection, () => this.disconnection(socket));
@@ -63,14 +99,38 @@ export default class Room {
 
   /**
    * Run on each socket deconnection
+   * keep the player if the game is in progress
+   * remove the player if the game is not in progress
    */
   private disconnection(socket: Socket): void {
-    this.removePlayer(socket);
-    this.updateRoom();
-    if (this.players.length <= 0) {
-      this.gameStop();
-      this.status = RoomStatus.Waiting;
+    if (this.status === RoomStatus.InProgress) {
+      this.disconnectPlayer(socket.id);
+    } else {
+      this.removePlayer(socket);
+      this.updateRoom();
+      if (this.players.length <= 0) {
+        this.gameStop();
+        this.status = RoomStatus.Waiting;
+      }
     }
+  }
+
+  /**
+   * Update player prop disconnected to true and
+   * keep the player in memory
+   */
+  private disconnectPlayer(id: string): void {
+    const player = this.getPlayer(id);
+    if (!player) return;
+    player.disconnect();
+  }
+
+  /**
+   * Remove disconnected players
+   */
+  public removeDisconnectedPlayers(): void {
+    this.players = this.players.filter((player) => !player.disconnected);
+    this.updateRoom();
   }
 
   /**
@@ -84,9 +144,8 @@ export default class Room {
   /**
    * Store a new player and emit the new scoreboard
    */
-  private addPlayer(socket: Socket): void {
-    this.players.push(new Player({ name: socket.handshake.query.pseudo, id: socket.id }));
-    this.emitScoreBoard();
+  private addPlayer(name: string, id: string): void {
+    this.players.push(new Player({ name, id }));
   }
 
   /**
@@ -141,6 +200,13 @@ export default class Room {
    */
   public getPlayer(id: string): Player | undefined {
     return this.players.find((player) => player.id === id);
+  }
+
+  /**
+   * Get a player with a socket id
+   */
+  public getPlayerByName(name: string): Player | undefined {
+    return this.players.find((player) => player.name === name);
   }
 
   /**
