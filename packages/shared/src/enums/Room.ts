@@ -11,4 +11,6 @@ export enum RoomEvent {
   Players = 'players',
   Status = 'status',
   Infos = 'infos',
+  Rooms = 'rooms',
+  RoomUpdate = 'roomUpdate',
 }

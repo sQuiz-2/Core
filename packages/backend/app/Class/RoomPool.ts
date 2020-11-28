@@ -1,6 +1,5 @@
-import { EmitRoom } from '@squiz/shared';
+import { EmitRooms } from '@squiz/shared';
 import Game from 'App/Models/Game';
-import Ws from 'App/Services/Ws';
 
 import Quiz from './Quiz';
 import Room from './Room';
@@ -28,7 +27,6 @@ class RoomPool {
     const roomNumber = this.rooms.length.toString(); // Get a unique ID for the room
     const roomData = {
       difficulty: game.difficulty,
-      nameSpace: Ws.io.of(roomNumber),
       roomNumber,
     };
     const room = new Quiz(roomData);
@@ -38,11 +36,11 @@ class RoomPool {
   /**
    * Return all rooms
    */
-  public getRooms(): EmitRoom {
-    const roomNames = this.rooms.map(({ id, players, difficulty }) => {
+  public getRooms(): EmitRooms {
+    const rooms = this.rooms.map(({ id, players, difficulty }) => {
       return { id, players: players.length, difficulty };
     });
-    return roomNames;
+    return rooms;
   }
 }
 
