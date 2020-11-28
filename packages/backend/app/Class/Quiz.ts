@@ -151,7 +151,6 @@ export default class Quiz extends Room {
    */
   private setNewCurrentRound(): Round | null {
     const round = this.rounds[this.roundsCounter];
-    console.log(round);
     if (!round) return null;
     this.currentRound = round;
     this.currentAnswers = round.answers.map(({ answer }) => parseAnswer(answer));
@@ -231,6 +230,7 @@ export default class Quiz extends Room {
    * Restart game or stop it if not enought sockets
    */
   private restartGame(): void {
+    this.removeDisconnectedPlayers();
     if (this.players.length > 0) {
       this.eventEmitter.emit(EventEmiter.Start);
     } else {
