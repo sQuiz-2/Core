@@ -1,4 +1,4 @@
-import { EmitRoom } from '@squiz/shared';
+import { EmitRooms } from '@squiz/shared';
 import React from 'react';
 import { View } from 'react-native';
 
@@ -9,7 +9,7 @@ import HomeRooms from '../Rooms/HomeRooms';
 import useHomeContainerStyle from './HomeContainerStyle';
 
 type HomeContainerProp = {
-  rooms: EmitRoom;
+  rooms: EmitRooms;
 };
 
 export default function HomeContainer({ rooms }: HomeContainerProp) {

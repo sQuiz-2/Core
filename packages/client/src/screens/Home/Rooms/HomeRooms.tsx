@@ -1,10 +1,10 @@
 import { GameCard } from '@Src/components/Card';
 import { useNavigation } from '@react-navigation/native';
-import { EmitRoom } from '@squiz/shared';
+import { EmitRooms } from '@squiz/shared';
 import React from 'react';
 
 type HomeRoomProps = {
-  rooms: EmitRoom;
+  rooms: EmitRooms;
 };
 
 export default function HomeRooms({ rooms }: HomeRoomProps) {
