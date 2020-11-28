@@ -6,7 +6,12 @@ export type Room = {
   players: number;
 };
 
-export type EmitRoom = Room[];
+export type EmitRooms = Room[];
+
+export type EmitRoomUpdate = {
+  id: string;
+  players: number;
+};
 
 export type EmitQuestion = {
   question: string;

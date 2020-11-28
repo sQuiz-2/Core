@@ -1,36 +1,43 @@
 import { CenterContainer } from '@Src/components/Containers';
 import getEnv from '@Src/constant/index';
-import { HomeNavigationProp } from '@Src/typings/navigation';
-import { useTheme } from '@react-navigation/native';
-import { EmitRoom } from '@squiz/shared';
-import React, { useState, useEffect } from 'react';
+import { useTheme, useFocusEffect } from '@react-navigation/native';
+import { EmitRooms, EmitRoomUpdate, RoomEvent } from '@squiz/shared';
+import React, { useState, useRef } from 'react';
 import { ActivityIndicator } from 'react-native';
 import io from 'socket.io-client';
 
 import HomeContainer from '../HomeContainer';
 
-type Props = {
-  navigation: HomeNavigationProp<'Home'>;
-};
-
-export default function Home({ navigation }: Props) {
+export default function Home() {
   const { colors } = useTheme();
-  const [rooms, setRooms] = useState<EmitRoom>([]);
-  const [error, setError] = useState<string | null>(null);
-  let socket = null;
+  const [rooms, setRooms] = useState<EmitRooms>([]);
+  const socket = useRef<SocketIOClient.Socket | null>(null);
 
-  useEffect(function mount() {
-    socket = io(getEnv().backendUrl, { reconnectionAttempts: 3 });
-    socket.on('full', (error: string) => {
-      navigation.navigate('Home');
-      setError(error);
-    });
-    socket.on('rooms', (data: EmitRoom) => {
-      setRooms(data);
-    });
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      if (socket.current) return;
+      socket.current = io(getEnv().backendUrl, { reconnectionAttempts: 3 });
+      socket.current.on(RoomEvent.Rooms, setRooms);
+      socket.current.on(RoomEvent.RoomUpdate, updateRoom);
+      return () => {
+        if (!socket.current) return;
+        socket.current?.close();
+        socket.current = null;
+      };
+    }, [])
+  );
 
-  if (!error && rooms.length < 1) {
+  function updateRoom(data: EmitRoomUpdate) {
+    setRooms((oldRooms) => {
+      const rooms = [...oldRooms];
+      const room = rooms.find((room) => room.id === data.id);
+      if (!room) return oldRooms;
+      room.players = data.players;
+      return rooms;
+    });
+  }
+
+  if (rooms.length < 1) {
     return (
       <CenterContainer>
         <ActivityIndicator color={colors.text} />

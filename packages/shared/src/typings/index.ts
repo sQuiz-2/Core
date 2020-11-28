@@ -1,7 +1,8 @@
 export type { default as News } from './News';
 export type {
   Room,
-  EmitRoom,
+  EmitRooms,
+  EmitRoomUpdate,
   EmitQuestion,
   Answer,
   EmitAnswer,

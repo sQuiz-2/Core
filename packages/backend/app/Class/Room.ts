@@ -1,11 +1,11 @@
-import { Difficulty, RoomStatus, RoomEvent, EmitPlayer } from '@squiz/shared';
+import { Difficulty, RoomStatus, RoomEvent, EmitPlayer, EmitRoomUpdate } from '@squiz/shared';
+import Ws from 'App/Services/Ws';
 import { EventEmitter } from 'events';
 import { Namespace, Socket } from 'socket.io';
 
 import Player from './Player';
 
 export type RoomProps = {
-  nameSpace: Namespace;
   roomNumber: string;
   difficulty: Difficulty;
 };
@@ -43,8 +43,9 @@ export default class Room {
    */
   status: RoomStatus = RoomStatus.Waiting;
 
-  constructor({ nameSpace, roomNumber, difficulty }: RoomProps) {
-    this.nameSpace = nameSpace.on(RoomEvent.Connection, this.connection.bind(this));
+  constructor({ roomNumber, difficulty }: RoomProps) {
+    this.nameSpace = Ws.io.of(roomNumber);
+    this.nameSpace.on(RoomEvent.Connection, this.connection.bind(this));
     this.id = roomNumber;
     this.difficulty = difficulty;
   }
@@ -53,9 +54,10 @@ export default class Room {
    * Run on each socket connection
    */
   private connection(socket: Socket): void {
-    this.sendRoomInfos(socket);
+    this.emitRoomInfos(socket);
     this.addPlayer(socket);
     this.joinGame(socket);
+    this.updateRoom();
     socket.on(RoomEvent.Disconnection, () => this.disconnection(socket));
   }
 
@@ -64,10 +66,19 @@ export default class Room {
    */
   private disconnection(socket: Socket): void {
     this.removePlayer(socket);
+    this.updateRoom();
     if (this.players.length <= 0) {
       this.gameStop();
       this.status = RoomStatus.Waiting;
     }
+  }
+
+  /**
+   * Update home information
+   */
+  private updateRoom(): void {
+    const roomUpdate: EmitRoomUpdate = { id: this.id, players: this.players.length };
+    Ws.io.emit(RoomEvent.RoomUpdate, roomUpdate);
   }
 
   /**
@@ -149,7 +160,7 @@ export default class Room {
   /**
    * Send room informations to a socket
    */
-  private sendRoomInfos(socket: Socket): void {
+  private emitRoomInfos(socket: Socket): void {
     this.emitToSocket(RoomEvent.Infos, { difficulty: this.difficulty }, socket.id);
   }
 
