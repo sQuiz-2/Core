@@ -1,3 +1,4 @@
+import SocketError from '@Src/components/SocketError';
 import { DisplayPlayer } from '@Src/global/playerInfoState';
 import userState from '@Src/global/userState';
 import { HomeNavigatorProps } from '@Src/typings/navigation';
@@ -20,7 +21,7 @@ import GameInProgess from '../GameInProgress/GameInPrgress';
 
 export default function Room({ route }: HomeNavigatorProps<'Room'>) {
   const { username } = useRecoilValue(userState);
-  useSocketConnect(route.params.id, { pseudo: username });
+  const { error } = useSocketConnect(route.params.id, { pseudo: username });
   const status: { status: RoomStatus } = useSocketListener(RoomEvent.Status, RoomStatus.Waiting);
   const players: EmitPlayer = useSocketListener(RoomEvent.Players, []);
   const [displayPlayer, setDisplayPlayer] = useState<DisplayPlayer[]>([]);
@@ -32,6 +33,10 @@ export default function Room({ route }: HomeNavigatorProps<'Room'>) {
     const displayPlayer = setPlayersPosition(players);
     setDisplayPlayer(displayPlayer);
   }, [players]);
+
+  if (error) {
+    return <SocketError error={error} />;
+  }
 
   if (status.status === RoomStatus.Ended) {
     return <GameEnd players={displayPlayer} questions={questions} />;

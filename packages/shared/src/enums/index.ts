@@ -6,4 +6,4 @@ export { GameRank, GameEvent, GameTime } from './Game';
 export { ProviderEnum, GetProviders } from './oAuthProviders';
 export type { Provider } from './oAuthProviders';
 
-export { RoomEvent, RoomStatus } from './Room';
+export { RoomEvent, RoomStatus, SocketErrors } from './Room';
