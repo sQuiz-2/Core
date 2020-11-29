@@ -11,6 +11,10 @@ function getErrorMessage(error: string) {
       return '🤯 Ton compte est déjà connecté dans un autre onglet !';
     case SocketErrors.MissingParameter:
       return '🤔 Un paramètre est manquant';
+    case SocketErrors.ServerFull:
+      return '😱 Le serveur est full !';
+    case SocketErrors.ExceedMaxConnectionPerIp:
+      return '🙄 La limite de connexion avec cette adresse ip a été atteinte';
     default:
       return '💥 Une erreur est survenue !';
   }

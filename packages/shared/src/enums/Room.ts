@@ -13,9 +13,12 @@ export enum RoomEvent {
   Infos = 'infos',
   Rooms = 'rooms',
   RoomUpdate = 'roomUpdate',
+  Error = 'error',
 }
 
 export enum SocketErrors {
-  AlreadyConnected = 'Already connected',
-  MissingParameter = 'Missing parameter',
+  AlreadyConnected = 'ac',
+  MissingParameter = 'mp',
+  ServerFull = 'sf',
+  ExceedMaxConnectionPerIp = 'em',
 }

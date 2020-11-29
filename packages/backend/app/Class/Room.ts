@@ -17,6 +17,8 @@ export type RoomProps = {
   difficulty: Difficulty;
 };
 
+const MAX_PLAYERS = 30;
+
 export default class Room {
   /**
    * Unique id identifier
@@ -62,6 +64,9 @@ export default class Room {
    * Middleware to check if the player is not already connected
    */
   private preConnection(socket: Socket, next: (err?: any) => void): void {
+    if (this.players.length >= MAX_PLAYERS) {
+      return next(new Error(SocketErrors.ServerFull));
+    }
     const name = socket.handshake?.query?.pseudo;
     if (!name) {
       return next(new Error(SocketErrors.MissingParameter));
