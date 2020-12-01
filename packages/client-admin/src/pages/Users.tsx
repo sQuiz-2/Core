@@ -2,11 +2,12 @@ import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import { DataGrid, ColDef } from '@material-ui/data-grid';
 import Add from '@material-ui/icons/Add';
+import { GetUsers } from '@squiz/shared';
 import React from 'react';
 import { useQuery } from 'react-query';
 
 import RequestErrors from '../components/RequestErrors';
-import client from '../tools/WrappedFetch';
+import { get } from '../tools/WrappedFetch';
 
 const columns: ColDef[] = [
   { field: 'id' },
@@ -24,8 +25,8 @@ export default function Users() {
   const classes = useStyles();
   const { isLoading, isError, data, error } = useQuery(
     'users',
-    () => {
-      return client('users', null, { method: 'GET' });
+    async () => {
+      return get<GetUsers>('users');
     },
     { retry: 1 }
   );

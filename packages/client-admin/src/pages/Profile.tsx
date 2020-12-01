@@ -9,7 +9,7 @@ import RequestErrors from '../components/RequestErrors';
 import RequestSuccess from '../components/RequestSuccess';
 import LocationState from '../global/LocationState';
 import { getUser } from '../tools/Auth';
-import client from '../tools/WrappedFetch';
+import { post } from '../tools/WrappedFetch';
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -31,7 +31,7 @@ export default function Profile() {
   const setLocation = useSetRecoilState(LocationState);
   const { register, handleSubmit } = useForm<FormData>();
   const [mutate, { status, error, isLoading }] = useMutation((formData: FormData) => {
-    return client('password', formData, { method: 'POST' });
+    return post('password', formData);
   });
 
   const onSubmit = handleSubmit((credentials) => {

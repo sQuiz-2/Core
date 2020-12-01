@@ -13,3 +13,5 @@ export type {
   EmitPlayer,
   EmitQuestions,
 } from './Room';
+
+export * from './API';

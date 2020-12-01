@@ -14,7 +14,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 
 import RequestErrors from '../components/RequestErrors';
 import { storeUser } from '../tools/Auth';
-import client from '../tools/WrappedFetch';
+import { post } from '../tools/WrappedFetch';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -45,7 +45,7 @@ export default function SignIn() {
   const classes = useStyles();
   const { register, handleSubmit } = useForm<FormData>();
   const [mutate, { status, data, error, isLoading }] = useMutation((formData: FormData) => {
-    return client('login', formData, { method: 'POST' });
+    return post<{ email: string; token: string }>('login', formData);
   });
   const history = useHistory();
   const location = useLocation();

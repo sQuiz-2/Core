@@ -1,10 +1,12 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
+import { GetUsers } from '@squiz/shared';
 import User from 'App/Models/User';
 import UserValidator from 'App/Validators/UserValidator';
 
 export default class UsersController {
   public async index() {
-    return User.query().select('id', 'email');
+    const getUsers: GetUsers = await User.query().select('id', 'email');
+    return getUsers;
   }
 
   public async show({ params }: HttpContextContract) {
