@@ -1,10 +1,12 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
+import { GetGames } from '@squiz/shared';
 import Game from 'App/Models/Game';
 import GameValidator from 'App/Validators/GameValidator';
 
 export default class GamesController {
   public async index() {
-    return Game.query();
+    const games: GetGames = await Game.query().orderBy('id', 'asc');
+    return games;
   }
 
   public async store({ request }: HttpContextContract) {
