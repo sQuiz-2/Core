@@ -43,3 +43,10 @@ export async function put<T>(
 ): Promise<T | undefined> {
   return await http<T>(path, args);
 }
+
+export async function remove<T>(
+  path: string,
+  args: RequestInit = { method: 'delete' }
+): Promise<T | undefined> {
+  return await http<T>(path, args);
+}

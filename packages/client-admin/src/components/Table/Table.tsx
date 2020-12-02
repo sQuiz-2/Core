@@ -1,7 +1,7 @@
 // @ts-ignore
 import { useTable, usePagination } from 'react-table';
 
-export default function Table({ columns, data }: any) {
+export function Table({ columns, data }: any) {
   const {
     getTableProps,
     getTableBodyProps,
