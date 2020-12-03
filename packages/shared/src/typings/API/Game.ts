@@ -1,4 +1,5 @@
 import { Difficulty } from '../../enums';
+import { Paginate } from './Paginate';
 
 export type GetGame = {
   id: number;
@@ -10,4 +11,7 @@ export type GetGame = {
   difficulty: Difficulty;
 };
 
-export type GetGames = GetGame[];
+export type GetGames = {
+  meta: Paginate;
+  data: GetGame[];
+};

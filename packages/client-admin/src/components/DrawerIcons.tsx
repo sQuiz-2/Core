@@ -2,8 +2,8 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import Help from '@material-ui/icons/Help';
 import HomeIcon from '@material-ui/icons/Home';
-import PeopleIcon from '@material-ui/icons/People';
 import SportsEsports from '@material-ui/icons/SportsEsports';
 import React, { useEffect } from 'react';
 import { useRouteMatch, useHistory } from 'react-router-dom';
@@ -52,7 +52,7 @@ export default function DrawerIcons() {
     <List>
       <AppBarIcon text="Accueil" url="/" icon={<HomeIcon />} />
       <AppBarIcon text="Salons" url="/games" icon={<SportsEsports />} />
-      <AppBarIcon text="Admins" url="/users" icon={<PeopleIcon />} />
+      <AppBarIcon text="Rounds" url="/rounds" icon={<Help />} />
     </List>
   );
 }

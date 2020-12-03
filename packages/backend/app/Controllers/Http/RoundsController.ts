@@ -1,11 +1,16 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
+import { GetRounds } from '@squiz/shared';
 import Round from 'App/Models/Round';
 import RoundValidator from 'App/Validators/RoundValidator';
 import RoundsValidator from 'App/Validators/RoundsValidator';
 
 export default class RoundsController {
   public async index() {
-    return Round.query().where('validated', true).preload('answers').preload('theme');
+    const rounds: GetRounds = await Round.query()
+      .where('validated', true)
+      .preload('answers')
+      .preload('theme');
+    return rounds;
   }
 
   public async store({ request }: HttpContextContract) {

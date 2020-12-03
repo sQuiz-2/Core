@@ -1,7 +1,8 @@
+import { useEffect } from 'react';
 // @ts-ignore
 import { useTable, usePagination } from 'react-table';
 
-export function Table({ columns, data }: any) {
+export function Table({ columns, data, fetchData, maxPage }: any) {
   const {
     getTableProps,
     getTableBodyProps,
@@ -15,17 +16,23 @@ export function Table({ columns, data }: any) {
     gotoPage,
     nextPage,
     previousPage,
-    state: { pageIndex },
+    setPageSize,
+    state: { pageIndex, pageSize },
   } = useTable(
     {
       columns,
       data,
-      initialState: { pageIndex: 0 },
+      initialState: { pageIndex: 0, pageSize: 10 },
+      manualPagination: true,
+      pageCount: maxPage,
     },
     usePagination
   );
 
-  // Render the UI for your table
+  useEffect(() => {
+    fetchData({ pageIndex: pageIndex + 1, pageSize });
+  }, [fetchData, pageIndex, pageSize]);
+
   return (
     <>
       <div className="max-w-full">
@@ -92,6 +99,17 @@ export function Table({ columns, data }: any) {
             {pageIndex + 1} of {pageOptions.length}
           </strong>{' '}
         </span>
+        <select
+          value={pageSize}
+          onChange={(e) => {
+            setPageSize(Number(e.target.value));
+          }}>
+          {[10, 20, 30, 40, 50].map((pageSize) => (
+            <option key={pageSize} value={pageSize}>
+              {pageSize}
+            </option>
+          ))}
+        </select>
       </div>
     </>
   );

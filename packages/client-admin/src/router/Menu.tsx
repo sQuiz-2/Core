@@ -5,7 +5,7 @@ import Games from 'src/pages/Games';
 import Container from '../components/Container';
 import Home from '../pages/Home';
 import Profile from '../pages/Profile';
-import Users from '../pages/Users';
+import Rounds from '../pages/Rounds';
 
 export default function MenuRouter() {
   return (
@@ -20,8 +20,8 @@ export default function MenuRouter() {
         <Route path="/games">
           <Games />
         </Route>
-        <Route path="/users">
-          <Users />
+        <Route path="/rounds">
+          <Rounds />
         </Route>
       </Switch>
     </Container>
