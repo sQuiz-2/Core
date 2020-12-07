@@ -107,8 +107,8 @@ export default class Quiz extends Room {
    */
   private emitMissingRanks(): void {
     this.players.forEach((player) => {
-      if (player.ranks[this.roundsCounter] === GameRank.RoundComing) {
-        player.ranks[this.roundsCounter] = GameRank.NotAnswered;
+      if (player.currentRank === GameRank.RoundComing) {
+        player.setRank(GameRank.NotAnswered, this.roundsCounter);
         this.emitRanks(player.id, player.ranks);
       }
     });
@@ -184,8 +184,9 @@ export default class Quiz extends Room {
     this.emitMissingRanks();
     this.isGuessTime = false;
     this.roundsCounter++;
-    this.resetPlayersForNewRound();
     this.emitAnswer();
+    this.updateStats();
+    this.resetPlayersForNewRound();
   }
 
   /**
@@ -328,5 +329,33 @@ export default class Quiz extends Room {
       .preload('theme')
       .limit(15);
     this.rounds = rounds;
+  }
+
+  /**
+   * Update stats
+   */
+  private updateStats() {
+    // under five players stats are not accurate
+    if (this.players.length > 5) return;
+    this.updateRoundStats();
+  }
+
+  /**
+   * Update current round stats
+   */
+  private updateRoundStats(): void {
+    if (!this.currentRound) return;
+    const correctAnswers = this.players.reduce(
+      (acc, player) => (player.didAnswerCorrectly() ? acc + 1 : acc),
+      0,
+    );
+    const incorrectAnswers = this.players.length - correctAnswers;
+    const updatedData = {
+      correctAnswers: correctAnswers + this.currentRound.correctAnswers,
+      incorrectAnswers: incorrectAnswers + this.currentRound.incorrectAnswers,
+    };
+    this.currentRound.merge(updatedData);
+    // We don't really care about the result we don't need to wait for it
+    this.currentRound.save();
   }
 }
