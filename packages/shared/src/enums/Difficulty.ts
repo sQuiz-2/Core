@@ -1,6 +1,6 @@
 export type Difficulty = {
   id: number;
-  name: string;
+  title: string;
   level: number;
   color: [string, string];
   xpMultiplier: number;
@@ -17,21 +17,21 @@ export default DifficultyEnum;
 export const Difficulties: Difficulty[] = [
   {
     id: DifficultyEnum.Beginner,
-    name: 'Initié',
+    title: 'Initié',
     level: 1,
     color: ['#a8e063', '#56ab2f'],
     xpMultiplier: 1,
   },
   {
     id: DifficultyEnum.Intermediate,
-    name: 'Confirmé',
+    title: 'Confirmé',
     level: 1,
     color: ['#ca6642', '#da9f48'],
     xpMultiplier: 2,
   },
   {
     id: DifficultyEnum.Expert,
-    name: 'Expert',
+    title: 'Expert',
     level: 1,
     color: ['#c04572', '#dc6747'],
     xpMultiplier: 3,

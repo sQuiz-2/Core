@@ -1,4 +1,5 @@
 import { Difficulty } from '../../enums';
+import { Paginate } from './Paginate';
 import { GetTheme } from './Theme';
 
 export type GetRound = {
@@ -21,4 +22,7 @@ export type GetRound = {
   difficulty: Difficulty;
 };
 
-export type GetRounds = GetRound[];
+export type GetRounds = {
+  meta: Paginate;
+  data: GetRound[];
+};

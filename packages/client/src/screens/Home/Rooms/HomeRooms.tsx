@@ -21,7 +21,7 @@ export default function HomeRooms({ rooms }: HomeRoomProps) {
           key={room.id}
           onPress={() => navigate(room.id)}
           players={room.players}
-          name={room.difficulty.name}
+          name={room.title}
           color={room.difficulty.color}
         />
       ))}
