@@ -1,0 +1,18 @@
+[
+  {
+    "question": "Où puis-je signaler un bug ?",
+    "answer": "Un canal dédié a été créé sur Discord."
+  },
+  {
+    "question": "Comment puis-je proposer des questions ?",
+    "answer": "Pour l'instant, nous nous concentrons sur les questions existantes pour améliorer leur qualité. Nous avons encore des bases de données de questions à trier avant de laisser la possibilité à tout le monde d'en écrire."
+  },
+  {
+    "question": "Est-ce que je peux aider pour le développement du site ?",
+    "answer": "Oui ! Le site est open-source vous pouvez y contribuer en allant sur notre Github ! Si vous n'êtes pas développeur la meilleure façon d'aider est de proposer vos idées, faire connaître le site, etc."
+  },
+  {
+    "question": "Je n'arrive pas à lier mon compte Twitch, j'ai une erreur 401, comment faire ?",
+    "answer": "C'est un problème de cache lié à Twitch directement. Essayez de vous déconnecter puis reconnecter sur le site Twitch, ou de vous connecter sur sQuiz en navigation privée."
+  }
+]
