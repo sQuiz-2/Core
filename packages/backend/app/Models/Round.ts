@@ -40,6 +40,12 @@ export default class Round extends BaseModel {
   @column()
   public validated: boolean;
 
+  @column()
+  public correctAnswers: number;
+
+  @column()
+  public incorrectAnswers: number;
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime;
 

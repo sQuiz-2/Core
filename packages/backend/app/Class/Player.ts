@@ -95,8 +95,7 @@ export default class Player {
       }
     }
     // Store rank of this round
-    this.ranks[roundNumber] = rank;
-    this.currentRank = rank;
+    this.setRank(rank, roundNumber);
     // We limit the streak at 5
     if (this.streak < 5) {
       this.streak++;
@@ -140,6 +139,21 @@ export default class Player {
     if (this.find === !find) {
       this.find = find;
     }
+  }
+
+  /**
+   * Update player rank for the current round
+   */
+  setRank(rank: GameRank, roundsCounter: number) {
+    this.ranks[roundsCounter] = rank;
+    this.currentRank = rank;
+  }
+
+  /**
+   * Check if the player answer correctly to the current round
+   */
+  public didAnswerCorrectly(): boolean {
+    return this.currentRank !== GameRank.NotAnswered;
   }
 
   /**
