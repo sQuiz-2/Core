@@ -1,8 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, Fragment } from 'react';
 // @ts-ignore
 import { useTable, usePagination } from 'react-table';
 
-export function Table({ columns, data, fetchData, maxPage }: any) {
+export function Table({ columns, data, fetchData, maxPage, renderRowSubComponent }: any) {
   const {
     getTableProps,
     getTableBodyProps,
@@ -17,12 +17,13 @@ export function Table({ columns, data, fetchData, maxPage }: any) {
     nextPage,
     previousPage,
     setPageSize,
+    visibleColumns,
     state: { pageIndex, pageSize },
   } = useTable(
     {
       columns,
       data,
-      initialState: { pageIndex: 0, pageSize: 10 },
+      initialState: { pageIndex: 0, pageSize: 5 },
       manualPagination: true,
       pageCount: maxPage,
     },
@@ -50,19 +51,28 @@ export function Table({ columns, data, fetchData, maxPage }: any) {
               </tr>
             ))}
           </thead>
-          <tbody {...getTableBodyProps()} className="bg-white">
+          <tbody {...getTableBodyProps()} className="bg-white border-2 border-black">
             {page.map((row: any, i: number) => {
               prepareRow(row);
               return (
-                <tr {...row.getRowProps()} className="hover:bg-gray-100">
-                  {row.cells.map((cell: any) => {
-                    return (
-                      <td {...cell.getCellProps()} className="text-left p-2 border-b-2">
-                        {cell.render('Cell')}
-                      </td>
-                    );
-                  })}
-                </tr>
+                <Fragment key={row.values.id}>
+                  <tr className={`${i % 2 ? 'bg-blue-100' : 'bg-red-100'}`}>
+                    {row.cells.map((cell: any) => {
+                      return (
+                        <td
+                          className="text-left p-2 border-t-2 border-2 border-black"
+                          {...cell.getCellProps()}>
+                          {cell.render('Cell')}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                  {renderRowSubComponent && (
+                    <tr className={`${i % 2 ? 'bg-blue-100' : 'bg-red-100'}`}>
+                      <td colSpan={visibleColumns.length}>{renderRowSubComponent({ row })}</td>
+                    </tr>
+                  )}
+                </Fragment>
               );
             })}
           </tbody>
@@ -96,7 +106,7 @@ export function Table({ columns, data, fetchData, maxPage }: any) {
         <span>
           Page{' '}
           <strong>
-            {pageIndex + 1} of {pageOptions.length}
+            {pageIndex + 1} sur {pageOptions.length}
           </strong>{' '}
         </span>
         <select
@@ -104,7 +114,7 @@ export function Table({ columns, data, fetchData, maxPage }: any) {
           onChange={(e) => {
             setPageSize(Number(e.target.value));
           }}>
-          {[10, 20, 30, 40, 50].map((pageSize) => (
+          {[5, 10, 20, 30, 40, 50].map((pageSize) => (
             <option key={pageSize} value={pageSize}>
               {pageSize}
             </option>

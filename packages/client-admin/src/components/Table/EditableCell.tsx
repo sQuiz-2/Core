@@ -33,5 +33,5 @@ export function EditableCell({
     setValue(initialValue);
   }, [initialValue]);
 
-  return <input value={value} onChange={onChange} onBlur={onBlur} />;
+  return <input className="w-full" value={value} onChange={onChange} onBlur={onBlur} />;
 }

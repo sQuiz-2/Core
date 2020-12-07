@@ -4,7 +4,7 @@ import { CellProps } from './EditableCell';
 
 export interface DropDownCellProps extends CellProps {
   updateData: (index: number, id: string, data: any) => void;
-  selectData: { id: number; name: string | number }[];
+  selectData: { id: number; title: string | number }[];
 }
 
 export function DropDownCell({
@@ -20,9 +20,9 @@ export function DropDownCell({
 
   return (
     <select value={initialValue} onChange={onChange}>
-      {selectData.map(({ id, name }) => (
+      {selectData.map(({ id, title }) => (
         <option value={id} key={id}>
-          {name}
+          {title}
         </option>
       ))}
     </select>

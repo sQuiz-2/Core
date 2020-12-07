@@ -11,7 +11,7 @@ export default function useUpdateRow<T extends Data>(
   setDisplayData: (d: T[]) => void,
   path: string
 ) {
-  const [gameEdit, { error }] = useMutation((body: T) => put(path + body.id, body));
+  const [requestEdit, { error }] = useMutation((body: T) => put(path + body.id, body));
 
   async function updateRow(rowIndex: number, columnId: string, value: any) {
     const updatedRow = { ...displayData[rowIndex], [columnId]: value };
@@ -22,8 +22,8 @@ export default function useUpdateRow<T extends Data>(
       return row;
     });
     setDisplayData(updatedData);
-    await gameEdit(updatedRow);
+    await requestEdit(updatedRow);
   }
 
-  return { updateRow, error };
+  return { updateRow, error, requestEdit };
 }
