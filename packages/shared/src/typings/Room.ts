@@ -4,6 +4,7 @@ export type Room = {
   difficulty: Difficulty;
   id: string;
   players: number;
+  title: string;
 };
 
 export type EmitRooms = Room[];

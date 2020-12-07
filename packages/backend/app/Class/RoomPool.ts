@@ -14,7 +14,7 @@ class RoomPool {
    * Fetch Games and create a room for each games
    */
   public async init(): Promise<void> {
-    const games = await Game.query();
+    const games = await Game.query().orderBy('id', 'asc');
     games.forEach((game) => {
       this.addRoom(game);
     });
@@ -28,6 +28,7 @@ class RoomPool {
     const roomData = {
       difficulty: game.difficulty,
       roomNumber,
+      title: game.title,
     };
     const room = new Quiz(roomData);
     this.rooms.push(room);
@@ -37,8 +38,8 @@ class RoomPool {
    * Return all rooms
    */
   public getRooms(): EmitRooms {
-    const rooms = this.rooms.map(({ id, players, difficulty }) => {
-      return { id, players: players.length, difficulty };
+    const rooms = this.rooms.map(({ id, players, difficulty, title }) => {
+      return { id, players: players.length, difficulty, title };
     });
     return rooms;
   }

@@ -19,7 +19,7 @@ services:
     image: adminer
     restart: unless-stopped
     ports:
-      - 8080:8080
+      - 9999:8080
 
 volumes:
   db-squiz:

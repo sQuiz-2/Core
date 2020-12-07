@@ -5,14 +5,7 @@ import { HomeNavigatorProps } from '@Src/typings/navigation';
 import useSocketConnect from '@Src/utils/hooks/socketConnect';
 import { useSocketListener } from '@Src/utils/hooks/socketListener';
 import { setPlayersPosition } from '@Src/utils/players';
-import {
-  Difficulty,
-  GameEvent,
-  RoomStatus,
-  RoomEvent,
-  EmitPlayer,
-  EmitQuestions,
-} from '@squiz/shared';
+import { GameEvent, RoomStatus, RoomEvent, EmitPlayer, EmitQuestions } from '@squiz/shared';
 import React, { useState, useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 
@@ -25,7 +18,7 @@ export default function Room({ route }: HomeNavigatorProps<'Room'>) {
   const status: { status: RoomStatus } = useSocketListener(RoomEvent.Status, RoomStatus.Waiting);
   const players: EmitPlayer = useSocketListener(RoomEvent.Players, []);
   const [displayPlayer, setDisplayPlayer] = useState<DisplayPlayer[]>([]);
-  const roomInfos: { difficulty: Difficulty } | null = useSocketListener('infos', null);
+  const roomInfos: { title: string } | null = useSocketListener('infos', null);
   const questions: EmitQuestions = useSocketListener(GameEvent.Questions, []);
 
   useEffect(() => {

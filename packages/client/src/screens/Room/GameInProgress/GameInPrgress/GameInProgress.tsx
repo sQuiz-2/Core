@@ -5,7 +5,7 @@ import { DisplayPlayer } from '@Src/global/playerInfoState';
 import timerState from '@Src/global/timerState';
 import { useSocketListener } from '@Src/utils/hooks/socketListener';
 import { useSound } from '@Src/utils/hooks/sound';
-import { Difficulty, RoomStatus, EmitQuestion, GameTime } from '@squiz/shared';
+import { RoomStatus, EmitQuestion, GameTime } from '@squiz/shared';
 import React, { useEffect } from 'react';
 import { View } from 'react-native';
 import { useSetRecoilState } from 'recoil';
@@ -21,7 +21,7 @@ import useGameInProgessStyle from './GameInProgessStyle';
 type GameInProgessProps = {
   status: RoomStatus;
   players: DisplayPlayer[];
-  roomInfos: { difficulty: Difficulty } | null;
+  roomInfos: { title: string } | null;
 };
 
 export default function GameInProgess({ status, players, roomInfos }: GameInProgessProps) {

@@ -1,12 +1,11 @@
 import { CenterContainer } from '@Src/components/Containers';
 import Text from '@Src/components/Text';
 import { useTheme } from '@react-navigation/native';
-import { Difficulty } from '@squiz/shared';
 import React from 'react';
 import { ActivityIndicator } from 'react-native';
 
 type RoomTitleProps = {
-  roomInfos: { difficulty: Difficulty } | null;
+  roomInfos: { title: string } | null;
 };
 
 export default function RoomTitle({ roomInfos }: RoomTitleProps) {
@@ -21,7 +20,7 @@ export default function RoomTitle({ roomInfos }: RoomTitleProps) {
   }
   return (
     <Text fontFamily="title" fontSize="xxl">
-      SALON {roomInfos.difficulty.name.toLocaleUpperCase()}
+      {roomInfos.title.toLocaleUpperCase()}
     </Text>
   );
 }

@@ -14,6 +14,7 @@ export default class RoundValidator {
     ),
     themeId: schema.number([rules.exists({ table: 'themes', column: 'id' })]),
     difficultyId: schema.number([rules.enumNumber(Object.values(DifficultyEnum))]),
+    maxNumberOfGuesses: schema.number.optional([rules.range(1, 4)]),
   });
 
   public cacheKey = this.ctx.routeKey;
@@ -32,5 +33,7 @@ export default class RoundValidator {
     'difficultyId.required': 'Difficulté manquante',
     'difficultyId.enumNumber': "La difficulté sélectionnée n'existe pas 🤔",
     'difficultyId.number': 'Ce paramètre doit être un nombre',
+    'maxNumberOfGuesses.number': "Le nombre d'essais doit être un nombre",
+    'maxNumberOfGuesses.range': "Le nombre d'essais doit être compris entre 1 et 4",
   };
 }

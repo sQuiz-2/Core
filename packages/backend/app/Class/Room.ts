@@ -15,6 +15,7 @@ import Player from './Player';
 export type RoomProps = {
   roomNumber: string;
   difficulty: Difficulty;
+  title: string;
 };
 
 const MAX_PLAYERS = 30;
@@ -24,6 +25,11 @@ export default class Room {
    * Unique id identifier
    */
   id: string;
+
+  /**
+   * Room name
+   */
+  title: string;
 
   /**
    * Socket.io room namespace
@@ -52,12 +58,13 @@ export default class Room {
    */
   status: RoomStatus = RoomStatus.Waiting;
 
-  constructor({ roomNumber, difficulty }: RoomProps) {
+  constructor({ roomNumber, difficulty, title }: RoomProps) {
     this.nameSpace = Ws.io.of(roomNumber);
     this.nameSpace.use(this.preConnection.bind(this));
     this.nameSpace.on(RoomEvent.Connection, this.connection.bind(this));
     this.id = roomNumber;
     this.difficulty = difficulty;
+    this.title = title;
   }
 
   /**
@@ -232,7 +239,7 @@ export default class Room {
    * Send room informations to a socket
    */
   private emitRoomInfos(socket: Socket): void {
-    this.emitToSocket(RoomEvent.Infos, { difficulty: this.difficulty }, socket.id);
+    this.emitToSocket(RoomEvent.Infos, { title: this.title }, socket.id);
   }
 
   /**

@@ -1,0 +1,59 @@
+{
+  "name": "@squiz/client-admin",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "craco start",
+    "build": "craco build",
+    "test": "echo Coming soon 😛",
+    "eject": "react-scripts eject",
+    "lint": "eslint --ext '.js,.ts,.tsx' . --max-warnings=0",
+    "type-check": "tsc -b"
+  },
+  "dependencies": {
+    "@craco/craco": "^5.9.0",
+    "@material-ui/core": "^4.11.1",
+    "@material-ui/data-grid": "^4.0.0-alpha.10",
+    "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.56",
+    "@squiz/shared": "1.0.0",
+    "autoprefixer": "^9",
+    "postcss": "^7",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-hook-form": "^6.12.1",
+    "react-query": "^2.26.3",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.1",
+    "react-table": "^7.6.2",
+    "recoil": "^0.1.2",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat"
+  },
+  "devDependencies": {
+    "@types/node": "^12.0.0",
+    "@types/react": "^16.9.53",
+    "@types/react-dom": "^16.9.8",
+    "@types/react-router-dom": "^5.1.6",
+    "@typescript-eslint/eslint-plugin": "^4.9.0",
+    "@typescript-eslint/parser": "^4.9.0",
+    "eslint": "^7.14.0",
+    "eslint-config-universe": "^6.0.0",
+    "prettier": "^2.2.1",
+    "typescript": "^4.1.2"
+  },
+  "eslintConfig": {
+    "extends": "universe/web"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

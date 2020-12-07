@@ -10,9 +10,10 @@
     "husky": "^4.2.5"
   },
   "scripts": {
-    "start": "concurrently -n BACKEND,CLIENT -c blue.bold,green.bold 'yarn:backend dev' 'yarn:client web'",
+    "start": "concurrently -n BACKEND,CLIENT,CLIENT-ADMIN -c blue.bold,green.bold,yellow.bold 'yarn:backend dev' 'yarn:client web' 'yarn:client-admin start'",
     "backend": "yarn workspace @squiz/backend",
     "client": "yarn workspace @squiz/client",
+    "client-admin": "yarn workspace @squiz/client-admin",
     "shared": "yarn workspace @squiz/shared",
     "test": "yarn workspaces run test",
     "lint": "yarn workspaces run lint",

@@ -44,7 +44,10 @@ const corsConfig: CorsConfig = {
   |                     one of the above values.
   |
   */
-  origin: [Env.get('APP_URL', 'https://squiz.m4gie.com') as string],
+  origin: [
+    Env.get('APP_URL', 'https://squiz.m4gie.com') as string,
+    Env.get('ADMIN_APP_URL', 'https://admin.squiz.m4gie.com') as string,
+  ],
 
   /*
   |--------------------------------------------------------------------------
@@ -56,7 +59,7 @@ const corsConfig: CorsConfig = {
   |
   | Following is the list of default methods. Feel free to add more.
   */
-  methods: ['GET', 'HEAD', 'POST'],
+  methods: ['GET', 'HEAD', 'POST', 'DELETE', 'PUT'],
 
   /*
   |--------------------------------------------------------------------------
