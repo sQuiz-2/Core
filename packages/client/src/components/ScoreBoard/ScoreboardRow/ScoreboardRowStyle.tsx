@@ -7,6 +7,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   infoContainer: {
+    minWidth: 55,
     flexDirection: 'row',
   },
   pseudo: {
@@ -17,7 +18,7 @@ const styles = StyleSheet.create({
     height: 23,
   },
   score: {
-    paddingLeft: 10,
+    marginLeft: 'auto',
   },
 });
 
