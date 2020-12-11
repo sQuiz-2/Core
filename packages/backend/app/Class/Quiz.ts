@@ -119,6 +119,7 @@ export default class Quiz extends Room {
    */
   private emitCurrentRound(round: Round): void {
     const emitQuestion: EmitQuestion = {
+      id: round.id,
       question: round.question,
       maxRound: this.rounds.length,
       currentRound: this.roundsCounter,

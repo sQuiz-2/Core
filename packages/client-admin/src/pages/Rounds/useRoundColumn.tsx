@@ -54,6 +54,12 @@ export default function useGameColumn({ displayData, updateData, removeData }: u
           DropDownCell({ value, row, column, updateData, selectData: selectGuesses }),
       },
       {
+        Header: 'Reports',
+        accessor: 'reports',
+        Cell: ({ value, row, column }: CellProps) =>
+          EditableCell({ value, row, column, updateData }),
+      },
+      {
         Header: 'Actions',
         id: 'Actions',
         Cell: ({ row, column }: CellProps) => ActionsCell({ row, column, removeData }),

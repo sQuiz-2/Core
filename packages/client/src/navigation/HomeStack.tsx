@@ -2,7 +2,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 
 import Header from '../components/Header';
-import AddRound from '../screens/Add';
 import FAQ from '../screens/FAQ';
 import Home from '../screens/Home';
 import Room from '../screens/Room';
@@ -28,7 +27,7 @@ export default function HomeStack() {
           title: 'sQuiz',
         }}
       />
-      <Stack.Screen name="Add" options={{ title: 'Ajouter | sQuiz' }} component={AddRound} />
+      {/* <Stack.Screen name="Add" options={{ title: 'Ajouter | sQuiz' }} component={AddRound} /> */}
       <Stack.Screen name="FAQ" options={{ title: 'FAQ | sQuiz' }} component={FAQ} />
     </Stack.Navigator>
   );

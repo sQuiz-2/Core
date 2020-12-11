@@ -1,5 +1,5 @@
 import { TitleCard } from '@Src/components/Card';
-import client from '@Src/utils/request';
+import { get } from '@Src/utils/wrappedFetch';
 import { News } from '@squiz/shared';
 import React, { useState, useEffect } from 'react';
 import { View, ScrollView } from 'react-native';
@@ -13,7 +13,8 @@ export default function HomeNews() {
 
   async function fetchNews() {
     try {
-      const news = await client('news', { method: 'GET' });
+      const news = await get<News[]>({ path: 'news' });
+      if (!news) return;
       setNews(news);
     } catch (error) {
       console.log(error);

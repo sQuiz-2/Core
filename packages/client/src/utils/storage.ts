@@ -4,7 +4,7 @@ export enum StorageEnum {
   User = 'sQuiz-user',
 }
 
-export function setInStore(key: StorageEnum, value: string) {
+export function setInStore(key: StorageEnum, value: any) {
   if (!value) return;
   const jsonValue = JSON.stringify(value);
   return AsyncStorage.setItem(key, jsonValue);

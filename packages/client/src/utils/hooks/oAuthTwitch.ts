@@ -5,8 +5,8 @@ import { useSetRecoilState } from 'recoil';
 
 import getEnv from '../../constant';
 import userState from '../../global/userState';
-import client from '../request';
 import { setInStore, StorageEnum } from '../storage';
+import { post } from '../wrappedFetch';
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -43,7 +43,11 @@ export default function useOAuthTwitch() {
   async function connect(code: string) {
     setLoading(true);
     try {
-      const user = await client('oauth', { method: 'POST' }, { code, provider: 0 });
+      const user = await post<{ username: string; token: string }>({
+        path: 'oatuh',
+        body: { code, provider: 0 },
+      });
+      if (!user) return;
       setUser({
         username: user.username,
         token: user.token,

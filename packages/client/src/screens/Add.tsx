@@ -1,4 +1,8 @@
-import { Ionicons } from '@expo/vector-icons';
+/**
+ * This screen is not enable now
+ */
+
+/* import { Ionicons } from '@expo/vector-icons';
 import { Picker } from '@react-native-community/picker';
 import { useTheme } from '@react-navigation/native';
 import React, { useState, useEffect, useRef } from 'react';
@@ -15,7 +19,6 @@ import Button from '../components/Button';
 import { CenterContainer } from '../components/Containers';
 import Text from '../components/Text';
 import { fontSizes, fontFamilies } from '../constant/theme';
-import request from '../utils/request';
 import { titleCase } from '../utils/text';
 
 const ROUND_LIMIT = 6;
@@ -273,3 +276,4 @@ const styles = StyleSheet.create({
     width: 420,
   },
 });
+ */
