@@ -8,7 +8,10 @@ import RoundsValidator from 'App/Validators/RoundsValidator';
 export default class RoundsController {
   public async index({ request }: HttpContextContract) {
     const { page = 1, limit = 10, question } = await request.validate(FetchRoundValidator);
-    const roundsQuery = Round.query().orderBy('id', 'asc').preload('answers').preload('theme');
+    const roundsQuery = Round.query()
+      .orderBy('reports', 'desc')
+      .preload('answers')
+      .preload('theme');
     if (question) {
       roundsQuery.whereRaw(`LOWER(question) LIKE ?`, ['%' + question.toLowerCase() + '%']);
     }
@@ -56,5 +59,12 @@ export default class RoundsController {
       });
       await round.related('answers').createMany(answers);
     }
+  }
+
+  public async report(ctx: HttpContextContract) {
+    const { id } = ctx.params;
+    const round = await Round.findOrFail(id);
+    round.reports += 1;
+    round.save();
   }
 }
