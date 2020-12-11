@@ -15,6 +15,7 @@ export type EmitRoomUpdate = {
 };
 
 export type EmitQuestion = {
+  id: number;
   question: string;
   currentRound: number;
   maxRound: number;

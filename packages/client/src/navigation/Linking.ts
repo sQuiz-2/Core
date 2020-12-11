@@ -7,7 +7,6 @@ const Linking: LinkingOptions = {
     initialRouteName: 'Home',
     screens: {
       Home: '',
-      Add: 'add',
       Room: 'room/:id',
       FAQ: 'faq',
     },

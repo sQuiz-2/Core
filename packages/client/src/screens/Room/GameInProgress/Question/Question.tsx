@@ -8,6 +8,7 @@ import React, { useEffect } from 'react';
 import { View } from 'react-native';
 import { useSetRecoilState } from 'recoil';
 
+import Report from '../Report';
 import useGameInProgressQuestionStyle from './QuestionStyle';
 
 type GameInProgressQuestionProps = {
@@ -43,6 +44,7 @@ export default function GameInProgressQuestion({ question }: GameInProgressQuest
       <Text fontSize="xxl" style={styles.question}>
         {question.question}
       </Text>
+      <Report id={question.id} />
     </Card>
   );
 }

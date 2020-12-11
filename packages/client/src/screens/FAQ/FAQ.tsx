@@ -11,12 +11,12 @@ export default function FAQ() {
     <ResponsiveContainer>
       <View style={{ flex: 1 }}>
         {faq.map(({ question, answer }) => (
-          <>
+          <View key={question}>
             <Text fontSize="xl" style={styles.question}>
               {question}
             </Text>
             <Text fontSize="lg">{answer}</Text>
-          </>
+          </View>
         ))}
       </View>
     </ResponsiveContainer>
