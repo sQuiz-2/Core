@@ -44,7 +44,7 @@ export default function useOAuthTwitch() {
     setLoading(true);
     try {
       const user = await post<{ username: string; token: string }>({
-        path: 'oatuh',
+        path: 'oauth',
         body: { code, provider: 0 },
       });
       if (!user) return;

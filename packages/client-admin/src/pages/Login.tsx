@@ -85,7 +85,6 @@ export default function SignIn() {
             name="email"
             autoComplete="email"
             autoFocus
-            defaultValue="admin@admin.fr"
           />
           <TextField
             variant="outlined"
@@ -98,7 +97,6 @@ export default function SignIn() {
             type="password"
             id="password"
             autoComplete="current-password"
-            defaultValue="secret"
           />
           {isLoading ? (
             <Box display="flex" alignItems="center" justifyContent="center">
