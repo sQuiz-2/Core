@@ -16,6 +16,7 @@ export default class RoundsValidator {
         ),
         themeId: schema.number([rules.exists({ table: 'themes', column: 'id' })]),
         difficultyId: schema.number([rules.enumNumber(Object.values(DifficultyEnum))]),
+        maxNumberOfGuesses: schema.number.optional([rules.range(1, 10)]),
       }),
     ),
   });
