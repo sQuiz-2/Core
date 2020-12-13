@@ -61,6 +61,14 @@ export default class RoundsController {
     }
   }
 
+  public async getAll() {
+    return Round.query()
+      .preload('answers', (query) => {
+        query.select('roundId', 'answer');
+      })
+      .select('id', 'question', 'themeId', 'difficultyId', 'maxNumberOfGuesses');
+  }
+
   public async report(ctx: HttpContextContract) {
     const { id } = ctx.params;
     const round = await Round.findOrFail(id);

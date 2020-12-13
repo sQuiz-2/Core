@@ -21,6 +21,7 @@ Route.resource('rounds', 'RoundsController')
   .middleware({ '*': ['auth', 'admin'] });
 Route.post('rounds/store-lot', 'RoundsController.storeLot').middleware(['auth', 'admin']);
 Route.get('rounds/report/:id', 'RoundsController.report').middleware(['auth']);
+Route.get('rounds-all', 'RoundsController.getAll');
 
 Route.resource('games', 'GamesController')
   .apiOnly()
