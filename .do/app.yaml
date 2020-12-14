@@ -1,0 +1,65 @@
+name: squiz
+region: fra
+domains:
+  - domain: backend.squiz.gg
+    type: PRIMARY
+    wildcard: false
+databases:
+  - name: squiz
+    engine: PG
+    version: "12"
+    production: false
+    db_name: squiz
+    db_user: squiz
+services:
+  - name: backend
+    github:
+      repo: sQuiz-2/Core
+      branch: prod
+      deploy_on_push: true
+    dockerfile_path: packages/backend/Dockerfile
+    instance_size_slug: basic-xxs
+    http_port: 3333
+    instance_count: 1
+    routes:
+      - path: /
+    envs:
+      - key: ENV_SILENT
+        value: "true"
+        type: GENERAL
+      - key: PORT
+        value: "3333"
+        type: GENERAL
+      - key: HOST
+        value: 0.0.0.0
+        type: GENERAL
+      - key: NODE_ENV
+        value: production
+        type: GENERAL
+      - key: APP_NAME
+        value: sQuiz
+        type: GENERAL
+      - key: APP_URL
+        value: https://squiz.gg
+        type: GENERAL
+      - key: ADMIN_APP_URL
+        value: https://admin.squiz.gg
+        type: GENERAL
+      - key: DB_CONNECTION
+        value: pg
+        type: GENERAL
+      - key: DB_HOST
+        value: ${squiz.HOSTNAME}
+        type: GENERAL
+      - key: DB_USER
+        value: ${squiz.USERNAME}
+        type: GENERAL
+      - key: DB_PASSWORD
+        value: ${squiz.PASSWORD}
+        type: SECRET
+      - key: DB_NAME
+        value: ${squiz.DATABASE}
+        type: GENERAL
+      - key: TWITCH_REDIRECT_URI
+        value: https://squiz.gg
+        type: GENERAL
