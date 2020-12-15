@@ -54,7 +54,7 @@ jobs:
       - name: "Build"
         run: yarn build-web
         env:
-          BACKEND_URL: "https://backend.squiz.m4gie.com"
+          BACKEND_URL: "https://backend.squiz.m4gie.com/"
           TWITCH_CLIENT_ID: "97au00focfb9x3g8rv3ugsoa7lq7hr"
       - name: netlify deploy
         run: npx netlify-cli deploy --prod --dir web-build --auth ${{ secrets.NETLIFY_AUTH_TOKEN_PRE_PROD }} --site ${{ secrets.NETLIFY_CLIENT_SITE_ID_PRE_PROD }}
