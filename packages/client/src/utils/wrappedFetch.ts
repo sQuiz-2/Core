@@ -1,5 +1,3 @@
-import getEnv from '@Src/constant';
-
 interface HttpResponse<T> extends Response {
   parsedBody?: T;
 }
@@ -19,7 +17,7 @@ export async function http<T>(
   init: RequestInit,
   token?: string
 ): Promise<T | undefined> {
-  const request = new Request(`${getEnv().backendUrl}${path}`, init);
+  const request = new Request(`${process.env.BACKEND_URL}${path}`, init);
   const response: HttpResponse<T> = await fetch(request, {
     headers: { Authorization: `Bearer ${token}`, 'content-type': 'application/json' },
   });

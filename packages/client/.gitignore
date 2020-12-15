@@ -12,6 +12,7 @@ web-report/
 .netlify/
 __generated__
 .lighthouseci
+.env
 
 # macOS
 .DS_Store
