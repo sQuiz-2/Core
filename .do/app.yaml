@@ -60,6 +60,9 @@ services:
       - key: DB_NAME
         value: ${squiz.DATABASE}
         type: GENERAL
+      - key: DB_PORT
+        value: ${squiz.PORT}
+        type: GENERAL
       - key: TWITCH_REDIRECT_URI
         value: https://squiz.gg
         type: GENERAL

@@ -1,0 +1,35 @@
+name: "Publish on prod"
+
+on:
+  push:
+    branches:
+      - prod
+
+jobs:
+  publish-client-web:
+    name: publish web client
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/client
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - uses: actions/cache@v2
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - run: yarn install
+      - uses: expo/expo-github-action@v5
+        with:
+          expo-version: 3.x
+          expo-cache: true
+      - name: "Build"
+        run: yarn build-web
+        env:
+          BACKEND_URL: "https://backend.squiz.gg"
+          TWITCH_CLIENT_ID: "l6umf2uxaz2p2g10mvrfdf2kxdw27k"
+      - name: netlify deploy
+        run: npx netlify-cli deploy --prod --dir web-build --auth ${{ secrets.NETLIFY_AUTH_TOKEN_PROD }} --site ${{ secrets.NETLIFY_CLIENT_SITE_ID_PROD }}
