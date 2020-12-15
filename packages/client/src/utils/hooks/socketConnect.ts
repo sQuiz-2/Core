@@ -1,4 +1,3 @@
-import getEnv from '@Src/constant/index';
 import socketState from '@Src/global/socket';
 import { useFocusEffect } from '@react-navigation/native';
 import { RoomEvent } from '@squiz/shared';
@@ -13,7 +12,7 @@ export default function useSocketConnect(route?: string, query?: any) {
   useFocusEffect(
     useCallback(() => {
       route = route || '';
-      const ioSocket = io(getEnv().backendUrl + route, {
+      const ioSocket = io(process.env.BACKEND_URL + route, {
         query,
         reconnectionAttempts: 3,
       });

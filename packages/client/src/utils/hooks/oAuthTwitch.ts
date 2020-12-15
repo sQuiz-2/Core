@@ -3,7 +3,6 @@ import * as WebBrowser from 'expo-web-browser';
 import { useEffect, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 
-import getEnv from '../../constant';
 import userState from '../../global/userState';
 import { setInStore, StorageEnum } from '../storage';
 import { post } from '../wrappedFetch';
@@ -21,7 +20,7 @@ export default function useOAuthTwitch() {
   const [request, response, promptAsync] = useAuthRequest(
     {
       responseType: ResponseType.Code,
-      clientId: getEnv().twitchClientId,
+      clientId: process.env.TWITCH_CLIENT_ID || '',
       // For usage in managed apps using the proxy
       redirectUri: makeRedirectUri({}),
       scopes: ['openid', 'user_read'],
