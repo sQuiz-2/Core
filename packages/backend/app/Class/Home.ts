@@ -4,7 +4,7 @@ import { Socket } from 'socket.io';
 
 import RoomPool from './RoomPool';
 
-const MAX_CONNECTION = 90;
+const MAX_CONNECTION = 500;
 const MAX_CONNECTION_PER_IP = 10;
 
 class Home {

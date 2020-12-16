@@ -5,6 +5,7 @@ export type Room = {
   id: string;
   players: number;
   title: string;
+  isFull: boolean;
 };
 
 export type EmitRooms = Room[];
@@ -12,6 +13,7 @@ export type EmitRooms = Room[];
 export type EmitRoomUpdate = {
   id: string;
   players: number;
+  isFull: boolean;
 };
 
 export type EmitQuestion = {
