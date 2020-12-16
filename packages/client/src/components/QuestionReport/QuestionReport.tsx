@@ -5,7 +5,7 @@ import { useTheme } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 
-import useReportStyle from './ReportStyle';
+import useReportStyle from './QuestionReportStyle';
 
 type ReportProps = {
   id: number;

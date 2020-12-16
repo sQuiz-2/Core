@@ -1,4 +1,5 @@
-import Card from '@Src/components/Card/Card';
+import Card from '@Src/components/Card';
+import Report from '@Src/components/QuestionReport';
 import Text from '@Src/components/Text';
 import isQuestionTimeState from '@Src/global/isQuestionTimeState';
 import timerState from '@Src/global/timerState';
@@ -8,7 +9,6 @@ import React, { useEffect } from 'react';
 import { View } from 'react-native';
 import { useSetRecoilState } from 'recoil';
 
-import Report from '../Report';
 import useGameInProgressQuestionStyle from './QuestionStyle';
 
 type GameInProgressQuestionProps = {
