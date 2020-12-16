@@ -23,6 +23,7 @@ export default function HomeRooms({ rooms }: HomeRoomProps) {
           players={room.players}
           name={room.title}
           color={room.difficulty.color}
+          isFull={room.isFull}
         />
       ))}
     </>

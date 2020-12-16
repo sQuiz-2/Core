@@ -31,6 +31,7 @@ export default function Home() {
       const room = rooms.find((room) => room.id === data.id);
       if (!room) return oldRooms;
       room.players = data.players;
+      room.isFull = data.isFull;
       return rooms;
     });
   }

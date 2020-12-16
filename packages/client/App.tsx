@@ -6,7 +6,6 @@ import { Platform, ActivityIndicator } from 'react-native';
 import { RecoilRoot, useSetRecoilState } from 'recoil';
 
 import { CenterContainer } from './src/components/Containers';
-import Text from './src/components/Text';
 import Theme from './src/constant/theme';
 import userState, { User } from './src/global/userState';
 import HomeStack from './src/navigation/HomeStack';
@@ -61,8 +60,8 @@ function AppWithProviders() {
 
   if (isLoading) {
     return (
-      <CenterContainer>
-        <Text fontSize="xl">sQuiz</Text>
+      <CenterContainer style={{ backgroundColor: '#212843' }}>
+        <ActivityIndicator />
       </CenterContainer>
     );
   }

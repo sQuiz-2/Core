@@ -168,7 +168,6 @@ export default class Room {
    */
   private addPlayer(name: string, id: string): void {
     this.players.push(new Player({ name, id }));
-    console.log(this.players.length, '/', MAX_PLAYERS);
     if (this.players.length >= MAX_PLAYERS) {
       this.isFull = true;
     }
