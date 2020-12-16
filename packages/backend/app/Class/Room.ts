@@ -18,7 +18,7 @@ export type RoomProps = {
   title: string;
 };
 
-const MAX_PLAYERS = 30;
+const MAX_PLAYERS = 100;
 
 export default class Room {
   /**
@@ -58,6 +58,11 @@ export default class Room {
    */
   status: RoomStatus = RoomStatus.Waiting;
 
+  /**
+   * Boolean to check if players can join the room
+   */
+  isFull: boolean = false;
+
   constructor({ roomNumber, difficulty, title }: RoomProps) {
     this.nameSpace = Ws.io.of(roomNumber);
     this.nameSpace.use(this.preConnection.bind(this));
@@ -71,9 +76,6 @@ export default class Room {
    * Middleware to check if the player is not already connected
    */
   private preConnection(socket: Socket, next: (err?: any) => void): void {
-    if (this.players.length >= MAX_PLAYERS) {
-      return next(new Error(SocketErrors.ServerFull));
-    }
     const name = socket.handshake?.query?.pseudo;
     if (!name) {
       return next(new Error(SocketErrors.MissingParameter));
@@ -88,6 +90,10 @@ export default class Room {
       }
       // Ok you have been disconnected,
       // we are going to make a new link between your new connection and your saved data
+    } else {
+      if (this.isFull) {
+        return next(new Error(SocketErrors.ServerFull));
+      }
     }
     // todo: authenticate the player
     if (player) {
@@ -110,7 +116,7 @@ export default class Room {
   }
 
   /**
-   * Run on each socket deconnection
+   * Run on each socket disconnection
    * keep the player if the game is in progress
    * remove the player if the game is not in progress
    */
@@ -149,15 +155,23 @@ export default class Room {
    * Update home information
    */
   private updateRoom(): void {
-    const roomUpdate: EmitRoomUpdate = { id: this.id, players: this.players.length };
+    const roomUpdate: EmitRoomUpdate = {
+      id: this.id,
+      players: this.players.length,
+      isFull: this.isFull,
+    };
     Ws.io.emit(RoomEvent.RoomUpdate, roomUpdate);
   }
 
   /**
-   * Store a new player and emit the new scoreboard
+   * Store a new player
    */
   private addPlayer(name: string, id: string): void {
     this.players.push(new Player({ name, id }));
+    console.log(this.players.length, '/', MAX_PLAYERS);
+    if (this.players.length >= MAX_PLAYERS) {
+      this.isFull = true;
+    }
   }
 
   /**
@@ -165,6 +179,9 @@ export default class Room {
    */
   private removePlayer(socket: Socket): void {
     this.players = this.players.filter(({ id }) => id !== socket.id);
+    if (this.isFull) {
+      this.isFull = false;
+    }
     this.emitScoreBoard();
   }
 
