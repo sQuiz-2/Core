@@ -32,10 +32,12 @@ export default class AuthController {
     const oAuthData = await twitch.login(code);
     // Create a new user or get the user if already exist
     const user = await User.firstOrCreate({
-      email: oAuthData.email,
-      username: oAuthData.username,
+      providerId: ProviderEnum.Twitch,
+      providerUserId: oAuthData.userId,
     });
-    // Store user's oauth credentials
+    // Store/Update user's information (because email or pseudo can change)
+    user.merge({ email: oAuthData.email, username: oAuthData.username });
+    // Store/Update user's oauth credentials
     await user.related('oAuthToken').updateOrCreate(
       { providerId: ProviderEnum.Twitch },
       {
