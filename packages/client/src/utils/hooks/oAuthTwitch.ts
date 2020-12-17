@@ -23,7 +23,7 @@ export default function useOAuthTwitch() {
       clientId: process.env.TWITCH_CLIENT_ID || '',
       // For usage in managed apps using the proxy
       redirectUri: makeRedirectUri({}),
-      scopes: ['openid', 'user_read'],
+      scopes: ['user:read:email'],
     },
     TwitchDiscovery
   );

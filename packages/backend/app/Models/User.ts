@@ -1,5 +1,6 @@
 import Hash from '@ioc:Adonis/Core/Hash';
 import { column, beforeSave, BaseModel, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm';
+import { ProviderEnum } from '@squiz/shared';
 import { DateTime } from 'luxon';
 
 import OauthToken from './OauthToken';
@@ -22,6 +23,12 @@ export default class User extends BaseModel {
 
   @column()
   public rememberMeToken?: string;
+
+  @column()
+  public providerId: ProviderEnum;
+
+  @column()
+  public providerUserId: string;
 
   @hasMany(() => OauthToken)
   public oAuthToken: HasMany<typeof OauthToken>;
