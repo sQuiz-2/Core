@@ -8,6 +8,7 @@ export default class FetchRoundValidator {
     page: schema.number.optional(),
     limit: schema.number.optional([rules.range(1, 100)]),
     question: schema.string.optional({ trim: true }),
+    reported: schema.boolean.optional(),
   });
 
   public cacheKey = this.ctx.routeKey;
