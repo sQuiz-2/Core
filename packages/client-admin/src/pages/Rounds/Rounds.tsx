@@ -15,16 +15,20 @@ export default function Games() {
   const { removeRow } = useRemoveRow<GetRound>(displayData, setDisplayData, 'rounds/');
   const { updateRow, requestEdit } = useUpdateRow<GetRound>(displayData, setDisplayData, 'rounds/');
   const columns = useGameColumn({ displayData, updateData: updateRow, removeData: removeRow });
+  const [reported, setReported] = useState(false);
 
   async function updateData({ pageIndex = 1, pageSize = 5, question = '' }) {
-    const data = await fetchPage(pageIndex, pageSize, `question=${question}`);
+    const data = await fetchPage(pageIndex, pageSize, `question=${question}&reported=${reported}`);
     if (!data) return;
     setDisplayData(data);
   }
 
-  const fetchData = useCallback(async (page) => {
-    updateData(page);
-  }, []);
+  const fetchData = useCallback(
+    async (page) => {
+      updateData(page);
+    },
+    [reported]
+  );
 
   // Create a function that will render our row sub components
   const renderRowSubComponent = useCallback(
@@ -98,6 +102,17 @@ export default function Games() {
   return (
     <>
       <form ref={(ref) => (form.current = ref)} onSubmit={handleSubmit}>
+        <div>
+          <label>
+            Trier par nombre de reports:
+            <input
+              name="onlyReported"
+              type="checkbox"
+              checked={reported}
+              onChange={() => setReported(!reported)}
+            />
+          </label>
+        </div>
         <input name="question" placeholder="Question" type="text" />
         <button> Chercher </button>
       </form>
