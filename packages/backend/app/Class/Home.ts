@@ -4,8 +4,8 @@ import { Socket } from 'socket.io';
 
 import RoomPool from './RoomPool';
 
-const MAX_CONNECTION = 500;
-const MAX_CONNECTION_PER_IP = 10;
+const MAX_CONNECTION = 200;
+const MAX_CONNECTION_PER_IP = 4;
 
 class Home {
   socket: SocketIO.Server;
@@ -21,28 +21,32 @@ class Home {
 
   constructor() {
     Ws.start(this.connection.bind(this));
-    Ws.io.use(this.preConnection.bind(this));
     this.socket = Ws.io;
   }
 
   /**
    * Check if the socket can be connected
    */
-  private preConnection(socket: Socket, next: (err?: any) => void): void {
+  private preConnectionSuccess(socket: Socket): boolean {
     if (this.connectedCounter >= MAX_CONNECTION) {
-      return next(new Error(SocketErrors.ServerFull));
+      socket.emit(RoomEvent.CustomError, SocketErrors.ServerFull);
+      socket.disconnect(true);
+      return false;
     }
     const successfullyAdded = this.addIp(socket.conn.remoteAddress);
     if (successfullyAdded === false) {
-      return next(new Error(SocketErrors.ExceedMaxConnectionPerIp));
+      socket.emit(RoomEvent.CustomError, SocketErrors.ExceedMaxConnectionPerIp);
+      socket.disconnect(true);
+      return false;
     }
-    next();
+    return true;
   }
 
   /**
    * Handle connection
    */
   private connection(socket: Socket): void {
+    if (!this.preConnectionSuccess(socket)) return;
     this.connectedCounter++;
     socket.emit('rooms', RoomPool.getRooms());
     socket.on(RoomEvent.Disconnection, () => this.disconnection(socket.conn.remoteAddress));
