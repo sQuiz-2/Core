@@ -3,7 +3,7 @@ import { ResponsiveContainer } from '@Src/components/Containers';
 import PlayerInfos from '@Src/components/PlayerInfo';
 import { DisplayPlayer } from '@Src/global/playerInfoState';
 import timerState from '@Src/global/timerState';
-import { useSocketListener } from '@Src/utils/hooks/socketListener';
+import { useRoomListener } from '@Src/utils/hooks/roomListener';
 import { useSound } from '@Src/utils/hooks/sound';
 import { RoomStatus, EmitQuestion, GameTime } from '@squiz/shared';
 import React, { useEffect } from 'react';
@@ -16,19 +16,19 @@ import RoomTitle from '../RoomTitle';
 import RoundCounter from '../RoundCounter';
 import RoundEnd from '../RoundEnd';
 import Scoreboard from '../Scoreboard';
-import useGameInProgessStyle from './GameInProgessStyle';
+import useGameInProgressStyle from './GameInProgressStyle';
 
-type GameInProgessProps = {
+type GameInProgressProps = {
   status: RoomStatus;
   players: DisplayPlayer[];
   roomInfos: { title: string } | null;
 };
 
-export default function GameInProgess({ status, players, roomInfos }: GameInProgessProps) {
-  const styles = useGameInProgessStyle();
+export default function GameInProgress({ status, players, roomInfos }: GameInProgressProps) {
+  const styles = useGameInProgressStyle();
   const setTime = useSetRecoilState(timerState);
   const gameStartSound = useSound({ source: require('@Assets/sounds/game-start.mp3') });
-  const question: null | EmitQuestion = useSocketListener('question', null);
+  const question = useRoomListener<null | EmitQuestion>('question', null);
 
   useEffect(() => {
     switch (status) {

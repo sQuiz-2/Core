@@ -1,5 +1,5 @@
 import Text from '@Src/components/Text';
-import { useSocketListener } from '@Src/utils/hooks/socketListener';
+import { useRoomListener } from '@Src/utils/hooks/roomListener';
 import { getMedalWithRank } from '@Src/utils/medals';
 import { GameEvent, GameRank, EmitRanks } from '@squiz/shared';
 import React from 'react';
@@ -9,7 +9,7 @@ import useRoundCounterStyle from './RoundCounterStyle';
 
 export default function RoundCounter() {
   const styles = useRoundCounterStyle();
-  const ranks: EmitRanks = useSocketListener(GameEvent.Ranks, Array(15).fill(GameRank.RoundComing));
+  const ranks: EmitRanks = useRoomListener(GameEvent.Ranks, Array(15).fill(GameRank.RoundComing));
   return (
     <View style={styles.container}>
       {ranks.map((rank, value) => {

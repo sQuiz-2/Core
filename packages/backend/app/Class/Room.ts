@@ -65,7 +65,6 @@ export default class Room {
 
   constructor({ roomNumber, difficulty, title }: RoomProps) {
     this.nameSpace = Ws.io.of(roomNumber);
-    this.nameSpace.use(this.preConnection.bind(this));
     this.nameSpace.on(RoomEvent.Connection, this.connection.bind(this));
     this.id = roomNumber;
     this.difficulty = difficulty;
@@ -75,24 +74,30 @@ export default class Room {
   /**
    * Middleware to check if the player is not already connected
    */
-  private preConnection(socket: Socket, next: (err?: any) => void): void {
+  private preConnectionSuccess(socket: Socket): boolean {
     const name = socket.handshake?.query?.pseudo;
     if (!name) {
-      return next(new Error(SocketErrors.MissingParameter));
+      socket.emit(RoomEvent.CustomError, SocketErrors.MissingParameter);
+      socket.disconnect(true);
+      return false;
     }
     // Let's make sure you are not already in this room !
     const player = this.getPlayerByName(name);
     if (player) {
-      // Hummm how can you be here and also in the room ??? Have you been disconected ?
+      // Hummm how can you be here and also in the room ??? Have y  ou been disconnected ?
       if (!player.disconnected) {
-        // It's seems you'r already playing in this room !
-        return next(new Error(SocketErrors.AlreadyConnected));
+        // It's seems you're already playing in this room !
+        socket.emit(RoomEvent.CustomError, SocketErrors.AlreadyConnected);
+        socket.disconnect(true);
+        return false;
       }
       // Ok you have been disconnected,
       // we are going to make a new link between your new connection and your saved data
     } else {
       if (this.isFull) {
-        return next(new Error(SocketErrors.ServerFull));
+        socket.emit(RoomEvent.CustomError, SocketErrors.ServerFull);
+        socket.disconnect(true);
+        return false;
       }
     }
     // todo: authenticate the player
@@ -101,13 +106,14 @@ export default class Room {
     } else {
       this.addPlayer(name, socket.id);
     }
-    next();
+    return true;
   }
 
   /**
    * Run on each socket connection
    */
   private connection(socket: Socket): void {
+    if (!this.preConnectionSuccess(socket)) return;
     this.emitRoomInfos(socket);
     this.emitScoreBoard();
     this.joinGame(socket);

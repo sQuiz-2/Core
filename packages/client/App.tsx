@@ -1,3 +1,4 @@
+import useHomeSocket from '@Src/utils/hooks/homeSocket';
 import { NavigationContainer } from '@react-navigation/native';
 import { registerRootComponent } from 'expo';
 import { StatusBar } from 'expo-status-bar';
@@ -18,14 +19,14 @@ registerRootComponent(App);
 function App() {
   const [fontLoaded, setFontLoaded] = useState(false);
 
-  async function loadRessources() {
+  async function loadResources() {
     await loadFonts();
     setFontLoaded(true);
   }
 
   useEffect(function mount() {
     if (Platform.OS !== 'web') {
-      loadRessources();
+      loadResources();
     }
   }, []);
 
@@ -45,6 +46,7 @@ function App() {
 function AppWithProviders() {
   const [isLoading, setIsLoading] = useState(true);
   const setUser = useSetRecoilState(userState);
+  useHomeSocket();
 
   useEffect(function mount() {
     getUser();
@@ -64,11 +66,11 @@ function AppWithProviders() {
         <ActivityIndicator />
       </CenterContainer>
     );
+  } else {
+    return (
+      <NavigationContainer linking={Linking} theme={Theme}>
+        <HomeStack />
+      </NavigationContainer>
+    );
   }
-
-  return (
-    <NavigationContainer linking={Linking} theme={Theme}>
-      <HomeStack />
-    </NavigationContainer>
-  );
 }

@@ -1,7 +1,7 @@
 import Card from '@Src/components/Card/Card';
 import isQuestionTimeState from '@Src/global/isQuestionTimeState';
-import socketState from '@Src/global/socket';
-import { useSocketListener } from '@Src/utils/hooks/socketListener';
+import roomSocketState from '@Src/global/roomSocket';
+import { useRoomListener } from '@Src/utils/hooks/roomListener';
 import { useSound } from '@Src/utils/hooks/sound';
 import { useTheme } from '@react-navigation/native';
 import { EmitAnswerIsValid, GameEvent, parseAnswer, EmitQuestion } from '@squiz/shared';
@@ -19,11 +19,11 @@ type GameInputProps = {
 
 export default function GameInput({ question }: GameInputProps) {
   const [playerAnswer, setPlayerAnswer] = useState('');
-  const socket = useRecoilValue(socketState);
+  const roomSocket = useRecoilValue(roomSocketState);
   const isQuestionTime = useRecoilValue(isQuestionTimeState);
   const { colors } = useTheme();
   const inputRef = createRef<TextInput>();
-  const resultAnswer: null | EmitAnswerIsValid = useSocketListener(GameEvent.AnswerIsValid, null);
+  const resultAnswer = useRoomListener<null | EmitAnswerIsValid>(GameEvent.AnswerIsValid, null);
   const foundSound = useSound({ source: require('@Assets/sounds/right.mp3') });
   const wrongSound = useSound({ source: require('@Assets/sounds/wrong.mp3') });
   const [lifes, setLifes] = useState(4);
@@ -44,9 +44,9 @@ export default function GameInput({ question }: GameInputProps) {
   }, [resultAnswer]);
 
   function emitAnswer() {
-    if (socket && isQuestionTime && lifes > 0) {
+    if (roomSocket && isQuestionTime && lifes > 0) {
       const parsedAnswer = parseAnswer(playerAnswer);
-      socket.emit('guess', parsedAnswer);
+      roomSocket.emit('guess', parsedAnswer);
       setPlayerAnswer('');
       focus();
     }

@@ -29,6 +29,8 @@ type HttpConfig = RequestConfig & ResponseConfig;
 */
 export const appKey: string = Env.get('APP_KEY') as string;
 
+export const appUrl: string = Env.get('APP_URL') as string;
+
 /*
 |--------------------------------------------------------------------------
 | Http server configuration

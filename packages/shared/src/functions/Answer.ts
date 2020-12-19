@@ -17,7 +17,21 @@ export function removePrefix(str: string): string {
     return str.substring(2);
   }
   // basic cases
-  const prefix = ['le', 'un', 'la', 'une', 'les', 'des', 'de'];
+  const prefix = [
+    'le',
+    'un',
+    'la',
+    'une',
+    'les',
+    'des',
+    'de',
+    'en',
+    'sa',
+    'ses',
+    'son',
+    'leur',
+    'leurs',
+  ];
   const splitAnswer = str.split(' ');
   if (prefix.includes(splitAnswer[0])) {
     splitAnswer.shift();

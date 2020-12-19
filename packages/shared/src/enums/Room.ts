@@ -14,6 +14,7 @@ export enum RoomEvent {
   Rooms = 'rooms',
   RoomUpdate = 'roomUpdate',
   Error = 'error',
+  CustomError = 'ce',
 }
 
 export enum SocketErrors {
