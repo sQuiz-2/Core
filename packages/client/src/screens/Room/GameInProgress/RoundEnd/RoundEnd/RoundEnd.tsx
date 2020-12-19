@@ -1,6 +1,6 @@
 import isQuestionTimeState from '@Src/global/isQuestionTimeState';
 import timerState from '@Src/global/timerState';
-import { useSocketListener } from '@Src/utils/hooks/socketListener';
+import { useRoomListener } from '@Src/utils/hooks/roomListener';
 import { GameEvent, EmitAnswer, EmitScoreDetails, GameTime } from '@squiz/shared';
 import React, { useEffect, useState, useRef } from 'react';
 import { View } from 'react-native';
@@ -11,8 +11,8 @@ import ScoreDetail from '../ScoreDetail';
 import useRoundEndStyle from './RoundEndStyle';
 
 export default function RoundEnd() {
-  const answers: EmitAnswer = useSocketListener(GameEvent.Answer, []);
-  const score: EmitScoreDetails | null = useSocketListener(GameEvent.ScoreDetail, null);
+  const answers = useRoomListener<EmitAnswer>(GameEvent.Answer, []);
+  const score = useRoomListener<EmitScoreDetails | null>(GameEvent.ScoreDetail, null);
   const [scoreDetail, setScoreDetail] = useState<EmitScoreDetails | null>(null);
   const styles = useRoundEndStyle(scoreDetail);
   const [isQuestionTime, setIsQuestionTime] = useRecoilState(isQuestionTimeState);

@@ -1,20 +1,20 @@
 import { CenterContainer } from '@Src/components/Containers';
 import SocketError from '@Src/components/SocketError';
-import useSocketConnect from '@Src/utils/hooks/socketConnect';
-import { useSocketListener } from '@Src/utils/hooks/socketListener';
+import { useHomeListener } from '@Src/utils/hooks/homeListener';
 import { useTheme } from '@react-navigation/native';
 import { EmitRooms, EmitRoomUpdate, RoomEvent } from '@squiz/shared';
 import React, { useState, useEffect } from 'react';
 import { ActivityIndicator } from 'react-native';
 
 import HomeContainer from '../HomeContainer';
+import useHomeSocketError from './useHomeSocketError';
 
 export default function Home() {
   const { colors } = useTheme();
   const [displayRooms, setDisplayRooms] = useState<EmitRooms>([]);
-  const rooms: EmitRooms = useSocketListener(RoomEvent.Rooms, []);
-  const roomUpdate: EmitRoomUpdate | null = useSocketListener(RoomEvent.RoomUpdate, null);
-  const { error } = useSocketConnect();
+  const rooms = useHomeListener<EmitRooms>(RoomEvent.Rooms, []);
+  const roomUpdate = useHomeListener<EmitRoomUpdate | null>(RoomEvent.Rooms, null);
+  const error = useHomeSocketError();
 
   useEffect(() => {
     setDisplayRooms(rooms);
