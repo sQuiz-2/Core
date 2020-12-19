@@ -1,5 +1,5 @@
 import Server from '@ioc:Adonis/Core/Server';
-import { appUrl } from 'Config/app';
+/* import { appUrl } from 'Config/app'; */
 import socketIo from 'socket.io';
 
 class Ws {
@@ -12,7 +12,7 @@ class Ws {
    */
   public start(callback: (socket: socketIo.Socket) => void) {
     this.io = socketIo(Server.instance!, {
-      origins: [appUrl],
+      /* origins: [appUrl], */
       perMessageDeflate: false,
     });
     this.io.on('connection', callback);
