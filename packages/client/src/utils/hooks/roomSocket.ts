@@ -13,8 +13,6 @@ export default function useRoomSocket(route?: string, query?: any) {
     const roomSocket = io(url + route, {
       query,
       reconnectionAttempts: 2,
-      upgrade: false,
-      transports: ['websocket'],
     });
     setRoomSocket(roomSocket);
     roomSocket.on(RoomEvent.CustomError, (err: string) => {

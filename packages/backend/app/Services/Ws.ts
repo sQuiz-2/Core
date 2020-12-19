@@ -12,7 +12,7 @@ class Ws {
    */
   public start(callback: (socket: socketIo.Socket) => void) {
     this.io = socketIo(Server.instance!, {
-      origins: appUrl,
+      origins: [appUrl],
       perMessageDeflate: false,
     });
     this.io.on('connection', callback);
