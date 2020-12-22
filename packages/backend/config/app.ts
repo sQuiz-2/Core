@@ -225,3 +225,5 @@ export const profiler: ProfilerConfig = {
   */
   whitelist: [],
 };
+
+export const nodeEnv = Env.get('NODE_ENV', 'production');
