@@ -15,6 +15,7 @@ class Ws {
     this.io = socketIo(Server.instance!, {
       origins: origin,
       perMessageDeflate: false,
+      transports: ['websocket'],
     });
     this.io.on('connection', callback);
     this.isReady = true;
