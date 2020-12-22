@@ -7,7 +7,11 @@ export default function useHomeSocket() {
   const setHomeSocket = useSetRecoilState(homeSocketState);
 
   useEffect(() => {
-    const homeSocket = io(process.env.BACKEND_URL || '', { reconnectionAttempts: 2 });
+    const homeSocket = io(process.env.BACKEND_URL || '', {
+      reconnectionAttempts: 2,
+      upgrade: false,
+      transports: ['websocket'],
+    });
     setHomeSocket(homeSocket);
     return () => {
       homeSocket.close();
