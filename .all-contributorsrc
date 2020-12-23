@@ -1,0 +1,45 @@
+{
+  "projectName": "sQuiz",
+  "projectOwner": "M4gie",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "commitConvention": "none",
+  "contributors": [
+    {
+      "login": "M4gie",
+      "name": "M4gie",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/33150916?v=4",
+      "profile": "http://m4gie.com/",
+      "contributions": [
+        "code",
+        "design",
+        "infra"
+      ]
+    },
+    {
+      "login": "JulesDT",
+      "name": "JulesD",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/14008484?v=4",
+      "profile": "https://github.com/JulesDT",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "kahlys",
+      "name": "kahlys",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/23560176?v=4",
+      "profile": "https://github.com/kahlys",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7
+}
+

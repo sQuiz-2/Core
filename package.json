@@ -10,7 +10,7 @@
     "husky": "^4.2.5"
   },
   "scripts": {
-    "start": "concurrently -n BACKEND,CLIENT,CLIENT-ADMIN -c blue.bold,green.bold,yellow.bold 'yarn:backend dev' 'yarn:client web' 'yarn:client-admin start'",
+    "start": "concurrently -n BACKEND,CLIENT -c blue.bold,green.bold 'yarn:backend dev' 'yarn:client web'",
     "backend": "yarn workspace @squiz/backend",
     "client": "yarn workspace @squiz/client",
     "client-admin": "yarn workspace @squiz/client-admin",
@@ -29,5 +29,9 @@
     "hooks": {
       "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true"
     }
+  },
+  "volta": {
+    "node": "14.15.3",
+    "yarn": "1.22.10"
   }
 }
