@@ -75,7 +75,7 @@ export default class Room {
    * Middleware to check if the player is not already connected
    */
   private preConnectionSuccess(socket: Socket): boolean {
-    const name = socket.handshake?.query?.pseudo;
+    let name = socket.handshake?.query?.pseudo;
     if (!name) {
       socket.emit(RoomEvent.CustomError, SocketErrors.MissingParameter);
       socket.disconnect(true);
@@ -104,7 +104,17 @@ export default class Room {
     if (player) {
       player.reconnect(socket.id);
     } else {
-      this.addPlayer(name, socket.id);
+      if (name === 'null') {
+        name = this.findAvailablePseudo();
+        if (name === false) {
+          socket.emit(RoomEvent.CustomError, SocketErrors.CantFindPseudo);
+          socket.disconnect(true);
+          return false;
+        }
+        this.addPlayer(name, socket.id, true);
+      } else {
+        this.addPlayer(name, socket.id, false);
+      }
     }
     return true;
   }
@@ -127,7 +137,8 @@ export default class Room {
    * remove the player if the game is not in progress
    */
   private disconnection(socket: Socket): void {
-    if (this.status === RoomStatus.InProgress) {
+    const player = this.getPlayer(socket.id);
+    if (this.status === RoomStatus.InProgress && !player?.isGuess) {
       this.disconnectPlayer(socket.id);
     } else {
       this.removePlayer(socket);
@@ -172,8 +183,8 @@ export default class Room {
   /**
    * Store a new player
    */
-  private addPlayer(name: string, id: string): void {
-    this.players.push(new Player({ name, id }));
+  private addPlayer(name: string, id: string, isGuess: boolean): void {
+    this.players.push(new Player({ name, id, isGuess }));
     if (this.players.length >= MAX_PLAYERS) {
       this.isFull = true;
     }
@@ -277,6 +288,19 @@ export default class Room {
    */
   public sortPlayers(): void {
     this.players.sort((a, b) => b.score - a.score);
+  }
+
+  /**
+   * Find a pseudo for player which is not connected
+   */
+  private findAvailablePseudo(): string | boolean {
+    for (let i = 0; i < 10; i++) {
+      const pseudo = 'player' + Math.floor(Math.random() * Math.floor(999));
+      if (!this.getPlayerByName(pseudo)) {
+        return pseudo;
+      }
+    }
+    return false;
   }
 
   public joinGame(_socket: Socket): void {}

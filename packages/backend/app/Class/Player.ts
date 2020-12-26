@@ -3,6 +3,7 @@ import { GameRank, EmitScoreDetails } from '@squiz/shared';
 type Props = {
   name: string;
   id: string;
+  isGuess: boolean;
 };
 
 export default class Player {
@@ -56,9 +57,15 @@ export default class Player {
    */
   disconnected: boolean = false;
 
+  /**
+   * Player is guess or not (connected with oauth or not)
+   */
+  isGuess: boolean = false;
+
   constructor(props: Props) {
     this.id = props.id;
     this.name = props.name;
+    this.isGuess = props.isGuess;
   }
 
   /**

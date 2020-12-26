@@ -15,6 +15,8 @@ function getErrorMessage(error: string) {
       return '😱 Le serveur est full !';
     case SocketErrors.ExceedMaxConnectionPerIp:
       return '🙄 La limite de connexion avec cette adresse ip a été atteinte';
+    case SocketErrors.CantFindPseudo:
+      return '⚙️ Nous ne trouvons pas de compte invité disponible';
     default:
       return '💥 Une erreur est survenue !';
   }

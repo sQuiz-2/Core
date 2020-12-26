@@ -1,14 +1,14 @@
 import { atom } from 'recoil';
 
 export type User = {
-  username: string;
+  username: null | string;
   token: null | string;
 };
 
 const userState = atom<User>({
   key: 'userState',
   default: {
-    username: 'player' + Math.floor(Math.random() * Math.floor(999)),
+    username: null,
     token: null,
   },
 });
