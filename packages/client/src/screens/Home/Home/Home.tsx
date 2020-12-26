@@ -13,7 +13,7 @@ export default function Home() {
   const { colors } = useTheme();
   const [displayRooms, setDisplayRooms] = useState<EmitRooms>([]);
   const rooms = useHomeListener<EmitRooms>(RoomEvent.Rooms, []);
-  const roomUpdate = useHomeListener<EmitRoomUpdate | null>(RoomEvent.Rooms, null);
+  const roomUpdate = useHomeListener<EmitRoomUpdate | null>(RoomEvent.RoomUpdate, null);
   const error = useHomeSocketError();
 
   useEffect(() => {
