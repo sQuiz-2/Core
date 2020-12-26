@@ -22,4 +22,5 @@ export enum SocketErrors {
   MissingParameter = 'mp',
   ServerFull = 'sf',
   ExceedMaxConnectionPerIp = 'em',
+  CantFindPseudo = 'cf',
 }
