@@ -13,6 +13,7 @@ export default function useGameInProgressQuestionStyle() {
     question: {
       textAlign: 'center',
       paddingVertical: responsive(screenWidth, 10, 20, 40),
+      userSelect: 'none',
     },
     questionCounter: {
       fontWeight: 'bold',
