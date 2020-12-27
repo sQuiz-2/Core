@@ -10,7 +10,6 @@ export default class RoundsController {
     const { page = 1, limit = 10, question, reported } = await request.validate(
       FetchRoundValidator,
     );
-    console.log(reported);
     const roundsQuery = Round.query().preload('answers').preload('theme');
     if (reported) {
       roundsQuery.where('reports', '>', 0).orderBy('reports', 'desc');
