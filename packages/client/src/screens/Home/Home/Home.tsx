@@ -1,5 +1,6 @@
 import { CenterContainer } from '@Src/components/Containers';
 import SocketError from '@Src/components/SocketError';
+import Text from '@Src/components/Text';
 import { useHomeListener } from '@Src/utils/hooks/homeListener';
 import { useTheme } from '@react-navigation/native';
 import { EmitRooms, EmitRoomUpdate, RoomEvent } from '@squiz/shared';
@@ -45,6 +46,13 @@ export default function Home() {
       </CenterContainer>
     );
   } else {
-    return <HomeContainer rooms={displayRooms} />;
+    return (
+      <CenterContainer>
+        <Text fontFamily="title" fontSize="xxl">
+          Encore un peu de patience 😉
+        </Text>
+      </CenterContainer>
+    );
+    /* return <HomeContainer rooms={displayRooms} />; */
   }
 }
