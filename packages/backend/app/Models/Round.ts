@@ -49,6 +49,9 @@ export default class Round extends BaseModel {
   @column()
   public reports: number;
 
+  @column()
+  public played: boolean;
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime;
 

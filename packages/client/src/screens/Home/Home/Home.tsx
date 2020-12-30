@@ -7,7 +7,6 @@ import { EmitRooms, EmitRoomUpdate, RoomEvent } from '@squiz/shared';
 import React, { useState, useEffect } from 'react';
 import { ActivityIndicator } from 'react-native';
 
-import HomeContainer from '../HomeContainer';
 import useHomeSocketError from './useHomeSocketError';
 
 export default function Home() {

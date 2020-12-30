@@ -16,6 +16,7 @@ import stringSimilarity from 'string-similarity';
 
 import Player from './Player';
 import Room, { RoomProps } from './Room';
+import RoundFetcher from './RoundsFetcher';
 
 enum EventEmiter {
   Start = 'start',
@@ -68,6 +69,11 @@ export default class Quiz extends Room {
    * Keep track of the number of rounds done
    */
   roundsCounter: number = 0;
+
+  /**
+   * Keep track of the number of rounds done
+   */
+  roundFetcher: RoundFetcher = new RoundFetcher();
 
   constructor(props: RoomProps) {
     super(props);
@@ -294,11 +300,12 @@ export default class Quiz extends Room {
   /**
    * Reset the room for a new game
    */
-  private resetRoomForNewGame(): void {
+  private async resetRoomForNewGame(): Promise<void> {
     this.resetPlayersForNewGame();
-    this.pullRandomRounds();
     this.roundsCounter = 0;
     this.emitScoreBoard();
+    const newRounds = await this.roundFetcher.getRounds(this.difficulty.id);
+    this.rounds = newRounds;
   }
 
   /**
@@ -307,29 +314,6 @@ export default class Quiz extends Room {
   private resetRoomForNewRound(): void {
     this.currentNumberOfValidAnswers = 0;
     this.isGuessTime = true;
-  }
-
-  /**
-   * Pull new random rounds
-   */
-  private async pullRandomRounds(): Promise<void> {
-    const roundIds = await Round.query()
-      .select('id')
-      .where('validated', true)
-      .where('difficulty_id', this.difficulty.id);
-    const selectIds: number[] = [];
-    for (let i = 0; selectIds.length < 15 && i < 30; i++) {
-      const rand = Math.floor(Math.random() * roundIds.length);
-      const randId = roundIds[rand].id;
-      if (selectIds.includes(randId)) continue;
-      selectIds.push(randId);
-    }
-    const rounds = await Round.query()
-      .whereIn('id', selectIds)
-      .preload('answers')
-      .preload('theme')
-      .limit(15);
-    this.rounds = rounds;
   }
 
   /**
