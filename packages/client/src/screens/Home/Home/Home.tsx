@@ -1,12 +1,12 @@
 import { CenterContainer } from '@Src/components/Containers';
 import SocketError from '@Src/components/SocketError';
-import Text from '@Src/components/Text';
 import { useHomeListener } from '@Src/utils/hooks/homeListener';
 import { useTheme } from '@react-navigation/native';
 import { EmitRooms, EmitRoomUpdate, RoomEvent } from '@squiz/shared';
 import React, { useState, useEffect } from 'react';
 import { ActivityIndicator } from 'react-native';
 
+import HomeContainer from '../HomeContainer';
 import useHomeSocketError from './useHomeSocketError';
 
 export default function Home() {
@@ -45,13 +45,13 @@ export default function Home() {
       </CenterContainer>
     );
   } else {
-    return (
+    /*     return (
       <CenterContainer>
         <Text fontFamily="title" fontSize="xxl">
           Encore un peu de patience 😉
         </Text>
       </CenterContainer>
-    );
-    /* return <HomeContainer rooms={displayRooms} />; */
+    ); */
+    return <HomeContainer rooms={displayRooms} />;
   }
 }
