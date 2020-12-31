@@ -5,7 +5,7 @@ import { Socket } from 'socket.io';
 import RoomPool from './RoomPool';
 
 const MAX_CONNECTION = 200;
-const MAX_CONNECTION_PER_IP = 4;
+const MAX_CONNECTION_PER_IP = 1000;
 
 class Home {
   socket: SocketIO.Server;
