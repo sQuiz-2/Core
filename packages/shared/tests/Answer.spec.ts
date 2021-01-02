@@ -16,6 +16,7 @@ test('Normalized value', (assert: Assert) => {
   assert.equal(normalizedValue('nomaj'), 'nomaj');
   assert.equal(normalizedValue('êëéçè'), 'eeece');
   assert.equal(normalizedValue('ÊËÉÇÈ'), 'eeece');
+  assert.equal(normalizedValue('dix-neuf'), 'dix neuf');
 });
 
 test('Remove prefix', (assert: Assert) => {
@@ -24,5 +25,9 @@ test('Remove prefix', (assert: Assert) => {
   assert.equal(removePrefix('des réponses'), 'réponses');
   assert.equal(removePrefix('de la viande'), 'viande');
   assert.equal(removePrefix("l'ultimatum"), 'ultimatum');
+  assert.equal(removePrefix('du vélo'), 'vélo');
+  assert.equal(removePrefix('duvet'), 'duvet');
+  assert.equal(removePrefix("d'or"), 'or');
+  assert.equal(removePrefix("d'"), '');
   assert.equal(removePrefix(''), '');
 });

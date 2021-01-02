@@ -8,12 +8,14 @@ export function normalizedValue(str: string): string {
   let value = str.toLowerCase();
   // Remove accents
   value = value.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  // Remove hyphens
+  value = value.replace(/-/g, ' ');
   return value;
 }
 
 export function removePrefix(str: string): string {
   // special case : l'
-  if (str.startsWith("l'")) {
+  if (str.startsWith("l'") || str.startsWith("d'")) {
     return str.substring(2);
   }
   // basic cases
@@ -31,6 +33,7 @@ export function removePrefix(str: string): string {
     'son',
     'leur',
     'leurs',
+    'du',
   ];
   const splitAnswer = str.split(' ');
   if (prefix.includes(splitAnswer[0])) {
