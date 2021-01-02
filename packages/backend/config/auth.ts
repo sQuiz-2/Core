@@ -103,5 +103,5 @@ const authConfig: AuthConfig = {
 export default authConfig;
 
 export const twitchClientId: string = Env.get('TWITCH_CLIENT_ID') as string;
-export const twitchClientSecrect: string = Env.get('TWITCH_CLIENT_SECRET') as string;
+export const twitchClientSecret: string = Env.get('TWITCH_CLIENT_SECRET') as string;
 export const twitchRedirectUri: string = Env.get('TWITCH_REDIRECT_URI') as string;

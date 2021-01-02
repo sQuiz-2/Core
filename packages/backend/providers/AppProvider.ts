@@ -28,7 +28,7 @@ export default class AppProvider {
     if (App.default.environment === 'web') {
       /**
        * Room pool needs to be init before the socket
-       * beacause we use the RoomPool in the socket
+       * because we use the RoomPool in the socket
        */
       await import('../start/roomPool');
       await import('../start/socket');

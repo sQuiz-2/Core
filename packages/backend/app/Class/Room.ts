@@ -269,7 +269,7 @@ export default class Room {
   }
 
   /**
-   * Send room informations to a socket
+   * Send room information to a socket
    */
   private emitRoomInfos(socket: Socket): void {
     this.emitToSocket(RoomEvent.Infos, { title: this.title }, socket.id);

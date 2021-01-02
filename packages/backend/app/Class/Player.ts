@@ -69,7 +69,7 @@ export default class Player {
   }
 
   /**
-   * Check if the player can perfom an answer
+   * Check if the player can perform an answer
    */
   public canPerformGuess(maxGuess: number): boolean {
     return this.canGuess && this.numberOfGuess < maxGuess;
@@ -78,7 +78,7 @@ export default class Player {
   /**
    * Decrement the number of allowed guesses
    */
-  public performUnvalidAnswer(): void {
+  public performInvalidAnswer(): void {
     this.numberOfGuess++;
   }
 
@@ -126,7 +126,7 @@ export default class Player {
   }
 
   /**
-   * Reset player with inital values
+   * Reset player with initial values
    */
   public resetForNewRound(): void {
     this.currentRank = GameRank.RoundComing;
