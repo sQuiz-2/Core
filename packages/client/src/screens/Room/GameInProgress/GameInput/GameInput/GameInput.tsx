@@ -48,7 +48,6 @@ export default function GameInput({ question }: GameInputProps) {
       const parsedAnswer = parseAnswer(playerAnswer);
       roomSocket.emit('guess', parsedAnswer);
       setPlayerAnswer('');
-      focus();
     }
   }
 
@@ -58,6 +57,10 @@ export default function GameInput({ question }: GameInputProps) {
       emitAnswer();
     }
   }
+
+  useEffect(() => {
+    focus();
+  }, []);
 
   function focus() {
     if (inputRef.current) {
