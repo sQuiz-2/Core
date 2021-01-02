@@ -1,5 +1,5 @@
 import OAuthException, { OAuthExceptionCode } from 'App/Exceptions/OAuthException';
-import { twitchClientId, twitchClientSecrect, twitchRedirectUri } from 'Config/auth';
+import { twitchClientId, twitchClientSecret, twitchRedirectUri } from 'Config/auth';
 import got from 'got';
 
 type TwitchUser = {
@@ -51,7 +51,7 @@ const TwitchException = {
 
 class Twitch {
   private client_id = twitchClientId;
-  private client_secret = twitchClientSecrect;
+  private client_secret = twitchClientSecret;
   private redirect_uri = twitchRedirectUri;
   private token: string | null = null;
   private refreshToken: string | null = null;

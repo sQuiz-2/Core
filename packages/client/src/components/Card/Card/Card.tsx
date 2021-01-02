@@ -15,7 +15,7 @@ export default function Card({ style, ...props }: CardProps) {
   return (
     <View
       style={[
-        styles.cardContainter,
+        styles.cardContainer,
         { shadowColor: colors.border, backgroundColor: colors.card },
         style,
       ]}

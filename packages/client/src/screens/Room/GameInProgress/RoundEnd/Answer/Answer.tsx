@@ -10,7 +10,7 @@ type AnswerProps = {
 };
 
 export default function Answer({ answers }: AnswerProps) {
-  const formatedAnswers = answers.map(({ answer }) => answer);
+  const formattedAnswers = answers.map(({ answer }) => answer);
 
   return (
     <LinearGradient
@@ -19,7 +19,7 @@ export default function Answer({ answers }: AnswerProps) {
       start={[1.0, 0.0]}
       end={[0.0, 1.0]}>
       <Text fontSize="lg" style={styles.answers}>
-        {formatedAnswers.length > 1 ? formatedAnswers.join(' / ') : formatedAnswers}
+        {formattedAnswers.length > 1 ? formattedAnswers.join(' / ') : formattedAnswers}
       </Text>
     </LinearGradient>
   );

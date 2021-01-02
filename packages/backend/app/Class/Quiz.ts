@@ -18,7 +18,7 @@ import Player from './Player';
 import Room, { RoomProps } from './Room';
 import RoundFetcher from './RoundsFetcher';
 
-enum EventEmiter {
+enum EventEmitter {
   Start = 'start',
 }
 
@@ -31,12 +31,12 @@ export default class Quiz extends Room {
   roundTimer: NodeJS.Timeout | null = null;
 
   /**
-   * Timout before emiting answer
+   * Timeout before emitting answer
    */
   answerTimer: NodeJS.Timeout | null = null;
 
   /**
-   * Timout before starting a new game
+   * Timeout before starting a new game
    */
   endTimer: NodeJS.Timeout | null = null;
 
@@ -77,7 +77,7 @@ export default class Quiz extends Room {
 
   constructor(props: RoomProps) {
     super(props);
-    this.eventEmitter.on(EventEmiter.Start, this.startGame.bind(this));
+    this.eventEmitter.on(EventEmitter.Start, this.startGame.bind(this));
   }
 
   /**
@@ -95,7 +95,7 @@ export default class Quiz extends Room {
    * Handle player wrong answer
    */
   private playerWrongAnswer(player: Player): void {
-    player.performUnvalidAnswer();
+    player.performInvalidAnswer();
     this.emitToSocket(GameEvent.AnswerIsValid, { valid: false }, player.id);
   }
 
@@ -215,7 +215,7 @@ export default class Quiz extends Room {
     this.emitStatusToSocket(socket.id);
     // We need at least one player to start the game
     if (this.status === RoomStatus.Waiting && this.players.length >= 1) {
-      this.eventEmitter.emit(EventEmiter.Start);
+      this.eventEmitter.emit(EventEmitter.Start);
     }
     socket.on(GameEvent.Guess, (guess) => this.playerGuess(socket.id, guess));
   }
@@ -235,12 +235,12 @@ export default class Quiz extends Room {
   }
 
   /**
-   * Restart game or stop it if not enought sockets
+   * Restart game or stop it if not enoughs sockets
    */
   private restartGame(): void {
     this.removeDisconnectedPlayers();
     if (this.players.length > 0) {
-      this.eventEmitter.emit(EventEmiter.Start);
+      this.eventEmitter.emit(EventEmitter.Start);
     } else {
       this.setStatus(RoomStatus.Waiting);
     }

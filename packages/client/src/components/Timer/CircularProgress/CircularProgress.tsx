@@ -8,7 +8,7 @@ import styles from './CircularProgressStyle';
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 const { PI } = Math;
 
-interface CircularPogressProps {
+interface CircularProgressProps {
   progress: Animated.Value;
   children?: React.ReactNode;
   size: number;
@@ -20,7 +20,7 @@ export default function CircularProgress({
   children,
   size,
   strokeWidth = 5,
-}: CircularPogressProps) {
+}: CircularProgressProps) {
   const { colors } = useTheme();
   const radius = (size - strokeWidth) / 2;
   const x = size / 2;

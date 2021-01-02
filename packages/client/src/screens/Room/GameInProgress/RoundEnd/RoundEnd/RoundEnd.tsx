@@ -23,7 +23,7 @@ export default function RoundEnd() {
     if (!answers) return;
     setIsQuestionTime(false);
     setTime(GameTime.Answer);
-    // Reset ScoreDetail at the begining of the next round
+    // Reset ScoreDetail at the beginning of the next round
     timeout.current = setTimeout(() => {
       setScoreDetail(null);
     }, GameTime.Answer * 1000);
