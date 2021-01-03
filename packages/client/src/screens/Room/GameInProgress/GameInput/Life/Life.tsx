@@ -6,14 +6,14 @@ import { View } from 'react-native';
 import styles from './LifeStyle';
 
 type LifeProps = {
-  lifes: number;
+  life: number;
 };
 
-export default function Life({ lifes }: LifeProps) {
+export default function Life({ life }: LifeProps) {
   const { colors } = useTheme();
-  const displayLifes = [];
-  for (let i = 0; i < lifes; i++) {
-    displayLifes.push(<FontAwesome key={i} name="heart" size={10} color={colors.text} />);
+  const displayLife = [];
+  for (let i = 0; i < life; i++) {
+    displayLife.push(<FontAwesome key={i} name="heart" size={10} color={colors.text} />);
   }
-  return <View style={styles.container}>{displayLifes}</View>;
+  return <View style={styles.container}>{displayLife}</View>;
 }

@@ -56,3 +56,8 @@ export type EmitQuestions = {
   question: string;
   answers: string[];
 }[];
+
+export type EmitValidAnswer = {
+  scoreDetail: EmitScoreDetails;
+  rank: number;
+};

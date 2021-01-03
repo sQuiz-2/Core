@@ -85,9 +85,14 @@ export default class Quiz extends Room {
    */
   private playerGoodAnswer(player: Player, rank: number): void {
     const scoreDetail: EmitScoreDetails = player.performsValidAnswer(rank, this.roundsCounter);
-    this.emitToSocket(GameEvent.AnswerIsValid, { valid: true }, player.id);
-    this.emitToSocket(GameEvent.ScoreDetail, scoreDetail, player.id);
-    this.emitRanks(player.id, player.ranks);
+    this.emitToSocket(
+      GameEvent.ValidAnswer,
+      {
+        scoreDetail,
+        rank: player.currentRank,
+      },
+      player.id,
+    );
     this.emitScoreBoard();
   }
 
@@ -96,7 +101,7 @@ export default class Quiz extends Room {
    */
   private playerWrongAnswer(player: Player): void {
     player.performInvalidAnswer();
-    this.emitToSocket(GameEvent.AnswerIsValid, { valid: false }, player.id);
+    this.emitToSocket(GameEvent.WrongAnswer, { valid: false }, player.id);
   }
 
   /**

@@ -1,13 +1,9 @@
 import Card from '@Src/components/Card';
 import Report from '@Src/components/QuestionReport';
 import Text from '@Src/components/Text';
-import isQuestionTimeState from '@Src/global/isQuestionTimeState';
-import timerState from '@Src/global/timerState';
-import { useSound } from '@Src/utils/hooks/sound';
-import { EmitQuestion, GameTime } from '@squiz/shared';
-import React, { useEffect } from 'react';
+import { EmitQuestion } from '@squiz/shared';
+import React from 'react';
 import { View } from 'react-native';
-import { useSetRecoilState } from 'recoil';
 
 import useGameInProgressQuestionStyle from './QuestionStyle';
 
@@ -17,19 +13,6 @@ type GameInProgressQuestionProps = {
 
 export default function GameInProgressQuestion({ question }: GameInProgressQuestionProps) {
   const styles = useGameInProgressQuestionStyle();
-
-  const setIsQuestionTime = useSetRecoilState(isQuestionTimeState);
-  const setTime = useSetRecoilState(timerState);
-  const startRoundSound = useSound({
-    source: require('@Assets/sounds/round-start.mp3'),
-  });
-
-  useEffect(() => {
-    if (!question) return;
-    setIsQuestionTime(true);
-    setTime(GameTime.Question);
-    startRoundSound.play();
-  }, [question]);
 
   if (!question) return null;
 

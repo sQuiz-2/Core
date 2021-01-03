@@ -1,15 +1,17 @@
 import Text from '@Src/components/Text';
-import { useRoomListener } from '@Src/utils/hooks/roomListener';
 import { getMedalWithRank } from '@Src/utils/medals';
-import { GameEvent, GameRank, EmitRanks } from '@squiz/shared';
 import React from 'react';
 import { View, Image } from 'react-native';
 
 import useRoundCounterStyle from './RoundCounterStyle';
 
-export default function RoundCounter() {
+type RoundCounterProps = {
+  ranks: number[];
+};
+
+export default function RoundCounter({ ranks }: RoundCounterProps) {
   const styles = useRoundCounterStyle();
-  const ranks: EmitRanks = useRoomListener(GameEvent.Ranks, Array(15).fill(GameRank.RoundComing));
+
   return (
     <View style={styles.container}>
       {ranks.map((rank, value) => {

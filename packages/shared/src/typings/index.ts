@@ -12,6 +12,7 @@ export type {
   Player,
   EmitPlayer,
   EmitQuestions,
+  EmitValidAnswer,
 } from './Room';
 
 export * from './API';

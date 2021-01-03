@@ -1,12 +1,13 @@
 export enum GameEvent {
   Answer = 'answer',
   Guess = 'guess',
-  AnswerIsValid = 'answerIsValid',
   Question = 'question',
   RoundCounter = 'roundCounter',
   Ranks = 'ranks',
   ScoreDetail = 'scoreDetail',
   Questions = 'questions',
+  ValidAnswer = 'va',
+  WrongAnswer = 'wa',
 }
 
 export enum GameRank {

@@ -3,13 +3,13 @@ import { ResponsiveContainer } from '@Src/components/Containers';
 import PlayerInfos from '@Src/components/PlayerInfo';
 import { DisplayPlayer } from '@Src/global/playerInfoState';
 import timerState from '@Src/global/timerState';
-import { useRoomListener } from '@Src/utils/hooks/roomListener';
 import { useSound } from '@Src/utils/hooks/sound';
-import { RoomStatus, EmitQuestion, GameTime } from '@squiz/shared';
+import { RoomStatus, GameTime } from '@squiz/shared';
 import React, { useEffect } from 'react';
 import { View } from 'react-native';
 import { useSetRecoilState } from 'recoil';
 
+import useRoomListen from '../../Room/useRoomListen';
 import GameInput from '../GameInput';
 import Question from '../Question';
 import RoomTitle from '../RoomTitle';
@@ -28,7 +28,7 @@ export default function GameInProgress({ status, players, roomInfos }: GameInPro
   const styles = useGameInProgressStyle();
   const setTime = useSetRecoilState(timerState);
   const gameStartSound = useSound({ source: require('@Assets/sounds/game-start.mp3') });
-  const question = useRoomListener<null | EmitQuestion>('question', null);
+  const { question, answers, ranks, scoreDetail } = useRoomListen();
 
   useEffect(() => {
     switch (status) {
@@ -54,9 +54,9 @@ export default function GameInProgress({ status, players, roomInfos }: GameInPro
       <View style={styles.game}>
         <View style={styles.grow}>
           <Question question={question} />
-          <RoundEnd />
+          <RoundEnd answers={answers} scoreDetail={scoreDetail} />
         </View>
-        <RoundCounter />
+        <RoundCounter ranks={ranks} />
         <GameInput question={question} />
       </View>
     </ResponsiveContainer>
