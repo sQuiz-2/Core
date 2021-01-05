@@ -4,7 +4,6 @@ import questionState from '@Src/global/Room/question';
 import isQuestionTimeState from '@Src/global/isQuestionTimeState';
 import timerState from '@Src/global/timerState';
 import { GameEvent, EmitAnswer, GameTime, GameRank } from '@squiz/shared';
-import { useEffect } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import useListener from './useListener';
@@ -18,12 +17,6 @@ export default function useAnswerListener() {
   const ranks = useRecoilValue(playerRankState);
   const question = useRecoilValue(questionState);
   const updateRank = useRankUpdate();
-
-  useEffect(() => {
-    return () => {
-      setAnswer(null);
-    };
-  }, []);
 
   function handleAnswer(answer: EmitAnswer) {
     setAnswer(answer);

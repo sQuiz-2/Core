@@ -6,7 +6,6 @@ import isQuestionTimeState from '@Src/global/isQuestionTimeState';
 import timerState from '@Src/global/timerState';
 import { useSound } from '@Src/utils/hooks/sound';
 import { GameEvent, EmitQuestion, GameTime, GameRank } from '@squiz/shared';
-import { useEffect } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import useListener from './useListener';
@@ -20,12 +19,6 @@ export default function useQuestionListener() {
   const [scoreboard, setScoreboard] = useRecoilState(scoreboardState);
   const [playerScore, setPlayerScore] = useRecoilState(playerScoreState);
   const startRoundSound = useSound({ source: require('@Assets/sounds/round-start.mp3') });
-
-  useEffect(() => {
-    return () => {
-      setQuestion(null);
-    };
-  }, []);
 
   function handleNewQuestion(question: EmitQuestion) {
     updateQuestion(question);
@@ -46,8 +39,7 @@ export default function useQuestionListener() {
   }
 
   function resetPlayersRank() {
-    let updatedScoreboard = [...scoreboard];
-    updatedScoreboard = updatedScoreboard.map((player) => ({
+    const updatedScoreboard = scoreboard.map((player) => ({
       ...player,
       rank: GameRank.RoundComing,
     }));

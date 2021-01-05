@@ -1,4 +1,3 @@
-import playerScoreState from '@Src/global/Room/playerScore';
 import roomInfosState from '@Src/global/Room/roomInfos';
 import { RoomEvent } from '@squiz/shared';
 import { useSetRecoilState } from 'recoil';
