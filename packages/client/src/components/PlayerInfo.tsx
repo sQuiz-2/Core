@@ -1,16 +1,12 @@
-import useGetPlayer from '@Src/utils/hooks/getPlayer';
+import playerScoreState from '@Src/global/Room/playerScore';
 import React from 'react';
 import { View } from 'react-native';
+import { useRecoilValue } from 'recoil';
 
-import { DisplayPlayer } from '../global/playerInfoState';
 import { ScoreboardRow } from './ScoreBoard/';
 
-type PlayerInfosProps = {
-  players: DisplayPlayer[];
-};
-
-export default function PlayerInfos({ players }: PlayerInfosProps) {
-  const player = useGetPlayer(players);
+export default function PlayerInfos() {
+  const player = useRecoilValue(playerScoreState);
 
   if (!player) return null;
   return (

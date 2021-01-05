@@ -4,6 +4,7 @@ type Props = {
   name: string;
   id: string;
   isGuess: boolean;
+  position: number;
 };
 
 export default class Player {
@@ -62,10 +63,16 @@ export default class Player {
    */
   isGuess: boolean = false;
 
+  /**
+   * Player computed position
+   */
+  position: number = 0;
+
   constructor(props: Props) {
     this.id = props.id;
     this.name = props.name;
     this.isGuess = props.isGuess;
+    this.position = props.position;
   }
 
   /**
@@ -123,6 +130,7 @@ export default class Player {
     this.streak = 0;
     this.find = false;
     this.ranks = Array(15).fill(GameRank.RoundComing);
+    this.position = 1;
   }
 
   /**

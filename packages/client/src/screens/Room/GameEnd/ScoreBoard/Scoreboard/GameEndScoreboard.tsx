@@ -1,17 +1,15 @@
-import { DisplayPlayer } from '@Src/global/playerInfoState';
+import scoreboardState from '@Src/global/Room/scoreboard';
 import React, { useState } from 'react';
 import { View } from 'react-native';
+import { useRecoilValue } from 'recoil';
 
 import GameEndFullScoreboard from '../FullScoreboard';
 import GameEndScoreboardSwitch from '../ScoreboardSwitch';
 import GameEndTopScoreBoard from '../TopScoreboard/';
 import styles from './GameEndScoreboardStyle';
 
-type GameEndScoreBoardProps = {
-  players: DisplayPlayer[];
-};
-
-export default function GameEndScoreBoard({ players }: GameEndScoreBoardProps) {
+export default function GameEndScoreBoard() {
+  const players = useRecoilValue(scoreboardState);
   const [displayTop, setDisplayTop] = useState(true);
   const topPlayers = players.filter((player) => player.position < 4);
 

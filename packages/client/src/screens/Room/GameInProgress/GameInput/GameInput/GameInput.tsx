@@ -1,10 +1,11 @@
 import Card from '@Src/components/Card/Card';
+import questionState from '@Src/global/Room/question';
 import isQuestionTimeState from '@Src/global/isQuestionTimeState';
 import roomSocketState from '@Src/global/roomSocket';
 import { useRoomListener } from '@Src/utils/hooks/roomListener';
 import { useSound } from '@Src/utils/hooks/sound';
 import { useTheme } from '@react-navigation/native';
-import { GameEvent, parseAnswer, EmitQuestion } from '@squiz/shared';
+import { GameEvent, parseAnswer } from '@squiz/shared';
 import React, { useState, createRef, useEffect } from 'react';
 import { TextInput, NativeSyntheticEvent, TextInputKeyPressEventData } from 'react-native';
 import { useRecoilValue } from 'recoil';
@@ -13,13 +14,10 @@ import GameTimer from '../GameTimer';
 import Life from '../Life';
 import styles from './GameInputStyle';
 
-type GameInputProps = {
-  question: EmitQuestion | null;
-};
-
-export default function GameInput({ question }: GameInputProps) {
+export default function GameInput() {
   const [playerAnswer, setPlayerAnswer] = useState('');
   const roomSocket = useRecoilValue(roomSocketState);
+  const question = useRecoilValue(questionState);
   const isQuestionTime = useRecoilValue(isQuestionTimeState);
   const { colors } = useTheme();
   const inputRef = createRef<TextInput>();

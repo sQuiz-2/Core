@@ -2,9 +2,10 @@ import {
   Difficulty,
   RoomStatus,
   RoomEvent,
-  EmitPlayer,
   EmitRoomUpdate,
   SocketErrors,
+  EmitScoreboard,
+  GameRank,
 } from '@squiz/shared';
 import Ws from 'App/Services/Ws';
 import { EventEmitter } from 'events';
@@ -103,17 +104,23 @@ export default class Room {
     // todo: authenticate the player
     if (player) {
       player.reconnect(socket.id);
+      this.emitToSocket(
+        RoomEvent.PlayerScore,
+        {
+          id: player.id,
+          name: player.name,
+          score: player.score,
+          rank: player.currentRank,
+          position: 0,
+        },
+        player.id,
+      );
     } else {
       if (name === 'null') {
-        name = this.findAvailablePseudo();
-        if (name === false) {
-          socket.emit(RoomEvent.CustomError, SocketErrors.CantFindPseudo);
-          socket.disconnect(true);
-          return false;
-        }
-        this.addPlayer(name, socket.id, true);
+        name = this.findPseudo();
+        this.addPlayer(name, socket, true);
       } else {
-        this.addPlayer(name, socket.id, false);
+        this.addPlayer(name, socket, false);
       }
     }
     return true;
@@ -125,7 +132,12 @@ export default class Room {
   private connection(socket: Socket): void {
     if (!this.preConnectionSuccess(socket)) return;
     this.emitRoomInfos(socket);
-    this.emitScoreBoard();
+    if (this.players.length < 21) {
+      this.emitScoreBoard();
+    } else {
+      // emit only to the new player
+    }
+    this.emit(RoomEvent.OnlinePlayers, this.players.length);
     this.joinGame(socket);
     this.updateRoom();
     socket.on(RoomEvent.Disconnection, () => this.disconnection(socket));
@@ -183,11 +195,27 @@ export default class Room {
   /**
    * Store a new player
    */
-  private addPlayer(name: string, id: string, isGuess: boolean): void {
-    this.players.push(new Player({ name, id, isGuess }));
+  private addPlayer(name: string, socket: Socket, isGuess: boolean): void {
+    const lastPlayer = this.players[this.players.length - 1];
+    let position = 1;
+    if (lastPlayer) {
+      position = lastPlayer.score === 0 ? lastPlayer.position : lastPlayer.position + 1;
+    }
+    this.players.push(new Player({ name, id: socket.id, isGuess, position }));
     if (this.players.length >= MAX_PLAYERS) {
       this.isFull = true;
     }
+    this.emitToSocket(
+      RoomEvent.PlayerScore,
+      {
+        id: socket.id,
+        name,
+        score: 0,
+        rank: GameRank.RoundComing,
+        position,
+      },
+      socket.id,
+    );
   }
 
   /**
@@ -198,7 +226,12 @@ export default class Room {
     if (this.isFull) {
       this.isFull = false;
     }
-    this.emitScoreBoard();
+    this.emit(RoomEvent.OnlinePlayers, this.players.length);
+    if (this.players.length < 20) {
+      this.sortPlayers();
+      this.updatePlayersPosition();
+      this.emitScoreBoard();
+    }
   }
 
   /**
@@ -230,14 +263,19 @@ export default class Room {
   }
 
   /**
-   * Sort the players and emit the scoreboard to all connected sockets
+   * Emit the scoreboard to all sockets
    */
   public emitScoreBoard(): void {
-    this.sortPlayers();
-    const players: EmitPlayer = this.players.map(({ id, name, score, currentRank }) => {
-      return { id, name, score, rank: currentRank };
-    });
-    this.emit(RoomEvent.Players, players);
+    const players: EmitScoreboard = this.players
+      .slice(0, 20)
+      .map(({ id, name, score, currentRank, position }) => ({
+        id,
+        name,
+        score,
+        rank: currentRank,
+        position,
+      }));
+    this.emit(RoomEvent.Scoreboard, players);
   }
 
   /**
@@ -291,16 +329,23 @@ export default class Room {
   }
 
   /**
-   * Find a pseudo for player which is not connected
+   * Update players position
    */
-  private findAvailablePseudo(): string | boolean {
-    for (let i = 0; i < 10; i++) {
-      const pseudo = 'player' + Math.floor(Math.random() * Math.floor(999));
-      if (!this.getPlayerByName(pseudo)) {
-        return pseudo;
+  public updatePlayersPosition(): void {
+    for (let i = 0, position = 1; i < this.players.length; i++) {
+      this.players[i].position = position;
+      if (this.players[i + 1] && this.players[i + 1].score < this.players[i].score) {
+        position++;
       }
     }
-    return false;
+  }
+
+  /**
+   * Find a pseudo for player which is not connected
+   */
+  private findPseudo(): string {
+    const pseudo = 'player' + Math.floor(Math.random() * Math.floor(9999));
+    return pseudo;
   }
 
   public joinGame(_socket: Socket): void {}

@@ -1,16 +1,15 @@
 import Scoreboard from '@Src/components/ScoreBoard';
 import Text from '@Src/components/Text';
-import { DisplayPlayer } from '@Src/global/playerInfoState';
+import onlinePlayersState from '@Src/global/Room/onlinePlayers';
 import React from 'react';
 import { View } from 'react-native';
+import { useRecoilValue } from 'recoil';
 
 import styles from './GameInProgressScoreboardStyle';
 
-type ScoreBoardProps = {
-  players: DisplayPlayer[];
-};
+export default function ScoreBoard() {
+  const onlinePlayers = useRecoilValue(onlinePlayersState);
 
-export default function ScoreBoard({ players }: ScoreBoardProps) {
   return (
     <>
       <View style={styles.top}>
@@ -18,11 +17,11 @@ export default function ScoreBoard({ players }: ScoreBoardProps) {
           JOUEURS
         </Text>
         <Text fontFamily="title" fontSize="xxl">
-          {players.length}
+          {onlinePlayers}
         </Text>
       </View>
       <View style={styles.grow}>
-        <Scoreboard players={players} />
+        <Scoreboard />
       </View>
     </>
   );

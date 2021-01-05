@@ -10,7 +10,8 @@ export type {
   EmitScoreDetails,
   EmitRanks,
   Player,
-  EmitPlayer,
+  EmitScoreboard,
+  EmitOnlinePlayers,
   EmitQuestions,
   EmitValidAnswer,
 } from './Room';

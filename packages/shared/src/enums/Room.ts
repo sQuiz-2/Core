@@ -8,7 +8,9 @@ export enum RoomStatus {
 export enum RoomEvent {
   Connection = 'connection',
   Disconnection = 'disconnect',
-  Players = 'players',
+  OnlinePlayers = 'op',
+  Scoreboard = 'sb',
+  PlayerScore = 'ps',
   Status = 'status',
   Infos = 'infos',
   Rooms = 'rooms',

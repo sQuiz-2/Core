@@ -1,16 +1,15 @@
 import Text from '@Src/components/Text';
+import playerRankState from '@Src/global/Room/playerRanks';
 import { getMedalWithRank } from '@Src/utils/medals';
 import React from 'react';
 import { View, Image } from 'react-native';
+import { useRecoilValue } from 'recoil';
 
 import useRoundCounterStyle from './RoundCounterStyle';
 
-type RoundCounterProps = {
-  ranks: number[];
-};
-
-export default function RoundCounter({ ranks }: RoundCounterProps) {
+export default function RoundCounter() {
   const styles = useRoundCounterStyle();
+  const ranks = useRecoilValue(playerRankState);
 
   return (
     <View style={styles.container}>

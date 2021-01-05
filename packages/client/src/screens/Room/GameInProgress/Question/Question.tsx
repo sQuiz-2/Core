@@ -1,18 +1,16 @@
 import Card from '@Src/components/Card';
 import Report from '@Src/components/QuestionReport';
 import Text from '@Src/components/Text';
-import { EmitQuestion } from '@squiz/shared';
+import questionState from '@Src/global/Room/question';
 import React from 'react';
 import { View } from 'react-native';
+import { useRecoilValue } from 'recoil';
 
 import useGameInProgressQuestionStyle from './QuestionStyle';
 
-type GameInProgressQuestionProps = {
-  question: null | EmitQuestion;
-};
-
-export default function GameInProgressQuestion({ question }: GameInProgressQuestionProps) {
+export default function GameInProgressQuestion() {
   const styles = useGameInProgressQuestionStyle();
+  const question = useRecoilValue(questionState);
 
   if (!question) return null;
 
