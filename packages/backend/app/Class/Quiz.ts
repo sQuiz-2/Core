@@ -5,7 +5,6 @@ import {
   RoomStatus,
   EmitAnswer,
   EmitScoreDetails,
-  EmitRanks,
   EmitQuestions,
   EmitQuestion,
   GameTime,
@@ -157,13 +156,6 @@ export default class Quiz extends Room {
   }
 
   /**
-   * Emit ranks to a socket
-   */
-  private emitRanks(id: string, ranks: EmitRanks): void {
-    this.emitToSocket(GameEvent.Ranks, ranks, id);
-  }
-
-  /**
    * Init a new round
    */
   private setNewCurrentRound(): Round | null {
@@ -179,7 +171,7 @@ export default class Quiz extends Room {
    * Start a new round if it's not otherwise go to gameEnd
    */
   private startNewRound(): void {
-    /* this.setStatus(RoomStatus.InProgress); */
+    this.status = RoomStatus.InProgress;
     if (this.roundsCounter >= this.rounds.length) {
       this.gameEnd();
     } else {

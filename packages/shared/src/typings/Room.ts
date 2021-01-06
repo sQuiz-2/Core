@@ -66,3 +66,7 @@ export type EmitValidAnswer = {
 };
 
 export type EmitOnlinePlayers = number;
+
+export interface EmitPlayerScore extends Player {
+  ranks?: number[];
+}

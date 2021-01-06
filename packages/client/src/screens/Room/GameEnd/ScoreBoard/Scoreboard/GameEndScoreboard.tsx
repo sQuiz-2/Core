@@ -16,11 +16,7 @@ export default function GameEndScoreBoard() {
   return (
     <View style={styles.container}>
       <GameEndScoreboardSwitch displayTop={displayTop} setDisplayTop={setDisplayTop} />
-      {displayTop ? (
-        <GameEndTopScoreBoard players={topPlayers} />
-      ) : (
-        <GameEndFullScoreboard players={players} />
-      )}
+      {displayTop ? <GameEndTopScoreBoard players={topPlayers} /> : <GameEndFullScoreboard />}
     </View>
   );
 }

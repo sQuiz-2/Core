@@ -6,6 +6,7 @@ import {
   SocketErrors,
   EmitScoreboard,
   GameRank,
+  EmitPlayerScore,
 } from '@squiz/shared';
 import Ws from 'App/Services/Ws';
 import { EventEmitter } from 'events';
@@ -85,7 +86,7 @@ export default class Room {
     // Let's make sure you are not already in this room !
     const player = this.getPlayerByName(name);
     if (player) {
-      // Hummm how can you be here and also in the room ??? Have y  ou been disconnected ?
+      // Hummm how can you be here and also in the room ??? Have you been disconnected ?
       if (!player.disconnected) {
         // It's seems you're already playing in this room !
         socket.emit(RoomEvent.CustomError, SocketErrors.AlreadyConnected);
@@ -104,17 +105,7 @@ export default class Room {
     // todo: authenticate the player
     if (player) {
       player.reconnect(socket.id);
-      this.emitToSocket(
-        RoomEvent.PlayerScore,
-        {
-          id: player.id,
-          name: player.name,
-          score: player.score,
-          rank: player.currentRank,
-          position: 0,
-        },
-        player.id,
-      );
+      this.emitReconnectInfos(player);
     } else {
       if (name === 'null') {
         name = this.findPseudo();
@@ -135,7 +126,7 @@ export default class Room {
     if (this.players.length < 21) {
       this.emitScoreBoard();
     } else {
-      // emit only to the new player
+      this.emitScoreBoardTo(socket.id);
     }
     this.emit(RoomEvent.OnlinePlayers, this.players.length);
     this.joinGame(socket);
@@ -193,7 +184,7 @@ export default class Room {
   }
 
   /**
-   * Store a new player
+   * Store a new player and emit his score
    */
   private addPlayer(name: string, socket: Socket, isGuess: boolean): void {
     const lastPlayer = this.players[this.players.length - 1];
@@ -205,17 +196,29 @@ export default class Room {
     if (this.players.length >= MAX_PLAYERS) {
       this.isFull = true;
     }
-    this.emitToSocket(
-      RoomEvent.PlayerScore,
-      {
-        id: socket.id,
-        name,
-        score: 0,
-        rank: GameRank.RoundComing,
-        position,
-      },
-      socket.id,
-    );
+    const playerScore: EmitPlayerScore = {
+      id: socket.id,
+      name,
+      score: 0,
+      rank: GameRank.RoundComing,
+      position,
+    };
+    this.emitToSocket(RoomEvent.PlayerScore, playerScore, socket.id);
+  }
+
+  /**
+   * Emit reconnection information
+   */
+  private emitReconnectInfos(player: Player) {
+    const infos: EmitPlayerScore = {
+      id: player.id,
+      name: player.name,
+      score: player.score,
+      rank: player.currentRank,
+      position: player.position,
+      ranks: player.ranks,
+    };
+    this.emitToSocket(RoomEvent.PlayerScore, infos, player.id);
   }
 
   /**
@@ -263,19 +266,32 @@ export default class Room {
   }
 
   /**
+   * Get the 20 first players
+   */
+  public getScoreboard(): EmitScoreboard {
+    return this.players.slice(0, 20).map(({ id, name, score, currentRank, position }) => ({
+      id,
+      name,
+      score,
+      rank: currentRank,
+      position,
+    }));
+  }
+
+  /**
    * Emit the scoreboard to all sockets
    */
   public emitScoreBoard(): void {
-    const players: EmitScoreboard = this.players
-      .slice(0, 20)
-      .map(({ id, name, score, currentRank, position }) => ({
-        id,
-        name,
-        score,
-        rank: currentRank,
-        position,
-      }));
-    this.emit(RoomEvent.Scoreboard, players);
+    const scoreBoard = this.getScoreboard();
+    this.emit(RoomEvent.Scoreboard, scoreBoard);
+  }
+
+  /**
+   * Emit the scoreboard to one socket
+   */
+  public emitScoreBoardTo(id: string): void {
+    const scoreBoard = this.getScoreboard();
+    this.emitToSocket(RoomEvent.Scoreboard, scoreBoard, id);
   }
 
   /**
@@ -344,7 +360,7 @@ export default class Room {
    * Find a pseudo for player which is not connected
    */
   private findPseudo(): string {
-    const pseudo = 'player' + Math.floor(Math.random() * Math.floor(9999));
+    const pseudo = 'sQuizer' + Math.floor(Math.random() * Math.floor(9999));
     return pseudo;
   }
 

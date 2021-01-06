@@ -1,7 +1,6 @@
 import answerState from '@Src/global/Room/answer';
 import scoreDetailState from '@Src/global/Room/scoreDetail';
 import isQuestionTimeState from '@Src/global/isQuestionTimeState';
-import { EmitScoreDetails, EmitAnswer } from '@squiz/shared';
 import React from 'react';
 import { View } from 'react-native';
 import { useRecoilValue } from 'recoil';

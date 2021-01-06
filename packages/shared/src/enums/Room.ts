@@ -11,6 +11,7 @@ export enum RoomEvent {
   OnlinePlayers = 'op',
   Scoreboard = 'sb',
   PlayerScore = 'ps',
+  PlayerRanks = 'pr',
   Status = 'status',
   Infos = 'infos',
   Rooms = 'rooms',
