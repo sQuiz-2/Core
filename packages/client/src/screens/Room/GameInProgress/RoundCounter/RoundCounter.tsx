@@ -1,15 +1,16 @@
 import Text from '@Src/components/Text';
-import { useRoomListener } from '@Src/utils/hooks/roomListener';
+import playerRankState from '@Src/global/Room/playerRanks';
 import { getMedalWithRank } from '@Src/utils/medals';
-import { GameEvent, GameRank, EmitRanks } from '@squiz/shared';
 import React from 'react';
 import { View, Image } from 'react-native';
+import { useRecoilValue } from 'recoil';
 
 import useRoundCounterStyle from './RoundCounterStyle';
 
 export default function RoundCounter() {
   const styles = useRoundCounterStyle();
-  const ranks: EmitRanks = useRoomListener(GameEvent.Ranks, Array(15).fill(GameRank.RoundComing));
+  const ranks = useRecoilValue(playerRankState);
+
   return (
     <View style={styles.container}>
       {ranks.map((rank, value) => {

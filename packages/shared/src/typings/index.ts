@@ -10,8 +10,11 @@ export type {
   EmitScoreDetails,
   EmitRanks,
   Player,
-  EmitPlayer,
+  EmitScoreboard,
+  EmitOnlinePlayers,
   EmitQuestions,
+  EmitValidAnswer,
+  EmitPlayerScore,
 } from './Room';
 
 export * from './API';

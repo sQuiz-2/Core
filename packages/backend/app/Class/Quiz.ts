@@ -5,7 +5,6 @@ import {
   RoomStatus,
   EmitAnswer,
   EmitScoreDetails,
-  EmitRanks,
   EmitQuestions,
   EmitQuestion,
   GameTime,
@@ -85,10 +84,21 @@ export default class Quiz extends Room {
    */
   private playerGoodAnswer(player: Player, rank: number): void {
     const scoreDetail: EmitScoreDetails = player.performsValidAnswer(rank, this.roundsCounter);
-    this.emitToSocket(GameEvent.AnswerIsValid, { valid: true }, player.id);
-    this.emitToSocket(GameEvent.ScoreDetail, scoreDetail, player.id);
-    this.emitRanks(player.id, player.ranks);
-    this.emitScoreBoard();
+    this.sortPlayers();
+    this.updatePlayersPosition();
+    this.emitToSocket(
+      GameEvent.ValidAnswer,
+      {
+        scoreDetail,
+        rank: player.currentRank,
+        score: player.score,
+        position: player.position,
+      },
+      player.id,
+    );
+    if (player.position < 21) {
+      this.emitScoreBoard();
+    }
   }
 
   /**
@@ -96,7 +106,7 @@ export default class Quiz extends Room {
    */
   private playerWrongAnswer(player: Player): void {
     player.performInvalidAnswer();
-    this.emitToSocket(GameEvent.AnswerIsValid, { valid: false }, player.id);
+    this.emitToSocket(GameEvent.WrongAnswer, { valid: false }, player.id);
   }
 
   /**
@@ -109,13 +119,12 @@ export default class Quiz extends Room {
   }
 
   /**
-   * Emit ranks for players who didn't answered correctly
+   * Update ranks for players who didn't answered correctly
    */
-  private emitMissingRanks(): void {
+  private updateMissingRanks(): void {
     this.players.forEach((player) => {
       if (player.currentRank === GameRank.RoundComing) {
         player.setRank(GameRank.NotAnswered, this.roundsCounter);
-        this.emitRanks(player.id, player.ranks);
       }
     });
   }
@@ -147,13 +156,6 @@ export default class Quiz extends Room {
   }
 
   /**
-   * Emit ranks to a socket
-   */
-  private emitRanks(id: string, ranks: EmitRanks): void {
-    this.emitToSocket(GameEvent.Ranks, ranks, id);
-  }
-
-  /**
    * Init a new round
    */
   private setNewCurrentRound(): Round | null {
@@ -169,8 +171,7 @@ export default class Quiz extends Room {
    * Start a new round if it's not otherwise go to gameEnd
    */
   private startNewRound(): void {
-    this.emitScoreBoard();
-    this.setStatus(RoomStatus.InProgress);
+    this.status = RoomStatus.InProgress;
     if (this.roundsCounter >= this.rounds.length) {
       this.gameEnd();
     } else {
@@ -188,7 +189,7 @@ export default class Quiz extends Room {
    * Handle round end
    */
   private roundEnd(): void {
-    this.emitMissingRanks();
+    this.updateMissingRanks();
     this.isGuessTime = false;
     this.roundsCounter++;
     this.emitAnswer();
@@ -230,7 +231,7 @@ export default class Quiz extends Room {
     if (this.roundTimer) {
       clearInterval(this.roundTimer);
     }
-    // Loading time before the next game
+    // Time before the next game
     this.endTimer = setTimeout(() => this.restartGame(), GameTime.End * SECOND);
   }
 
@@ -303,7 +304,6 @@ export default class Quiz extends Room {
   private async resetRoomForNewGame(): Promise<void> {
     this.resetPlayersForNewGame();
     this.roundsCounter = 0;
-    this.emitScoreBoard();
     const newRounds = await this.roundFetcher.getRounds(this.difficulty.id);
     this.rounds = newRounds;
   }

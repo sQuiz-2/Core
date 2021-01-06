@@ -1,10 +1,11 @@
 import Card from '@Src/components/Card/Card';
+import questionState from '@Src/global/Room/question';
 import isQuestionTimeState from '@Src/global/isQuestionTimeState';
 import roomSocketState from '@Src/global/roomSocket';
 import { useRoomListener } from '@Src/utils/hooks/roomListener';
 import { useSound } from '@Src/utils/hooks/sound';
 import { useTheme } from '@react-navigation/native';
-import { EmitAnswerIsValid, GameEvent, parseAnswer, EmitQuestion } from '@squiz/shared';
+import { GameEvent, parseAnswer } from '@squiz/shared';
 import React, { useState, createRef, useEffect } from 'react';
 import { TextInput, NativeSyntheticEvent, TextInputKeyPressEventData } from 'react-native';
 import { useRecoilValue } from 'recoil';
@@ -13,38 +14,30 @@ import GameTimer from '../GameTimer';
 import Life from '../Life';
 import styles from './GameInputStyle';
 
-type GameInputProps = {
-  question: EmitQuestion | null;
-};
-
-export default function GameInput({ question }: GameInputProps) {
+export default function GameInput() {
   const [playerAnswer, setPlayerAnswer] = useState('');
   const roomSocket = useRecoilValue(roomSocketState);
+  const question = useRecoilValue(questionState);
   const isQuestionTime = useRecoilValue(isQuestionTimeState);
   const { colors } = useTheme();
   const inputRef = createRef<TextInput>();
-  const resultAnswer = useRoomListener<null | EmitAnswerIsValid>(GameEvent.AnswerIsValid, null);
-  const foundSound = useSound({ source: require('@Assets/sounds/right.mp3') });
+  const wrongAnswer = useRoomListener<null | string>(GameEvent.WrongAnswer, null);
   const wrongSound = useSound({ source: require('@Assets/sounds/wrong.mp3') });
-  const [lifes, setLifes] = useState(4);
+  const [life, setLife] = useState(4);
 
   useEffect(() => {
     if (!question) return;
-    setLifes(question.maxNumberOfGuesses);
+    setLife(question.maxNumberOfGuesses);
   }, [question]);
 
   useEffect(() => {
-    if (!resultAnswer) return;
-    if (resultAnswer.valid) {
-      foundSound.play();
-    } else {
-      wrongSound.play();
-      setLifes(lifes - 1);
-    }
-  }, [resultAnswer]);
+    if (!wrongAnswer) return;
+    wrongSound.play();
+    setLife(life - 1);
+  }, [wrongAnswer]);
 
   function emitAnswer() {
-    if (roomSocket && isQuestionTime && lifes > 0) {
+    if (roomSocket && isQuestionTime && life > 0) {
       const parsedAnswer = parseAnswer(playerAnswer);
       roomSocket.emit('guess', parsedAnswer);
       setPlayerAnswer('');
@@ -79,7 +72,7 @@ export default function GameInput({ question }: GameInputProps) {
         style={[styles.input, { color: colors.text }]}
       />
       <GameTimer />
-      <Life lifes={lifes} />
+      <Life life={life} />
     </Card>
   );
 }

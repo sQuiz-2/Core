@@ -47,12 +47,26 @@ export type Player = {
   name: string;
   score: number;
   rank: number;
+  position: number;
 };
 
-export type EmitPlayer = Player[];
+export type EmitScoreboard = Player[];
 
 export type EmitQuestions = {
   id: number;
   question: string;
   answers: string[];
 }[];
+
+export type EmitValidAnswer = {
+  scoreDetail: EmitScoreDetails;
+  rank: number;
+  score: number;
+  position: number;
+};
+
+export type EmitOnlinePlayers = number;
+
+export interface EmitPlayerScore extends Player {
+  ranks?: number[];
+}
