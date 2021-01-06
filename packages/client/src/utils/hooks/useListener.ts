@@ -1,9 +1,14 @@
+import homeSocketState from '@Src/global/homeSocket';
 import roomSocketState from '@Src/global/roomSocket';
 import { useEffect, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
 
-export default function useListener<T>(event: string, callback: (data: T) => void) {
-  const socket = useRecoilValue(roomSocketState);
+export default function useListener<T>(
+  event: string,
+  callback: (data: T) => void,
+  useHomeSocket?: boolean
+) {
+  const socket = useRecoilValue(useHomeSocket ? homeSocketState : roomSocketState);
   const savedCallback = useRef<null | ((data: T) => void)>();
   const listener = useRef<SocketIOClient.Emitter | null>(null);
 

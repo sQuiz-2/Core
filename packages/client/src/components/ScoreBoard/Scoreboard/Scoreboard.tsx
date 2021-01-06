@@ -1,17 +1,16 @@
-import scoreboardState from '@Src/global/Room/scoreboard';
+import { DisplayPlayer } from '@Src/global/playerInfoState';
 import React from 'react';
 import { ScrollView } from 'react-native';
-import { useRecoilValue } from 'recoil';
 
 import ScoreboardRow from '../ScoreboardRow';
 import styles from './ScoreboardStyle';
 
 type Props = {
   displayMedal?: boolean;
+  players: DisplayPlayer[];
 };
 
-export default function Scoreboard({ displayMedal = true }: Props) {
-  const players = useRecoilValue(scoreboardState);
+export default function Scoreboard({ players, displayMedal = true }: Props) {
   return (
     <ScrollView style={styles.container}>
       {players.map((player) => (

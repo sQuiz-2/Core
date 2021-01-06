@@ -5,10 +5,9 @@ import scoreboardState from '@Src/global/Room/scoreboard';
 import isQuestionTimeState from '@Src/global/isQuestionTimeState';
 import timerState from '@Src/global/timerState';
 import { useSound } from '@Src/utils/hooks/sound';
+import useListener from '@Src/utils/hooks/useListener';
 import { GameEvent, EmitQuestion, GameTime, GameRank } from '@squiz/shared';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-
-import useListener from './useListener';
 
 export default function useQuestionListener() {
   useListener(GameEvent.Question, handleNewQuestion);

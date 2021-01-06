@@ -12,6 +12,7 @@ export enum RoomEvent {
   Scoreboard = 'sb',
   PlayerScore = 'ps',
   PlayerRanks = 'pr',
+  CompleteScoreboard = 'cs',
   Status = 'status',
   Infos = 'infos',
   Rooms = 'rooms',

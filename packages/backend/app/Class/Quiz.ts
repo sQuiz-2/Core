@@ -228,6 +228,7 @@ export default class Quiz extends Room {
     // End the room and reset everyone
     this.setStatus(RoomStatus.Ended);
     this.emitAllRounds();
+    this.emitCompleteScoreboard();
     if (this.roundTimer) {
       clearInterval(this.roundTimer);
     }

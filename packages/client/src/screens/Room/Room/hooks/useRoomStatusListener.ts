@@ -1,10 +1,10 @@
 import roomStatusState from '@Src/global/Room/roomStatus';
 import timerState from '@Src/global/timerState';
 import { useSound } from '@Src/utils/hooks/sound';
+import useListener from '@Src/utils/hooks/useListener';
 import { GameTime, RoomEvent, RoomStatus } from '@squiz/shared';
 import { useSetRecoilState } from 'recoil';
 
-import useListener from './useListener';
 import useReset from './useResetStates';
 
 export default function useRoomStatusListener() {

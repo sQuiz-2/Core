@@ -3,10 +3,10 @@ import playerRankState from '@Src/global/Room/playerRanks';
 import questionState from '@Src/global/Room/question';
 import isQuestionTimeState from '@Src/global/isQuestionTimeState';
 import timerState from '@Src/global/timerState';
+import useListener from '@Src/utils/hooks/useListener';
 import { GameEvent, EmitAnswer, GameTime, GameRank } from '@squiz/shared';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
-import useListener from './useListener';
 import useRankUpdate from './useRankUpdate';
 
 export default function useAnswerListener() {

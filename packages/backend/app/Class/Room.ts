@@ -282,16 +282,29 @@ export default class Room {
    * Emit the scoreboard to all sockets
    */
   public emitScoreBoard(): void {
-    const scoreBoard = this.getScoreboard();
-    this.emit(RoomEvent.Scoreboard, scoreBoard);
+    const scoreboard = this.getScoreboard();
+    this.emit(RoomEvent.Scoreboard, scoreboard);
   }
 
   /**
    * Emit the scoreboard to one socket
    */
   public emitScoreBoardTo(id: string): void {
-    const scoreBoard = this.getScoreboard();
-    this.emitToSocket(RoomEvent.Scoreboard, scoreBoard, id);
+    const scoreboard = this.getScoreboard();
+    this.emitToSocket(RoomEvent.Scoreboard, scoreboard, id);
+  }
+
+  public emitCompleteScoreboard(): void {
+    const scoreboard: EmitScoreboard = this.players.map(
+      ({ id, name, score, currentRank, position }) => ({
+        id,
+        name,
+        score,
+        rank: currentRank,
+        position,
+      }),
+    );
+    this.emit(RoomEvent.CompleteScoreboard, scoreboard);
   }
 
   /**
