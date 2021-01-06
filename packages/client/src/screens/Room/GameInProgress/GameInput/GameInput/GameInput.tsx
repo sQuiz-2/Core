@@ -2,8 +2,8 @@ import Card from '@Src/components/Card/Card';
 import questionState from '@Src/global/Room/question';
 import isQuestionTimeState from '@Src/global/isQuestionTimeState';
 import roomSocketState from '@Src/global/roomSocket';
-import { useRoomListener } from '@Src/utils/hooks/roomListener';
 import { useSound } from '@Src/utils/hooks/sound';
+import useListener from '@Src/utils/hooks/useListener';
 import { useTheme } from '@react-navigation/native';
 import { GameEvent, parseAnswer } from '@squiz/shared';
 import React, { useState, createRef, useEffect } from 'react';
@@ -21,20 +21,19 @@ export default function GameInput() {
   const isQuestionTime = useRecoilValue(isQuestionTimeState);
   const { colors } = useTheme();
   const inputRef = createRef<TextInput>();
-  const wrongAnswer = useRoomListener<null | string>(GameEvent.WrongAnswer, null);
   const wrongSound = useSound({ source: require('@Assets/sounds/wrong.mp3') });
   const [life, setLife] = useState(4);
+  useListener(GameEvent.WrongAnswer, wrongAnswer);
 
   useEffect(() => {
     if (!question) return;
     setLife(question.maxNumberOfGuesses);
   }, [question]);
 
-  useEffect(() => {
-    if (!wrongAnswer) return;
+  function wrongAnswer() {
     wrongSound.play();
     setLife(life - 1);
-  }, [wrongAnswer]);
+  }
 
   function emitAnswer() {
     if (roomSocket && isQuestionTime && life > 0) {

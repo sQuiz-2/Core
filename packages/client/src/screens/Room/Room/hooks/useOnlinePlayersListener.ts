@@ -1,8 +1,7 @@
 import onlinePlayersState from '@Src/global/Room/onlinePlayers';
+import useListener from '@Src/utils/hooks/useListener';
 import { RoomEvent, EmitOnlinePlayers } from '@squiz/shared';
 import { useSetRecoilState } from 'recoil';
-
-import useListener from './useListener';
 
 export default function useOnlinePlayersListener() {
   useListener(RoomEvent.OnlinePlayers, updateOnlinePlayers);

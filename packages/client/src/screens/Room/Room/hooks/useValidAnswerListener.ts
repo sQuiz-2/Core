@@ -1,10 +1,10 @@
 import playerScoreState from '@Src/global/Room/playerScore';
 import scoreDetailState from '@Src/global/Room/scoreDetail';
 import { useSound } from '@Src/utils/hooks/sound';
+import useListener from '@Src/utils/hooks/useListener';
 import { GameEvent, EmitValidAnswer } from '@squiz/shared';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
-import useListener from './useListener';
 import useRankUpdate from './useRankUpdate';
 
 export default function useValidAnswerListener() {

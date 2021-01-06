@@ -1,4 +1,5 @@
 import useAnswerListener from './useAnswerListener';
+import useCompleteScoreboardListener from './useCompleteScoreboardListener';
 import useOnlinePlayersListener from './useOnlinePlayersListener';
 import usePlayerScoreListener from './usePlayerScoreListener';
 import useQuestionListener from './useQuestionListener';
@@ -18,4 +19,5 @@ export default function useRoomListeners() {
   useValidAnswerListener();
   useAnswerListener();
   useQuestionsListener();
+  useCompleteScoreboardListener();
 }

@@ -4,7 +4,7 @@ import Timer from '@Src/components/Timer';
 import onlinePlayersState from '@Src/global/Room/onlinePlayers';
 import playerScoreState from '@Src/global/Room/playerScore';
 import { GameTime } from '@squiz/shared';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { useRecoilValue } from 'recoil';
 
@@ -13,6 +13,13 @@ import styles from './GameEndResultStyle';
 export default function RoomGameEndResult() {
   const player = useRecoilValue(playerScoreState);
   const onlinePlayers = useRecoilValue(onlinePlayersState);
+  const [staticOnlinePlayers, setStaticOnlinePlayers] = useState(0);
+
+  useEffect(() => {
+    if (staticOnlinePlayers === 0) {
+      setStaticOnlinePlayers(onlinePlayers);
+    }
+  }, [onlinePlayers]);
 
   if (!player) return null;
   return (
@@ -27,10 +34,10 @@ export default function RoomGameEndResult() {
         <View style={styles.textContainer}>
           <View style={styles.positionContainer}>
             <Text fontSize="xxl">{player.position}</Text>
-            <Text fontSize="xl">{player.position === 1 ? 'er' : 'ème'}</Text>
+            <Text fontSize="xl">{player.position === 1 ? 'er' : 'e'}</Text>
           </View>
           <Text fontSize="xl">
-            /{onlinePlayers} joueur{onlinePlayers > 1 && 's'}
+            /{staticOnlinePlayers} joueur{staticOnlinePlayers > 1 && 's'}
           </Text>
         </View>
         <View style={styles.textContainer}>

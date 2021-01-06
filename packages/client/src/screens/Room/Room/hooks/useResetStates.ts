@@ -1,4 +1,5 @@
 import answerState from '@Src/global/Room/answer';
+import completeScoreboardState from '@Src/global/Room/completeScoreboard';
 import playerRankState from '@Src/global/Room/playerRanks';
 import playerScoreState from '@Src/global/Room/playerScore';
 import questionState from '@Src/global/Room/question';
@@ -13,6 +14,7 @@ export default function useReset() {
   const answerReset = useResetRecoilState(answerState);
   const questionReset = useResetRecoilState(questionState);
   const roomStatusReset = useResetRecoilState(roomStatusState);
+  const completeScoreboardReset = useResetRecoilState(completeScoreboardState);
   const [scoreboard, setScoreboard] = useRecoilState(scoreboardState);
   const [playerScore, setPlayerScore] = useRecoilState(playerScoreState);
 
@@ -27,6 +29,7 @@ export default function useReset() {
     answerReset();
     questionReset();
     roomStatusReset();
+    completeScoreboardReset();
     if (playerScore) {
       const score = { ...playerScore, position: 1, score: 0, rank: GameRank.RoundComing };
       setPlayerScore(score);
@@ -34,6 +37,7 @@ export default function useReset() {
     const updatedScoreboard = scoreboard.map((player) => ({
       ...player,
       rank: GameRank.RoundComing,
+      score: 0,
     }));
     setScoreboard(updatedScoreboard);
   }
