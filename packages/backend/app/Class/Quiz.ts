@@ -329,7 +329,7 @@ export default class Quiz extends Room {
    */
   private updateStats() {
     // under five players stats are not accurate
-    if (this.players.length > 5) return;
+    if (this.players.length < 5) return;
     this.updateRoundStats();
   }
 
