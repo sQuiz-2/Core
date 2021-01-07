@@ -50,4 +50,8 @@ export default class AuthController {
     const userToken = await auth.login(user);
     return { username: oAuthData.username, token: userToken.token };
   }
+
+  public logout({ auth }: HttpContextContract) {
+    auth.logout();
+  }
 }

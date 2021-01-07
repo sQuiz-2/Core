@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
     paddingRight: 20,
   },
   row: {
-    height: 23,
+    height: 28,
   },
 });
 

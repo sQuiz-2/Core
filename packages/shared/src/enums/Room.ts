@@ -27,4 +27,5 @@ export enum SocketErrors {
   ServerFull = 'sf',
   ExceedMaxConnectionPerIp = 'em',
   CantFindPseudo = 'cf',
+  BadCredentials = 'bc',
 }

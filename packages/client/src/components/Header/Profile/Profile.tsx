@@ -1,11 +1,12 @@
+import userState from '@Src/global/userState';
+import { removeInStore, StorageEnum } from '@Src/utils/storage';
+import { get } from '@Src/utils/wrappedFetch';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { useTheme, useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { View } from 'react-native';
 import { useRecoilState } from 'recoil';
 
-import userState from '../../../global/userState';
-import { removeInStore, StorageEnum } from '../../../utils/storage';
 import Text from '../../Text';
 import styles from './ProfileStyle';
 
@@ -16,9 +17,12 @@ export default function Profile() {
   const navigation = useNavigation();
 
   async function disconnect() {
+    if (user.token) {
+      get({ path: 'logout', token: user.token });
+    }
     await removeInStore(StorageEnum.User);
     setUser({
-      username: 'player' + Math.floor(Math.random() * Math.floor(999)),
+      username: null,
       token: null,
     });
     navigation.navigate('Home');

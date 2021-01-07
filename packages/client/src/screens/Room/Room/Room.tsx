@@ -12,8 +12,8 @@ import GameInProgress from '../GameInProgress/GameInProgress';
 import useRoomListeners from './hooks/useRoomListeners';
 
 export default function Room({ route }: HomeNavigatorProps<'Room'>) {
-  const { username } = useRecoilValue(userState);
-  const { error } = useRoomSocket(route.params.id, { pseudo: username });
+  const { username, token } = useRecoilValue(userState);
+  const { error } = useRoomSocket(route.params.id, { pseudo: username, token });
   const status = useRecoilValue(roomStatusState);
   useRoomListeners();
 

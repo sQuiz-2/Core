@@ -34,6 +34,7 @@ Route.resource('users', 'UsersController')
 Route.post('/login', 'AuthController.login');
 Route.post('/password', 'AuthController.password').middleware(['auth', 'admin']);
 Route.post('/oauth', 'AuthController.oauth');
+Route.get('/logout', 'AuthController.logout').middleware(['auth']);
 
 Route.resource('news', 'NewsController')
   .apiOnly()

@@ -17,6 +17,8 @@ function getErrorMessage(error: string) {
       return '🙄 La limite de connexion avec cette adresse ip a été atteinte';
     case SocketErrors.CantFindPseudo:
       return '⚙️ Nous ne trouvons pas de compte invité disponible';
+    case SocketErrors.BadCredentials:
+      return '🕵️‍♂️ Tes identifiants ont expirés ! Déconnecte-toi puis reconnecte toi';
     default:
       return '💥 Une erreur est survenue !';
   }

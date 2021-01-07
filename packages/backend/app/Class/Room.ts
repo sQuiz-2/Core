@@ -8,7 +8,9 @@ import {
   GameRank,
   EmitPlayerScore,
 } from '@squiz/shared';
+import ApiToken from 'App/Models/ApiToken';
 import Ws from 'App/Services/Ws';
+import crypto from 'crypto';
 import { EventEmitter } from 'events';
 import { Namespace, Socket } from 'socket.io';
 
@@ -73,55 +75,128 @@ export default class Room {
     this.title = title;
   }
 
+  private urlDecode(encoded) {
+    return Buffer.from(encoded, 'base64').toString('utf-8');
+  }
+
+  private generateHash(token) {
+    return crypto.createHash('sha256').update(token).digest('hex');
+  }
+
+  private parseToken(token) {
+    const parts = token.split('.');
+    /**
+     * Ensure the token has two parts
+     */
+    if (parts.length !== 2) {
+      throw new Error('E_INVALID_API_TOKEN');
+    }
+
+    /**
+     * Ensure the first part is a base64 encode id
+     */
+    const tokenId = this.urlDecode(parts[0]);
+
+    if (!tokenId) {
+      throw new Error('E_INVALID_API_TOKEN');
+    }
+
+    const parsedToken = this.generateHash(parts[1]);
+    return {
+      token: parsedToken,
+      tokenId,
+    };
+  }
+
+  private async checkToken(token: string) {
+    const parsedToken = this.parseToken(token);
+    const apiToken = await ApiToken.query()
+      .select('userId')
+      .where('id', parsedToken.tokenId)
+      .andWhere('token', parsedToken.token)
+      .preload('user', (query) => {
+        query.select('id', 'username');
+      })
+      .first();
+    if (!apiToken) {
+      throw new Error('E_INVALID_API_TOKEN');
+    }
+    return apiToken.user.username;
+  }
+
   /**
    * Middleware to check if the player is not already connected
    */
-  private preConnectionSuccess(socket: Socket): boolean {
-    let name = socket.handshake?.query?.pseudo;
-    if (!name) {
-      socket.emit(RoomEvent.CustomError, SocketErrors.MissingParameter);
-      socket.disconnect(true);
-      return false;
+  private async preConnection(socket: Socket): Promise<void> {
+    const token = socket.handshake?.query?.token;
+    const queryName = socket.handshake?.query?.pseudo;
+
+    if (!token || typeof token !== 'string' || !queryName || typeof queryName !== 'string') {
+      throw new Error(SocketErrors.MissingParameter);
     }
-    // Let's make sure you are not already in this room !
-    const player = this.getPlayerByName(name);
-    if (player) {
-      // Hummm how can you be here and also in the room ??? Have you been disconnected ?
-      if (!player.disconnected) {
-        // It's seems you're already playing in this room !
-        socket.emit(RoomEvent.CustomError, SocketErrors.AlreadyConnected);
-        socket.disconnect(true);
-        return false;
-      }
-      // Ok you have been disconnected,
-      // we are going to make a new link between your new connection and your saved data
-    } else {
-      if (this.isFull) {
-        socket.emit(RoomEvent.CustomError, SocketErrors.ServerFull);
-        socket.disconnect(true);
-        return false;
-      }
+
+    const player = this.getPlayerByName(queryName);
+
+    /**
+     * Check if the game is full
+     */
+    if (this.isFull && !player) {
+      throw new Error(SocketErrors.ServerFull);
     }
-    // todo: authenticate the player
-    if (player) {
-      player.reconnect(socket.id);
-      this.emitReconnectInfos(player);
-    } else {
-      if (name === 'null') {
-        name = this.findPseudo();
-        this.addPlayer(name, socket, true);
+
+    if (token && token !== 'null') {
+      let dbName;
+      try {
+        dbName = await this.checkToken(token);
+      } catch (error) {
+        throw new Error(SocketErrors.BadCredentials);
+      }
+      if (dbName !== queryName) {
+        throw new Error(SocketErrors.BadCredentials);
+      }
+      if (player) {
+        /**
+         * Hummm how can you be here and also in the room ??? Have you been disconnected ?
+         */
+        if (player.disconnected) {
+          /**
+           * Ok you have been disconnected,
+           * we are going to make a new link between your new connection and your saved data
+           */
+          player.reconnect(socket.id);
+          this.emitReconnectInfos(player);
+        } else {
+          /**
+           * It's seems you're already playing in this room !
+           */
+          throw new Error(SocketErrors.AlreadyConnected);
+        }
       } else {
-        this.addPlayer(name, socket, false);
+        /**
+         * The authentication process take some time let's make sure the room is still not full
+         */
+        if (this.isFull) {
+          throw new Error(SocketErrors.ServerFull);
+        }
+        this.addPlayer(dbName, socket, false);
       }
+    } else {
+      const randomName = this.findPseudo();
+      this.addPlayer(randomName, socket, true);
     }
-    return true;
   }
 
   /**
    * Run on each socket connection
    */
-  private connection(socket: Socket): void {
-    if (!this.preConnectionSuccess(socket)) return;
+  private async connection(socket: Socket): Promise<void> {
+    try {
+      await this.preConnection(socket);
+    } catch (error) {
+      socket.emit(RoomEvent.CustomError, error.message);
+      socket.disconnect(true);
+      return;
+    }
     this.emitRoomInfos(socket);
     if (this.players.length < 21) {
       this.emitScoreBoard();
