@@ -12,11 +12,13 @@ function getErrorMessage(error: string) {
     case SocketErrors.MissingParameter:
       return '🤔 Un paramètre est manquant';
     case SocketErrors.ServerFull:
-      return '😱 Le serveur est full !';
+      return '😱 Le serveur est full ! Inutile de refresh, reviens plus tard';
     case SocketErrors.ExceedMaxConnectionPerIp:
       return '🙄 La limite de connexion avec cette adresse ip a été atteinte';
     case SocketErrors.CantFindPseudo:
       return '⚙️ Nous ne trouvons pas de compte invité disponible';
+    case SocketErrors.BadCredentials:
+      return '🕵️‍♂️ Tes identifiants ont expirés ! Déconnecte-toi puis reconnecte toi';
     default:
       return '💥 Une erreur est survenue !';
   }

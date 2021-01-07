@@ -3,6 +3,7 @@ import { column, beforeSave, BaseModel, hasMany, HasMany } from '@ioc:Adonis/Luc
 import { ProviderEnum } from '@squiz/shared';
 import { DateTime } from 'luxon';
 
+import ApiToken from './ApiToken';
 import OauthToken from './OauthToken';
 
 export default class User extends BaseModel {
@@ -32,6 +33,9 @@ export default class User extends BaseModel {
 
   @hasMany(() => OauthToken)
   public oAuthToken: HasMany<typeof OauthToken>;
+
+  @hasMany(() => ApiToken)
+  public apiToken: HasMany<typeof ApiToken>;
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime;
