@@ -3,7 +3,7 @@ import Text from '@Src/components/Text';
 import Timer from '@Src/components/Timer';
 import onlinePlayersState from '@Src/global/Room/onlinePlayers';
 import playerScoreState from '@Src/global/Room/playerScore';
-import { GameTime } from '@squiz/shared';
+import { GameTime, Player } from '@squiz/shared';
 import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { useRecoilValue } from 'recoil';
@@ -11,9 +11,10 @@ import { useRecoilValue } from 'recoil';
 import styles from './GameEndResultStyle';
 
 export default function RoomGameEndResult() {
-  const player = useRecoilValue(playerScoreState);
+  const playerScore = useRecoilValue(playerScoreState);
   const onlinePlayers = useRecoilValue(onlinePlayersState);
   const [staticOnlinePlayers, setStaticOnlinePlayers] = useState(0);
+  const [staticPlayerScore, setStaticPlayerScore] = useState<null | Player>(null);
 
   useEffect(() => {
     if (staticOnlinePlayers === 0) {
@@ -21,7 +22,13 @@ export default function RoomGameEndResult() {
     }
   }, [onlinePlayers]);
 
-  if (!player) return null;
+  useEffect(() => {
+    if (staticPlayerScore === null) {
+      setStaticPlayerScore(playerScore);
+    }
+  }, [playerScore]);
+
+  if (!staticPlayerScore) return null;
   return (
     <Card style={styles.container}>
       <View style={styles.topContainer}>
@@ -33,16 +40,16 @@ export default function RoomGameEndResult() {
       <View style={styles.content}>
         <View style={styles.textContainer}>
           <View style={styles.positionContainer}>
-            <Text fontSize="xxl">{player.position}</Text>
-            <Text fontSize="xl">{player.position === 1 ? 'er' : 'e'}</Text>
+            <Text fontSize="xxl">{staticPlayerScore.position}</Text>
+            <Text fontSize="xl">{staticPlayerScore.position === 1 ? 'er' : 'e'}</Text>
           </View>
           <Text fontSize="xl">
             /{staticOnlinePlayers} joueur{staticOnlinePlayers > 1 && 's'}
           </Text>
         </View>
         <View style={styles.textContainer}>
-          <Text fontSize="xxl">{player.score} </Text>
-          <Text fontSize="xl">point{player.score > 1 && 's'}</Text>
+          <Text fontSize="xxl">{staticPlayerScore.score} </Text>
+          <Text fontSize="xl">point{staticPlayerScore.score > 1 && 's'}</Text>
         </View>
       </View>
     </Card>

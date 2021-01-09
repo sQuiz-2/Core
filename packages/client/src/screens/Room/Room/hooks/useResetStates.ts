@@ -38,6 +38,7 @@ export default function useReset() {
       ...player,
       rank: GameRank.RoundComing,
       score: 0,
+      position: 1,
     }));
     setScoreboard(updatedScoreboard);
   }
