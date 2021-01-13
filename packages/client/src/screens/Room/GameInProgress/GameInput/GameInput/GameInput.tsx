@@ -31,7 +31,7 @@ export default function GameInput() {
   }, [question]);
 
   function wrongAnswer() {
-    wrongSound.play();
+    wrongSound?.play();
     setLife(life - 1);
   }
 

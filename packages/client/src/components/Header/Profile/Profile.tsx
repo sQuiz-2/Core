@@ -8,6 +8,7 @@ import { View } from 'react-native';
 import { useRecoilState } from 'recoil';
 
 import Text from '../../Text';
+import SoundVolume from '../soundVolume';
 import styles from './ProfileStyle';
 
 export default function Profile() {
@@ -24,22 +25,26 @@ export default function Profile() {
     setUser({
       username: null,
       token: null,
+      connected: false,
     });
     navigation.navigate('Home');
   }
 
-  if (!user.username || !user.token) return null;
-
   return (
     <View style={styles.container}>
-      <FontAwesome5
-        onPress={() => disconnect()}
-        name="door-open"
-        size={20}
-        color={colors.text}
-        style={styles.leaveDoor}
-      />
-      <Text>{user.username}</Text>
+      <SoundVolume />
+      {user.connected && (
+        <>
+          <FontAwesome5
+            onPress={() => disconnect()}
+            name="door-open"
+            size={20}
+            color={colors.text}
+            style={styles.leaveDoor}
+          />
+          <Text>{user.username}</Text>
+        </>
+      )}
     </View>
   );
 }

@@ -1,3 +1,4 @@
+import soundVolumeState from '@Src/global/soundVolume';
 import useHomeSocket from '@Src/utils/hooks/homeSocket';
 import { NavigationContainer } from '@react-navigation/native';
 import { registerRootComponent } from 'expo';
@@ -8,7 +9,7 @@ import { RecoilRoot, useSetRecoilState } from 'recoil';
 
 import { CenterContainer } from './src/components/Containers';
 import Theme from './src/constant/theme';
-import userState, { User } from './src/global/userState';
+import userState from './src/global/userState';
 import HomeStack from './src/navigation/HomeStack';
 import { Linking } from './src/navigation/Linking';
 import loadFonts from './src/utils/fonts';
@@ -46,18 +47,27 @@ function App() {
 function AppWithProviders() {
   const [isLoading, setIsLoading] = useState(true);
   const setUser = useSetRecoilState(userState);
+  const setSoundVolume = useSetRecoilState(soundVolumeState);
   useHomeSocket();
 
   useEffect(function mount() {
     getUser();
+    getSoundVolume();
+    setIsLoading(false);
   }, []);
 
+  async function getSoundVolume() {
+    const soundVolume = (await getFromStore<number>(StorageEnum.SoundVolume)) ?? 1;
+    setSoundVolume(soundVolume);
+  }
+
   async function getUser() {
-    const user = await getFromStore<User>(StorageEnum.User);
+    const user = await getFromStore<{ username: string; token: string }>(StorageEnum.User);
     if (user) {
-      setUser(user);
+      setUser({ ...user, connected: true });
+    } else {
+      setUser({ username: null, token: null, connected: false });
     }
-    setIsLoading(false);
   }
 
   if (isLoading) {

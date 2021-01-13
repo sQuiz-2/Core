@@ -15,7 +15,7 @@ export default function useValidAnswerListener() {
   const rankUpdate = useRankUpdate();
 
   function performValidAnswer(validAnswer: EmitValidAnswer) {
-    correctAnswerSound.play();
+    correctAnswerSound?.play();
     rankUpdate(validAnswer.rank);
     updateScore(validAnswer.position, validAnswer.score, validAnswer.rank);
     setScoreDetail(validAnswer.scoreDetail);

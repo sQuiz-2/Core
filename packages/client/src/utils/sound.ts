@@ -40,7 +40,7 @@ export default class QSound {
       await this.create(soundParams);
     }
     // The sound is here and loaded so let's play it !
-    return this.sound?.sound.playAsync();
+    return this.sound?.sound.replayAsync();
   }
 
   async stop() {
@@ -49,5 +49,9 @@ export default class QSound {
 
   async unload() {
     return this.sound?.sound.unloadAsync();
+  }
+
+  async setVolume(volume: number) {
+    return this.sound?.sound.setVolumeAsync(volume);
   }
 }
