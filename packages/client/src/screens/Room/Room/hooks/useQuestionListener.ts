@@ -33,7 +33,7 @@ export default function useQuestionListener() {
   function startRound() {
     setIsQuestionTime(true);
     setTime(GameTime.Question);
-    startRoundSound.play();
+    startRoundSound?.play();
     setScoreDetail(null);
   }
 

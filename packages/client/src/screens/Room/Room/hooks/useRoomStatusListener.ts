@@ -21,10 +21,10 @@ export default function useRoomStatusListener() {
       case RoomStatus.Starting:
         resetStates();
         setTime(GameTime.Question + GameTime.Answer);
-        gameStartSound.play();
+        gameStartSound?.play();
         break;
       case RoomStatus.Ended:
-        gameEndSound.play();
+        gameEndSound?.play();
     }
   }
 }

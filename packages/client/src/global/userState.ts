@@ -3,6 +3,7 @@ import { atom } from 'recoil';
 export type User = {
   username: null | string;
   token: null | string;
+  connected: null | boolean;
 };
 
 const userState = atom<User>({
@@ -10,6 +11,7 @@ const userState = atom<User>({
   default: {
     username: null,
     token: null,
+    connected: false,
   },
 });
 

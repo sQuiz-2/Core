@@ -13,7 +13,7 @@ export default function HomeProfile() {
 
   return (
     <TitleCard title="PROFIL" containerStyle={styles.container}>
-      {user.token ? <ProfileConnected /> : <ProfileNotConnected />}
+      {user.connected ? <ProfileConnected /> : <ProfileNotConnected />}
     </TitleCard>
   );
 }

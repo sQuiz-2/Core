@@ -2,10 +2,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export enum StorageEnum {
   User = 'sQuiz-user',
+  SoundVolume = 'sQuiz-sound-volume',
 }
 
 export function setInStore(key: StorageEnum, value: any) {
-  if (!value) return;
   const jsonValue = JSON.stringify(value);
   return AsyncStorage.setItem(key, jsonValue);
 }
