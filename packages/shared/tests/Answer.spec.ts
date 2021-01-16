@@ -16,6 +16,8 @@ test('Normalized value', (assert: Assert) => {
   assert.equal(normalizedValue('nomaj'), 'nomaj');
   assert.equal(normalizedValue('êëéçè'), 'eeece');
   assert.equal(normalizedValue('ÊËÉÇÈ'), 'eeece');
+  assert.equal(normalizedValue('LoÏc'), 'loic');
+  assert.equal(normalizedValue('Œil'), 'oeil');
   assert.equal(normalizedValue('dix-neuf'), 'dix neuf');
 });
 
