@@ -10,6 +10,8 @@ export function normalizedValue(str: string): string {
   value = value.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   // Remove hyphens
   value = value.replace(/-/g, ' ');
+  // Remove œ
+  value = value.replace(/œ/g, 'oe');
   return value;
 }
 
