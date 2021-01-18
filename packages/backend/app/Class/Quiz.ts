@@ -8,6 +8,8 @@ import {
   EmitQuestions,
   EmitQuestion,
   GameTime,
+  RoomEvent,
+  EmitPlayerScore,
 } from '@squiz/shared';
 import Round from 'App/Models/Round';
 import { Socket } from 'socket.io';
@@ -125,6 +127,15 @@ export default class Quiz extends Room {
     this.players.forEach((player) => {
       if (player.currentRank === GameRank.RoundComing) {
         player.setRank(GameRank.NotAnswered, this.roundsCounter);
+        const infos: EmitPlayerScore = {
+          id: player.id,
+          name: player.name,
+          score: player.score,
+          rank: player.currentRank,
+          position: player.position,
+          ranks: player.ranks,
+        };
+        this.emitToSocket(RoomEvent.PlayerScore, infos, player.id);
       }
     });
   }
