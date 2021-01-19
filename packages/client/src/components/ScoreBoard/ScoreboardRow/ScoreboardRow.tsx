@@ -1,5 +1,6 @@
 import { DisplayPlayer } from '@Src/global/playerInfoState';
 import { getMedalWithRank } from '@Src/utils/medals';
+import { GameRank } from '@squiz/shared';
 import React from 'react';
 import { View, StyleProp, ViewStyle, TextStyle, Image } from 'react-native';
 
@@ -19,7 +20,7 @@ export default function PlayerRow({
   textStyle,
   displayMedal = true,
 }: Props) {
-  const image = getMedalWithRank(player.rank);
+  const image = player.rank > GameRank.NotAnswered ? getMedalWithRank(player.rank) : null;
   return (
     <View style={[styles.card, containerStyle]}>
       <View style={styles.infoContainer}>
