@@ -243,6 +243,7 @@ export default class Room {
    */
   public removeDisconnectedPlayers(): void {
     this.players = this.players.filter((player) => !player.disconnected);
+    this.emit(RoomEvent.OnlinePlayers, this.players.length);
     this.updateRoom();
   }
 
@@ -300,16 +301,23 @@ export default class Room {
    * Remove a player and emit the new scoreboard
    */
   private removePlayer(socket: Socket): void {
-    this.players = this.players.filter(({ id }) => id !== socket.id);
+    let playerPosition = 0;
+    this.players = this.players.filter(({ id, position }) => {
+      if (id === socket.id) {
+        playerPosition = position;
+        return false;
+      }
+      return true;
+    });
+    this.sortPlayers();
+    this.updatePlayersPosition();
+    if (playerPosition < 21) {
+      this.emitScoreBoard();
+    }
     if (this.isFull) {
       this.isFull = false;
     }
     this.emit(RoomEvent.OnlinePlayers, this.players.length);
-    if (this.players.length < 20) {
-      this.sortPlayers();
-      this.updatePlayersPosition();
-      this.emitScoreBoard();
-    }
   }
 
   /**
