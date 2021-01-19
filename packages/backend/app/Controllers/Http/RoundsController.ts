@@ -71,10 +71,17 @@ export default class RoundsController {
       .select('id', 'question', 'themeId', 'difficultyId', 'maxNumberOfGuesses');
   }
 
-  public async report(ctx: HttpContextContract) {
-    const { id } = ctx.params;
+  public async report({ params, auth }: HttpContextContract) {
+    const { id } = params;
     const round = await Round.findOrFail(id);
-    round.reports += 1;
+    if (auth.user?.staff) {
+      /**
+       * One admin report = 100 reports
+       */
+      round.reports += 100;
+    } else {
+      round.reports += 1;
+    }
     round.save();
   }
 }
