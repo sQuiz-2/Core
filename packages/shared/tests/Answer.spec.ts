@@ -9,12 +9,14 @@ test('Parse answer', (assert: Assert) => {
   assert.equal(parseAnswer('Guerre de cent ans'), 'guerre de cent ans');
   assert.equal(parseAnswer('Lécythiophilie'), 'lecythiophilie');
   assert.equal(parseAnswer('De La Viande'), 'viande');
+  assert.equal(parseAnswer('sur gazon'), 'gazon');
+  assert.equal(parseAnswer('un'), 'un');
 });
 
 test('Normalized value', (assert: Assert) => {
   assert.equal(normalizedValue('FULLMAJ'), 'fullmaj');
   assert.equal(normalizedValue('nomaj'), 'nomaj');
-  assert.equal(normalizedValue('êëéçè'), 'eeece');
+  assert.equal(normalizedValue('êëéçèî'), 'eeecei');
   assert.equal(normalizedValue('ÊËÉÇÈ'), 'eeece');
   assert.equal(normalizedValue('LoÏc'), 'loic');
   assert.equal(normalizedValue('Œil'), 'oeil');
