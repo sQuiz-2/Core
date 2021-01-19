@@ -36,9 +36,10 @@ export function removePrefix(str: string): string {
     'leur',
     'leurs',
     'du',
+    'sur',
   ];
   const splitAnswer = str.split(' ');
-  if (prefix.includes(splitAnswer[0])) {
+  if (splitAnswer.length > 1 && prefix.includes(splitAnswer[0])) {
     splitAnswer.shift();
     return removePrefix(splitAnswer.join(' '));
   }
