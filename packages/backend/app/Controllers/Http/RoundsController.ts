@@ -2,6 +2,7 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { GetRound } from '@squiz/shared';
 import Round from 'App/Models/Round';
 import FetchRoundValidator from 'App/Validators/FetchRoundValidator';
+import ReportValidator from 'App/Validators/ReportValidator';
 import RoundValidator from 'App/Validators/RoundValidator';
 import RoundsValidator from 'App/Validators/RoundsValidator';
 
@@ -71,17 +72,21 @@ export default class RoundsController {
       .select('id', 'question', 'themeId', 'difficultyId', 'maxNumberOfGuesses');
   }
 
-  public async report({ params, auth }: HttpContextContract) {
+  public async report({ params, auth, request }: HttpContextContract) {
+    const { reports } = await request.validate(ReportValidator);
     const { id } = params;
-    const round = await Round.findOrFail(id);
-    if (auth.user?.staff) {
-      /**
-       * One admin report = 100 reports
-       */
-      round.reports += 100;
-    } else {
-      round.reports += 1;
+    const round = await Round.query().where('id', id).preload('reports').firstOrFail();
+    const mergedReports = {};
+    for (const i in reports) {
+      if (!reports[i]) continue;
+      mergedReports[i] = 1;
+      if (round.reports) {
+        mergedReports[i] += round.reports[i];
+      }
+      if (auth.user?.staff) {
+        mergedReports[i] += 100;
+      }
     }
-    round.save();
+    round.related('reports').updateOrCreate({ roundId: round.id }, mergedReports);
   }
 }

@@ -6,11 +6,14 @@ import {
   computed,
   belongsTo,
   BelongsTo,
+  hasOne,
+  HasOne,
 } from '@ioc:Adonis/Lucid/Orm';
 import { Difficulty, DifficultyEnum, GetDifficultyFromId } from '@squiz/shared';
 import { DateTime } from 'luxon';
 
 import Answer from './Answer';
+import Report from './Report';
 import Theme from './Theme';
 
 export default class Round extends BaseModel {
@@ -22,6 +25,9 @@ export default class Round extends BaseModel {
 
   @hasMany(() => Answer)
   public answers: HasMany<typeof Answer>;
+
+  @hasOne(() => Report)
+  public reports: HasOne<typeof Report>;
 
   @column()
   public difficultyId: DifficultyEnum;
@@ -45,9 +51,6 @@ export default class Round extends BaseModel {
 
   @column()
   public incorrectAnswers: number;
-
-  @column()
-  public reports: number;
 
   @column()
   public played: boolean;
