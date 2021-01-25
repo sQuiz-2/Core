@@ -1,5 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
-import { GetRound } from '@squiz/shared';
+import Database from '@ioc:Adonis/Lucid/Database';
+import Report from 'App/Models/Report';
 import Round from 'App/Models/Round';
 import FetchRoundValidator from 'App/Validators/FetchRoundValidator';
 import ReportValidator from 'App/Validators/ReportValidator';
@@ -11,15 +12,20 @@ export default class RoundsController {
     const { page = 1, limit = 10, question, reported } = await request.validate(
       FetchRoundValidator,
     );
-    const roundsQuery = Round.query().preload('answers').preload('theme');
     if (reported) {
-      roundsQuery.where('reports', '>', 0).orderBy('reports', 'desc');
+      return Report.query()
+        .orderBy(Database.raw('question + answer + category'), 'desc')
+        .preload('round', (builder) => {
+          builder.preload('answers');
+        })
+        .paginate(page, limit);
+    } else {
+      const roundsQuery = Round.query().preload('answers').orderBy('id');
+      if (question) {
+        roundsQuery.whereRaw(`LOWER(question) LIKE ?`, ['%' + question.toLowerCase() + '%']);
+      }
+      return roundsQuery.paginate(page, limit);
     }
-    if (question) {
-      roundsQuery.whereRaw(`LOWER(question) LIKE ?`, ['%' + question.toLowerCase() + '%']);
-    }
-    const rounds: GetRound[] = await roundsQuery.paginate(page, limit);
-    return rounds;
   }
 
   public async store({ request }: HttpContextContract) {

@@ -5,13 +5,17 @@ import { ActionsCell, CellProps, DropDownCell, EditableCell } from 'src/componen
 import useDifficulties from 'src/hooks/useDifficulties';
 import { get } from 'src/tools/WrappedFetch';
 
-type useGameColumnProp = {
+type useReportedColumnProp = {
   displayData: any;
   updateData: (index: number, id: string, data: any) => void;
   removeData: (rowIndex: number) => void;
 };
 
-export default function useGameColumn({ displayData, updateData, removeData }: useGameColumnProp) {
+export default function useReportedColumn({
+  displayData,
+  updateData,
+  removeData,
+}: useReportedColumnProp) {
   const difficulties = useDifficulties();
   const selectGuesses = [
     { id: 1, title: 1 },

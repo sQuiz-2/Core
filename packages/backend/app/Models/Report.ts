@@ -1,4 +1,6 @@
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm';
+import { BaseModel, column, HasOne, hasOne } from '@ioc:Adonis/Lucid/Orm';
+
+import Round from './Round';
 
 export default class Report extends BaseModel {
   @column({ isPrimary: true })
@@ -15,4 +17,10 @@ export default class Report extends BaseModel {
 
   @column()
   public category: number;
+
+  @hasOne(() => Round, {
+    localKey: 'roundId',
+    foreignKey: 'id',
+  })
+  public round: HasOne<typeof Round>;
 }
