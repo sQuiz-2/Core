@@ -1,6 +1,7 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Games from 'src/pages/Games';
+import Reported from 'src/pages/Reported';
 
 import Container from '../components/Container';
 import Home from '../pages/Home';
@@ -19,6 +20,9 @@ export default function MenuRouter() {
         </Route>
         <Route path="/games">
           <Games />
+        </Route>
+        <Route path="/reported">
+          <Reported />
         </Route>
         <Route path="/rounds">
           <Rounds />

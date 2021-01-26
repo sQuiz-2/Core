@@ -1,5 +1,4 @@
 import Card from '@Src/components/Card';
-import Report from '@Src/components/QuestionReport';
 import Text from '@Src/components/Text';
 import questionState from '@Src/global/Room/question';
 import React from 'react';
@@ -25,7 +24,6 @@ export default function GameInProgressQuestion() {
       <Text fontSize="xxl" style={styles.question}>
         {question.question}
       </Text>
-      <Report id={question.id} />
     </Card>
   );
 }

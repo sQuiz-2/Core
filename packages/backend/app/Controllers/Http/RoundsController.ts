@@ -1,7 +1,9 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
-import { GetRound } from '@squiz/shared';
+import Database from '@ioc:Adonis/Lucid/Database';
+import Report from 'App/Models/Report';
 import Round from 'App/Models/Round';
 import FetchRoundValidator from 'App/Validators/FetchRoundValidator';
+import ReportValidator from 'App/Validators/ReportValidator';
 import RoundValidator from 'App/Validators/RoundValidator';
 import RoundsValidator from 'App/Validators/RoundsValidator';
 
@@ -10,15 +12,20 @@ export default class RoundsController {
     const { page = 1, limit = 10, question, reported } = await request.validate(
       FetchRoundValidator,
     );
-    const roundsQuery = Round.query().preload('answers').preload('theme');
     if (reported) {
-      roundsQuery.where('reports', '>', 0).orderBy('reports', 'desc');
+      return Report.query()
+        .orderBy(Database.raw('question + answer + category'), 'desc')
+        .preload('round', (builder) => {
+          builder.preload('answers');
+        })
+        .paginate(page, limit);
+    } else {
+      const roundsQuery = Round.query().preload('answers').orderBy('id');
+      if (question) {
+        roundsQuery.whereRaw(`LOWER(question) LIKE ?`, ['%' + question.toLowerCase() + '%']);
+      }
+      return roundsQuery.paginate(page, limit);
     }
-    if (question) {
-      roundsQuery.whereRaw(`LOWER(question) LIKE ?`, ['%' + question.toLowerCase() + '%']);
-    }
-    const rounds: GetRound[] = await roundsQuery.paginate(page, limit);
-    return rounds;
   }
 
   public async store({ request }: HttpContextContract) {
@@ -71,17 +78,21 @@ export default class RoundsController {
       .select('id', 'question', 'themeId', 'difficultyId', 'maxNumberOfGuesses');
   }
 
-  public async report({ params, auth }: HttpContextContract) {
+  public async report({ params, auth, request }: HttpContextContract) {
+    const { reports } = await request.validate(ReportValidator);
     const { id } = params;
-    const round = await Round.findOrFail(id);
-    if (auth.user?.staff) {
-      /**
-       * One admin report = 100 reports
-       */
-      round.reports += 100;
-    } else {
-      round.reports += 1;
+    const round = await Round.query().where('id', id).preload('reports').firstOrFail();
+    const mergedReports = {};
+    for (const i in reports) {
+      if (!reports[i]) continue;
+      mergedReports[i] = 1;
+      if (round.reports) {
+        mergedReports[i] += round.reports[i];
+      }
+      if (auth.user?.staff) {
+        mergedReports[i] += 100;
+      }
     }
-    round.save();
+    round.related('reports').updateOrCreate({ roundId: round.id }, mergedReports);
   }
 }

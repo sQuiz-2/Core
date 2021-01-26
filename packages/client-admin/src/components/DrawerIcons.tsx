@@ -5,6 +5,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Help from '@material-ui/icons/Help';
 import HomeIcon from '@material-ui/icons/Home';
 import SportsEsports from '@material-ui/icons/SportsEsports';
+import Warning from '@material-ui/icons/Warning';
 import React, { useEffect } from 'react';
 import { useRouteMatch, useHistory } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
@@ -52,6 +53,7 @@ export default function DrawerIcons() {
     <List>
       <AppBarIcon text="Accueil" url="/" icon={<HomeIcon />} />
       <AppBarIcon text="Salons" url="/games" icon={<SportsEsports />} />
+      <AppBarIcon text="Report" url="/reported" icon={<Warning />} />
       <AppBarIcon text="Rounds" url="/rounds" icon={<Help />} />
     </List>
   );

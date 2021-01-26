@@ -22,7 +22,24 @@ export type GetRound = {
   difficulty: Difficulty;
 };
 
+export type ReportProps = {
+  id: number;
+  roundId: number;
+  question: number;
+  answer: number;
+  category: number;
+};
+
+export interface GetReportedRound extends ReportProps {
+  round: GetRound;
+}
+
 export type GetRounds = {
   meta: Paginate;
   data: GetRound[];
+};
+
+export type GetReportedRounds = {
+  meta: Paginate;
+  data: GetReportedRound[];
 };

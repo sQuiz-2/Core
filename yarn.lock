@@ -14901,10 +14901,10 @@ react-native-svg@12.1.0:
     css-select "^2.1.0"
     css-tree "^1.0.0-alpha.39"
 
-react-native-web@~0.13.12:
-  version "0.13.18"
-  resolved "https://registry.yarnpkg.com/react-native-web/-/react-native-web-0.13.18.tgz#964f058a16521a3b9a31b091415edfef5b6ef305"
-  integrity sha512-WR/0ECAmwLQ2+2cL2Ur+0/swXFAtcSM0URoADJmG6D4MnY+wGc91JO8LoOTlgY0USBOY+qG/beRrjFa+RAuOiA==
+react-native-web@~0.14.0:
+  version "0.14.10"
+  resolved "https://registry.yarnpkg.com/react-native-web/-/react-native-web-0.14.10.tgz#a4435b00370bb3265c288eacaaa1c9a963537d0d"
+  integrity sha512-YTvYnUUPnOjU50GiXk90cm6atk714vF8p7HhBlqHtLtftHk9xQRwgxXzoMHiKf0Bx20Dyo2SGvv4XrPxcmEheQ==
   dependencies:
     array-find-index "^1.0.2"
     create-react-class "^15.6.2"
