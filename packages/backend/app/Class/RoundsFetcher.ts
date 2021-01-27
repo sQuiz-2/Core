@@ -4,32 +4,37 @@ class RoundFetcher {
   /**
    * Pull new random rounds
    */
-  public async getRounds(difficultyId: number): Promise<Round[]> {
-    const roundIds = await this.getNotPlayedRoundsIds(difficultyId);
-    const selectedIds = this.getRandomRounds(roundIds);
+  public async getRounds(difficultyId: number, amountOfRoundWanted: number): Promise<Round[]> {
+    const roundIds = await this.getNotPlayedRoundsIds(difficultyId, amountOfRoundWanted);
+    if (roundIds.length < 1) return [];
+    const selectedIds = this.getRandomRounds(roundIds, amountOfRoundWanted);
     this.setPlayedRounds(selectedIds);
-    const rounds = await this.getRoundsByIds(selectedIds);
+    const rounds = await this.getRoundsByIds(selectedIds, amountOfRoundWanted);
     return rounds;
   }
 
   /**
    * Fetch rounds content with their ids
    */
-  private async getRoundsByIds(selectedIds: number[]): Promise<Round[]> {
+  private async getRoundsByIds(
+    selectedIds: number[],
+    amountOfRoundWanted: number,
+  ): Promise<Round[]> {
     const rounds = await Round.query()
       .whereIn('id', selectedIds)
       .preload('answers')
       .preload('theme')
-      .limit(15);
+      .limit(amountOfRoundWanted);
     return rounds;
   }
 
   /**
    * Take an array of rounds ids and return random ids of this array
    */
-  private getRandomRounds(roundIds: Round[]) {
+  private getRandomRounds(roundIds: Round[], amountOfRoundWanted: number) {
     const selectedIds: number[] = [];
-    for (let i = 0; selectedIds.length < 15; i++) {
+    for (let i = 0; selectedIds.length < amountOfRoundWanted; i++) {
+      if (i > roundIds.length) return selectedIds;
       const randIndex = Math.floor(Math.random() * roundIds.length);
       const randId = roundIds[randIndex].id;
       selectedIds.push(randId);
@@ -41,10 +46,10 @@ class RoundFetcher {
   /**
    * Get only not played rounds ids
    */
-  private async getNotPlayedRoundsIds(difficultyId: number) {
+  private async getNotPlayedRoundsIds(difficultyId: number, amountOfRoundWanted: number) {
     const roundIds = await this.fetchAllRoundsIds(difficultyId);
     // Check if we have enough roundIds
-    if (roundIds.length >= 15) {
+    if (roundIds.length >= amountOfRoundWanted) {
       return roundIds;
     } else {
       // All rounds have been played we need to reset the 'played' boolean

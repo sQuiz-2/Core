@@ -10,8 +10,10 @@ import {
   GameTime,
   RoomEvent,
   EmitPlayerScore,
+  DifficultyEnum,
 } from '@squiz/shared';
 import Round from 'App/Models/Round';
+import { shuffle } from 'App/Utils/Array';
 import { Socket } from 'socket.io';
 import stringSimilarity from 'string-similarity';
 
@@ -316,7 +318,17 @@ export default class Quiz extends Room {
   private async resetRoomForNewGame(): Promise<void> {
     this.resetPlayersForNewGame();
     this.roundsCounter = 0;
-    const newRounds = await this.roundFetcher.getRounds(this.difficulty.id);
+    let newRounds: Round[];
+    if (this.difficulty.id === DifficultyEnum.Beginner) {
+      const unknownRounds = await this.roundFetcher.getRounds(DifficultyEnum.Unknown, 5);
+      const beginnerRounds = await this.roundFetcher.getRounds(
+        this.difficulty.id,
+        15 - unknownRounds.length,
+      );
+      newRounds = shuffle<Round>([...unknownRounds, ...beginnerRounds]);
+    } else {
+      newRounds = await this.roundFetcher.getRounds(this.difficulty.id, 15);
+    }
     this.rounds = newRounds;
   }
 
