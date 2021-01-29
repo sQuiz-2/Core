@@ -100,7 +100,8 @@ export default class Quiz extends Room {
       },
       player.id,
     );
-    if (player.position < 21) {
+    const playerIndex = this.players.findIndex((p) => p.id === player.id);
+    if (playerIndex < 21) {
       this.emitScoreBoard();
     }
   }
