@@ -12,7 +12,7 @@ function getErrorMessage(error: string) {
     case SocketErrors.MissingParameter:
       return '🤔 Un paramètre est manquant';
     case SocketErrors.ServerFull:
-      return '😱 Le serveur est full ! Inutile de refresh, reviens plus tard';
+      return '😱 Le serveur est full ! Il y a ~2000 joueurs devant toi';
     case SocketErrors.ExceedMaxConnectionPerIp:
       return '🙄 La limite de connexion avec cette adresse ip a été atteinte';
     case SocketErrors.CantFindPseudo:
