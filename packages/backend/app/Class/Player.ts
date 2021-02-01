@@ -5,6 +5,7 @@ type Props = {
   id: string;
   isGuess: boolean;
   position: number;
+  staff: boolean;
 };
 
 export default class Player {
@@ -68,11 +69,17 @@ export default class Player {
    */
   position: number = 0;
 
+  /**
+   * Boolean to check if the player is a staff member
+   */
+  staff: boolean = false;
+
   constructor(props: Props) {
     this.id = props.id;
     this.name = props.name;
     this.isGuess = props.isGuess;
     this.position = props.position;
+    this.staff = props.staff;
   }
 
   /**
