@@ -155,7 +155,6 @@ export default class Room {
       let user: User;
       try {
         user = await this.checkToken(token);
-        console.log(user);
       } catch (error) {
         throw new Error(SocketErrors.BadCredentials);
       }
