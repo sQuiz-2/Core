@@ -70,3 +70,9 @@ export type EmitOnlinePlayers = number;
 export interface EmitPlayerScore extends Player {
   ranks?: number[];
 }
+
+export type EmitRoomInfos = {
+  title: string;
+  checkForCheat: boolean;
+  staff: boolean;
+};

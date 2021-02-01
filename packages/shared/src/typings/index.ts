@@ -15,6 +15,7 @@ export type {
   EmitQuestions,
   EmitValidAnswer,
   EmitPlayerScore,
+  EmitRoomInfos,
 } from './Room';
 
 export * from './API';

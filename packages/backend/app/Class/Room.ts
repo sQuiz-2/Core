@@ -7,8 +7,10 @@ import {
   EmitScoreboard,
   GameRank,
   EmitPlayerScore,
+  EmitRoomInfos,
 } from '@squiz/shared';
 import ApiToken from 'App/Models/ApiToken';
+import User from 'App/Models/User';
 import Ws from 'App/Services/Ws';
 import crypto from 'crypto';
 import { EventEmitter } from 'events';
@@ -67,6 +69,11 @@ export default class Room {
    */
   isFull: boolean = false;
 
+  /**
+   * If true we will check if the player change it's window focus
+   */
+  checkForCheat: boolean = true;
+
   constructor({ roomNumber, difficulty, title }: RoomProps) {
     this.nameSpace = Ws.io.of(roomNumber);
     this.nameSpace.on(RoomEvent.Connection, this.connection.bind(this));
@@ -108,26 +115,26 @@ export default class Room {
     };
   }
 
-  private async checkToken(token: string) {
+  private async checkToken(token: string): Promise<User> {
     const parsedToken = this.parseToken(token);
     const apiToken = await ApiToken.query()
       .select('userId')
       .where('id', parsedToken.tokenId)
       .andWhere('token', parsedToken.token)
       .preload('user', (query) => {
-        query.select('id', 'username');
+        query.select('id', 'username', 'staff');
       })
       .first();
     if (!apiToken) {
       throw new Error('E_INVALID_API_TOKEN');
     }
-    return apiToken.user.username;
+    return apiToken.user as User;
   }
 
   /**
    * Middleware to check if the player is not already connected
    */
-  private async preConnection(socket: Socket): Promise<void> {
+  private async preConnection(socket: Socket): Promise<Player> {
     const token = socket.handshake?.query?.token;
     const queryName = socket.handshake?.query?.pseudo;
 
@@ -135,7 +142,7 @@ export default class Room {
       throw new Error(SocketErrors.MissingParameter);
     }
 
-    const player = this.getPlayerByName(queryName);
+    let player = this.getPlayerByName(queryName);
 
     /**
      * Check if the game is full
@@ -145,13 +152,14 @@ export default class Room {
     }
 
     if (token && token !== 'null') {
-      let dbName;
+      let user: User;
       try {
-        dbName = await this.checkToken(token);
+        user = await this.checkToken(token);
+        console.log(user);
       } catch (error) {
         throw new Error(SocketErrors.BadCredentials);
       }
-      if (dbName !== queryName) {
+      if (user.username !== queryName) {
         throw new Error(SocketErrors.BadCredentials);
       }
       if (player) {
@@ -178,26 +186,28 @@ export default class Room {
         if (this.isFull) {
           throw new Error(SocketErrors.ServerFull);
         }
-        this.addPlayer(dbName, socket, false);
+        player = this.addPlayer(user.username, socket, false, user.staff);
       }
     } else {
       const randomName = this.findPseudo();
-      this.addPlayer(randomName, socket, true);
+      player = this.addPlayer(randomName, socket, true, false);
     }
+    return player;
   }
 
   /**
    * Run on each socket connection
    */
   private async connection(socket: Socket): Promise<void> {
+    let player: Player;
     try {
-      await this.preConnection(socket);
+      player = await this.preConnection(socket);
     } catch (error) {
       socket.emit(RoomEvent.CustomError, error.message);
       socket.disconnect(true);
       return;
     }
-    this.emitRoomInfos(socket);
+    this.emitRoomInfos(socket, player);
     if (this.players.length < 21) {
       this.emitScoreBoard();
     } else {
@@ -262,13 +272,14 @@ export default class Room {
   /**
    * Store a new player and emit his score
    */
-  private addPlayer(name: string, socket: Socket, isGuess: boolean): void {
+  private addPlayer(name: string, socket: Socket, isGuess: boolean, staff: boolean): Player {
     const lastPlayer = this.players[this.players.length - 1];
     let position = 1;
     if (lastPlayer) {
       position = lastPlayer.score === 0 ? lastPlayer.position : lastPlayer.position + 1;
     }
-    this.players.push(new Player({ name, id: socket.id, isGuess, position }));
+    const newPlayer = new Player({ name, id: socket.id, isGuess, position, staff });
+    this.players.push(newPlayer);
     if (this.players.length >= MAX_PLAYERS) {
       this.isFull = true;
     }
@@ -280,6 +291,7 @@ export default class Room {
       position,
     };
     this.emitToSocket(RoomEvent.PlayerScore, playerScore, socket.id);
+    return newPlayer;
   }
 
   /**
@@ -421,8 +433,13 @@ export default class Room {
   /**
    * Send room information to a socket
    */
-  private emitRoomInfos(socket: Socket): void {
-    this.emitToSocket(RoomEvent.Infos, { title: this.title }, socket.id);
+  private emitRoomInfos(socket: Socket, player: Player): void {
+    const roomInfos: EmitRoomInfos = {
+      title: this.title,
+      checkForCheat: this.checkForCheat,
+      staff: player.staff,
+    };
+    this.emitToSocket(RoomEvent.Infos, roomInfos, socket.id);
   }
 
   /**
