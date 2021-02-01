@@ -1,6 +1,7 @@
+import { EmitRoomInfos } from '@squiz/shared';
 import { atom } from 'recoil';
 
-const roomInfosState = atom<{ title: string } | null>({
+const roomInfosState = atom<EmitRoomInfos | null>({
   key: 'roomInfosState',
   default: null,
 });

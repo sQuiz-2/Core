@@ -13,6 +13,9 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     minWidth: 10,
   },
+  cheatText: {
+    color: 'red',
+  },
 });
 
 export default styles;
