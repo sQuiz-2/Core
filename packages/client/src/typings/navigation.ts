@@ -5,6 +5,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 
 export type HomeStackParamList = {
   Home: undefined;
+  Custom: undefined;
   Add: undefined;
   FAQ: undefined;
   Room: { id: string };

@@ -8,6 +8,7 @@ const Linking: LinkingOptions = {
     screens: {
       Home: '',
       Room: 'room/:id',
+      Custom: 'custom',
       FAQ: 'faq',
     },
   },

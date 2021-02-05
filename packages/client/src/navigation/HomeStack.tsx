@@ -1,3 +1,4 @@
+import CustomRoom from '@Src/screens/CustomRoom';
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 
@@ -18,17 +19,22 @@ export default function HomeStack() {
       screenOptions={{
         header: (props) => <Header {...props} />,
       }}>
-      <Stack.Screen name="Home" options={{ title: 'sQuiz' }} component={Home} />
+      <Stack.Screen name="Home" options={{ title: 'sQuiz.gg' }} component={Home} />
+      <Stack.Screen
+        name="Custom"
+        options={{ title: 'Parties personnalisées | sQuiz.gg' }}
+        component={CustomRoom}
+      />
       <Stack.Screen
         name="Room"
         component={Room}
         options={{
           header: (props) => <Header {...props} context="Room" />,
-          title: 'sQuiz',
+          title: 'sQuiz.gg',
         }}
       />
       {/* <Stack.Screen name="Add" options={{ title: 'Ajouter | sQuiz' }} component={AddRound} /> */}
-      <Stack.Screen name="FAQ" options={{ title: 'FAQ | sQuiz' }} component={FAQ} />
+      <Stack.Screen name="FAQ" options={{ title: 'FAQ | sQuiz.gg' }} component={FAQ} />
     </Stack.Navigator>
   );
 }
