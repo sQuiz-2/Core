@@ -11,7 +11,6 @@ export enum RoomEvent {
   OnlinePlayers = 'op',
   Scoreboard = 'sb',
   PlayerScore = 'ps',
-  PlayerRanks = 'pr',
   CompleteScoreboard = 'cs',
   Status = 'status',
   Infos = 'infos',
@@ -19,6 +18,7 @@ export enum RoomEvent {
   RoomUpdate = 'roomUpdate',
   Error = 'error',
   CustomError = 'ce',
+  CreateRoom = 'cr',
 }
 
 export enum SocketErrors {
