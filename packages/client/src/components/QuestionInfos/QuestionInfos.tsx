@@ -8,7 +8,7 @@ import styles from './QuestionInfoStyle';
 type QuestionInfosProps = {
   id: number;
   question: string;
-  answers: string[];
+  answers?: string[];
   displayReport?: boolean;
 };
 
@@ -22,7 +22,7 @@ export default function QuestionInfos({
     <View style={styles.roundContainer}>
       <View style={styles.questionContainer}>
         <Text style={styles.question}>{question}</Text>
-        <Text>{answers.length > 1 ? answers.join(' / ') : answers}</Text>
+        {answers && <Text>{answers.length > 1 ? answers.join(' / ') : answers}</Text>}
       </View>
       {displayReport && (
         <View style={styles.reportContainer}>

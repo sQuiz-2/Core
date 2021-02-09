@@ -15,7 +15,7 @@ type ReportModalProps = {
   visible: boolean;
   setVisible: (visible: boolean) => void;
   question: string;
-  answers: string[];
+  answers?: string[];
   id: number;
 };
 

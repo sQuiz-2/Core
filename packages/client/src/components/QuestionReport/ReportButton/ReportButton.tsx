@@ -10,7 +10,7 @@ import useReportStyle from './ReportButtonStyle';
 type ReportProps = {
   id: number;
   question: string;
-  answers: string[];
+  answers?: string[];
 };
 
 export default function ReportButton({ id, question, answers }: ReportProps) {
