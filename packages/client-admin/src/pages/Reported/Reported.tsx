@@ -115,11 +115,14 @@ export default function Reported() {
               <button onClick={() => resetReport(reports.id)}>
                 <Refresh className="hover:text-blue-500" />
               </button>
-              {ReportDetail.map(({ type, detail }) => (
-                <p key={type}>
-                  {detail}: {reports?.[type]}
-                </p>
-              ))}
+              {ReportDetail.map(({ type, detail }) => {
+                if (reports?.[type] <= 0) return null;
+                return (
+                  <p key={type}>
+                    {detail}: {reports?.[type]}
+                  </p>
+                );
+              })}
             </>
           )}
         </pre>

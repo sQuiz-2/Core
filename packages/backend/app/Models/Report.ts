@@ -18,6 +18,9 @@ export default class Report extends BaseModel {
   @column()
   public category: number;
 
+  @column()
+  public actualize: number;
+
   @hasOne(() => Round, {
     localKey: 'roundId',
     foreignKey: 'id',

@@ -28,6 +28,7 @@ export type ReportProps = {
   question: number;
   answer: number;
   category: number;
+  actualize: number;
 };
 
 export interface GetReportedRound extends ReportProps {
