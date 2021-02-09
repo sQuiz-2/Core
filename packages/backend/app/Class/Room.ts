@@ -17,14 +17,11 @@ import { EventEmitter } from 'events';
 import { Namespace, Socket } from 'socket.io';
 
 import Player from './Player';
+import RoomPool, { RoomConfig } from './RoomPool';
 
-export type RoomProps = {
+export interface RoomProps extends RoomConfig {
   roomNumber: string;
-  difficulty: Difficulty;
-  title: string;
-};
-
-const MAX_PLAYERS = 100;
+}
 
 export default class Room {
   /**
@@ -70,16 +67,29 @@ export default class Room {
   isFull: boolean = false;
 
   /**
+   * Max players allowed to play in this room
+   */
+  maxPlayers: number = 100;
+
+  /**
    * If true we will check if the player change it's window focus
    */
   checkForCheat: boolean = true;
 
-  constructor({ roomNumber, difficulty, title }: RoomProps) {
-    this.nameSpace = Ws.io.of(roomNumber);
+  /**
+   * Define if this room is private or not
+   */
+  isPrivate: boolean = true;
+
+  constructor(roomConfig: RoomProps) {
+    this.nameSpace = Ws.io.of(roomConfig.roomNumber);
     this.nameSpace.on(RoomEvent.Connection, this.connection.bind(this));
-    this.id = roomNumber;
-    this.difficulty = difficulty;
-    this.title = title;
+    this.id = roomConfig.roomNumber;
+    this.difficulty = roomConfig.difficulty;
+    this.title = roomConfig.title;
+    this.maxPlayers = roomConfig.maxPlayers;
+    this.checkForCheat = roomConfig.antiCheat;
+    this.isPrivate = roomConfig.private;
   }
 
   private urlDecode(encoded) {
@@ -140,6 +150,15 @@ export default class Room {
 
     if (!token || typeof token !== 'string' || !queryName || typeof queryName !== 'string') {
       throw new Error(SocketErrors.MissingParameter);
+    }
+
+    if (this.isPrivate) {
+      const privateCode = socket.handshake?.query?.privateCode;
+      if (!privateCode) {
+        throw new Error(SocketErrors.MissingPrivateCode);
+      } else if (privateCode !== this.title) {
+        throw new Error(SocketErrors.InvalidPrivateCode);
+      }
     }
 
     let player = this.getPlayerByName(queryName);
@@ -233,6 +252,7 @@ export default class Room {
       if (this.players.length <= 0) {
         this.gameStop();
         this.status = RoomStatus.Waiting;
+        this.deleteRoomIfPrivate();
       }
     }
   }
@@ -279,7 +299,7 @@ export default class Room {
     }
     const newPlayer = new Player({ name, id: socket.id, isGuess, position, staff });
     this.players.push(newPlayer);
-    if (this.players.length >= MAX_PLAYERS) {
+    if (this.players.length >= this.maxPlayers) {
       this.isFull = true;
     }
     const playerScore: EmitPlayerScore = {
@@ -437,6 +457,7 @@ export default class Room {
       title: this.title,
       checkForCheat: this.checkForCheat,
       staff: player.staff,
+      isPrivate: this.isPrivate,
     };
     this.emitToSocket(RoomEvent.Infos, roomInfos, socket.id);
   }
@@ -474,6 +495,16 @@ export default class Room {
   private findPseudo(): string {
     const pseudo = 'sQuizer' + Math.floor(Math.random() * Math.floor(9999));
     return pseudo;
+  }
+
+  /**
+   * Remove this room if private
+   */
+  public deleteRoomIfPrivate(): void {
+    if (this.isPrivate) {
+      this.nameSpace.removeAllListeners();
+      RoomPool.removeRoom();
+    }
   }
 
   public joinGame(_socket: Socket): void {}

@@ -51,6 +51,7 @@ export default function useOAuthTwitch() {
         username: user.username,
         token: user.token,
         connected: true,
+        privateCode: null,
       });
       setInStore(StorageEnum.User, user);
     } catch (error) {

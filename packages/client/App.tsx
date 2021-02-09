@@ -64,9 +64,9 @@ function AppWithProviders() {
   async function getUser() {
     const user = await getFromStore<{ username: string; token: string }>(StorageEnum.User);
     if (user) {
-      setUser({ ...user, connected: true });
+      setUser({ ...user, connected: true, privateCode: null });
     } else {
-      setUser({ username: null, token: null, connected: false });
+      setUser({ username: null, token: null, connected: false, privateCode: null });
     }
   }
 

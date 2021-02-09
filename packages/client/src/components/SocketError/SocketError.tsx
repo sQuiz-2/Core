@@ -19,6 +19,10 @@ function getErrorMessage(error: string) {
       return '⚙️ Nous ne trouvons pas de compte invité disponible';
     case SocketErrors.BadCredentials:
       return '🕵️‍♂️ Tes identifiants ont expirés ! Déconnecte-toi puis reconnecte toi';
+    case SocketErrors.MissingPrivateCode:
+      return "💂‍♂️ Il s'agit d'une partie privée ! Pour la rejoindre utilise la fonction 'Rejoindre une partie' dans le menu 'Parties persos'";
+    case SocketErrors.InvalidPrivateCode:
+      return "🤖 Le code utilisé pour rejoindre cette partie est invalide ! Pour la rejoindre utilise la fonction 'Rejoindre une partie' dans le menu 'Parties persos'";
     default:
       return '💥 Une erreur est survenue !';
   }

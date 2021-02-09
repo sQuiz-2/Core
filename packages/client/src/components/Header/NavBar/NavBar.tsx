@@ -1,10 +1,10 @@
+import NavItems from '@Src/constant/navBar.json';
+import { Context } from '@Src/navigation/HomeStack';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { useTheme, useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { View } from 'react-native';
 
-import NavItems from '../../../constant/navBar.json';
-import { Context } from '../../../navigation/HomeStack';
 import Hoverable from '../../Hoverable';
 import Text from '../../Text';
 import useNavBarStyle from './NavBarStyle';

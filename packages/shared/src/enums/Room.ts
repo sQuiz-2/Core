@@ -11,7 +11,6 @@ export enum RoomEvent {
   OnlinePlayers = 'op',
   Scoreboard = 'sb',
   PlayerScore = 'ps',
-  PlayerRanks = 'pr',
   CompleteScoreboard = 'cs',
   Status = 'status',
   Infos = 'infos',
@@ -19,6 +18,11 @@ export enum RoomEvent {
   RoomUpdate = 'roomUpdate',
   Error = 'error',
   CustomError = 'ce',
+  CreateRoom = 'cr',
+  RoomCreated = 'rc',
+  JoinPrivate = 'jp',
+  PrivateRoomId = 'pr',
+  PrivateRoomJoin = 'pj',
 }
 
 export enum SocketErrors {
@@ -28,4 +32,6 @@ export enum SocketErrors {
   ExceedMaxConnectionPerIp = 'em',
   CantFindPseudo = 'cf',
   BadCredentials = 'bc',
+  InvalidPrivateCode = 'ip',
+  MissingPrivateCode = 'mc',
 }

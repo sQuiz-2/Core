@@ -6,6 +6,11 @@
       "route": "Home"
     },
     {
+      "name": "Parties Persos",
+      "icon": "users-cog",
+      "route": "Custom"
+    },
+    {
       "name": "FAQ",
       "icon": "question",
       "route": "FAQ"

@@ -21,7 +21,7 @@ import Player from './Player';
 import Room, { RoomProps } from './Room';
 import RoundFetcher from './RoundsFetcher';
 
-enum EventEmitter {
+export enum EmitterEvents {
   Start = 'start',
 }
 
@@ -80,7 +80,7 @@ export default class Quiz extends Room {
 
   constructor(props: RoomProps) {
     super(props);
-    this.eventEmitter.on(EventEmitter.Start, this.startGame.bind(this));
+    this.eventEmitter.on(EmitterEvents.Start, this.startGame.bind(this));
   }
 
   /**
@@ -230,7 +230,7 @@ export default class Quiz extends Room {
     this.emitStatusToSocket(socket.id);
     // We need at least one player to start the game
     if (this.status === RoomStatus.Waiting && this.players.length >= 1) {
-      this.eventEmitter.emit(EventEmitter.Start);
+      this.eventEmitter.emit(EmitterEvents.Start);
     }
     socket.on(GameEvent.Guess, (guess) => this.playerGuess(socket.id, guess));
   }
@@ -256,9 +256,10 @@ export default class Quiz extends Room {
   private restartGame(): void {
     this.removeDisconnectedPlayers();
     if (this.players.length > 0) {
-      this.eventEmitter.emit(EventEmitter.Start);
+      this.eventEmitter.emit(EmitterEvents.Start);
     } else {
       this.setStatus(RoomStatus.Waiting);
+      this.deleteRoomIfPrivate();
     }
   }
 

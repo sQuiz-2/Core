@@ -6,7 +6,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import io from 'socket.io-client';
 
 export default function useRoomSocket(route?: string) {
-  const { username, token, connected } = useRecoilValue(userState);
+  const { username, token, connected, privateCode } = useRecoilValue(userState);
   const setRoomSocket = useSetRecoilState(roomSocketState);
   const [error, setError] = useState<null | string>(null);
 
@@ -14,7 +14,7 @@ export default function useRoomSocket(route?: string) {
     if (connected === null) return;
     const url = process.env.BACKEND_URL || '';
     const roomSocket = io(url + route, {
-      query: { pseudo: username, token },
+      query: { pseudo: username, token, privateCode },
       reconnectionAttempts: 2,
       upgrade: false,
       transports: ['websocket'],

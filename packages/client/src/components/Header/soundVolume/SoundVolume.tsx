@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
-import styles from './ProfileStyle';
+import styles from './SoundVolumeStyle';
 
 export default function SoundVolume() {
   const { colors } = useTheme();
