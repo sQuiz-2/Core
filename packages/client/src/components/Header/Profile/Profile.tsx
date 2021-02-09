@@ -26,6 +26,7 @@ export default function Profile() {
       username: null,
       token: null,
       connected: false,
+      privateCode: null,
     });
     navigation.navigate('Home');
   }

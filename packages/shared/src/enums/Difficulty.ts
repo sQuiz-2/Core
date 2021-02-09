@@ -48,3 +48,11 @@ export function GetDifficultyFromId(difficultyId: DifficultyEnum): Difficulty {
   }
   return difficulty;
 }
+
+export function GetDifficultyFromName(difficultyName: string): Difficulty {
+  const difficulty = Difficulties.find((difficulty) => difficulty.title === difficultyName);
+  if (!difficulty) {
+    return Difficulties[0];
+  }
+  return difficulty;
+}

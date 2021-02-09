@@ -1,4 +1,9 @@
-export { default as DifficultyEnum, GetDifficultyFromId, Difficulties } from './Difficulty';
+export {
+  default as DifficultyEnum,
+  GetDifficultyFromId,
+  GetDifficultyFromName,
+  Difficulties,
+} from './Difficulty';
 export type { Difficulty } from './Difficulty';
 
 export { GameRank, GameEvent, GameTime } from './Game';

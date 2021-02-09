@@ -27,5 +27,9 @@ export default function useJoinRoomStyle() {
       width: 100,
       textAlign: 'center',
     },
+    errorMessage: {
+      color: 'red',
+      textAlign: 'center',
+    },
   });
 }

@@ -75,4 +75,11 @@ export type EmitRoomInfos = {
   title: string;
   checkForCheat: boolean;
   staff: boolean;
+  isPrivate: boolean;
+};
+
+export type RoomCreateConfig = {
+  players: number;
+  antiCheat: boolean;
+  selectedDifficulty: string;
 };
