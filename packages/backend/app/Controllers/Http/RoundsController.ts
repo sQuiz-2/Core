@@ -14,7 +14,7 @@ export default class RoundsController {
     );
     if (reported) {
       return Report.query()
-        .orderBy(Database.raw('question + answer + category'), 'desc')
+        .orderBy(Database.raw('question + answer + category + actualize'), 'desc')
         .preload('round', (builder) => {
           builder.preload('answers');
         })

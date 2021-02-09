@@ -59,7 +59,10 @@ export default function ReportModal({
       </View>
       {ReportDetail.map((report) => {
         return (
-          <Pressable style={styles.reasonButton} onPress={() => handlePressReport(report.type)}>
+          <Pressable
+            key={report.type}
+            style={styles.reasonButton}
+            onPress={() => handlePressReport(report.type)}>
             <Text
               style={[styles.reason, { backgroundColor: reported[report.type] ? 'green' : 'none' }]}
               fontSize="md">

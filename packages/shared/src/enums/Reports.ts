@@ -2,6 +2,7 @@ export enum Report {
   Question = 'question',
   Answer = 'answer',
   Category = 'category',
+  Actualize = 'actualize',
 }
 
 export const ReportDetail = [
@@ -16,5 +17,9 @@ export const ReportDetail = [
   {
     type: Report.Category,
     detail: 'La catégorie est incorrecte',
+  },
+  {
+    type: Report.Actualize,
+    detail: 'La question doit être actualisée',
   },
 ];
