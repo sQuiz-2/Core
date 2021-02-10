@@ -46,3 +46,6 @@ Route.resource('news', 'NewsController')
     destroy: ['auth', 'admin'],
     show: ['auth', 'admin'],
   });
+
+Route.post('room-create', 'RoomController.create');
+Route.get('room-join/:code', 'RoomController.join');

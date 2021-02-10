@@ -1,6 +1,5 @@
-import { GetDifficultyFromName, RoomCreateConfig, RoomEvent, SocketErrors } from '@squiz/shared';
+import { RoomEvent, SocketErrors } from '@squiz/shared';
 import Ws from 'App/Services/Ws';
-import { randomString } from 'App/Utils/Random';
 import { Socket } from 'socket.io';
 
 import RoomPool from './RoomPool';
@@ -46,10 +45,6 @@ class Home {
     }
     this.connectedCounter++;
     socket.emit('rooms', RoomPool.getRooms());
-    socket.on(RoomEvent.CreateRoom, (roomConfig?: RoomCreateConfig) =>
-      this.createRoom(socket, roomConfig),
-    );
-    socket.on(RoomEvent.JoinPrivate, (code?: string) => this.joinPrivate(socket, code));
     socket.on(RoomEvent.Disconnection, () => this.disconnection());
   }
 
@@ -58,34 +53,6 @@ class Home {
    */
   private disconnection(): void {
     this.connectedCounter--;
-  }
-
-  private createRoom(socket: Socket, roomConfig?: RoomCreateConfig) {
-    if (
-      !roomConfig ||
-      typeof roomConfig.antiCheat !== 'boolean' ||
-      typeof roomConfig.players !== 'number' ||
-      typeof roomConfig.selectedDifficulty !== 'string'
-    ) {
-    } else {
-      const randomPrivateTitle = randomString(4);
-      const roomId = RoomPool.addRoom({
-        difficulty: GetDifficultyFromName(roomConfig.selectedDifficulty),
-        antiCheat: roomConfig.antiCheat,
-        maxPlayers: roomConfig.players,
-        private: true,
-        title: randomPrivateTitle,
-      });
-      socket.emit(RoomEvent.RoomCreated, { roomId, privateCode: randomPrivateTitle });
-    }
-  }
-
-  private joinPrivate(socket: Socket, code?: string) {
-    if (!code || typeof code !== 'string' || code.length !== 4) {
-      socket.emit(RoomEvent.CustomError, SocketErrors.InvalidPrivateCode);
-    }
-    const privateRoomId = RoomPool.getRoomIdWithCode(code!);
-    socket.emit(RoomEvent.PrivateRoomJoin, privateRoomId);
   }
 
   /**
