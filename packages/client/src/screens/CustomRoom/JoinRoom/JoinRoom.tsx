@@ -24,8 +24,7 @@ export default function JoinRoom() {
       setError('Aucune partie trouvée, code invalide');
     } else {
       try {
-        const roomId = await get<string | undefined>({ path: 'room-join/' + code });
-        console.log('Receive: ', roomId);
+        const roomId = await get<string | undefined>({ path: 'room-join/' + code.toUpperCase() });
         if (roomId) {
           setUser({ ...user, privateCode: code.toUpperCase() });
           navigation.navigate('Room', { id: roomId });
