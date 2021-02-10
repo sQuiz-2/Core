@@ -18,11 +18,6 @@ export enum RoomEvent {
   RoomUpdate = 'roomUpdate',
   Error = 'error',
   CustomError = 'ce',
-  CreateRoom = 'cr',
-  RoomCreated = 'rc',
-  JoinPrivate = 'jp',
-  PrivateRoomId = 'pr',
-  PrivateRoomJoin = 'pj',
 }
 
 export enum SocketErrors {
