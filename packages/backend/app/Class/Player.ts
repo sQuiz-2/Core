@@ -6,6 +6,7 @@ type Props = {
   isGuess: boolean;
   position: number;
   staff: boolean;
+  dbId?: number;
 };
 
 export default class Player {
@@ -13,6 +14,11 @@ export default class Player {
    * Unique socket id
    */
   id: string;
+
+  /**
+   * Player database id
+   */
+  dbId: number | undefined;
 
   /**
    * Player name
@@ -80,6 +86,7 @@ export default class Player {
     this.isGuess = props.isGuess;
     this.position = props.position;
     this.staff = props.staff;
+    this.dbId = props.dbId;
   }
 
   /**
@@ -102,15 +109,15 @@ export default class Player {
   public performsValidAnswer(rank: number, roundNumber: number): EmitScoreDetails {
     let additionalPoints: number = 0;
     switch (rank) {
-      case 1: {
+      case GameRank.First: {
         additionalPoints = 3;
         break;
       }
-      case 2: {
+      case GameRank.Second: {
         additionalPoints = 2;
         break;
       }
-      case 3: {
+      case GameRank.Third: {
         additionalPoints = 1;
         break;
       }
@@ -192,5 +199,56 @@ export default class Player {
   public reconnect(id: string): void {
     this.disconnected = false;
     this.id = id;
+  }
+
+  /**
+   * Compute the experience for each ranks
+   */
+  private computeRankExperience(): number {
+    const rankExperience = this.ranks.reduce((acc, rank) => {
+      if (rank > GameRank.Third) return acc + 1;
+      console.log(rank);
+      switch (rank) {
+        case GameRank.First: {
+          return acc + 4;
+        }
+        case GameRank.Second: {
+          return acc + 3;
+        }
+        case GameRank.Third: {
+          return acc + 2;
+        }
+        default:
+          return acc;
+      }
+    }, 0);
+    return rankExperience || 0;
+  }
+
+  /**
+   * Compute the experience in therms of the player position
+   */
+  private computePositionExperience(): number {
+    switch (this.position) {
+      case GameRank.First: {
+        return 40;
+      }
+      case GameRank.Second: {
+        return 30;
+      }
+      case GameRank.Third: {
+        return 20;
+      }
+    }
+    return 0;
+  }
+
+  /**
+   * Compute rank and position experience
+   */
+  public computeExperience(): number {
+    const rankExperience = this.computeRankExperience();
+    const positionExperience = this.computePositionExperience();
+    return rankExperience + positionExperience;
   }
 }

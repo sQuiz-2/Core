@@ -20,6 +20,9 @@ export default class User extends BaseModel {
   public password: string;
 
   @column()
+  public experience: number;
+
+  @column()
   public staff: boolean;
 
   @column()

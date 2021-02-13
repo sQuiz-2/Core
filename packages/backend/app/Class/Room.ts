@@ -159,11 +159,17 @@ export default class Room {
         if (this.isFull) {
           throw new Error(SocketErrors.ServerFull);
         }
-        player = this.addPlayer(user.username, socket, false, user.staff);
+        player = this.addPlayer({
+          name: user.username,
+          socket,
+          isGuess: false,
+          staff: user.staff,
+          dbId: user.id,
+        });
       }
     } else {
       const randomName = this.findPseudo();
-      player = this.addPlayer(randomName, socket, true, false);
+      player = this.addPlayer({ name: randomName, socket, isGuess: true, staff: false });
     }
     return player;
   }
@@ -246,7 +252,19 @@ export default class Room {
   /**
    * Store a new player and emit his score
    */
-  private addPlayer(name: string, socket: Socket, isGuess: boolean, staff: boolean): Player {
+  private addPlayer({
+    name,
+    socket,
+    isGuess,
+    staff,
+    dbId,
+  }: {
+    name: string;
+    socket: Socket;
+    isGuess: boolean;
+    staff: boolean;
+    dbId?: number;
+  }): Player {
     /**
      * Easy way to compute a new player position without any iteration on the player's array
      */
@@ -259,7 +277,7 @@ export default class Room {
     /**
      * Add the new player in the player's array
      */
-    const newPlayer = new Player({ name, id: socket.id, isGuess, position, staff });
+    const newPlayer = new Player({ name, id: socket.id, isGuess, position, staff, dbId });
     this.players.push(newPlayer);
     if (this.players.length >= this.maxPlayers) {
       this.isFull = true;

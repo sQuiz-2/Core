@@ -17,9 +17,10 @@ import { shuffle } from 'App/Utils/Array';
 import { Socket } from 'socket.io';
 import stringSimilarity from 'string-similarity';
 
-import Player from './Player';
-import Room, { RoomProps } from './Room';
-import RoundFetcher from './RoundsFetcher';
+import Player from '../Player';
+import Room, { RoomProps } from '../Room';
+import RoundFetcher from '../RoundsFetcher';
+import QuizExperience from './QuizExperience';
 
 export enum EmitterEvents {
   Start = 'start',
@@ -77,6 +78,11 @@ export default class Quiz extends Room {
    * Keep track of the number of rounds done
    */
   roundFetcher: RoundFetcher = new RoundFetcher();
+
+  /**
+   * Keep track of the number of rounds done
+   */
+  quizExperience: QuizExperience = new QuizExperience({ players: this.players });
 
   constructor(props: RoomProps) {
     super(props);
@@ -243,6 +249,7 @@ export default class Quiz extends Room {
     this.setStatus(RoomStatus.Ended);
     this.emitAllRounds();
     this.emitCompleteScoreboard();
+    this.quizExperience.computeAndSaveExperience();
     if (this.roundTimer) {
       clearInterval(this.roundTimer);
     }
