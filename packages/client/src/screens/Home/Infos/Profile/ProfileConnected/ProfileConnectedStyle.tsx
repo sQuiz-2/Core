@@ -17,6 +17,9 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: 'bold',
   },
+  xpBarContainer: {
+    paddingTop: 20,
+  },
 });
 
 export default styles;

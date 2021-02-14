@@ -207,7 +207,6 @@ export default class Player {
   private computeRankExperience(): number {
     const rankExperience = this.ranks.reduce((acc, rank) => {
       if (rank > GameRank.Third) return acc + 1;
-      console.log(rank);
       switch (rank) {
         case GameRank.First: {
           return acc + 4;
