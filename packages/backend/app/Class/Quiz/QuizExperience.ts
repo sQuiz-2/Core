@@ -27,7 +27,13 @@ class QuizExperience {
     this.savePlayersExperience(playersExperience);
   }
 
-  private savePlayersExperience(playerExperience: PlayerExperience[]) {
+  private async savePlayersExperience(playerExperience: PlayerExperience[]) {
+    const usersId = playerExperience.map(({ id }) => id);
+    const users = await User.query().whereIn('id', usersId);
+    playerExperience.forEach((player) => {
+      const user = users.find(({ id }) => id === player.id);
+      player.experience += user?.experience || 0;
+    });
     User.updateOrCreateMany('id', playerExperience);
   }
 
