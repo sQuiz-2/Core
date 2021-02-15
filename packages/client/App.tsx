@@ -1,6 +1,9 @@
 import soundVolumeState from '@Src/global/soundVolume';
+import userBasicInfoState from '@Src/global/userBasicInfos';
 import useHomeSocket from '@Src/utils/hooks/homeSocket';
+import { get } from '@Src/utils/wrappedFetch';
 import { NavigationContainer } from '@react-navigation/native';
+import { MeBasic } from '@squiz/shared';
 import { registerRootComponent } from 'expo';
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
@@ -47,11 +50,12 @@ function App() {
 function AppWithProviders() {
   const [isLoading, setIsLoading] = useState(true);
   const setUser = useSetRecoilState(userState);
+  const setUserBasicInfoState = useSetRecoilState(userBasicInfoState);
   const setSoundVolume = useSetRecoilState(soundVolumeState);
   useHomeSocket();
 
   useEffect(function mount() {
-    getUser();
+    getUserInfos();
     getSoundVolume();
     setIsLoading(false);
   }, []);
@@ -61,12 +65,20 @@ function AppWithProviders() {
     setSoundVolume(soundVolume);
   }
 
-  async function getUser() {
+  async function getUserInfos() {
     const user = await getFromStore<{ username: string; token: string }>(StorageEnum.User);
     if (user) {
       setUser({ ...user, connected: true, privateCode: null });
     } else {
       setUser({ username: null, token: null, connected: false, privateCode: null });
+    }
+
+    try {
+      const meBasicInfos = await get<MeBasic>({ path: 'me-basic', token: user?.token });
+      if (!meBasicInfos) return;
+      setUserBasicInfoState(meBasicInfos);
+    } catch (error) {
+      console.error(error);
     }
   }
 

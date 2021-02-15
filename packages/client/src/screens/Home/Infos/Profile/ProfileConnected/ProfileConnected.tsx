@@ -1,11 +1,15 @@
 import { LargeExperienceBar } from '@Src/components/ExperienceBar';
 import Text from '@Src/components/Text';
+import userBasicInfoState from '@Src/global/userBasicInfos';
 import React from 'react';
-import { Image, View } from 'react-native';
+import { ActivityIndicator, Image, View } from 'react-native';
+import { useRecoilValue } from 'recoil';
 
 import styles from './ProfileConnectedStyle';
 
 export default function ProfileConnected() {
+  const userBasicInfos = useRecoilValue(userBasicInfoState);
+
   return (
     <View>
       <View style={styles.container}>
@@ -26,7 +30,11 @@ export default function ProfileConnected() {
         </View>
       </View>
       <View style={styles.xpBarContainer}>
-        <LargeExperienceBar experience={50} />
+        {userBasicInfos ? (
+          <LargeExperienceBar experience={userBasicInfos.experience} />
+        ) : (
+          <ActivityIndicator />
+        )}
       </View>
     </View>
   );
