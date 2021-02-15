@@ -1,3 +1,4 @@
+import { Level } from '@Src/components/ExperienceBar';
 import userState from '@Src/global/userState';
 import { removeInStore, StorageEnum } from '@Src/utils/storage';
 import { get } from '@Src/utils/wrappedFetch';
@@ -43,6 +44,9 @@ export default function Profile() {
             color={colors.text}
             style={styles.leaveDoor}
           />
+          <View style={styles.level}>
+            <Level experience={50} />
+          </View>
           <Text>{user.username}</Text>
         </>
       )}

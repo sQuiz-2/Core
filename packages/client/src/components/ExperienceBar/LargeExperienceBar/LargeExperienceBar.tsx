@@ -1,5 +1,6 @@
 import ProgressBar from '@Src/components/ProgressBar';
 import Text from '@Src/components/Text';
+import { computeLevel } from '@squiz/shared';
 import React from 'react';
 import { View } from 'react-native';
 
@@ -11,16 +12,6 @@ type LargeExperienceBarProps = {
 
 export default function LargeExperienceBar({ experience }: LargeExperienceBarProps) {
   const { level, nextLevelExp, currentLevelExp } = computeLevel(experience);
-
-  function computeLevel(experience: number) {
-    let exp = 10;
-    let level = 0;
-    let currentLevelExp = 0;
-    for (; exp <= experience; level++, exp += level * 10) {
-      currentLevelExp = exp;
-    }
-    return { level, currentLevelExp, nextLevelExp: exp };
-  }
 
   return (
     <View>

@@ -1,3 +1,4 @@
 import LargeExperienceBar from './LargeExperienceBar';
+import Level from './Level';
 
-export { LargeExperienceBar };
+export { LargeExperienceBar, Level };

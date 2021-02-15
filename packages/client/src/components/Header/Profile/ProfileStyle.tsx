@@ -8,6 +8,9 @@ const styles = StyleSheet.create({
   leaveDoor: {
     paddingRight: 10,
   },
+  level: {
+    paddingRight: 5,
+  },
 });
 
 export default styles;
