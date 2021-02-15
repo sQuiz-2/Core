@@ -252,8 +252,10 @@ export default class Quiz extends Room {
     this.setStatus(RoomStatus.Ended);
     this.emitAllRounds();
     this.emitCompleteScoreboard();
-    this.quizExperience.computeAndSaveExperience();
-    this.quizExperience.emitExperience();
+    if (!this.isPrivate) {
+      this.quizExperience.computeAndSaveExperience();
+      this.quizExperience.emitExperience();
+    }
     if (this.roundTimer) {
       clearInterval(this.roundTimer);
     }
