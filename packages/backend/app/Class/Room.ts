@@ -9,15 +9,14 @@ import {
   EmitPlayerScore,
   EmitRoomInfos,
 } from '@squiz/shared';
-import ApiToken from 'App/Models/ApiToken';
 import User from 'App/Models/User';
 import Ws from 'App/Services/Ws';
-import crypto from 'crypto';
 import { EventEmitter } from 'events';
 import { Namespace, Socket } from 'socket.io';
 
 import Player from './Player';
 import RoomPool, { RoomConfig } from './RoomPool';
+import SocketAuthentication from './SocketAuthentication';
 
 export interface RoomProps extends RoomConfig {
   roomNumber: string;
@@ -81,6 +80,11 @@ export default class Room {
    */
   isPrivate: boolean = true;
 
+  /**
+   * Define if this room is private or not
+   */
+  authentication = new SocketAuthentication();
+
   constructor(roomConfig: RoomProps) {
     this.nameSpace = Ws.io.of(roomConfig.roomNumber);
     this.nameSpace.on(RoomEvent.Connection, this.connection.bind(this));
@@ -90,55 +94,6 @@ export default class Room {
     this.maxPlayers = roomConfig.maxPlayers;
     this.checkForCheat = roomConfig.antiCheat;
     this.isPrivate = roomConfig.private;
-  }
-
-  private urlDecode(encoded) {
-    return Buffer.from(encoded, 'base64').toString('utf-8');
-  }
-
-  private generateHash(token) {
-    return crypto.createHash('sha256').update(token).digest('hex');
-  }
-
-  private parseToken(token) {
-    const parts = token.split('.');
-    /**
-     * Ensure the token has two parts
-     */
-    if (parts.length !== 2) {
-      throw new Error('E_INVALID_API_TOKEN');
-    }
-
-    /**
-     * Ensure the first part is a base64 encode id
-     */
-    const tokenId = this.urlDecode(parts[0]);
-
-    if (!tokenId) {
-      throw new Error('E_INVALID_API_TOKEN');
-    }
-
-    const parsedToken = this.generateHash(parts[1]);
-    return {
-      token: parsedToken,
-      tokenId,
-    };
-  }
-
-  private async checkToken(token: string): Promise<User> {
-    const parsedToken = this.parseToken(token);
-    const apiToken = await ApiToken.query()
-      .select('userId')
-      .where('id', parsedToken.tokenId)
-      .andWhere('token', parsedToken.token)
-      .preload('user', (query) => {
-        query.select('id', 'username', 'staff');
-      })
-      .first();
-    if (!apiToken) {
-      throw new Error('E_INVALID_API_TOKEN');
-    }
-    return apiToken.user as User;
   }
 
   /**
@@ -173,7 +128,7 @@ export default class Room {
     if (token && token !== 'null') {
       let user: User;
       try {
-        user = await this.checkToken(token);
+        user = await this.authentication.checkToken(token);
       } catch (error) {
         throw new Error(SocketErrors.BadCredentials);
       }
@@ -204,11 +159,17 @@ export default class Room {
         if (this.isFull) {
           throw new Error(SocketErrors.ServerFull);
         }
-        player = this.addPlayer(user.username, socket, false, user.staff);
+        player = this.addPlayer({
+          name: user.username,
+          socket,
+          isGuess: false,
+          staff: user.staff,
+          dbId: user.id,
+        });
       }
     } else {
       const randomName = this.findPseudo();
-      player = this.addPlayer(randomName, socket, true, false);
+      player = this.addPlayer({ name: randomName, socket, isGuess: true, staff: false });
     }
     return player;
   }
@@ -291,17 +252,40 @@ export default class Room {
   /**
    * Store a new player and emit his score
    */
-  private addPlayer(name: string, socket: Socket, isGuess: boolean, staff: boolean): Player {
+  private addPlayer({
+    name,
+    socket,
+    isGuess,
+    staff,
+    dbId,
+  }: {
+    name: string;
+    socket: Socket;
+    isGuess: boolean;
+    staff: boolean;
+    dbId?: number;
+  }): Player {
+    /**
+     * Easy way to compute a new player position without any iteration on the player's array
+     */
     const lastPlayer = this.players[this.players.length - 1];
     let position = 1;
     if (lastPlayer) {
       position = lastPlayer.score === 0 ? lastPlayer.position : lastPlayer.position + 1;
     }
-    const newPlayer = new Player({ name, id: socket.id, isGuess, position, staff });
+
+    /**
+     * Add the new player in the player's array
+     */
+    const newPlayer = new Player({ name, id: socket.id, isGuess, position, staff, dbId });
     this.players.push(newPlayer);
     if (this.players.length >= this.maxPlayers) {
       this.isFull = true;
     }
+
+    /**
+     * Emit to the new player some game infos
+     */
     const playerScore: EmitPlayerScore = {
       id: socket.id,
       name,

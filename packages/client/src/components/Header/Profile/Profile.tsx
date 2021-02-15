@@ -1,3 +1,5 @@
+import { Level } from '@Src/components/ExperienceBar';
+import userBasicInfoState from '@Src/global/userBasicInfos';
 import userState from '@Src/global/userState';
 import { removeInStore, StorageEnum } from '@Src/utils/storage';
 import { get } from '@Src/utils/wrappedFetch';
@@ -5,7 +7,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { useTheme, useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { View } from 'react-native';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 import Text from '../../Text';
 import SoundVolume from '../soundVolume';
@@ -14,6 +16,7 @@ import styles from './ProfileStyle';
 export default function Profile() {
   const { colors } = useTheme();
   const [user, setUser] = useRecoilState(userState);
+  const userBasicInfos = useRecoilValue(userBasicInfoState);
 
   const navigation = useNavigation();
 
@@ -43,6 +46,11 @@ export default function Profile() {
             color={colors.text}
             style={styles.leaveDoor}
           />
+          {userBasicInfos && (
+            <View style={styles.level}>
+              <Level experience={userBasicInfos.experience} />
+            </View>
+          )}
           <Text>{user.username}</Text>
         </>
       )}

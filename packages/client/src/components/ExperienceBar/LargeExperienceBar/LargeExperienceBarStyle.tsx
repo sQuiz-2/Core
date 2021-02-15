@@ -1,15 +1,13 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-  container: {
+  infos: {
     flexDirection: 'row',
-    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 10,
   },
-  leaveDoor: {
-    paddingRight: 10,
-  },
-  level: {
-    paddingRight: 5,
+  text: {
+    fontWeight: 'bold',
   },
 });
 

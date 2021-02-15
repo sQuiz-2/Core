@@ -2,7 +2,7 @@ import { Difficulty, EmitRooms } from '@squiz/shared';
 import Game from 'App/Models/Game';
 import { EventEmitter } from 'events';
 
-import Quiz from './Quiz';
+import Quiz from './Quiz/Quiz';
 import Room from './Room';
 
 export type RoomConfig = {

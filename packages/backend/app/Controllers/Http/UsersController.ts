@@ -1,5 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
-import { GetUsers } from '@squiz/shared';
+import { GetUsers, MeBasic } from '@squiz/shared';
 import User from 'App/Models/User';
 import UserValidator from 'App/Validators/UserValidator';
 
@@ -34,5 +34,13 @@ export default class UsersController {
     const { id } = ctx.params;
     const user = await User.findOrFail(id);
     return user.delete();
+  }
+
+  public async meBasic({ auth }: HttpContextContract) {
+    if (!auth.user) return;
+    const meBasic: MeBasic = {
+      experience: auth.user?.experience,
+    };
+    return meBasic;
   }
 }
