@@ -8,6 +8,7 @@ export enum GameEvent {
   Questions = 'questions',
   ValidAnswer = 'va',
   WrongAnswer = 'wa',
+  GameEndPlayerInfos = 'gp',
 }
 
 export enum GameRank {

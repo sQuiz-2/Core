@@ -80,6 +80,11 @@ export default class Player {
    */
   staff: boolean = false;
 
+  /**
+   * Current game experience
+   */
+  experience: number = 0;
+
   constructor(props: Props) {
     this.id = props.id;
     this.name = props.name;
@@ -145,6 +150,7 @@ export default class Player {
     this.find = false;
     this.ranks = Array(15).fill(GameRank.RoundComing);
     this.position = 1;
+    this.experience = 0;
   }
 
   /**
@@ -248,6 +254,8 @@ export default class Player {
   public computeExperience(): number {
     const rankExperience = this.computeRankExperience();
     const positionExperience = this.computePositionExperience();
-    return rankExperience + positionExperience;
+    const totalExperience = rankExperience + positionExperience;
+    this.experience = totalExperience;
+    return totalExperience;
   }
 }

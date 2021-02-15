@@ -1,14 +1,17 @@
+import { GameEvent } from '@squiz/shared';
 import User from 'App/Models/User';
 
 import Player from '../Player';
 
 export type QuizExperienceParams = {
   players: Player[];
+  namespace: SocketIO.Namespace;
 };
 
 type PlayerExperience = {
   id: number;
   experience: number;
+  socketId: string;
 };
 
 class QuizExperience {
@@ -17,8 +20,14 @@ class QuizExperience {
    */
   players: Player[];
 
+  /**
+   * Namespace to emit experience
+   */
+  namespace: SocketIO.Namespace;
+
   constructor(params: QuizExperienceParams) {
     this.players = params.players;
+    this.namespace = params.namespace;
   }
 
   public computeAndSaveExperience() {
@@ -55,6 +64,15 @@ class QuizExperience {
         return !!player;
       },
     );
+  }
+
+  public emitExperience(): void {
+    this.players.forEach((player) => {
+      if (player.isGuess || player.score === 0) return;
+      this.namespace
+        .to(player.id)
+        .emit(GameEvent.GameEndPlayerInfos, { experience: player.experience });
+    });
   }
 }
 

@@ -82,7 +82,10 @@ export default class Quiz extends Room {
   /**
    * Keep track of the number of rounds done
    */
-  quizExperience: QuizExperience = new QuizExperience({ players: this.players });
+  quizExperience: QuizExperience = new QuizExperience({
+    players: this.players,
+    namespace: this.nameSpace,
+  });
 
   constructor(props: RoomProps) {
     super(props);
@@ -250,6 +253,7 @@ export default class Quiz extends Room {
     this.emitAllRounds();
     this.emitCompleteScoreboard();
     this.quizExperience.computeAndSaveExperience();
+    this.quizExperience.emitExperience();
     if (this.roundTimer) {
       clearInterval(this.roundTimer);
     }
