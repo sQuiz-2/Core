@@ -209,13 +209,13 @@ export default class Player {
       if (rank > GameRank.Third) return acc + 1;
       switch (rank) {
         case GameRank.First: {
-          return acc + 4;
+          return acc + 8;
         }
         case GameRank.Second: {
-          return acc + 3;
+          return acc + 5;
         }
         case GameRank.Third: {
-          return acc + 2;
+          return acc + 3;
         }
         default:
           return acc;
@@ -230,7 +230,7 @@ export default class Player {
   private computePositionExperience(): number {
     switch (this.position) {
       case GameRank.First: {
-        return 40;
+        return 50;
       }
       case GameRank.Second: {
         return 30;
