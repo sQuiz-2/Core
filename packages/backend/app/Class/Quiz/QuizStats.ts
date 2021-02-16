@@ -55,6 +55,7 @@ class QuizStats {
   }
 
   public computeAndSaveStats(): void {
+    if (this.players.length < 5) return;
     const playersStats = this.computeStats();
     this.savePlayersGameStats(playersStats);
     this.savePlayersRoundStats(playersStats);
