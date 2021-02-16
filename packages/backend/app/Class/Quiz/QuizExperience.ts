@@ -11,7 +11,6 @@ export type QuizExperienceParams = {
 type PlayerExperience = {
   id: number;
   experience: number;
-  socketId: string;
 };
 
 class QuizExperience {
@@ -30,13 +29,13 @@ class QuizExperience {
     this.namespace = params.namespace;
   }
 
-  public computeAndSaveExperience() {
+  public computeAndSaveExperience(): void {
     if (this.players.length < 5) return;
     const playersExperience = this.computeExperience();
     this.savePlayersExperience(playersExperience);
   }
 
-  private async savePlayersExperience(playerExperience: PlayerExperience[]) {
+  private async savePlayersExperience(playerExperience: PlayerExperience[]): Promise<void> {
     const usersId = playerExperience.map(({ id }) => id);
     const users = await User.query().whereIn('id', usersId);
     playerExperience.forEach((player) => {

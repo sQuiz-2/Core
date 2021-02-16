@@ -258,4 +258,37 @@ export default class Player {
     this.experience = totalExperience;
     return totalExperience;
   }
+
+  public computeRoundsStats(): RoundStats {
+    const roundsStats = { played: 0, correct: 0 };
+    this.ranks.forEach((rank) => {
+      if (rank !== GameRank.RoundComing) {
+        roundsStats.played++;
+        if (rank !== GameRank.NotAnswered) {
+          roundsStats.correct++;
+        }
+      }
+    });
+    return roundsStats;
+  }
+
+  public gameStats(): GameStats {
+    return {
+      podium: this.position <= GameRank.Third ? 1 : 0,
+      win: this.position === GameRank.First ? 1 : 0,
+    };
+  }
+
+  /**
+   * Compute round stats and game stats
+   */
+  public computeStats(): Stats {
+    const roundsStats = this.computeRoundsStats();
+    const gameStats = this.gameStats();
+    return { roundsStats, gameStats };
+  }
 }
+
+export type GameStats = { podium: number; win: number };
+export type RoundStats = { played: number; correct: number };
+export type Stats = { roundsStats: RoundStats; gameStats: GameStats };

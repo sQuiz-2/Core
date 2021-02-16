@@ -34,7 +34,7 @@ class RoomPool {
         difficulty: game.difficulty,
         title: game.title,
         private: false,
-        antiCheat: false,
+        antiCheat: true,
         maxPlayers: 100,
       });
     });
