@@ -21,6 +21,7 @@ import Player from '../Player';
 import Room, { RoomProps } from '../Room';
 import RoundFetcher from '../RoundsFetcher';
 import QuizExperience from './QuizExperience';
+import QuizStats from './QuizStats';
 
 export enum EmitterEvents {
   Start = 'start',
@@ -80,11 +81,20 @@ export default class Quiz extends Room {
   roundFetcher: RoundFetcher = new RoundFetcher();
 
   /**
-   * Keep track of the number of rounds done
+   * Compute and save players experience
    */
   quizExperience: QuizExperience = new QuizExperience({
     players: this.players,
     namespace: this.nameSpace,
+  });
+
+  /**
+   * Compute and save players stats
+   */
+  quizStats: QuizStats = new QuizStats({
+    players: this.players,
+    isPrivate: this.isPrivate,
+    difficulty: this.difficulty,
   });
 
   constructor(props: RoomProps) {
@@ -255,6 +265,7 @@ export default class Quiz extends Room {
     if (!this.isPrivate) {
       this.quizExperience.computeAndSaveExperience();
       this.quizExperience.emitExperience();
+      this.quizStats.computeAndSaveStats();
     }
     if (this.roundTimer) {
       clearInterval(this.roundTimer);

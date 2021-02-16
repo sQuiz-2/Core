@@ -1,5 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { GetUsers, MeBasic } from '@squiz/shared';
+import GameStat from 'App/Models/GameStat';
+import RoundStat from 'App/Models/RoundStat';
 import User from 'App/Models/User';
 import UserValidator from 'App/Validators/UserValidator';
 
@@ -38,8 +40,12 @@ export default class UsersController {
 
   public async meBasic({ auth }: HttpContextContract) {
     if (!auth.user) return;
+    const gameStats = await GameStat.query().where('user_id', auth.user.id);
+    const roundStats = await RoundStat.query().where('user_id', auth.user.id);
     const meBasic: MeBasic = {
       experience: auth.user?.experience,
+      gameStats,
+      roundStats,
     };
     return meBasic;
   }
