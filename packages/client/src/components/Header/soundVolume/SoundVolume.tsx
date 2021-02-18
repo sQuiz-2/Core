@@ -24,7 +24,7 @@ export default function SoundVolume() {
   return (
     <>
       <TouchableOpacity onPress={() => setDisplay(!display)}>
-        <FontAwesome5 name="volume-up" size={20} color={colors.text} style={styles.leaveDoor} />
+        <FontAwesome5 name="volume-up" size={18} color={colors.text} style={styles.leaveDoor} />
       </TouchableOpacity>
       {display && (
         <Slider

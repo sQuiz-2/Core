@@ -10,6 +10,7 @@ const Linking: LinkingOptions = {
       Room: 'room/:id',
       Custom: 'custom',
       FAQ: 'faq',
+      Profile: 'profil',
     },
   },
 };

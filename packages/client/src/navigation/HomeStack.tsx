@@ -5,12 +5,13 @@ import React from 'react';
 import Header from '../components/Header';
 import FAQ from '../screens/FAQ';
 import Home from '../screens/Home';
+import Profile from '../screens/Profile';
 import Room from '../screens/Room';
 import { HomeStackParamList } from '../typings/navigation';
 
 const Stack = createStackNavigator<HomeStackParamList>();
 
-export type Context = 'Home' | 'Room';
+export type Context = 'Home' | 'Room' | 'Profile';
 
 export default function HomeStack() {
   return (
@@ -31,6 +32,14 @@ export default function HomeStack() {
         options={{
           header: (props) => <Header {...props} context="Room" />,
           title: 'sQuiz.gg',
+        }}
+      />
+      <Stack.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          header: (props) => <Header {...props} context="Profile" />,
+          title: 'Profil | sQuiz.gg',
         }}
       />
       {/* <Stack.Screen name="Add" options={{ title: 'Ajouter | sQuiz' }} component={AddRound} /> */}

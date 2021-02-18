@@ -22,5 +22,17 @@
       "icon": "door-open",
       "route": "Home"
     }
+  ],
+  "Profile": [
+    {
+      "name": "Accueil",
+      "icon": "home",
+      "route": "Home"
+    },
+    {
+      "name": "Profil",
+      "icon": "user",
+      "route": "Profile"
+    }
   ]
 }

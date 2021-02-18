@@ -2,8 +2,6 @@ import { Level } from '@Src/components/ExperienceBar';
 import userBasicInfoState from '@Src/global/userBasicInfos';
 import userState from '@Src/global/userState';
 import avatars from '@Src/utils/loadAvatars';
-import { removeInStore, StorageEnum } from '@Src/utils/storage';
-import { get } from '@Src/utils/wrappedFetch';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { useTheme, useNavigation } from '@react-navigation/native';
 import React from 'react';
@@ -22,7 +20,7 @@ export default function Profile() {
   const navigation = useNavigation();
 
   async function disconnect() {
-    if (user.token) {
+    /* if (user.token) {
       get({ path: 'logout', token: user.token });
     }
     await removeInStore(StorageEnum.User);
@@ -31,22 +29,14 @@ export default function Profile() {
       token: null,
       connected: false,
       privateCode: null,
-    });
-    navigation.navigate('Home');
+    }); */
+    navigation.navigate('Profile');
   }
 
   return (
     <View style={styles.container}>
-      <SoundVolume />
       {user.connected && (
-        <>
-          <FontAwesome5
-            onPress={() => disconnect()}
-            name="door-open"
-            size={20}
-            color={colors.text}
-            style={styles.leaveDoor}
-          />
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           {userBasicInfos && (
             <>
               <View style={styles.level}>
@@ -59,8 +49,19 @@ export default function Profile() {
             </>
           )}
           <Text>{user.username}</Text>
-        </>
+        </View>
       )}
+      <View style={{ flexDirection: 'row', alignItems: 'center', paddingTop: 5 }}>
+        <SoundVolume />
+        {user.connected && (
+          <FontAwesome5
+            onPress={() => disconnect()}
+            name="user-cog"
+            size={18}
+            color={colors.text}
+          />
+        )}
+      </View>
     </View>
   );
 }
