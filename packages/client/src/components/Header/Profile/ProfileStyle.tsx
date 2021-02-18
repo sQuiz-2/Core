@@ -11,6 +11,10 @@ const styles = StyleSheet.create({
   level: {
     paddingRight: 5,
   },
+  avatar: {
+    width: 23,
+    height: 23,
+  },
 });
 
 export default styles;

@@ -1,3 +1,5 @@
+import type Avatars from '../../enums/Avatars';
+
 export type GetUsers = {
   id: number;
   email: string;
@@ -5,6 +7,7 @@ export type GetUsers = {
 
 export type MeBasic = {
   experience: number;
+  avatar: keyof typeof Avatars;
   gameStats: {
     difficultyId: number;
     id: number;

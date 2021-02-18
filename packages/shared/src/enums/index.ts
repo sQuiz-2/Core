@@ -14,3 +14,5 @@ export type { Provider } from './oAuthProviders';
 export { RoomEvent, RoomStatus, SocketErrors } from './Room';
 
 export { Report, ReportDetail } from './Reports';
+
+export { default as Avatars } from './Avatars';

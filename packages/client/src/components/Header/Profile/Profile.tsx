@@ -1,12 +1,13 @@
 import { Level } from '@Src/components/ExperienceBar';
 import userBasicInfoState from '@Src/global/userBasicInfos';
 import userState from '@Src/global/userState';
+import avatars from '@Src/utils/loadAvatars';
 import { removeInStore, StorageEnum } from '@Src/utils/storage';
 import { get } from '@Src/utils/wrappedFetch';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { useTheme, useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { View } from 'react-native';
+import { View, Image } from 'react-native';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 import Text from '../../Text';
@@ -47,9 +48,15 @@ export default function Profile() {
             style={styles.leaveDoor}
           />
           {userBasicInfos && (
-            <View style={styles.level}>
-              <Level experience={userBasicInfos.experience} />
-            </View>
+            <>
+              <View style={styles.level}>
+                <Level experience={userBasicInfos.experience} />
+              </View>
+              <Image
+                source={avatars[userBasicInfos.avatar as keyof typeof avatars]}
+                style={styles.avatar}
+              />
+            </>
           )}
           <Text>{user.username}</Text>
         </>
