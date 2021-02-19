@@ -57,7 +57,7 @@ export default class UsersController {
     const avatarRequiredLevel = Number(data.avatar);
     if (
       isNaN(avatarRequiredLevel) ||
-      avatarRequiredLevel < computeLevel(auth.user!.experience).level
+      avatarRequiredLevel > computeLevel(auth.user!.experience).level
     ) {
       return response.status(403);
     }
