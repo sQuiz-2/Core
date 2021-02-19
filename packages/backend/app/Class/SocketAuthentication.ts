@@ -43,7 +43,7 @@ class SocketAuthentication {
       .where('id', parsedToken.tokenId)
       .andWhere('token', parsedToken.token)
       .preload('user', (query) => {
-        query.select('id', 'username', 'staff');
+        query.select('id', 'username', 'staff', 'avatar');
       })
       .first();
     if (!apiToken) {

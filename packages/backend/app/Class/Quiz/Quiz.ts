@@ -156,6 +156,7 @@ export default class Quiz extends Room {
           rank: player.currentRank,
           position: player.position,
           ranks: player.ranks,
+          avatar: player.avatar,
         };
         this.emitToSocket(RoomEvent.PlayerScore, infos, player.id);
       }

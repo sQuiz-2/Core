@@ -1,4 +1,5 @@
 import { DisplayPlayer } from '@Src/global/playerInfoState';
+import avatars from '@Src/utils/loadAvatars';
 import { getMedalWithRank } from '@Src/utils/medals';
 import { GameRank } from '@squiz/shared';
 import React from 'react';
@@ -24,16 +25,17 @@ export default function PlayerRow({
   return (
     <View style={[styles.card, containerStyle]}>
       <View style={styles.infoContainer}>
-        <Text fontSize="lg" style={textStyle}>
+        <Text fontSize="xl" style={[textStyle, styles.bold]}>
           {player.position}
         </Text>
-        <Text fontSize="md" style={[styles.pseudo, textStyle]}>
+        <Image source={avatars[player.avatar as keyof typeof avatars]} style={styles.avatar} />
+        <Text fontSize="lg" style={textStyle}>
           {player.name}
         </Text>
       </View>
       <View style={styles.infoContainer}>
         {displayMedal && image && <Image source={image} style={styles.medal} />}
-        <Text fontSize="md" style={[styles.score, textStyle]}>
+        <Text fontSize="lg" style={[styles.score, textStyle]}>
           {player.score}
         </Text>
       </View>
