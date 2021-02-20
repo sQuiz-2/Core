@@ -17,7 +17,7 @@ export default function CenterContainer({
   ...props
 }: CenterContainerProps) {
   return (
-    <View style={{ flex: 1, backgroundColor: '#212843' }} {...props}>
+    <View style={{ flex: 1, backgroundColor: '#252C4A' }} {...props}>
       <View style={[styles.container, style]}>{children}</View>
       <Footer enable={footerEnable === undefined ? false : footerEnable} />
     </View>
