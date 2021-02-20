@@ -54,7 +54,7 @@ export default class UsersController {
 
   public async editMe({ auth, request, response }: HttpContextContract) {
     const data = await request.validate(UserValidator);
-    const avatarRequiredLevel = Number(data.avatar);
+    const avatarRequiredLevel = Avatars[data.avatar];
     if (
       isNaN(avatarRequiredLevel) ||
       avatarRequiredLevel > computeLevel(auth.user!.experience).level
