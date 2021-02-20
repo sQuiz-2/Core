@@ -1,9 +1,11 @@
+import SocketError from '@Src/components/SocketError';
 import soundVolumeState from '@Src/global/soundVolume';
 import userBasicInfoState from '@Src/global/userBasicInfos';
+import useHomeSocketError from '@Src/screens/Home/Home/useHomeSocketError';
 import useHomeSocket from '@Src/utils/hooks/homeSocket';
 import { get } from '@Src/utils/wrappedFetch';
 import { NavigationContainer } from '@react-navigation/native';
-import { MeBasic } from '@squiz/shared';
+import { MeBasic, SocketErrors } from '@squiz/shared';
 import { registerRootComponent } from 'expo';
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
@@ -52,10 +54,10 @@ function AppWithProviders() {
   const setUser = useSetRecoilState(userState);
   const setUserBasicInfoState = useSetRecoilState(userBasicInfoState);
   const setSoundVolume = useSetRecoilState(soundVolumeState);
-  useHomeSocket();
+  useHomeSocket(onSocketConnected);
+  const error = useHomeSocketError();
 
   useEffect(function mount() {
-    getUserInfos();
     getSoundVolume();
     setIsLoading(false);
   }, []);
@@ -82,10 +84,20 @@ function AppWithProviders() {
     }
   }
 
+  function onSocketConnected() {
+    getUserInfos();
+  }
+
   if (isLoading) {
     return (
-      <CenterContainer style={{ backgroundColor: '#212843' }}>
+      <CenterContainer>
         <ActivityIndicator />
+      </CenterContainer>
+    );
+  } else if (error && error === SocketErrors.ServerFull) {
+    return (
+      <CenterContainer>
+        <SocketError error={error} />
       </CenterContainer>
     );
   } else {

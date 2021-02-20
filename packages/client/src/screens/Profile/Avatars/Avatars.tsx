@@ -29,18 +29,21 @@ export default function Avatars() {
 
   return (
     <View style={styles.container}>
-      {Object.entries(avatars).map(([key, value]) => (
-        <View key={key}>
-          <LockedAvatar
-            onPress={onPress}
-            selected={userBasicInfos!.avatar === key}
-            image={value}
-            name={key}
-            lock={level < AvatarsExp[key as keyof typeof Avatars]}
-            lockText={'LVL ' + AvatarsExp[key as keyof typeof Avatars]}
-          />
-        </View>
-      ))}
+      {Object.entries(avatars).map(([key, value]) => {
+        if (key === '0') return null;
+        return (
+          <View key={key}>
+            <LockedAvatar
+              onPress={onPress}
+              selected={userBasicInfos!.avatar === key}
+              image={value}
+              name={key}
+              lock={level < AvatarsExp[key as keyof typeof Avatars]}
+              lockText={'LVL ' + AvatarsExp[key as keyof typeof Avatars]}
+            />
+          </View>
+        );
+      })}
     </View>
   );
 }

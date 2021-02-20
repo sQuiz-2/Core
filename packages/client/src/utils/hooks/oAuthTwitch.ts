@@ -16,7 +16,7 @@ const TwitchDiscovery = {
   revocationEndpoint: 'https://id.twitch.tv/oauth2/revoke',
 };
 
-export default function useOAuthTwitch() {
+export default function useOAuthTwitch(onSuccess: (token: string) => void) {
   const [request, response, promptAsync] = useAuthRequest(
     {
       responseType: ResponseType.Code,
@@ -54,6 +54,7 @@ export default function useOAuthTwitch() {
         privateCode: null,
       });
       setInStore(StorageEnum.User, user);
+      onSuccess(user.token);
     } catch (error) {
       console.log(error.body);
     } finally {

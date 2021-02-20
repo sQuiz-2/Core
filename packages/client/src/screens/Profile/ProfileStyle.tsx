@@ -14,5 +14,8 @@ export default function useProfileStyle() {
       width: responsive(screenWidth, '90%', '80%', '70%'),
       maxWidth: 1300,
     },
+    disconnectContainer: {
+      marginTop: 40,
+    },
   });
 }

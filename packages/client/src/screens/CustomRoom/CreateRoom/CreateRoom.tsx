@@ -55,7 +55,7 @@ export default function CreateRoom() {
       <Text style={styles.playersNumber}>{players}</Text>
       <Slider
         minimumValue={10}
-        maximumValue={250}
+        maximumValue={100}
         step={1}
         minimumTrackTintColor={colors.text}
         maximumTrackTintColor={colors.border}

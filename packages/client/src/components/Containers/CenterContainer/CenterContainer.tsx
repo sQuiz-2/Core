@@ -1,4 +1,3 @@
-import { useTheme } from '@react-navigation/native';
 import React from 'react';
 import { StyleProp, ViewStyle, View } from 'react-native';
 
@@ -17,10 +16,8 @@ export default function CenterContainer({
   footerEnable,
   ...props
 }: CenterContainerProps) {
-  const { colors } = useTheme();
-
   return (
-    <View style={{ flex: 1, backgroundColor: colors.background }} {...props}>
+    <View style={{ flex: 1, backgroundColor: '#212843' }} {...props}>
       <View style={[styles.container, style]}>{children}</View>
       <Footer enable={footerEnable === undefined ? false : footerEnable} />
     </View>

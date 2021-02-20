@@ -1,9 +1,11 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
+  button: {
+    borderColor: 'darkred',
+  },
   text: {
-    textAlign: 'center',
-    color: 'white',
+    color: 'red',
   },
 });
 

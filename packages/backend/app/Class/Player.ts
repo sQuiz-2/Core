@@ -98,7 +98,7 @@ export default class Player {
     this.position = props.position;
     this.staff = props.staff;
     this.dbId = props.dbId;
-    this.avatar = props.avatar || '1';
+    this.avatar = props.avatar || '0';
   }
 
   /**

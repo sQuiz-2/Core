@@ -34,7 +34,7 @@ type SocketErrorProps = {
 
 export default function SocketError({ error }: SocketErrorProps) {
   return (
-    <ResponsiveContainer>
+    <ResponsiveContainer footerEnable={false}>
       <CenterContainer>
         <Text fontSize="xxl" fontFamily="title" style={styles.text}>
           {getErrorMessage(error)}

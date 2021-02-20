@@ -1,4 +1,5 @@
 const avatars = {
+  '0': require('@Assets/images/avatars/0.png'),
   '1': require('@Assets/images/avatars/1.png'),
   '2': require('@Assets/images/avatars/2.png'),
   '3': require('@Assets/images/avatars/3.png'),
