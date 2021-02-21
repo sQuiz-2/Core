@@ -7,6 +7,7 @@ type Props = {
   position: number;
   staff: boolean;
   dbId?: number;
+  avatar?: string;
 };
 
 export default class Player {
@@ -85,6 +86,11 @@ export default class Player {
    */
   experience: number = 0;
 
+  /**
+   * Current game experience
+   */
+  avatar: string = '0';
+
   constructor(props: Props) {
     this.id = props.id;
     this.name = props.name;
@@ -92,6 +98,7 @@ export default class Player {
     this.position = props.position;
     this.staff = props.staff;
     this.dbId = props.dbId;
+    this.avatar = props.avatar || '0';
   }
 
   /**

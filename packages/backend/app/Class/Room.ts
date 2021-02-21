@@ -165,6 +165,7 @@ export default class Room {
           isGuess: false,
           staff: user.staff,
           dbId: user.id,
+          avatar: user.avatar,
         });
       }
     } else {
@@ -258,12 +259,14 @@ export default class Room {
     isGuess,
     staff,
     dbId,
+    avatar,
   }: {
     name: string;
     socket: Socket;
     isGuess: boolean;
     staff: boolean;
     dbId?: number;
+    avatar?: string;
   }): Player {
     /**
      * Easy way to compute a new player position without any iteration on the player's array
@@ -277,7 +280,7 @@ export default class Room {
     /**
      * Add the new player in the player's array
      */
-    const newPlayer = new Player({ name, id: socket.id, isGuess, position, staff, dbId });
+    const newPlayer = new Player({ name, id: socket.id, isGuess, position, staff, dbId, avatar });
     this.players.push(newPlayer);
     if (this.players.length >= this.maxPlayers) {
       this.isFull = true;
@@ -367,12 +370,13 @@ export default class Room {
    * Get the 20 first players
    */
   public getScoreboard(): EmitScoreboard {
-    return this.players.slice(0, 20).map(({ id, name, score, currentRank, position }) => ({
+    return this.players.slice(0, 20).map(({ id, name, score, currentRank, position, avatar }) => ({
       id,
       name,
       score,
       rank: currentRank,
       position,
+      avatar,
     }));
   }
 
@@ -394,12 +398,13 @@ export default class Room {
 
   public emitCompleteScoreboard(): void {
     const scoreboard: EmitScoreboard = this.players.map(
-      ({ id, name, score, currentRank, position }) => ({
+      ({ id, name, score, currentRank, position, avatar }) => ({
         id,
         name,
         score,
         rank: currentRank,
         position,
+        avatar,
       }),
     );
     this.emit(RoomEvent.CompleteScoreboard, scoreboard);

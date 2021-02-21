@@ -10,9 +10,11 @@ import styles from './ProfileConnectedStyle';
 export default function ProfileConnected() {
   const userBasicInfos = useRecoilValue(userBasicInfoState);
 
-  const playedGames = userBasicInfos?.gameStats.reduce((acc, { played }) => acc + played, 0);
-  const correctAnswers = userBasicInfos?.roundStats.reduce((acc, { correct }) => acc + correct, 0);
-  const answers = userBasicInfos?.roundStats.reduce((acc, { played }) => acc + played, 0);
+  const playedGames = userBasicInfos?.gameStats.reduce((acc, { played }) => acc + played, 0) || 0;
+  const correctAnswers =
+    userBasicInfos?.roundStats.reduce((acc, { correct }) => acc + correct, 0) || 0;
+  const answers = userBasicInfos?.roundStats.reduce((acc, { played }) => acc + played, 0) || 1;
+  const correctAnswersPercent = Math.floor((correctAnswers / answers) * 100);
 
   return (
     <View>
@@ -25,14 +27,7 @@ export default function ProfileConnected() {
         <View style={styles.item}>
           <Image source={require('@Assets/images/tick.png')} style={styles.image} />
           <Text style={styles.title}>Taux de réussite</Text>
-          {correctAnswers && answers && (
-            <Text>{Math.floor((correctAnswers / answers) * 100)}%</Text>
-          )}
-        </View>
-        <View style={styles.item}>
-          <Image source={require('@Assets/images/award.png')} style={styles.image} />
-          <Text style={styles.title}>Trophées</Text>
-          <Text>🚧</Text>
+          <Text>{correctAnswersPercent}%</Text>
         </View>
       </View>
       <View style={styles.xpBarContainer}>

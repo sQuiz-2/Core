@@ -24,3 +24,25 @@ validator.rule(
     }
   },
 );
+
+validator.rule('keyOf', (value, [options], { pointer, arrayExpressionPointer, errorReporter }) => {
+  /**
+   * Skip validation when value is not a string. The string
+   * schema rule will handle it
+   */
+  if (typeof value !== 'string') {
+    return;
+  }
+
+  /**
+   * Report error when the object doesn't contain the key
+   */
+  if (!(value in options)) {
+    errorReporter.report(
+      pointer,
+      'keyOf',
+      "The object doesn't contain this key",
+      arrayExpressionPointer,
+    );
+  }
+});

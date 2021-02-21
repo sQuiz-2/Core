@@ -4,7 +4,7 @@ import { View } from 'react-native';
 
 import { ResponsiveContainer } from '../../../components/Containers';
 import HomeNews from '../Infos/News/News';
-import HomeProfile from '../Infos/Profile/Profile';
+import HomeProfile from '../Infos/Profile';
 import HomeRooms from '../Rooms/HomeRooms';
 import useHomeContainerStyle from './HomeContainerStyle';
 

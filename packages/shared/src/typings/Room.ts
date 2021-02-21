@@ -48,6 +48,7 @@ export type Player = {
   score: number;
   rank: number;
   position: number;
+  avatar?: string;
 };
 
 export type EmitScoreboard = Player[];

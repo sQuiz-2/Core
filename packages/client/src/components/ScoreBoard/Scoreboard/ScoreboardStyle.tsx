@@ -12,6 +12,7 @@ const styles = StyleSheet.create({
   },
   row: {
     height: 28,
+    paddingVertical: 18,
   },
 });
 

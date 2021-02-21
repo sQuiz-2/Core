@@ -23,6 +23,12 @@ export default class User extends BaseModel {
   public experience: number;
 
   @column()
+  public avatar: string;
+
+  @column()
+  public badge: string;
+
+  @column()
   public staff: boolean;
 
   @column()

@@ -1,13 +1,12 @@
 import { Level } from '@Src/components/ExperienceBar';
 import userBasicInfoState from '@Src/global/userBasicInfos';
 import userState from '@Src/global/userState';
-import { removeInStore, StorageEnum } from '@Src/utils/storage';
-import { get } from '@Src/utils/wrappedFetch';
+import avatars from '@Src/utils/loadAvatars';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { useTheme, useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { View } from 'react-native';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { View, Image } from 'react-native';
+import { useRecoilValue } from 'recoil';
 
 import Text from '../../Text';
 import SoundVolume from '../soundVolume';
@@ -15,45 +14,44 @@ import styles from './ProfileStyle';
 
 export default function Profile() {
   const { colors } = useTheme();
-  const [user, setUser] = useRecoilState(userState);
+  const user = useRecoilValue(userState);
   const userBasicInfos = useRecoilValue(userBasicInfoState);
 
   const navigation = useNavigation();
 
-  async function disconnect() {
-    if (user.token) {
-      get({ path: 'logout', token: user.token });
-    }
-    await removeInStore(StorageEnum.User);
-    setUser({
-      username: null,
-      token: null,
-      connected: false,
-      privateCode: null,
-    });
-    navigation.navigate('Home');
+  async function goToProfile() {
+    navigation.navigate('Profile');
   }
 
   return (
     <View style={styles.container}>
-      <SoundVolume />
       {user.connected && (
-        <>
-          <FontAwesome5
-            onPress={() => disconnect()}
-            name="door-open"
-            size={20}
-            color={colors.text}
-            style={styles.leaveDoor}
-          />
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           {userBasicInfos && (
-            <View style={styles.level}>
-              <Level experience={userBasicInfos.experience} />
-            </View>
+            <>
+              <View style={styles.level}>
+                <Level experience={userBasicInfos.experience} />
+              </View>
+              <Image
+                source={avatars[userBasicInfos.avatar as keyof typeof avatars]}
+                style={styles.avatar}
+              />
+            </>
           )}
           <Text>{user.username}</Text>
-        </>
+        </View>
       )}
+      <View style={{ flexDirection: 'row', alignItems: 'center', paddingTop: 5 }}>
+        <SoundVolume />
+        {user.connected && (
+          <FontAwesome5
+            onPress={() => goToProfile()}
+            name="user-cog"
+            size={18}
+            color={colors.text}
+          />
+        )}
+      </View>
     </View>
   );
 }

@@ -5,6 +5,7 @@ export type GetUsers = {
 
 export type MeBasic = {
   experience: number;
+  avatar: string;
   gameStats: {
     difficultyId: number;
     id: number;

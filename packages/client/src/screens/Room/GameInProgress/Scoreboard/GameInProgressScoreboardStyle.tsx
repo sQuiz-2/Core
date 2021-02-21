@@ -4,7 +4,7 @@ const styles = StyleSheet.create({
   top: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingBottom: 10,
+    paddingBottom: 15,
     paddingRight: 20,
   },
   grow: {
