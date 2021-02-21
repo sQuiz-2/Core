@@ -14,5 +14,9 @@
   {
     "question": "Je n'arrive pas à lier mon compte Twitch, j'ai une erreur 401, comment faire ?",
     "answer": "C'est un problème de cache lié à Twitch directement. Essayez de vous déconnecter puis reconnecter sur le site Twitch, ou de vous connecter sur sQuiz en navigation privée."
+  },
+  {
+    "question": "J'ai terminé une partie et je n'ai pas gagné d'expérience, pourquoi ?",
+    "answer": "Pour éviter les abus, il faut un minimum de 5 personnes pour que de l'expérience soit acquise sur une partie."
   }
 ]
