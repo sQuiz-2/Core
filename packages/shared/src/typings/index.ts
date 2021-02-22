@@ -5,7 +5,7 @@ export type {
   EmitRoomUpdate,
   EmitQuestion,
   Answer,
-  EmitAnswer,
+  EmitRoundEndInfo,
   EmitAnswerIsValid,
   EmitScoreDetails,
   EmitRanks,
@@ -17,6 +17,7 @@ export type {
   EmitPlayerScore,
   EmitRoomInfos,
   RoomCreateConfig,
+  TopTimeAnswer,
 } from './Room';
 
 export * from './API';

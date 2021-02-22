@@ -1,12 +1,12 @@
 import Text from '@Src/components/Text';
-import { EmitAnswer } from '@squiz/shared';
+import { Answer as AnswerType } from '@squiz/shared';
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 
 import styles from './AnswerStyle';
 
 type AnswerProps = {
-  answers: EmitAnswer;
+  answers: AnswerType[];
 };
 
 export default function Answer({ answers }: AnswerProps) {

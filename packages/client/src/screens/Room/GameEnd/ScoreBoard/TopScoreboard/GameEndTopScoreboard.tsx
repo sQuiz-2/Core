@@ -1,6 +1,5 @@
-import { ScoreboardRow } from '@Src/components/ScoreBoard';
+import TopRow from '@Src/components/ScoreBoard/TopRow';
 import { DisplayPlayer } from '@Src/global/playerInfoState';
-import { useTheme } from '@react-navigation/native';
 import React from 'react';
 import { View, Image, ScrollView } from 'react-native';
 
@@ -11,7 +10,6 @@ type GameEndTopScoreBoardProps = {
 };
 
 export default function GameEndTopScoreBoard({ players }: GameEndTopScoreBoardProps) {
-  const { colors } = useTheme();
   const styles = useGameEndTopScoreboardStyle();
 
   return (
@@ -21,20 +19,9 @@ export default function GameEndTopScoreBoard({ players }: GameEndTopScoreBoardPr
       </View>
       <View style={styles.topContainer}>
         <ScrollView style={styles.scroll}>
-          {players.map((player) => {
-            const bgColors = ['#eee661', '#A7A7A7', '#A68F5D'];
-            return (
-              <View
-                key={player.id}
-                style={[styles.topItem, { backgroundColor: bgColors[player.position - 1] }]}>
-                <ScoreboardRow
-                  player={player}
-                  textStyle={{ color: player.position === 1 ? '#718D80' : colors.text }}
-                  displayMedal={false}
-                />
-              </View>
-            );
-          })}
+          {players.map((player) => (
+            <TopRow key={player.id} player={player} />
+          ))}
         </ScrollView>
       </View>
     </View>

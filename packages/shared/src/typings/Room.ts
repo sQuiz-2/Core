@@ -29,7 +29,15 @@ export type Answer = {
   answer: string;
 };
 
-export type EmitAnswer = Answer[];
+export type TopTimeAnswer = {
+  id: string;
+  name: string;
+  position: number;
+  avatar: string;
+  score: string;
+};
+
+export type EmitRoundEndInfo = { answers: Answer[]; topTimeAnswer: TopTimeAnswer[] };
 
 export type EmitAnswerIsValid = {
   valid: boolean;

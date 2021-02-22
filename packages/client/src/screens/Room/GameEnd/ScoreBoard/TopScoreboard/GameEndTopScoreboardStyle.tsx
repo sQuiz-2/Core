@@ -25,11 +25,5 @@ export default function useGameEndTopScoreboardStyle() {
     topContainer: {
       paddingTop: 40,
     },
-    topItem: {
-      paddingHorizontal: 5,
-      paddingVertical: 8,
-      borderRadius: 5,
-      marginVertical: 4,
-    },
   });
 }
