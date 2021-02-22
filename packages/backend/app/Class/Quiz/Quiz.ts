@@ -84,7 +84,6 @@ export default class Quiz extends Room {
    * Compute and save players experience
    */
   quizExperience: QuizExperience = new QuizExperience({
-    players: this.players,
     namespace: this.nameSpace,
   });
 
@@ -263,10 +262,12 @@ export default class Quiz extends Room {
     this.setStatus(RoomStatus.Ended);
     this.emitAllRounds();
     this.emitCompleteScoreboard();
+    console.log(!this.isPrivate);
+    console.log(this.players.length);
     if (!this.isPrivate) {
-      this.quizExperience.computeAndSaveExperience();
-      this.quizExperience.emitExperience();
-      this.quizStats.computeAndSaveStats();
+      this.quizExperience.computeAndSaveExperience(this.players);
+      this.quizExperience.emitExperience(this.players);
+      this.quizStats.computeAndSaveStats(this.players);
     }
     if (this.roundTimer) {
       clearInterval(this.roundTimer);

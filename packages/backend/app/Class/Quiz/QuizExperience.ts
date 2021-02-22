@@ -4,7 +4,6 @@ import User from 'App/Models/User';
 import Player from '../Player';
 
 export type QuizExperienceParams = {
-  players: Player[];
   namespace: SocketIO.Namespace;
 };
 
@@ -15,23 +14,18 @@ type PlayerExperience = {
 
 class QuizExperience {
   /**
-   * List of players we will use to compute the experience
-   */
-  players: Player[];
-
-  /**
    * Namespace to emit experience
    */
   namespace: SocketIO.Namespace;
 
   constructor(params: QuizExperienceParams) {
-    this.players = params.players;
     this.namespace = params.namespace;
   }
 
-  public computeAndSaveExperience(): void {
-    if (this.players.length < 5) return;
-    const playersExperience = this.computeExperience();
+  public computeAndSaveExperience(players: Player[]): void {
+    console.log(players.length);
+    if (players.length < 5) return;
+    const playersExperience = this.computeExperience(players);
     this.savePlayersExperience(playersExperience);
   }
 
@@ -45,11 +39,11 @@ class QuizExperience {
     User.updateOrCreateMany('id', playerExperience);
   }
 
-  private computeExperience(): PlayerExperience[] {
+  private computeExperience(players: Player[]): PlayerExperience[] {
     /**
      * Compute players experience
      */
-    const playersExperience = this.players.map((player) => {
+    const playersExperience = players.map((player) => {
       if (player.isGuess) return;
       const experience = player.computeExperience();
       return { id: player.dbId, experience };
@@ -65,8 +59,8 @@ class QuizExperience {
     );
   }
 
-  public emitExperience(): void {
-    this.players.forEach((player) => {
+  public emitExperience(players: Player[]): void {
+    players.forEach((player) => {
       if (player.isGuess || player.score === 0) return;
       this.namespace
         .to(player.id)
