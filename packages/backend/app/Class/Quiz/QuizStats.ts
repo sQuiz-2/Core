@@ -39,24 +39,18 @@ interface RoundStatsUpdate extends RoundStatsCreate {
 }
 
 class QuizStats {
-  /**
-   * List of players we will use to compute the experience
-   */
-  players: Player[];
-
   isPrivate: boolean;
 
   difficulty: Difficulty;
 
   constructor(params: QuizStatsParams) {
-    this.players = params.players;
     this.isPrivate = params.isPrivate;
     this.difficulty = params.difficulty;
   }
 
-  public computeAndSaveStats(): void {
-    if (this.players.length < 5) return;
-    const playersStats = this.computeStats();
+  public computeAndSaveStats(players: Player[]): void {
+    if (players.length < 5) return;
+    const playersStats = this.computeStats(players);
     this.savePlayersGameStats(playersStats);
     this.savePlayersRoundStats(playersStats);
   }
@@ -125,11 +119,11 @@ class QuizStats {
     RoundStat.createMany(roundStatsToCreate);
   }
 
-  private computeStats(): PlayersStats[] {
+  private computeStats(players: Player[]): PlayersStats[] {
     /**
      * Compute players stats
      */
-    const playersStats = this.players.map((player) => {
+    const playersStats = players.map((player) => {
       if (player.isGuess) return;
       const stats = player.computeStats();
       return { id: player.dbId, stats };
