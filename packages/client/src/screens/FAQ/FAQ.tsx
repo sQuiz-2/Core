@@ -1,5 +1,6 @@
 import { ResponsiveContainer } from '@Src/components/Containers';
 import Text from '@Src/components/Text';
+import { useTheme } from '@react-navigation/native';
 import * as Linking from 'expo-linking';
 import React from 'react';
 import { Platform, Pressable, View } from 'react-native';
@@ -7,6 +8,8 @@ import { Platform, Pressable, View } from 'react-native';
 import styles from './FAQStyle';
 
 export default function FAQ() {
+  const { colors } = useTheme();
+
   function openLink(link: string) {
     if (Platform.OS === 'web') {
       window.open(link, '_blank');
@@ -22,8 +25,11 @@ export default function FAQ() {
         </Text>
         <Text fontSize="lg">
           Un canal dédié a été créé sur
-          <Pressable onPress={() => openLink('https://discord.gg/N9HT6kDYtf')}>
-            <Text fontSize="lg"> Discord</Text>
+          <Pressable onPress={() => openLink('https://discord.gg/3jyvnKuP6a')}>
+            <Text fontSize="lg" style={{ color: colors.notification }}>
+              {' '}
+              Discord
+            </Text>
           </Pressable>
         </Text>
         <Text fontSize="xl" style={styles.question}>
@@ -38,9 +44,15 @@ export default function FAQ() {
           Est-ce que je peux aider pour le développement du site ?
         </Text>
         <Text fontSize="lg">
-          Oui ! Le site est open-source vous pouvez y contribuer en allant sur notre Github ! Si
-          vous n'êtes pas développeur la meilleure façon d'aider est de proposer vos idées, faire
-          connaître le site, etc.
+          Oui ! Le site est open-source vous pouvez y contribuer en allant sur notre{' '}
+          <Pressable onPress={() => openLink('https://github.com/sQuiz-2/Core')}>
+            <Text fontSize="lg" style={{ color: colors.notification }}>
+              {' '}
+              Github
+            </Text>
+          </Pressable>{' '}
+          ! Si vous n'êtes pas développeur la meilleure façon d'aider est de proposer vos idées,
+          faire connaître le site, etc.
         </Text>
         <Text fontSize="xl" style={styles.question}>
           Je n'arrive pas à lier mon compte Twitch, j'ai une erreur 401, comment faire ?
