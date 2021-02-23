@@ -17,3 +17,4 @@ import './routes/Users';
 import './routes/Auth';
 import './routes/News';
 import './routes/Rooms';
+import './routes/Scoreboard';
