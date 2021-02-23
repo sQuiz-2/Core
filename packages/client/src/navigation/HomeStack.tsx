@@ -1,4 +1,5 @@
 import CustomRoom from '@Src/screens/CustomRoom';
+import Scoreboard from '@Src/screens/Scoreboard';
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 
@@ -25,6 +26,14 @@ export default function HomeStack() {
         name="Custom"
         options={{ title: 'Parties personnalisées | sQuiz.gg' }}
         component={CustomRoom}
+      />
+      <Stack.Screen
+        name="Scoreboard"
+        component={Scoreboard}
+        options={{
+          header: (props) => <Header {...props} />,
+          title: 'Classement | sQuiz.gg',
+        }}
       />
       <Stack.Screen
         name="Room"

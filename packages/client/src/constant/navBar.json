@@ -11,6 +11,11 @@
       "route": "Custom"
     },
     {
+      "name": "Classement",
+      "icon": "trophy",
+      "route": "Scoreboard"
+    },
+    {
       "name": "FAQ",
       "icon": "question",
       "route": "FAQ"

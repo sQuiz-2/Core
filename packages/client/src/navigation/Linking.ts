@@ -11,6 +11,7 @@ const Linking: LinkingOptions = {
       Custom: 'custom',
       FAQ: 'faq',
       Profile: 'profil',
+      Scoreboard: 'classement',
     },
   },
 };
