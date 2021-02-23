@@ -91,6 +91,11 @@ export default class Player {
    */
   avatar: string = '0';
 
+  /**
+   * If the player answer correctly we save the time between his answer and when the question was emit
+   */
+  timeToAnswer: number = 15;
+
   constructor(props: Props) {
     this.id = props.id;
     this.name = props.name;
@@ -118,7 +123,11 @@ export default class Player {
   /**
    * Compute player score
    */
-  public performsValidAnswer(rank: number, roundNumber: number): EmitScoreDetails {
+  public performsValidAnswer(
+    rank: number,
+    roundNumber: number,
+    timeToAnswer: number,
+  ): EmitScoreDetails {
     let additionalPoints: number = 0;
     switch (rank) {
       case GameRank.First: {
@@ -144,6 +153,8 @@ export default class Player {
     this.score += 4 + this.streak + additionalPoints;
     this.find = true;
     this.canGuess = false;
+
+    this.timeToAnswer = timeToAnswer / 1000;
 
     return { streak: this.streak, position: additionalPoints };
   }
@@ -172,6 +183,7 @@ export default class Player {
       this.streak = 0;
     }
     this.find = false;
+    this.timeToAnswer = 15;
   }
 
   /**

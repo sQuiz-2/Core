@@ -1,7 +1,7 @@
-import { EmitAnswer } from '@squiz/shared';
+import { Answer } from '@squiz/shared';
 import { atom } from 'recoil';
 
-const answerState = atom<EmitAnswer | null>({
+const answerState = atom<Answer[] | null>({
   key: 'answerState',
   default: null,
 });

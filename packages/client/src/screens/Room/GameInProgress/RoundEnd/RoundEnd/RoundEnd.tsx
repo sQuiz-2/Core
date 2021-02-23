@@ -7,6 +7,7 @@ import { useRecoilValue } from 'recoil';
 
 import Answer from '../Answer';
 import ScoreDetail from '../ScoreDetail';
+import TopTimeAnswer from '../TopTimeAnswer';
 import useRoundEndStyle from './RoundEndStyle';
 
 export default function RoundEnd() {
@@ -18,15 +19,18 @@ export default function RoundEnd() {
   if (isQuestionTime || !answers || answers.length < 1) return null;
 
   return (
-    <View style={styles.container}>
-      <View style={styles.answer}>
-        <Answer answers={answers} />
-      </View>
-      {scoreDetail && (
-        <View style={styles.scoreDetail}>
-          <ScoreDetail scoreDetail={scoreDetail} />
+    <View>
+      <View style={styles.container}>
+        <View style={styles.answer}>
+          <Answer answers={answers} />
         </View>
-      )}
+        {scoreDetail && (
+          <View style={styles.scoreDetail}>
+            <ScoreDetail scoreDetail={scoreDetail} />
+          </View>
+        )}
+      </View>
+      <TopTimeAnswer />
     </View>
   );
 }

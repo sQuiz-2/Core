@@ -3,7 +3,6 @@ import {
   GameEvent,
   GameRank,
   RoomStatus,
-  EmitAnswer,
   EmitScoreDetails,
   EmitQuestions,
   EmitQuestion,
@@ -11,6 +10,8 @@ import {
   RoomEvent,
   EmitPlayerScore,
   DifficultyEnum,
+  Answer,
+  TopTimeAnswer,
 } from '@squiz/shared';
 import Round from 'App/Models/Round';
 import { shuffle } from 'App/Utils/Array';
@@ -20,6 +21,7 @@ import stringSimilarity from 'string-similarity';
 import Player from '../Player';
 import Room, { RoomProps } from '../Room';
 import RoundFetcher from '../RoundsFetcher';
+import QuizAnswerTimer from './QuizAnswerTimer';
 import QuizExperience from './QuizExperience';
 import QuizStats from './QuizStats';
 
@@ -85,7 +87,13 @@ export default class Quiz extends Room {
    */
   quizExperience: QuizExperience = new QuizExperience({
     namespace: this.nameSpace,
+    difficulty: this.difficulty,
   });
+
+  /**
+   * Compute elapsed time between the round start and a player answer
+   */
+  quizAnswerTimer: QuizAnswerTimer = new QuizAnswerTimer();
 
   /**
    * Compute and save players stats
@@ -105,7 +113,11 @@ export default class Quiz extends Room {
    * Compute player score and emit score updates
    */
   private playerGoodAnswer(player: Player, rank: number): void {
-    const scoreDetail: EmitScoreDetails = player.performsValidAnswer(rank, this.roundsCounter);
+    const scoreDetail: EmitScoreDetails = player.performsValidAnswer(
+      rank,
+      this.roundsCounter,
+      this.quizAnswerTimer.getElapsedTime(),
+    );
     this.sortPlayers();
     this.updatePlayersPosition();
     this.emitToSocket(
@@ -133,12 +145,24 @@ export default class Quiz extends Room {
   }
 
   /**
-   * Emit the answer to all connected sockets
+   * Emit roundEnd information
    */
-  private emitAnswer(): void {
+  private emitRoundEndInfos(): void {
     if (!this.currentRound) return;
-    const answers: EmitAnswer = this.currentRound.answers.map((answer) => answer);
-    this.emit(GameEvent.Answer, answers);
+    const answers: Answer[] = this.currentRound.answers.map((answer) => answer);
+    const topTimeAnswer: TopTimeAnswer[] = this.players
+      .filter(
+        ({ currentRank }) => currentRank > GameRank.NotAnswered && currentRank <= GameRank.Third,
+      )
+      .map(({ avatar, name, timeToAnswer, id, currentRank }) => ({
+        avatar,
+        name,
+        score: timeToAnswer + 's',
+        id,
+        position: currentRank,
+      }))
+      .sort((a, b) => a.position - b.position);
+    this.emit(GameEvent.Answer, { answers, topTimeAnswer });
   }
 
   /**
@@ -212,6 +236,7 @@ export default class Quiz extends Room {
       const round = this.setNewCurrentRound();
       if (round) {
         this.emitCurrentRound(round);
+        this.quizAnswerTimer.reset();
       }
       // Wait the round time then send the answer
       this.answerTimer = setTimeout(() => this.roundEnd(), GameTime.Question * SECOND);
@@ -225,7 +250,7 @@ export default class Quiz extends Room {
     this.updateMissingRanks();
     this.isGuessTime = false;
     this.roundsCounter++;
-    this.emitAnswer();
+    this.emitRoundEndInfos();
     this.updateStats();
     this.resetPlayersForNewRound();
   }
@@ -262,8 +287,6 @@ export default class Quiz extends Room {
     this.setStatus(RoomStatus.Ended);
     this.emitAllRounds();
     this.emitCompleteScoreboard();
-    console.log(!this.isPrivate);
-    console.log(this.players.length);
     if (!this.isPrivate) {
       this.quizExperience.computeAndSaveExperience(this.players);
       this.quizExperience.emitExperience(this.players);

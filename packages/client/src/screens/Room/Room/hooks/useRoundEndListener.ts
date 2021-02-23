@@ -1,25 +1,28 @@
 import answerState from '@Src/global/Room/answer';
 import playerRankState from '@Src/global/Room/playerRanks';
 import questionState from '@Src/global/Room/question';
+import topTimeAnswerState from '@Src/global/Room/topTimeAnswers';
 import isQuestionTimeState from '@Src/global/isQuestionTimeState';
 import timerState from '@Src/global/timerState';
 import useListener from '@Src/utils/hooks/useListener';
-import { GameEvent, EmitAnswer, GameTime, GameRank } from '@squiz/shared';
+import { GameEvent, EmitRoundEndInfo, GameTime, GameRank } from '@squiz/shared';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import useRankUpdate from './useRankUpdate';
 
-export default function useAnswerListener() {
+export default function useRoundEndListener() {
   useListener(GameEvent.Answer, handleAnswer);
   const setIsQuestionTime = useSetRecoilState(isQuestionTimeState);
   const setTime = useSetRecoilState(timerState);
   const setAnswer = useSetRecoilState(answerState);
+  const setTopTimeAnswer = useSetRecoilState(topTimeAnswerState);
   const ranks = useRecoilValue(playerRankState);
   const question = useRecoilValue(questionState);
   const updateRank = useRankUpdate();
 
-  function handleAnswer(answer: EmitAnswer) {
-    setAnswer(answer);
+  function handleAnswer(roundEndInfo: EmitRoundEndInfo) {
+    setAnswer(roundEndInfo.answers);
+    setTopTimeAnswer(roundEndInfo.topTimeAnswer);
     displayAnswer();
     setRankIfNeeded();
   }

@@ -9,6 +9,7 @@ export default function useRoundEndStyle(scoreDetail: EmitScoreDetails | null) {
   return StyleSheet.create({
     container: {
       paddingTop: 20,
+      paddingBottom: 10,
       flexDirection: responsive(screenWidth, 'column', 'row', 'row'),
     },
     answer: {

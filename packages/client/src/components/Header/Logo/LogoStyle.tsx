@@ -2,6 +2,7 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   logoContainer: {
+    paddingTop: 5,
     flexDirection: 'row',
     alignItems: 'center',
     alignContent: 'center',

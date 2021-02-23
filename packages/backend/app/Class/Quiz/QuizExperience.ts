@@ -1,10 +1,11 @@
-import { GameEvent } from '@squiz/shared';
+import { Difficulty, GameEvent } from '@squiz/shared';
 import User from 'App/Models/User';
 
 import Player from '../Player';
 
 export type QuizExperienceParams = {
   namespace: SocketIO.Namespace;
+  difficulty: Difficulty;
 };
 
 type PlayerExperience = {
@@ -18,12 +19,17 @@ class QuizExperience {
    */
   namespace: SocketIO.Namespace;
 
+  /**
+   * GameDifficulty
+   */
+  difficulty: Difficulty;
+
   constructor(params: QuizExperienceParams) {
     this.namespace = params.namespace;
+    this.difficulty = params.difficulty;
   }
 
   public computeAndSaveExperience(players: Player[]): void {
-    console.log(players.length);
     if (players.length < 5) return;
     const playersExperience = this.computeExperience(players);
     this.savePlayersExperience(playersExperience);
@@ -45,7 +51,7 @@ class QuizExperience {
      */
     const playersExperience = players.map((player) => {
       if (player.isGuess) return;
-      const experience = player.computeExperience();
+      const experience = player.computeExperience() * this.difficulty.xpMultiplier;
       return { id: player.dbId, experience };
     });
 
