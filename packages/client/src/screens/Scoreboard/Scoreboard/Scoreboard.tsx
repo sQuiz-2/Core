@@ -10,6 +10,7 @@ import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import { useRecoilValue } from 'recoil';
 
+import DifficultyPicker from '../DifficultyPicker';
 import useScoreboardStyle from './ScoreboardStyle';
 
 type GetTopExperience = {
@@ -37,24 +38,45 @@ export default function Scoreboard() {
   const user = useRecoilValue(userState);
 
   async function fetchScoreboards() {
+    await fetchWins('0');
+    await fetchCorrect('0');
+    await fetchExperience();
+    setLoading(false);
+  }
+
+  async function fetchExperience() {
     try {
       const scoreboardExperience = await get<GetTopExperience[]>({
         path: 'scoreboard/experience',
       });
-      const scoreboardWin = await get<GetTopWin[]>({
-        path: 'scoreboard/win/0',
-      });
-      const scoreboardCorrect = await get<GetTopCorrect[]>({
-        path: 'scoreboard/correct/0',
-      });
-      if (!scoreboardExperience || !scoreboardWin || !scoreboardCorrect) return;
+      if (!scoreboardExperience) return;
       setExperience(scoreboardExperience);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function fetchWins(difficulty: string) {
+    try {
+      const scoreboardWin = await get<GetTopWin[]>({
+        path: 'scoreboard/win/' + difficulty,
+      });
+      if (!scoreboardWin) return;
       setVictory(scoreboardWin);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function fetchCorrect(difficulty: string) {
+    try {
+      const scoreboardCorrect = await get<GetTopCorrect[]>({
+        path: 'scoreboard/correct/' + difficulty,
+      });
+      if (!scoreboardCorrect) return;
       setCorrect(scoreboardCorrect);
     } catch (error) {
       console.error(error);
-    } finally {
-      setLoading(false);
     }
   }
 
@@ -73,6 +95,7 @@ export default function Scoreboard() {
   return (
     <ResponsiveContainer style={styles.container}>
       <TitleCard title="VICTOIRES" containerStyle={styles.column}>
+        <DifficultyPicker onChange={fetchWins} />
         <View style={styles.row}>
           <Text style={styles.bold}>#</Text>
           <Text style={styles.bold}>Pseudo</Text>
@@ -121,6 +144,7 @@ export default function Scoreboard() {
         })}
       </TitleCard>
       <TitleCard title="BONNES RÉPONSES" containerStyle={styles.column}>
+        <DifficultyPicker onChange={fetchCorrect} />
         <View style={styles.row}>
           <Text style={styles.bold}>#</Text>
           <Text style={styles.bold}>Pseudo</Text>
