@@ -1,12 +1,14 @@
 import { TitleCard } from '@Src/components/Card';
 import { CenterContainer, ResponsiveContainer } from '@Src/components/Containers';
 import Text from '@Src/components/Text';
+import userState from '@Src/global/userState';
 import { get } from '@Src/utils/wrappedFetch';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { useTheme } from '@react-navigation/native';
 import { computeLevel } from '@squiz/shared';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
+import { useRecoilValue } from 'recoil';
 
 import useScoreboardStyle from './ScoreboardStyle';
 
@@ -32,6 +34,7 @@ export default function Scoreboard() {
   const [victory, setVictory] = useState<GetTopWin[]>([]);
   const [correct, setCorrect] = useState<GetTopCorrect[]>([]);
   const [loading, setLoading] = useState(true);
+  const user = useRecoilValue(userState);
 
   async function fetchScoreboards() {
     try {
@@ -75,20 +78,23 @@ export default function Scoreboard() {
           <Text style={styles.bold}>Pseudo</Text>
           <FontAwesome5 name="trophy" size={14} color={colors.text} style={styles.bold} />
         </View>
-        {victory.map((victory, i) => (
-          <View
-            key={i}
-            style={[
-              styles.row,
-              {
-                backgroundColor: i % 2 === 0 ? colors.primary : colors.card,
-              },
-            ]}>
-            <Text>{i}</Text>
-            <Text>{victory.username}</Text>
-            <Text>{victory.total_win}</Text>
-          </View>
-        ))}
+        {victory.map((player, i) => {
+          const textColor = user.username === player.username ? colors.notification : colors.text;
+          return (
+            <View
+              key={i}
+              style={[
+                styles.row,
+                {
+                  backgroundColor: i % 2 === 0 ? colors.primary : colors.card,
+                },
+              ]}>
+              <Text style={{ color: textColor }}>{i}</Text>
+              <Text style={{ color: textColor }}>{player.username}</Text>
+              <Text style={{ color: textColor }}>{player.total_win}</Text>
+            </View>
+          );
+        })}
       </TitleCard>
       <TitleCard title="EXPÉRIENCE" containerStyle={styles.column}>
         <View style={styles.row}>
@@ -96,20 +102,23 @@ export default function Scoreboard() {
           <Text style={styles.bold}>Pseudo</Text>
           <Text style={styles.bold}>Niveau</Text>
         </View>
-        {experience.map((player, i) => (
-          <View
-            key={i}
-            style={[
-              styles.row,
-              {
-                backgroundColor: i % 2 === 0 ? colors.primary : colors.card,
-              },
-            ]}>
-            <Text>{i}</Text>
-            <Text>{player.username}</Text>
-            <Text>{computeLevel(player.experience).level}</Text>
-          </View>
-        ))}
+        {experience.map((player, i) => {
+          const textColor = user.username === player.username ? colors.notification : colors.text;
+          return (
+            <View
+              key={i}
+              style={[
+                styles.row,
+                {
+                  backgroundColor: i % 2 === 0 ? colors.primary : colors.card,
+                },
+              ]}>
+              <Text style={{ color: textColor }}>{i}</Text>
+              <Text style={{ color: textColor }}>{player.username}</Text>
+              <Text style={{ color: textColor }}>{computeLevel(player.experience).level}</Text>
+            </View>
+          );
+        })}
       </TitleCard>
       <TitleCard title="BONNES RÉPONSES" containerStyle={styles.column}>
         <View style={styles.row}>
@@ -117,20 +126,23 @@ export default function Scoreboard() {
           <Text style={styles.bold}>Pseudo</Text>
           <FontAwesome5 name="medal" size={14} color={colors.text} style={styles.bold} />
         </View>
-        {correct.map((victory, i) => (
-          <View
-            key={i}
-            style={[
-              styles.row,
-              {
-                backgroundColor: i % 2 === 0 ? colors.primary : colors.card,
-              },
-            ]}>
-            <Text>{i}</Text>
-            <Text>{victory.username}</Text>
-            <Text>{victory.total_correct}</Text>
-          </View>
-        ))}
+        {correct.map((player, i) => {
+          const textColor = user.username === player.username ? colors.notification : colors.text;
+          return (
+            <View
+              key={i}
+              style={[
+                styles.row,
+                {
+                  backgroundColor: i % 2 === 0 ? colors.primary : colors.card,
+                },
+              ]}>
+              <Text style={{ color: textColor }}>{i}</Text>
+              <Text style={{ color: textColor }}>{player.username}</Text>
+              <Text style={{ color: textColor }}>{player.total_correct}</Text>
+            </View>
+          );
+        })}
       </TitleCard>
     </ResponsiveContainer>
   );

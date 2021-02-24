@@ -31,6 +31,7 @@ export default function FAQ() {
               Discord
             </Text>
           </Pressable>
+          .
         </Text>
         <Text fontSize="xl" style={styles.question}>
           Comment puis-je proposer des questions ?
@@ -44,7 +45,7 @@ export default function FAQ() {
           Est-ce que je peux aider pour le développement du site ?
         </Text>
         <Text fontSize="lg">
-          Oui ! Le site est open-source vous pouvez y contribuer en allant sur notre{' '}
+          Oui ! Le site est open-source vous pouvez y contribuer en allant sur notre
           <Pressable onPress={() => openLink('https://github.com/sQuiz-2/Core')}>
             <Text fontSize="lg" style={{ color: colors.notification }}>
               {' '}
