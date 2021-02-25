@@ -10,6 +10,7 @@ export type HomeStackParamList = {
   FAQ: undefined;
   Profile: undefined;
   Scoreboard: undefined;
+  Stats: undefined;
   Room: { id: string };
 };
 

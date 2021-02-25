@@ -24,5 +24,8 @@ export default function useScoreboardStyle() {
     bold: {
       fontWeight: 'bold',
     },
+    fakePickerHeight: {
+      paddingTop: 50,
+    },
   });
 }
