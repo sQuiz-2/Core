@@ -44,8 +44,8 @@ export default class UsersController {
     const gameStats = await GameStat.query().where('user_id', auth.user.id);
     const roundStats = await RoundStat.query().where('user_id', auth.user.id);
     const meBasic: MeBasic = {
-      experience: auth.user!.experience,
-      avatar: auth.user!.avatar as keyof typeof Avatars,
+      experience: auth.user.experience,
+      avatar: auth.user.avatar as keyof typeof Avatars,
       gameStats,
       roundStats,
     };

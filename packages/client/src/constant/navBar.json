@@ -38,6 +38,11 @@
       "name": "Profil",
       "icon": "user",
       "route": "Profile"
+    },
+    {
+      "name": "Statistiques",
+      "icon": "chart-bar",
+      "route": "Stats"
     }
   ]
 }

@@ -12,6 +12,7 @@ const Linking: LinkingOptions = {
       FAQ: 'faq',
       Profile: 'profil',
       Scoreboard: 'classement',
+      Stats: 'stats',
     },
   },
 };

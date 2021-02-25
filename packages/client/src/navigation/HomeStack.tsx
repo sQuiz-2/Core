@@ -1,5 +1,6 @@
 import CustomRoom from '@Src/screens/CustomRoom';
 import Scoreboard from '@Src/screens/Scoreboard';
+import Stats from '@Src/screens/Stats';
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 
@@ -49,6 +50,14 @@ export default function HomeStack() {
         options={{
           header: (props) => <Header {...props} context="Profile" />,
           title: 'Profil | sQuiz.gg',
+        }}
+      />
+      <Stack.Screen
+        name="Stats"
+        component={Stats}
+        options={{
+          header: (props) => <Header {...props} context="Profile" />,
+          title: 'Stats | sQuiz.gg',
         }}
       />
       {/* <Stack.Screen name="Add" options={{ title: 'Ajouter | sQuiz' }} component={AddRound} /> */}

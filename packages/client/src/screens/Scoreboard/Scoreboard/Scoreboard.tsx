@@ -120,7 +120,7 @@ export default function Scoreboard() {
         })}
       </TitleCard>
       <TitleCard title="EXPÉRIENCE" containerStyle={styles.column}>
-        <View style={styles.row}>
+        <View style={[styles.row, styles.fakePickerHeight]}>
           <Text style={styles.bold}>#</Text>
           <Text style={styles.bold}>Pseudo</Text>
           <Text style={styles.bold}>Niveau</Text>
