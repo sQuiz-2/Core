@@ -30,14 +30,16 @@ export default function NavBar({ currentName, context }: Props) {
         const bgColor = route === currentName ? colors.border : colors.primary;
         return (
           <Hoverable
-            key={name}
+            key={route}
             style={[styles.navItem, { backgroundColor: bgColor }]}
             onHover={{ backgroundColor: colors.border }}
             onPress={() => handlePress(route)}>
             <FontAwesome5 name={icon} size={20} color={colors.text} solid />
-            <Text fontFamily="title" fontSize="xl" style={styles.navText}>
-              {name}
-            </Text>
+            {name && (
+              <Text fontFamily="title" fontSize="xl" style={styles.navText}>
+                {name}
+              </Text>
+            )}
           </Hoverable>
         );
       })}

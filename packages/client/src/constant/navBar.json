@@ -1,7 +1,7 @@
 {
   "Home": [
     {
-      "name": "Accueil",
+      "name": "",
       "icon": "home",
       "route": "Home"
     },
@@ -30,7 +30,7 @@
   ],
   "Profile": [
     {
-      "name": "Accueil",
+      "name": "",
       "icon": "home",
       "route": "Home"
     },

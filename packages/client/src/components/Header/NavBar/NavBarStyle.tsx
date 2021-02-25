@@ -24,9 +24,11 @@ export default function useNavBarStyle() {
       borderTopEndRadius: 5,
       paddingHorizontal: '1rem',
       paddingVertical: '.25rem',
-      marginRight: '1.5rem',
+      /* marginRight: '1.5rem', */
+      marginLeft: 15,
       backgroundColor: 'transparent',
       borderColor: colors.border,
+      minHeight: 39,
     },
     navText: {
       marginLeft: '.5rem',
