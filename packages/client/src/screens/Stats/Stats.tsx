@@ -79,7 +79,7 @@ export default function Stats() {
                   </Text>
                   <Text fontSize="sm">Jouées : {game.played}</Text>
                   <Text fontSize="sm">
-                    Réussies : {game.correct}({Math.floor(game.correct / game.played) * 100}%)
+                    Réussies : {game.correct}({Math.floor((game.correct / game.played) * 100)}%)
                   </Text>
                 </View>
               </View>
