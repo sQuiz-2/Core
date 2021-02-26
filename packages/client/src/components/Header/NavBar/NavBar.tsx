@@ -35,7 +35,7 @@ export default function NavBar({ currentName, context }: Props) {
             onHover={{ backgroundColor: colors.border }}
             onPress={() => handlePress(route)}>
             <FontAwesome5 name={icon} size={20} color={colors.text} solid />
-            {name && (
+            {name.length > 0 && (
               <Text fontFamily="title" fontSize="xl" style={styles.navText}>
                 {name}
               </Text>
