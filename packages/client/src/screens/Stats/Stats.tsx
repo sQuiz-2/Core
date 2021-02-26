@@ -64,6 +64,11 @@ export default function Stats() {
           })}
         </TitleCard>
         <TitleCard title="STATISTIQUES DES QUESTIONS" containerStyle={styles.column}>
+          {stats.gameStats.length === 0 && (
+            <Text fontSize="lg" style={styles.bold}>
+              Aucune statistique disponnible
+            </Text>
+          )}
           {stats.roundStats.map((game) => {
             return (
               <View style={styles.row}>

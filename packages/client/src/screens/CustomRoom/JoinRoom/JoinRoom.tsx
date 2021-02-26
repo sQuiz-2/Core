@@ -53,7 +53,6 @@ export default function JoinRoom() {
           maxLength={4}
           secureTextEntry
           textContentType="password"
-          keyboardType="numeric"
           autoCompleteType="off"
           placeholder="CODE"
           onChangeText={(text) => setCode(text)}
