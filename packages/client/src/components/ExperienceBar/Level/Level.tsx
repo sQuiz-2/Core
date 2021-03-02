@@ -9,16 +9,17 @@ import useLevelStyle from './LevelStyle';
 
 type LargeExperienceBarProps = {
   experience: number;
+  large?: boolean;
 };
 
-export default function Level({ experience }: LargeExperienceBarProps) {
+export default function Level({ experience, large = false }: LargeExperienceBarProps) {
   const styles = useLevelStyle();
   const { level } = computeLevel(experience);
   const { colors } = useTheme();
 
   return (
     <View style={styles.container}>
-      <FontAwesome5 name="certificate" size={24} color={colors.border} />
+      <FontAwesome5 name="certificate" size={large ? 28 : 24} color={colors.border} />
       <Text fontSize="sm" style={styles.text}>
         {level}
       </Text>

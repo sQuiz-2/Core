@@ -6,7 +6,7 @@ import User from 'App/Models/User';
 export default class ScoreboardsController {
   public async experience() {
     const topExperience = await User.query()
-      .select('username', 'experience')
+      .select('id', 'username', 'experience')
       .orderBy('experience', 'desc')
       .limit(20);
     return topExperience;
@@ -18,7 +18,7 @@ export default class ScoreboardsController {
 
     if (difficulty === 0) {
       return await Database.query()
-        .select('users.username', Database.raw('sum(game_stats.win) as total_win'))
+        .select('users.id', 'users.username', Database.raw('sum(game_stats.win) as total_win'))
         .from('users')
         .innerJoin('game_stats', 'game_stats.user_id', 'users.id')
         .groupBy('users.id')
@@ -26,7 +26,7 @@ export default class ScoreboardsController {
         .limit(20);
     } else if (difficulty >= DifficultyEnum.Beginner && difficulty <= DifficultyEnum.Expert) {
       return await Database.query()
-        .select('users.username', 'game_stats.win as total_win')
+        .select('users.id', 'users.username', 'game_stats.win as total_win')
         .from('users')
         .innerJoin('game_stats', 'game_stats.user_id', 'users.id')
         .where('game_stats.difficulty_id', difficulty)
@@ -42,7 +42,11 @@ export default class ScoreboardsController {
 
     if (difficulty === 0) {
       return await Database.query()
-        .select('users.username', Database.raw('sum(round_stats.correct) as total_correct'))
+        .select(
+          'users.id',
+          'users.username',
+          Database.raw('sum(round_stats.correct) as total_correct'),
+        )
         .from('users')
         .innerJoin('round_stats', 'round_stats.user_id', 'users.id')
         .groupBy('users.id')
@@ -50,7 +54,7 @@ export default class ScoreboardsController {
         .limit(20);
     } else if (difficulty >= DifficultyEnum.Beginner && difficulty <= DifficultyEnum.Expert) {
       return await Database.query()
-        .select('users.username', 'round_stats.correct as total_correct')
+        .select('users.id', 'users.username', 'round_stats.correct as total_correct')
         .from('users')
         .innerJoin('round_stats', 'round_stats.user_id', 'users.id')
         .where('round_stats.difficulty_id', difficulty)

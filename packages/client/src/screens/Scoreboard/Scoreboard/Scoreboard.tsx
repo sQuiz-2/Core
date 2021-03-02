@@ -1,5 +1,6 @@
 import { TitleCard } from '@Src/components/Card';
 import { CenterContainer, ResponsiveContainer } from '@Src/components/Containers';
+import PlayerModal from '@Src/components/Modal/Player';
 import Text from '@Src/components/Text';
 import userState from '@Src/global/userState';
 import { get } from '@Src/utils/wrappedFetch';
@@ -7,23 +8,26 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { useTheme } from '@react-navigation/native';
 import { computeLevel } from '@squiz/shared';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, View } from 'react-native';
+import { ActivityIndicator, Pressable, View } from 'react-native';
 import { useRecoilValue } from 'recoil';
 
 import DifficultyPicker from '../DifficultyPicker';
 import useScoreboardStyle from './ScoreboardStyle';
 
 type GetTopExperience = {
+  id: number;
   username: string;
   experience: number;
 };
 
 type GetTopWin = {
+  id: number;
   username: string;
   total_win: number;
 };
 
 type GetTopCorrect = {
+  id: number;
   username: string;
   total_correct: number;
 };
@@ -36,6 +40,8 @@ export default function Scoreboard() {
   const [correct, setCorrect] = useState<GetTopCorrect[]>([]);
   const [loading, setLoading] = useState(true);
   const user = useRecoilValue(userState);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [playerIdModal, setPlayerIdModal] = useState<number>();
 
   async function fetchScoreboards() {
     await fetchWins('0');
@@ -84,6 +90,11 @@ export default function Scoreboard() {
     fetchScoreboards();
   }, []);
 
+  function displayPlayerModal(playerId: number) {
+    setPlayerIdModal(playerId);
+    setModalVisible(true);
+  }
+
   if (loading) {
     return (
       <CenterContainer>
@@ -94,6 +105,7 @@ export default function Scoreboard() {
 
   return (
     <ResponsiveContainer style={styles.container}>
+      <PlayerModal playerId={playerIdModal} visible={modalVisible} setVisible={setModalVisible} />
       <TitleCard title="VICTOIRES" containerStyle={styles.column}>
         <DifficultyPicker onChange={fetchWins} />
         <View style={styles.row}>
@@ -104,8 +116,9 @@ export default function Scoreboard() {
         {victory.map((player, i) => {
           const textColor = user.username === player.username ? colors.notification : colors.text;
           return (
-            <View
-              key={i}
+            <Pressable
+              onPress={() => displayPlayerModal(player.id)}
+              key={player.id}
               style={[
                 styles.row,
                 {
@@ -115,7 +128,7 @@ export default function Scoreboard() {
               <Text style={{ color: textColor }}>{i}</Text>
               <Text style={{ color: textColor }}>{player.username}</Text>
               <Text style={{ color: textColor }}>{player.total_win}</Text>
-            </View>
+            </Pressable>
           );
         })}
       </TitleCard>
@@ -128,8 +141,9 @@ export default function Scoreboard() {
         {experience.map((player, i) => {
           const textColor = user.username === player.username ? colors.notification : colors.text;
           return (
-            <View
-              key={i}
+            <Pressable
+              onPress={() => displayPlayerModal(player.id)}
+              key={player.id}
               style={[
                 styles.row,
                 {
@@ -139,7 +153,7 @@ export default function Scoreboard() {
               <Text style={{ color: textColor }}>{i}</Text>
               <Text style={{ color: textColor }}>{player.username}</Text>
               <Text style={{ color: textColor }}>{computeLevel(player.experience).level}</Text>
-            </View>
+            </Pressable>
           );
         })}
       </TitleCard>
@@ -153,8 +167,9 @@ export default function Scoreboard() {
         {correct.map((player, i) => {
           const textColor = user.username === player.username ? colors.notification : colors.text;
           return (
-            <View
-              key={i}
+            <Pressable
+              onPress={() => displayPlayerModal(player.id)}
+              key={player.id}
               style={[
                 styles.row,
                 {
@@ -164,7 +179,7 @@ export default function Scoreboard() {
               <Text style={{ color: textColor }}>{i}</Text>
               <Text style={{ color: textColor }}>{player.username}</Text>
               <Text style={{ color: textColor }}>{player.total_correct}</Text>
-            </View>
+            </Pressable>
           );
         })}
       </TitleCard>

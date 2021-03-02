@@ -26,3 +26,13 @@ export type MeBasic = {
     userId: number;
   }[];
 };
+
+export type PlayerPublicInfos = {
+  experience: number;
+  username: string;
+  game_played?: string;
+  game_podium?: string;
+  game_win?: string;
+  round_correct?: string;
+  round_played?: string;
+};

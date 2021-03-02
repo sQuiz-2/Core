@@ -1,4 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
+import Database from '@ioc:Adonis/Lucid/Database';
 import { Avatars, computeLevel, GetUsers, MeBasic } from '@squiz/shared';
 import GameStat from 'App/Models/GameStat';
 import RoundStat from 'App/Models/RoundStat';
@@ -50,6 +51,30 @@ export default class UsersController {
       roundStats,
     };
     return meBasic;
+  }
+
+  public async publicUser({ params, response }: HttpContextContract) {
+    const { id } = params;
+    if (isNaN(id)) {
+      return response.status(400);
+    }
+    const player = await Database.query()
+      .from('users')
+      .select(
+        'users.experience',
+        'users.username',
+        Database.raw('sum(game_stats.played) as game_played'),
+        Database.raw('sum(game_stats.podium) as game_podium'),
+        Database.raw('sum(game_stats.win) as game_win'),
+        Database.raw('sum(round_stats.correct) as round_correct'),
+        Database.raw('sum(round_stats.played) as round_played'),
+      )
+      .leftJoin('game_stats', 'game_stats.user_id', 'users.id')
+      .leftJoin('round_stats', 'round_stats.user_id', 'users.id')
+      .where('users.id', id)
+      .groupBy('users.id')
+      .first();
+    return player;
   }
 
   public async editMe({ auth, request, response }: HttpContextContract) {
