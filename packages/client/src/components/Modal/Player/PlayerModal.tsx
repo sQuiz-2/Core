@@ -10,13 +10,15 @@ import styles from './PlayerModalStyle';
 
 type PlayerModalProps = {
   playerId?: number;
+  visible: boolean;
+  setVisible: (visible: boolean) => void;
 };
 
-export default function PlayerModal({ playerId }: PlayerModalProps) {
-  const [visible, setVisible] = useState(true);
+export default function PlayerModal({ playerId, visible, setVisible }: PlayerModalProps) {
   const [playerInfos, setPlayerInfos] = useState<PlayerPublicInfos>();
 
   async function fetchPlayerInfos() {
+    setPlayerInfos(undefined);
     try {
       const publicInfos = await get<PlayerPublicInfos>({ path: 'users/public/' + playerId });
       if (!publicInfos) return;
