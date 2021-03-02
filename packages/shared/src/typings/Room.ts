@@ -57,6 +57,7 @@ export type Player = {
   rank: number;
   position: number;
   avatar?: string;
+  dbId?: number;
 };
 
 export type EmitScoreboard = Player[];
