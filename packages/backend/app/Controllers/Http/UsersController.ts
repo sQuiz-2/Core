@@ -53,9 +53,11 @@ export default class UsersController {
     return meBasic;
   }
 
-  public async publicUser({ params }: HttpContextContract) {
+  public async publicUser({ params, response }: HttpContextContract) {
     const { id } = params;
-    console.log(id);
+    if (isNaN(id)) {
+      return response.status(400);
+    }
     const player = await Database.query()
       .from('users')
       .select(
@@ -64,22 +66,14 @@ export default class UsersController {
         Database.raw('sum(game_stats.played) as game_played'),
         Database.raw('sum(game_stats.podium) as game_podium'),
         Database.raw('sum(game_stats.win) as game_win'),
-        Database.raw('sum(round_stats.correct::decimal) / sum(round_stats.played) as round_played'),
+        Database.raw('sum(round_stats.correct) as round_correct'),
+        Database.raw('sum(round_stats.played) as round_played'),
       )
       .leftJoin('game_stats', 'game_stats.user_id', 'users.id')
       .leftJoin('round_stats', 'round_stats.user_id', 'users.id')
       .where('users.id', id)
       .groupBy('users.id')
       .first();
-    console.log(player);
-    /*     const gameStats = await GameStat.query().where('user_id', id);
-    const roundStats = await RoundStat.query().where('user_id', id);
-    const meBasic: MeBasic = {
-      experience: auth.user.experience,
-      avatar: auth.user.avatar as keyof typeof Avatars,
-      gameStats,
-      roundStats,
-    }; */
     return player;
   }
 
