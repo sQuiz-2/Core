@@ -1,10 +1,14 @@
+import { PrimaryButton } from '@Src/components/Buttons';
 import { Level } from '@Src/components/ExperienceBar';
 import Text from '@Src/components/Text';
+import userState from '@Src/global/userState';
 import { get } from '@Src/utils/wrappedFetch';
 import { PlayerPublicInfos } from '@squiz/shared';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
+import { useRecoilValue } from 'recoil';
 
+import BanModal from '../Ban/BanModal';
 import Modal from '../Modal';
 import styles from './PlayerModalStyle';
 
@@ -16,6 +20,8 @@ type PlayerModalProps = {
 
 export default function PlayerModal({ playerId, visible, setVisible }: PlayerModalProps) {
   const [playerInfos, setPlayerInfos] = useState<PlayerPublicInfos>();
+  const [banModalVisible, setBanModalVisible] = useState(false);
+  const user = useRecoilValue(userState);
 
   async function fetchPlayerInfos() {
     setPlayerInfos(undefined);
@@ -71,6 +77,18 @@ export default function PlayerModal({ playerId, visible, setVisible }: PlayerMod
                 de réussite
               </Text>
             </Text>
+            {user.staff === true && (
+              <>
+                <BanModal
+                  playerId={playerId!}
+                  setVisible={setBanModalVisible}
+                  visible={banModalVisible}
+                />
+                <PrimaryButton onPress={() => setBanModalVisible(true)} style={styles.buttonBan}>
+                  <Text style={styles.textBan}>Bannir</Text>
+                </PrimaryButton>
+              </>
+            )}
           </View>
         ) : (
           <ActivityIndicator />

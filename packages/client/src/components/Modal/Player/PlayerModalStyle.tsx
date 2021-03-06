@@ -17,6 +17,13 @@ const styles = StyleSheet.create({
   textDetails: {
     fontWeight: 'normal',
   },
+  buttonBan: {
+    borderColor: 'red',
+    marginTop: 10,
+  },
+  textBan: {
+    color: 'red',
+  },
 });
 
 export default styles;

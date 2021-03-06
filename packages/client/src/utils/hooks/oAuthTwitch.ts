@@ -1,3 +1,4 @@
+import { oAuthResponse } from '@squiz/shared';
 import { useAuthRequest, ResponseType, makeRedirectUri } from 'expo-auth-session';
 import * as WebBrowser from 'expo-web-browser';
 import { useEffect, useState } from 'react';
@@ -42,7 +43,7 @@ export default function useOAuthTwitch(onSuccess: (token: string) => void) {
   async function connect(code: string) {
     setLoading(true);
     try {
-      const user = await post<{ username: string; token: string }>({
+      const user = await post<oAuthResponse>({
         path: 'oauth',
         body: { code, provider: 0 },
       });
@@ -50,6 +51,7 @@ export default function useOAuthTwitch(onSuccess: (token: string) => void) {
       setUser({
         username: user.username,
         token: user.token,
+        staff: user.staff,
         connected: true,
         privateCode: null,
       });
