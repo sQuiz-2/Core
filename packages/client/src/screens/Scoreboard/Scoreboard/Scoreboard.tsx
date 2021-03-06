@@ -125,7 +125,7 @@ export default function Scoreboard() {
                   backgroundColor: i % 2 === 0 ? colors.primary : colors.card,
                 },
               ]}>
-              <Text style={{ color: textColor }}>{i}</Text>
+              <Text style={{ color: textColor }}>{i + 1}</Text>
               <Text style={{ color: textColor }}>{player.username}</Text>
               <Text style={{ color: textColor }}>{player.total_win}</Text>
             </Pressable>
@@ -150,7 +150,7 @@ export default function Scoreboard() {
                   backgroundColor: i % 2 === 0 ? colors.primary : colors.card,
                 },
               ]}>
-              <Text style={{ color: textColor }}>{i}</Text>
+              <Text style={{ color: textColor }}>{i + 1}</Text>
               <Text style={{ color: textColor }}>{player.username}</Text>
               <Text style={{ color: textColor }}>{computeLevel(player.experience).level}</Text>
             </Pressable>
@@ -176,7 +176,7 @@ export default function Scoreboard() {
                   backgroundColor: i % 2 === 0 ? colors.primary : colors.card,
                 },
               ]}>
-              <Text style={{ color: textColor }}>{i}</Text>
+              <Text style={{ color: textColor }}>{i + 1}</Text>
               <Text style={{ color: textColor }}>{player.username}</Text>
               <Text style={{ color: textColor }}>{player.total_correct}</Text>
             </Pressable>
