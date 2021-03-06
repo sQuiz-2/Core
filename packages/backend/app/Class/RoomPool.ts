@@ -91,6 +91,15 @@ class RoomPool {
       return true;
     });
   }
+
+  /**
+   * Kick user from the room pool
+   */
+  public kickUser(playerName: string): void {
+    this.rooms.forEach((room) => {
+      room.kickPlayer(playerName);
+    });
+  }
 }
 
 export default new RoomPool();

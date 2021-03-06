@@ -1,10 +1,12 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import Database from '@ioc:Adonis/Lucid/Database';
 import { Avatars, computeLevel, GetUsers, MeBasic } from '@squiz/shared';
+import RoomPool from 'App/Class/RoomPool';
 import GameStat from 'App/Models/GameStat';
 import RoundStat from 'App/Models/RoundStat';
 import User from 'App/Models/User';
 import AdminValidator from 'App/Validators/AdminValidator';
+import UserBanValidator from 'App/Validators/UserBanValidator';
 import UserValidator from 'App/Validators/UserValidator';
 
 export default class UsersController {
@@ -88,5 +90,22 @@ export default class UsersController {
     }
     auth.user!.avatar = data.avatar;
     return auth.user?.save();
+  }
+
+  public async ban({ params, request, response }: HttpContextContract) {
+    const { id } = params;
+    const { reason } = await request.validate(UserBanValidator);
+
+    if (isNaN(id)) {
+      return response.status(422);
+    }
+
+    const user = await User.findOrFail(id);
+    if (user.staff !== true) {
+      user.merge({ ban: true, banReason: reason });
+      user.save();
+    }
+
+    RoomPool.kickUser(user.username);
   }
 }

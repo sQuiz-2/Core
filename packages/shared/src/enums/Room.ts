@@ -29,4 +29,5 @@ export enum SocketErrors {
   BadCredentials = 'bc',
   InvalidPrivateCode = 'ip',
   MissingPrivateCode = 'mc',
+  Banned = 'ban',
 }

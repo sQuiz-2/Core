@@ -1,5 +1,7 @@
 import Route from '@ioc:Adonis/Core/Route';
 
-Route.post('room-create', 'RoomController.create');
+// todo: add auth middleware
 
-Route.get('room-join/:code', 'RoomController.join');
+Route.post('room-create', 'RoomController.create').middleware(['banned']);
+
+Route.get('room-join/:code', 'RoomController.join').middleware(['banned']);

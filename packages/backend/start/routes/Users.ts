@@ -9,3 +9,5 @@ Route.get('/me-basic', 'UsersController.meBasic').middleware('auth');
 Route.put('/me-edit', 'UsersController.editMe').middleware('auth');
 
 Route.get('/users/public/:id', 'UsersController.publicUser');
+
+Route.put('/users/ban/:id', 'UsersController.ban').middleware(['auth', 'admin']);

@@ -135,6 +135,9 @@ export default class Room {
       if (user.username !== queryName) {
         throw new Error(SocketErrors.BadCredentials);
       }
+      if (user.ban === true) {
+        throw new Error(SocketErrors.Banned);
+      }
       if (player) {
         /**
          * Hummm how can you be here and also in the room ??? Have you been disconnected ?
@@ -498,6 +501,12 @@ export default class Room {
       this.nameSpace.removeAllListeners();
       RoomPool.removeRoom();
     }
+  }
+
+  public kickPlayer(playerName: string) {
+    const playerToKick = this.players.find(({ name }) => playerName === name);
+    if (!playerToKick) return;
+    this.nameSpace.sockets[playerToKick?.id].disconnect(true);
   }
 
   public joinGame(_socket: Socket): void {}
