@@ -5,6 +5,7 @@ export type User = {
   token: null | string;
   privateCode: null | string;
   connected: null | boolean;
+  staff: undefined | boolean;
 };
 
 const userState = atom<User>({
@@ -14,6 +15,7 @@ const userState = atom<User>({
     token: null,
     privateCode: null,
     connected: false,
+    staff: false,
   },
 });
 

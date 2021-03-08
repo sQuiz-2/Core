@@ -5,7 +5,7 @@ import useHomeSocketError from '@Src/screens/Home/Home/useHomeSocketError';
 import useHomeSocket from '@Src/utils/hooks/homeSocket';
 import { get } from '@Src/utils/wrappedFetch';
 import { NavigationContainer } from '@react-navigation/native';
-import { MeBasic, SocketErrors } from '@squiz/shared';
+import { MeBasic, oAuthResponse, SocketErrors } from '@squiz/shared';
 import { registerRootComponent } from 'expo';
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
@@ -68,11 +68,11 @@ function AppWithProviders() {
   }
 
   async function getUserInfos() {
-    const user = await getFromStore<{ username: string; token: string }>(StorageEnum.User);
+    const user = await getFromStore<oAuthResponse>(StorageEnum.User);
     if (user) {
       setUser({ ...user, connected: true, privateCode: null });
     } else {
-      setUser({ username: null, token: null, connected: false, privateCode: null });
+      setUser({ username: null, token: null, connected: false, privateCode: null, staff: false });
     }
 
     try {

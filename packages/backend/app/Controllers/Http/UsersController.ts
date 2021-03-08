@@ -1,16 +1,31 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import Database from '@ioc:Adonis/Lucid/Database';
-import { Avatars, computeLevel, GetUsers, MeBasic } from '@squiz/shared';
+import { Avatars, computeLevel, MeBasic } from '@squiz/shared';
+import RoomPool from 'App/Class/RoomPool';
 import GameStat from 'App/Models/GameStat';
 import RoundStat from 'App/Models/RoundStat';
 import User from 'App/Models/User';
 import AdminValidator from 'App/Validators/AdminValidator';
+import FetchUsersValidator from 'App/Validators/FetchUsers';
+import UserBanValidator from 'App/Validators/UserBanValidator';
 import UserValidator from 'App/Validators/UserValidator';
 
 export default class UsersController {
-  public async index() {
-    const getUsers: GetUsers = await User.query().select('id', 'email');
-    return getUsers;
+  public async index({ request }: HttpContextContract) {
+    const { page = 1, limit = 10, playerSearch, banned } = await request.validate(
+      FetchUsersValidator,
+    );
+
+    const query = User.query().orderBy('id');
+
+    if (banned === true) {
+      query.where('ban', true);
+    }
+
+    if (playerSearch) {
+      query.whereRaw(`LOWER(username) LIKE ?`, ['%' + playerSearch.toLowerCase() + '%']);
+    }
+    return query.paginate(page, limit);
   }
 
   public async show({ params }: HttpContextContract) {
@@ -88,5 +103,34 @@ export default class UsersController {
     }
     auth.user!.avatar = data.avatar;
     return auth.user?.save();
+  }
+
+  public async ban({ params, request, response }: HttpContextContract) {
+    const { id } = params;
+    const { reason } = await request.validate(UserBanValidator);
+
+    if (isNaN(id)) {
+      return response.status(422);
+    }
+
+    const user = await User.findOrFail(id);
+    if (user.staff !== true) {
+      user.merge({ ban: true, banReason: reason });
+      user.save();
+    }
+
+    RoomPool.kickUser(user.username);
+  }
+
+  public async unban({ params, response }: HttpContextContract) {
+    const { id } = params;
+
+    if (isNaN(id)) {
+      return response.status(422);
+    }
+
+    const user = await User.findOrFail(id);
+    user.ban = false;
+    await user.save();
   }
 }

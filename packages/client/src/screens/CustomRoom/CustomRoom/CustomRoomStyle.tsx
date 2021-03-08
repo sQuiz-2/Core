@@ -19,5 +19,8 @@ export default function useCustomRoomStyle() {
       alignSelf: responsive(screenWidth, 'center', 'auto', 'auto'),
       paddingLeft: responsive(screenWidth, 0, 20, 20),
     },
+    bold: {
+      fontWeight: 'bold',
+    },
   });
 }

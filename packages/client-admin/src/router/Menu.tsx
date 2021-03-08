@@ -1,5 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
+import Ban from 'src/pages/Ban';
 import Games from 'src/pages/Games';
 import Reported from 'src/pages/Reported';
 
@@ -26,6 +27,9 @@ export default function MenuRouter() {
         </Route>
         <Route path="/rounds">
           <Rounds />
+        </Route>
+        <Route path="/ban">
+          <Ban />
         </Route>
       </Switch>
     </Container>

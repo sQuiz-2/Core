@@ -1,5 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
-import { ProviderEnum } from '@squiz/shared';
+import { oAuthResponse, ProviderEnum } from '@squiz/shared';
 import AuthenticationException from 'App/Exceptions/AuthenticationException';
 import User from 'App/Models/User';
 import Twitch from 'App/Utils/oAuth/Twitch';
@@ -48,7 +48,12 @@ export default class AuthController {
     );
     // Generate a token
     const userToken = await auth.login(user);
-    return { username: oAuthData.username, token: userToken.token };
+    const response: oAuthResponse = {
+      username: oAuthData.username,
+      token: userToken.token,
+      staff: user.staff,
+    };
+    return response;
   }
 
   public logout({ auth }: HttpContextContract) {

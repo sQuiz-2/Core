@@ -32,6 +32,12 @@ export default class User extends BaseModel {
   public staff: boolean;
 
   @column()
+  public ban: boolean;
+
+  @column()
+  public banReason: string;
+
+  @column()
   public rememberMeToken?: string;
 
   @column()

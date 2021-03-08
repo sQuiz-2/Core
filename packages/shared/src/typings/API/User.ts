@@ -36,3 +36,9 @@ export type PlayerPublicInfos = {
   round_correct?: string;
   round_played?: string;
 };
+
+export type oAuthResponse = {
+  username: string;
+  token: string;
+  staff: boolean;
+};

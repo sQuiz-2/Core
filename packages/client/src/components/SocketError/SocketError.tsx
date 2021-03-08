@@ -23,6 +23,8 @@ function getErrorMessage(error: string) {
       return "💂‍♂️ Il s'agit d'une partie privée ! Pour la rejoindre utilise la fonction 'Rejoindre une partie' dans le menu 'Parties persos'";
     case SocketErrors.InvalidPrivateCode:
       return "🤖 Le code utilisé pour rejoindre cette partie est invalide ! Pour la rejoindre utilise la fonction 'Rejoindre une partie' dans le menu 'Parties persos'";
+    case SocketErrors.Banned:
+      return '🤕 Votre compte est banni';
     default:
       return '💥 Une erreur est survenue !';
   }

@@ -23,6 +23,7 @@ export default function DisconnectButton() {
       token: null,
       connected: false,
       privateCode: null,
+      staff: false,
     });
     navigation.navigate('Home');
   }

@@ -2,6 +2,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import { Gavel } from '@material-ui/icons';
 import Help from '@material-ui/icons/Help';
 import HomeIcon from '@material-ui/icons/Home';
 import SportsEsports from '@material-ui/icons/SportsEsports';
@@ -55,6 +56,7 @@ export default function DrawerIcons() {
       <AppBarIcon text="Salons" url="/games" icon={<SportsEsports />} />
       <AppBarIcon text="Report" url="/reported" icon={<Warning />} />
       <AppBarIcon text="Rounds" url="/rounds" icon={<Help />} />
+      <AppBarIcon text="Ban" url="/ban" icon={<Gavel />} />
     </List>
   );
 }
