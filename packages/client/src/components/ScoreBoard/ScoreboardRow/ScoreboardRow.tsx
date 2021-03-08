@@ -26,9 +26,12 @@ export default function PlayerRow({
   return (
     <View style={[styles.card, containerStyle]}>
       <View style={styles.infoContainer}>
-        <Text fontSize="xl" style={[textStyle, styles.bold]}>
-          {player.position}
-        </Text>
+        <View style={styles.positionContainer}>
+          <Text fontSize="xl" style={[textStyle, styles.positionText]}>
+            {player.score}
+          </Text>
+        </View>
+
         <Image source={avatars[player.avatar as keyof typeof avatars]} style={styles.avatar} />
         <Text fontSize="lg" style={textStyle}>
           {player.name}

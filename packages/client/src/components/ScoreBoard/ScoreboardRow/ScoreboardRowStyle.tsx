@@ -21,12 +21,16 @@ const styles = StyleSheet.create({
     width: 16,
     height: 23,
   },
+  positionContainer: {
+    minWidth: 30,
+  },
   score: {
     marginLeft: 'auto',
     fontWeight: 'bold',
   },
-  bold: {
+  positionText: {
     fontWeight: 'bold',
+    textAlign: 'center',
   },
 });
 
