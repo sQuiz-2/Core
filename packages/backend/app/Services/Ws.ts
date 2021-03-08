@@ -11,7 +11,7 @@ class Ws {
    * @param callback Call on new client connection
    */
   public start(callback: (socket: socketIo.Socket) => void) {
-    const origin = nodeEnv === 'production' ? appUrl + ':443' : appUrl;
+    const origin = nodeEnv === 'production' ? appUrl + ':443' : '*:*';
     this.io = socketIo(Server.instance!, {
       origins: origin,
       perMessageDeflate: false,
