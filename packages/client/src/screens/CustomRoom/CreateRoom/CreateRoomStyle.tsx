@@ -8,6 +8,7 @@ export default function useCreateRoomStyle() {
     title: {
       fontWeight: 'bold',
       textAlign: 'center',
+      paddingBottom: 5,
     },
     radioContainer: {
       flexDirection: 'row',

@@ -23,6 +23,7 @@ export default function CreateRoom() {
   const [user, setUser] = useRecoilState(userState);
 
   async function createRoom() {
+    if (!user.token) return;
     const roomConfig: RoomCreateConfig = {
       players,
       antiCheat,
@@ -32,6 +33,7 @@ export default function CreateRoom() {
       const room = await post<{ privateCode: string; roomId: string }>({
         path: 'room-create',
         body: roomConfig,
+        token: user.token,
       });
       if (!room) return;
       setUser({ ...user, privateCode: room.privateCode });
@@ -46,7 +48,7 @@ export default function CreateRoom() {
       <Text style={styles.title}>Difficulté</Text>
       <View style={styles.radioContainer}>
         <Radio
-          choices={['Initié', 'Confirmé', 'Expert', 'Aléatoire']}
+          choices={['Initié', 'Confirmé', 'Expert']}
           selected={selectedDifficulty}
           onSelect={(newSelected) => setSelectedDifficulty(newSelected)}
         />
