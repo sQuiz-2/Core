@@ -20,11 +20,15 @@ export default function JoinRoom() {
 
   async function connectRoom() {
     setError(undefined);
+    if (!user.token) return;
     if (code.length !== 4) {
       setError('Aucune partie trouvée, code invalide');
     } else {
       try {
-        const roomId = await get<string | undefined>({ path: 'room-join/' + code.toUpperCase() });
+        const roomId = await get<string | undefined>({
+          path: 'room-join/' + code.toUpperCase(),
+          token: user.token,
+        });
         if (roomId) {
           setUser({ ...user, privateCode: code.toUpperCase() });
           navigation.navigate('Room', { id: roomId });

@@ -287,7 +287,7 @@ export default class Quiz extends Room {
     this.setStatus(RoomStatus.Ended);
     this.emitAllRounds();
     this.emitCompleteScoreboard();
-    if (!this.isPrivate) {
+    if (this.checkForCheat) {
       this.quizExperience.computeAndSaveExperience(this.players);
       this.quizExperience.emitExperience(this.players);
       this.quizStats.computeAndSaveStats(this.players);

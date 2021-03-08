@@ -56,7 +56,7 @@ export default function RoomGameEndResult() {
           <Text fontSize="xxl">{staticPlayerScore.score} </Text>
           <Text fontSize="xl">point{staticPlayerScore.score > 1 && 's'}</Text>
         </View>
-        {!roomInfos?.isPrivate && userBasicInfos && (
+        {roomInfos?.checkForCheat && userBasicInfos && (
           <LargeExperienceBar experience={userBasicInfos?.experience} />
         )}
       </View>
