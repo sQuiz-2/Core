@@ -73,7 +73,7 @@ export default class UsersController {
     if (isNaN(id)) {
       return response.status(400);
     }
-    const player = await Database.query()
+    const statsGames = await Database.query()
       .from('users')
       .select(
         'users.experience',
@@ -81,15 +81,22 @@ export default class UsersController {
         Database.raw('sum(game_stats.played) as game_played'),
         Database.raw('sum(game_stats.podium) as game_podium'),
         Database.raw('sum(game_stats.win) as game_win'),
+      )
+      .leftJoin('game_stats', 'game_stats.user_id', 'users.id')
+      .where('users.id', id)
+      .groupBy('users.id')
+      .first();
+    const statsRounds = await Database.query()
+      .from('users')
+      .select(
         Database.raw('sum(round_stats.correct) as round_correct'),
         Database.raw('sum(round_stats.played) as round_played'),
       )
-      .leftJoin('game_stats', 'game_stats.user_id', 'users.id')
       .leftJoin('round_stats', 'round_stats.user_id', 'users.id')
       .where('users.id', id)
       .groupBy('users.id')
       .first();
-    return player;
+    return { ...statsGames, ...statsRounds };
   }
 
   public async editMe({ auth, request, response }: HttpContextContract) {
