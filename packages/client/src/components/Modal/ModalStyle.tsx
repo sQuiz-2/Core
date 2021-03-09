@@ -5,18 +5,18 @@ export default function useModalStyle() {
   const { colors } = useTheme();
 
   const styles = StyleSheet.create({
-    centeredView: {
-      flex: 1,
+    modal: {
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: 'rgba(0,0,0,0.5)',
     },
     modalView: {
+      justifyContent: 'center',
+      alignItems: 'center',
       backgroundColor: colors.background,
       borderRadius: 10,
-      alignItems: 'flex-end',
     },
     modalCloseButton: {
+      alignSelf: 'flex-end',
       paddingTop: 12,
       paddingRight: 15,
     },
