@@ -28,7 +28,7 @@ export default function PlayerRow({
       <View style={styles.infoContainer}>
         <View style={styles.positionContainer}>
           <Text fontSize="xl" style={[textStyle, styles.positionText]}>
-            {player.score}
+            {player.position}
           </Text>
         </View>
 
