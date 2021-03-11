@@ -15,6 +15,9 @@ const styles = StyleSheet.create({
   reportContainer: {
     flex: 0.02,
   },
+  theme: {
+    fontStyle: 'italic',
+  },
 });
 
 export default styles;

@@ -5,7 +5,7 @@ import Text from '@Src/components/Text';
 import userState from '@Src/global/userState';
 import { post } from '@Src/utils/wrappedFetch';
 import { Report, ReportDetail } from '@squiz/shared';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Pressable, View } from 'react-native';
 import { useRecoilValue } from 'recoil';
 
@@ -15,6 +15,7 @@ type ReportModalProps = {
   visible: boolean;
   setVisible: (visible: boolean) => void;
   question: string;
+  theme: string;
   answers?: string[];
   id: number;
 };
@@ -24,6 +25,7 @@ export default function ReportModal({
   setVisible,
   question,
   answers,
+  theme,
   id,
 }: ReportModalProps) {
   const styles = useReportModalStyle();
@@ -46,8 +48,13 @@ export default function ReportModal({
     } catch (error) {
       console.log(error);
     }
+    setReported({});
     setVisible(false);
   }
+
+  useEffect(() => {
+    setReported({});
+  }, [question]);
 
   return (
     <Modal setVisible={setVisible} visible={visible}>
@@ -55,7 +62,13 @@ export default function ReportModal({
         SIGNALEMENT
       </Text>
       <View style={styles.question}>
-        <QuestionInfos answers={answers} question={question} id={id} displayReport={false} />
+        <QuestionInfos
+          theme={theme}
+          answers={answers}
+          question={question}
+          id={id}
+          displayReport={false}
+        />
       </View>
       {ReportDetail.map((report) => {
         return (

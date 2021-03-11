@@ -14,8 +14,15 @@ export default function GameEndQuestion() {
   return (
     <TitleCard title="QUESTIONS" containerStyle={styles.container}>
       <ScrollView style={styles.scroll}>
-        {questions.map(({ question, answers, id }) => (
-          <QuestionInfos key={id} id={id} answers={answers} question={question} displayReport />
+        {questions.map(({ question, answers, id, theme }) => (
+          <QuestionInfos
+            key={id}
+            id={id}
+            answers={answers}
+            theme={theme}
+            question={question}
+            displayReport
+          />
         ))}
       </ScrollView>
     </TitleCard>
