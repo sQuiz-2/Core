@@ -66,6 +66,7 @@ export type EmitQuestions = {
   id: number;
   question: string;
   answers: string[];
+  theme: string;
 }[];
 
 export type EmitValidAnswer = {

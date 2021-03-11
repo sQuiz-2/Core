@@ -3,7 +3,6 @@ import BanException from 'App/Exceptions/BanException';
 
 export default class Admin {
   public async handle({ auth }: HttpContextContract, next: () => Promise<void>) {
-    console.log(auth.user?.ban);
     if (auth.user?.ban === true) {
       throw new BanException('Votre compte est banni');
     }

@@ -205,9 +205,9 @@ export default class Quiz extends Room {
    * Emit all rounds to all connected sockets
    */
   private emitAllRounds(): void {
-    const questions: EmitQuestions = this.rounds.map(({ id, question, answers }) => {
+    const questions: EmitQuestions = this.rounds.map(({ id, question, answers, theme }) => {
       const onlyAnswers = answers.map(({ answer }) => answer);
-      return { id, question, answers: onlyAnswers };
+      return { id, question, answers: onlyAnswers, theme: theme.title };
     });
     this.emit(GameEvent.Questions, questions);
   }

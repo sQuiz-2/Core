@@ -10,10 +10,11 @@ import useReportStyle from './ReportButtonStyle';
 type ReportProps = {
   id: number;
   question: string;
+  theme: string;
   answers?: string[];
 };
 
-export default function ReportButton({ id, question, answers }: ReportProps) {
+export default function ReportButton({ id, question, answers, theme }: ReportProps) {
   const user = useRecoilValue(userState);
   const [modalVisible, setModalVisible] = useState(false);
   const { colors } = useTheme();
@@ -25,6 +26,7 @@ export default function ReportButton({ id, question, answers }: ReportProps) {
         <ReportModal
           question={question}
           answers={answers}
+          theme={theme}
           id={id}
           visible={modalVisible}
           setVisible={setModalVisible}

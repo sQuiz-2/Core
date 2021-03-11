@@ -8,7 +8,6 @@ export default function useCheatTab(onCheat: () => void) {
 
   useEffect(() => {
     if (Platform.OS !== 'web' || !roomInfos) return;
-    console.log(roomInfos);
     // Check if the anti-cheat is enable or if the client is a staff member
     if (roomInfos.checkForCheat === false || roomInfos.staff === true) return;
     window.onfocus = onCheat;
