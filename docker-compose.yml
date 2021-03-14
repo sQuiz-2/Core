@@ -14,12 +14,32 @@ services:
     ports:
       - "5432:5432"
 
-  adminer:
-    container_name: admirer
+  adminer-squiz:
+    container_name: adminer-squiz
     image: adminer
     restart: unless-stopped
     ports:
       - 9999:8080
 
+  redis-squiz:
+    container_name: redis-squiz
+    image: redis:latest
+    ports:
+      - 9998:6379
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+
+  redis-commander-squiz:
+    container_name: redis-commander-squiz
+    image: rediscommander/redis-commander:latest
+    environment:
+      - REDIS_HOSTS=local:redis-squiz:6379
+    ports:
+      - "9997:8081"
+    restart: unless-stopped
+
 volumes:
   db-squiz:
+  redis-data:
