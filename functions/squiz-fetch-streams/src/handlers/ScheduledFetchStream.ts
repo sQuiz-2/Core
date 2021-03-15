@@ -24,6 +24,8 @@ exports.scheduledFetchStreamHandler = async () => {
    * We update the redis cache if needed
    */
   if (!arraysEqual(squizStreamsFromRedis, squizStreamsFromTwitch)) {
-    await Redis.set(redisKeys.squizStreams, JSON.stringify(squizStreamsFromTwitch));
+    const stringifiedStreams = JSON.stringify(squizStreamsFromTwitch);
+    await Redis.set(redisKeys.squizStreams, stringifiedStreams);
+    await Redis.publish(redisKeys.squizStreams, stringifiedStreams);
   }
 };

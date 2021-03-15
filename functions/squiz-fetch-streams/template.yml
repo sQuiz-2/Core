@@ -17,6 +17,10 @@ Parameters:
     Type: String
   clientSecret:
     Type: String
+  redisHost:
+    Type: String
+  redisPort:
+    Type: Number
 
 # Resources declares the AWS resources that you want to include in the stack
 # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html
@@ -43,3 +47,5 @@ Resources:
         Variables:
           CLIENT_ID: !Ref clientId
           CLIENT_SECRET: !Ref clientSecret
+          REDIS_HOST: !Ref redisHost
+          REDIS_PORT: !Ref redisPort
