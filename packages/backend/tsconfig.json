@@ -1,18 +1,41 @@
 {
-  "include": ["**/*"],
-  "exclude": ["node_modules", "build"],
+  "include": [
+    "**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "build"
+  ],
   "extends": "../../node_modules/adonis-preset-ts/tsconfig",
   "compilerOptions": {
     "outDir": "build",
     "rootDir": "./",
     "sourceMap": true,
     "paths": {
-      "App/*": ["./packages/backend/app/*"],
-      "Config/*": ["./packages/backend/config/*"],
-      "Contracts/*": ["./packages/backend/contracts/*"],
-      "Database/*": ["./packages/backend/database/*"]
+      "App/*": [
+        "./packages/backend/app/*"
+      ],
+      "Config/*": [
+        "./packages/backend/config/*"
+      ],
+      "Contracts/*": [
+        "./packages/backend/contracts/*"
+      ],
+      "Database/*": [
+        "./packages/backend/database/*"
+      ]
     },
-    "types": ["@adonisjs/core", "@adonisjs/repl", "@adonisjs/lucid", "@adonisjs/auth"]
+    "types": [
+      "@adonisjs/core",
+      "@adonisjs/repl",
+      "@adonisjs/lucid",
+      "@adonisjs/auth",
+      "@adonisjs/redis"
+    ]
   },
-  "references": [{ "path": "../shared" }]
+  "references": [
+    {
+      "path": "../shared"
+    }
+  ]
 }

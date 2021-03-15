@@ -1,3 +1,4 @@
+import Redis from '@ioc:Adonis/Addons/Redis';
 import { RoomEvent, SocketErrors } from '@squiz/shared';
 import Ws from 'App/Services/Ws';
 import { Socket } from 'socket.io';
@@ -18,9 +19,12 @@ class Home {
    */
   connectedCounter = 0;
 
+  streamers: string[] = [];
+
   constructor() {
     Ws.start(this.connection.bind(this));
     this.socket = Ws.io;
+    Redis.subscribe('squizStreams', this.updateStreamers.bind(this));
   }
 
   /**
@@ -55,6 +59,10 @@ class Home {
     this.connectedCounter--;
   }
 
+  private updateStreamers(streamers: string): void {
+    this.streamers = JSON.parse(streamers);
+    this.socket.emit('streams', this.streamers);
+  }
   /**
    * Add or increment the ip in the connectedIp object
    */
