@@ -18,6 +18,7 @@ export enum RoomEvent {
   RoomUpdate = 'roomUpdate',
   Error = 'error',
   CustomError = 'ce',
+  Streams = 'st',
 }
 
 export enum SocketErrors {
