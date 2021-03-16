@@ -27,7 +27,7 @@
     "@adonisjs/auth": "^5.0.2",
     "@adonisjs/core": "^5.0.4-preview-rc",
     "@adonisjs/lucid": "^9.0.3",
-    "@adonisjs/redis": "^5.0.9",
+    "@adonisjs/redis": "^6.0.3",
     "@adonisjs/repl": "^1.0.0",
     "@squiz/shared": "1.0.0",
     "got": "^11.8.0",
