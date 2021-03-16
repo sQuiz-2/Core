@@ -87,7 +87,7 @@ class TwitchStreamFetcher {
   /**
    * Fetch all streams currently playing to sQuiz
    */
-  async fetchSquizStreams() {
+  async fetchSquizStreams(): Promise<string[]> {
     const streams: TwitchStream[] = [];
     let nextPage = null;
 
@@ -105,10 +105,9 @@ class TwitchStreamFetcher {
     /**
      * Twitch give a us a page of streamer, we will fetch all the pages
      */
-    console.log('Fetch streams');
     while ('we can fetch streams') {
       const fetchedStreams: TwitchStreams | null = await this.fetchStreams({
-        gameId: 518233, //494131,
+        gameId: 494131, //518233,
         after: nextPage,
       });
       if (!fetchedStreams) break;

@@ -12,8 +12,11 @@ import useHomeSocketError from './useHomeSocketError';
 export default function Home() {
   const { colors } = useTheme();
   const [displayRooms, setDisplayRooms] = useState<EmitRooms>([]);
+  const [streams, setStreams] = useState<string[]>([]);
   useListener(RoomEvent.Rooms, setRooms, true);
   useListener(RoomEvent.RoomUpdate, setUpdateRoom, true);
+  useListener(RoomEvent.Streams, updateStreams, true);
+
   const error = useHomeSocketError();
 
   function setRooms(rooms: EmitRooms) {
@@ -31,6 +34,10 @@ export default function Home() {
     });
   }
 
+  function updateStreams(value: string[]) {
+    setStreams(value);
+  }
+
   if (error) {
     return <SocketError error={error} />;
   } else if (displayRooms.length < 1) {
@@ -40,6 +47,6 @@ export default function Home() {
       </CenterContainer>
     );
   } else {
-    return <HomeContainer rooms={displayRooms} />;
+    return <HomeContainer rooms={displayRooms} streams={streams} />;
   }
 }

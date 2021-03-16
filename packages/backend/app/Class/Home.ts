@@ -19,6 +19,9 @@ class Home {
    */
   connectedCounter = 0;
 
+  /**
+   * All streamers currently streaming on sQuiz
+   */
   streamers: string[] = [];
 
   constructor() {
@@ -49,6 +52,7 @@ class Home {
     }
     this.connectedCounter++;
     socket.emit('rooms', RoomPool.getRooms());
+    socket.emit(RoomEvent.Streams, this.streamers);
     socket.on(RoomEvent.Disconnection, () => this.disconnection());
   }
 
@@ -61,7 +65,7 @@ class Home {
 
   private updateStreamers(streamers: string): void {
     this.streamers = JSON.parse(streamers);
-    this.socket.emit('streams', this.streamers);
+    this.socket.emit(RoomEvent.Streams, this.streamers);
   }
   /**
    * Add or increment the ip in the connectedIp object

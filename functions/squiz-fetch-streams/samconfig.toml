@@ -1,0 +1,9 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "squiz-fetch-streams"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-1qjb7cbasmcun"
+s3_prefix = "squiz-fetch-streams"
+region = "eu-west-3"
+capabilities = "CAPABILITY_IAM"
