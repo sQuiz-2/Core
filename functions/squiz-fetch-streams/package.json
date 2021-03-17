@@ -23,7 +23,7 @@
     "prestart": "yarn build && sam build",
     "start": "sam local invoke 'ScheduledFetchStream' --docker-network core_default --env-vars env.json",
     "predeploy": "yarn build && sam build",
-    "deploy": "sam deploy --env-vars env.json",
+    "deploy": "sam deploy",
     "type-check": "tsc --noEmit",
     "lint": "eslint --ext '.js,.ts,.tsx' ./src --max-warnings=0"
   },

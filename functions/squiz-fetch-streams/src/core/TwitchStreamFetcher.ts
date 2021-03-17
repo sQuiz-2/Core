@@ -107,7 +107,7 @@ class TwitchStreamFetcher {
      */
     while ('we can fetch streams') {
       const fetchedStreams: TwitchStreams | null = await this.fetchStreams({
-        gameId: 494131, //518233,
+        gameId: 518233, //494131
         after: nextPage,
       });
       if (!fetchedStreams) break;
