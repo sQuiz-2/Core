@@ -33,7 +33,7 @@ export default function HomeContainer({ rooms, streams }: HomeContainerProp) {
         {streams.length > 0 && (
           <>
             <Text fontSize="xxl" fontFamily="title" style={[styles.title, { paddingTop: 20 }]}>
-              Stream en cours
+              Streams en cours
             </Text>
             <Streams streams={streams} />
           </>

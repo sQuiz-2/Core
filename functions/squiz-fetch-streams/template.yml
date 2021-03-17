@@ -21,6 +21,8 @@ Parameters:
     Type: String
   redisPort:
     Type: Number
+  redisPassword:
+    Type: String
 
 # Resources declares the AWS resources that you want to include in the stack
 # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html
@@ -40,7 +42,7 @@ Resources:
         CloudWatchEvent:
           Type: Schedule
           Properties:
-            Schedule: rate(1 minutes)
+            Schedule: rate(1 minute)
       MemorySize: 128
       Timeout: 100
       Environment:
@@ -49,3 +51,4 @@ Resources:
           CLIENT_SECRET: !Ref clientSecret
           REDIS_HOST: !Ref redisHost
           REDIS_PORT: !Ref redisPort
+          REDIS_PASSWORD: !Ref redisPassword

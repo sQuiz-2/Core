@@ -3,6 +3,8 @@ import { promisify } from 'util';
 
 const REDIS_HOST = process.env.REDIS_HOST;
 const REDIS_PORT = process.env.REDIS_PORT;
+const REDIS_PASSWORD = process.env.REDIS_PASSWORD;
+
 class Redis {
   client;
 
@@ -14,6 +16,7 @@ class Redis {
     this.client = redis.createClient({
       port: Number(REDIS_PORT),
       host: REDIS_HOST,
+      password: REDIS_PASSWORD,
     });
     this.client.on('error', this.onError.bind(this));
     this.setAsync = promisify(this.client.set).bind(this.client);
