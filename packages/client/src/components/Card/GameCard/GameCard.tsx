@@ -1,4 +1,5 @@
 import { useTheme } from '@react-navigation/native';
+import { Difficulty } from '@squiz/shared';
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import { StyleProp, ViewStyle, TouchableOpacity, Image, View } from 'react-native';
@@ -8,18 +9,19 @@ import Card from '../Card';
 import useGameCardStyle from './GameCardStyle';
 
 type ButtonProps = {
-  color: [string, string];
   name: string;
   players: number;
   isFull: boolean;
   style?: StyleProp<ViewStyle>;
   onPress?: (id?: any) => void;
+  difficulty: Difficulty;
 };
 
 export default function GameCard({ style, ...props }: ButtonProps) {
-  const { players, isFull, name, color, onPress } = props;
+  const { players, isFull, name, onPress } = props;
   const styles = useGameCardStyle();
   const { colors } = useTheme();
+  const { color: gradientColor, xpMultiplier } = props.difficulty;
   const onlinePlayers = isFull
     ? 'Le salon est plein !'
     : `${players > 0 ? players : 'Aucun'} joueur${players > 1 ? 's' : ''}`;
@@ -27,7 +29,7 @@ export default function GameCard({ style, ...props }: ButtonProps) {
   const card = (
     <Card style={styles.gameCard}>
       <LinearGradient
-        colors={isFull ? ['#BBBBBB', '#555555'] : color}
+        colors={isFull ? ['#BBBBBB', '#555555'] : gradientColor}
         style={styles.content}
         start={[1.0, 0.0]}
         end={[0.0, 1.0]}>
@@ -38,6 +40,14 @@ export default function GameCard({ style, ...props }: ButtonProps) {
           {onlinePlayers}
         </Text>
         <Image source={require('@Assets/images/question.png')} style={[styles.image]} />
+        {xpMultiplier > 1 && (
+          <Text
+            style={[{ color: colors.text, fontWeight: 'bold' }]}
+            fontFamily="title"
+            fontSize="md">
+            XP x {xpMultiplier}
+          </Text>
+        )}
       </LinearGradient>
     </Card>
   );
