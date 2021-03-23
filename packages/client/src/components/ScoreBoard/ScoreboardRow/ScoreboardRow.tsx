@@ -34,7 +34,7 @@ export default function PlayerRow({
 
         <Image source={avatars[player.avatar as keyof typeof avatars]} style={styles.avatar} />
         <Text fontSize="lg" style={textStyle}>
-          {player.name}
+          {player.name.length > 14 ? player.name.substring(0, 14) + '...' : player.name}
         </Text>
       </View>
       <View style={styles.infoContainer}>
