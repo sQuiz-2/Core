@@ -10,13 +10,14 @@ import useGameColumn from './useRoundColumn';
 
 export default function Rounds() {
   const form = useRef<HTMLFormElement | null>(null);
+  const [questionSearch, setQuestionSearch] = useState('');
   const { fetchPage, maxPage } = useFetchPage<GetRound[]>('rounds');
   const [displayData, setDisplayData] = useState<GetRound[]>([]);
   const { removeRow } = useRemoveRow<GetRound>(displayData, setDisplayData, 'rounds/');
   const { updateRow, requestEdit } = useUpdateRow<GetRound>(displayData, setDisplayData, 'rounds/');
   const columns = useGameColumn({ displayData, updateData: updateRow, removeData: removeRow });
 
-  async function updateData({ pageIndex = 1, pageSize = 5, question = '' }) {
+  async function updateData({ pageIndex = 1, pageSize = 5, question = questionSearch }) {
     const data = await fetchPage(pageIndex, pageSize, `question=${question}&reported=false`);
     if (!data) return;
     setDisplayData(data);
@@ -92,6 +93,7 @@ export default function Rounds() {
     e.preventDefault();
     if (!form.current) return;
     const { question } = form.current;
+    setQuestionSearch(question.value);
     updateData({ question: question.value });
   }
 
