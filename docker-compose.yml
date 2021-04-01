@@ -35,7 +35,7 @@ services:
     container_name: redis-commander-squiz
     image: rediscommander/redis-commander:latest
     environment:
-      - REDIS_HOSTS=local:redis-squiz:6379
+      - REDIS_HOSTS=local:redis-squiz:6379:0:squiz
     ports:
       - "9997:8081"
     restart: unless-stopped
