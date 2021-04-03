@@ -6,6 +6,7 @@ import useFetchPage from 'src/hooks/useFetchPage';
 import useRemoveRow from 'src/hooks/useRemoveRow';
 import useUpdateRow from 'src/hooks/useUpdateRow';
 
+import CreateRound from './Create/CreateRound';
 import useGameColumn from './useRoundColumn';
 
 export default function Rounds() {
@@ -110,6 +111,7 @@ export default function Rounds() {
         fetchData={fetchData}
         maxPage={maxPage}
       />
+      <CreateRound />
     </>
   );
 }
