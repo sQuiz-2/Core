@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@adonisjs/auth": "^5.0.2",
-    "@adonisjs/core": "^5.0.5-canary-rc-2",
+    "@adonisjs/core": "5.0.5-canary-rc-2",
     "@adonisjs/lucid": "^10.0.0",
     "@adonisjs/redis": "6.0.0",
     "@adonisjs/repl": "^1.0.0",
