@@ -16,7 +16,7 @@ export default function CreateRound() {
   const formRef = useRef<HTMLFormElement | null>();
   const [answers, setAnswers] = useState<string[]>([]);
   const [question, setQuestion] = useState<string>('');
-  const [difficulty, setDifficulty] = useState<number>(1);
+  const [difficulty, setDifficulty] = useState<number>(4);
   const [theme, setTheme] = useState<number>(4);
   const [life, setLife] = useState<number>(4);
   const [errors, setErrors] = useState<any>([]);
