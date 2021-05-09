@@ -10,6 +10,7 @@ export default function useGameEndQuestionStyle() {
       display: responsive(screenWidth, 'none', 'flex', 'flex'),
       marginTop: 20,
       paddingRight: 0,
+      marginBottom: 10,
     },
     scroll: {
       paddingRight: 20,

@@ -37,9 +37,18 @@ export default function FAQ() {
           Comment puis-je proposer des questions ?
         </Text>
         <Text fontSize="lg">
-          Pour l'instant, nous nous concentrons sur les questions existantes pour améliorer leur
-          qualité. Nous avons encore des bases de données de questions à trier avant de laisser la
-          possibilité à tout le monde d'en écrire.
+          Vous pouvez proposer vos propres questions en utilisant{' '}
+          <Pressable
+            onPress={() =>
+              openLink(
+                'https://docs.google.com/forms/d/e/1FAIpQLSdwMnH332LgNZrsfKjOCQThjZwA9CvlJ4XS5BBSrcUFsNVZJA/viewform'
+              )
+            }>
+            <Text fontSize="lg" style={{ color: colors.notification }}>
+              ce formulaire
+            </Text>
+          </Pressable>
+          .
         </Text>
         <Text fontSize="xl" style={styles.question}>
           Est-ce que je peux aider pour le développement du site ?
