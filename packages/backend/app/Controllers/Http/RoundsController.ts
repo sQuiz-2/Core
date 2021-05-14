@@ -93,6 +93,8 @@ export default class RoundsController {
         mergedReports[i] += 100;
       }
     }
-    round.related('reports').updateOrCreate({ roundId: round.id }, mergedReports);
+    if (Object.keys(mergedReports).length > 0) {
+      round.related('reports').updateOrCreate({ roundId: round.id }, mergedReports);
+    }
   }
 }
