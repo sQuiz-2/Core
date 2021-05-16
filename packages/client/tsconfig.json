@@ -2,7 +2,10 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "jsx": "react-native",
-    "lib": ["dom", "esnext"],
+    "lib": [
+      "dom",
+      "esnext"
+    ],
     "moduleResolution": "node",
     "noEmit": true,
     "skipLibCheck": true,
@@ -10,10 +13,21 @@
     "strict": true,
     "baseUrl": ".",
     "paths": {
-      "@Src/*": ["./src/*"],
-      "@Assets/*": ["./assets/*"],
-      "@squiz/shared/*": ["../shared/src"]
+      "@Src/*": [
+        "./src/*"
+      ],
+      "@Assets/*": [
+        "./assets/*"
+      ],
+      "@squiz/shared/*": [
+        "../shared/src"
+      ]
     }
   },
-  "references": [{ "path": "../shared" }]
+  "references": [
+    {
+      "path": "../shared"
+    }
+  ],
+  "extends": "expo/tsconfig.base"
 }

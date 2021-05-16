@@ -39,7 +39,7 @@
     "eslint": "^7.14.0",
     "eslint-config-universe": "^6.0.0",
     "prettier": "^2.2.1",
-    "typescript": "^4.1.2"
+    "typescript": "~4.2"
   },
   "eslintConfig": {
     "extends": "universe/web"
