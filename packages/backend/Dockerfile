@@ -9,7 +9,7 @@ RUN yarn build
 WORKDIR /app/packages/backend/
 RUN node ace build --production --client=yarn
 
-FROM node:14
+FROM node:lts-alpine
 WORKDIR /app
 COPY --from=builder /app/packages/backend/build/ ./packages/backend/
 COPY --from=builder /app/packages/shared/dist/  ./packages/shared/dist/

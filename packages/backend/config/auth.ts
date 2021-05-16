@@ -19,7 +19,7 @@ import Env from '@ioc:Adonis/Core/Env';
 */
 const authConfig: AuthConfig = {
   guard: 'api',
-  list: {
+  guards: {
     /*
     |--------------------------------------------------------------------------
     | OAT Guard
