@@ -489,10 +489,10 @@ export default class Room {
   /**
    * Find a pseudo for player which is not connected
    */
-  private findPseudo(): string {
+  /* private findPseudo(): string {
     const pseudo = 'sQuizer' + Math.floor(Math.random() * Math.floor(9999));
     return pseudo;
-  }
+  } */
 
   /**
    * Remove this room if private
