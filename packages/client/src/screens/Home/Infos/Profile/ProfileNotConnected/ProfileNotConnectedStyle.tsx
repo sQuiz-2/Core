@@ -18,11 +18,15 @@ export default function useProfileNotConnectedStyle() {
       paddingHorizontal: 10,
     },
     icon: {
+      color: 'white',
       paddingRight: 10,
       paddingLeft: 5,
     },
     loader: {
       backgroundColor: colors.card,
+    },
+    font: {
+      color: 'white',
     },
   });
 }

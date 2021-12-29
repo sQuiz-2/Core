@@ -1,7 +1,9 @@
 import Text from '@Src/components/Text';
+import userState from '@Src/global/userState';
 import { EmitRooms } from '@squiz/shared';
 import React from 'react';
 import { View } from 'react-native';
+import { useRecoilValue } from 'recoil';
 
 import { ResponsiveContainer } from '../../../components/Containers';
 import HomeNews from '../Infos/News/News';
@@ -17,6 +19,8 @@ type HomeContainerProp = {
 
 export default function HomeContainer({ rooms, streams }: HomeContainerProp) {
   const styles = useHomeContainerStyle();
+  const user = useRecoilValue(userState);
+
   return (
     <ResponsiveContainer style={styles.container}>
       <View style={styles.info}>
@@ -25,11 +29,13 @@ export default function HomeContainer({ rooms, streams }: HomeContainerProp) {
       </View>
       <View style={styles.rightContainer}>
         <Text fontSize="xxl" fontFamily="title" style={styles.title}>
-          Salons classiques
+          {user.token ? 'Salons classiques' : 'Connectez vous pour rejoindre un salon !'}
         </Text>
-        <View style={styles.rooms}>
-          <HomeRooms rooms={rooms} />
-        </View>
+        {user.token && (
+          <View style={styles.rooms}>
+            <HomeRooms rooms={rooms} />
+          </View>
+        )}
         {streams.length > 0 && (
           <>
             <Text fontSize="xxl" fontFamily="title" style={[styles.title, { paddingTop: 20 }]}>

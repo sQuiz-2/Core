@@ -172,8 +172,9 @@ export default class Room {
         });
       }
     } else {
-      const randomName = this.findPseudo();
-      player = this.addPlayer({ name: randomName, socket, isGuess: true, staff: false });
+      // const randomName = this.findPseudo();
+      // player = this.addPlayer({ name: randomName, socket, isGuess: true, staff: false });
+      throw new Error(SocketErrors.NotConnected);
     }
     return player;
   }
@@ -488,10 +489,10 @@ export default class Room {
   /**
    * Find a pseudo for player which is not connected
    */
-  private findPseudo(): string {
+  /* private findPseudo(): string {
     const pseudo = 'sQuizer' + Math.floor(Math.random() * Math.floor(9999));
     return pseudo;
-  }
+  } */
 
   /**
    * Remove this room if private

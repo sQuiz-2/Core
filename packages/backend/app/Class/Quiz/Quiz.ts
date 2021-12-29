@@ -14,6 +14,7 @@ import {
   TopTimeAnswer,
 } from '@squiz/shared';
 import Round from 'App/Models/Round';
+import User from 'App/Models/User';
 import { shuffle } from 'App/Utils/Array';
 import { Socket } from 'socket.io';
 import stringSimilarity from 'string-similarity';
@@ -112,11 +113,11 @@ export default class Quiz extends Room {
   /**
    * Compute player score and emit score updates
    */
-  private playerGoodAnswer(player: Player, rank: number): void {
+  private playerGoodAnswer(player: Player, rank: number, elapsedTime: number): void {
     const scoreDetail: EmitScoreDetails = player.performsValidAnswer(
       rank,
       this.roundsCounter,
-      this.quizAnswerTimer.getElapsedTime(),
+      elapsedTime,
     );
     this.sortPlayers();
     this.updatePlayersPosition();
@@ -276,7 +277,7 @@ export default class Quiz extends Room {
     if (this.status === RoomStatus.Waiting && this.players.length >= 1) {
       this.eventEmitter.emit(EmitterEvents.Start);
     }
-    socket.on(GameEvent.Guess, (guess) => this.playerGuess(socket.id, guess));
+    socket.on(GameEvent.Guess, (guess) => this.playerGuess(socket, guess));
   }
 
   /**
@@ -347,16 +348,30 @@ export default class Quiz extends Room {
   /**
    * Handle sockets guesses
    */
-  private playerGuess(id: string, guess: string): void {
-    const player = this.getPlayer(id);
+  private async playerGuess(socket: Socket, guess: string): Promise<void> {
+    const player = this.getPlayer(socket.id);
     if (!this.canPerformGuess(player, guess)) {
       return;
     }
     const result = stringSimilarity.findBestMatch(guess, this.currentAnswers);
+    const elapsedTime = this.quizAnswerTimer.getElapsedTime();
     if (result.bestMatch.rating >= 0.8) {
       // correct answer
-      this.currentNumberOfValidAnswers++;
-      this.playerGoodAnswer(player!, this.currentNumberOfValidAnswers);
+      if (elapsedTime < 0.7) {
+        // cheat
+        if (player?.dbId) {
+          await User.updateOrCreate(
+            {
+              id: player.dbId,
+            },
+            { ban: true, banReason: 'Ban automatique: réponse < 0.7s' },
+          );
+        }
+        socket.disconnect();
+      } else {
+        this.currentNumberOfValidAnswers++;
+        this.playerGoodAnswer(player!, this.currentNumberOfValidAnswers, elapsedTime);
+      }
     } else {
       // bad answer
       this.playerWrongAnswer(player!);
