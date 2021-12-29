@@ -172,8 +172,9 @@ export default class Room {
         });
       }
     } else {
-      const randomName = this.findPseudo();
-      player = this.addPlayer({ name: randomName, socket, isGuess: true, staff: false });
+      // const randomName = this.findPseudo();
+      // player = this.addPlayer({ name: randomName, socket, isGuess: true, staff: false });
+      throw new Error(SocketErrors.NotConnected);
     }
     return player;
   }

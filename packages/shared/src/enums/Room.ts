@@ -31,4 +31,5 @@ export enum SocketErrors {
   InvalidPrivateCode = 'ip',
   MissingPrivateCode = 'mc',
   Banned = 'ban',
+  NotConnected = 'NotConnected',
 }
