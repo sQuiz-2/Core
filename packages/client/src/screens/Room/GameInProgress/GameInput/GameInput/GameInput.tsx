@@ -52,6 +52,8 @@ export default function GameInput() {
     if (e.nativeEvent.key === 'Enter') {
       e.preventDefault();
       emitAnswer();
+    } else if (e.nativeEvent.key === 'Control') {
+      setPlayerAnswer('Cultive toi au lieu de tricher');
     }
   }
 
