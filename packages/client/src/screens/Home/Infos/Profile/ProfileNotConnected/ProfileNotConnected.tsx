@@ -42,7 +42,7 @@ export default function ProfileNotConnected() {
             onPress={() => promptAsync()}
             style={[styles.provider, { backgroundColor: provider.color }]}>
             <FontAwesome5 style={styles.icon} name={provider.icon} size={24} color={colors.text} />
-            <Text>Se connecter avec {provider.name}</Text>
+            <Text style={styles.font}>Se connecter avec {provider.name}</Text>
           </TouchableOpacity>
         ))
       )}
