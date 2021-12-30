@@ -357,7 +357,7 @@ export default class Quiz extends Room {
     const elapsedTime = this.quizAnswerTimer.getElapsedTime();
     if (result.bestMatch.rating >= 0.8) {
       // correct answer
-      if (elapsedTime < 0.7) {
+      if (elapsedTime < 700) {
         // cheat
         if (player?.dbId) {
           await User.updateOrCreate(
