@@ -34,6 +34,11 @@ const SECOND = 1000;
 
 export default class Quiz extends Room {
   /**
+   * Minimum allowed elapsed time (in ms)
+   */
+  private static minElapsedTime: number = 0.7 * SECOND;
+
+  /**
    * Used for the interval between each rounds
    */
   roundTimer: NodeJS.Timeout | null = null;
@@ -357,7 +362,7 @@ export default class Quiz extends Room {
     const elapsedTime = this.quizAnswerTimer.getElapsedTime();
     if (result.bestMatch.rating >= 0.8) {
       // correct answer
-      if (elapsedTime < 700) {
+      if (elapsedTime < Quiz.minElapsedTime) {
         // cheat
         if (player?.dbId) {
           await User.updateOrCreate(
