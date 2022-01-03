@@ -391,7 +391,7 @@ export default class Quiz extends Room {
     this.roundsCounter = 0;
     let newRounds: Round[];
     if (this.difficulty.id === DifficultyEnum.Beginner) {
-      const unknownRounds = await this.roundFetcher.getRounds(DifficultyEnum.Unknown, 5);
+      const unknownRounds = await this.roundFetcher.getRounds(DifficultyEnum.Unknown, 2);
       const beginnerRounds = await this.roundFetcher.getRounds(
         this.difficulty.id,
         15 - unknownRounds.length,

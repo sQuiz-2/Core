@@ -32,7 +32,7 @@ export default class RoundsController {
     const { answers, ...roundData } = await request.validate(RoundValidator);
     const round = await Round.create({
       ...roundData,
-      validated: false,
+      validated: true,
     });
     const createdAnswers = await round.related('answers').createMany(answers);
     return { round, createdAnswers };
