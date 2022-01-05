@@ -1,0 +1,27 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: >-
+  squiz-sort-rounds
+
+Transform:
+  - AWS::Serverless-2016-10-31
+
+Parameters:
+  token:
+    Type: String
+
+Resources:
+  ScheduledSortRounds:
+    Type: AWS::Serverless::Function
+    Properties:
+      Runtime: nodejs14.x
+      Handler: build/src/handlers/ScheduledSortRounds.scheduledSortRoundsHandler
+      Events:
+        CloudWatchEvent:
+          Type: Schedule
+          Properties:
+            Schedule: rate(10 minutes)
+      MemorySize: 128
+      Timeout: 100
+      Environment:
+        Variables:
+          TOKEN: !Ref token
