@@ -1,5 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import Database from '@ioc:Adonis/Lucid/Database';
+import { DifficultyEnum } from '@squiz/shared';
 import Report from 'App/Models/Report';
 import Round from 'App/Models/Round';
 import FetchRoundValidator from 'App/Validators/FetchRoundValidator';
@@ -76,6 +77,25 @@ export default class RoundsController {
         query.select('roundId', 'answer');
       })
       .select('id', 'question', 'themeId', 'difficultyId', 'maxNumberOfGuesses');
+  }
+
+  // Sort rounds with an undefined difficulty
+  public async sortDifficulty() {
+    await Round.query()
+      .where('difficulty_id', DifficultyEnum.Unknown)
+      .andWhereRaw('incorrect_answers + correct_answers > 6')
+      .andWhereRaw('(correct_answers::decimal / (incorrect_answers + correct_answers)) >= 0.5')
+      .update({ difficulty_id: DifficultyEnum.Beginner });
+    await Round.query()
+      .where('difficulty_id', DifficultyEnum.Unknown)
+      .andWhereRaw('incorrect_answers + correct_answers > 6')
+      .andWhereRaw('(correct_answers::decimal / (incorrect_answers + correct_answers)) > 0.2')
+      .update({ difficulty_id: DifficultyEnum.Intermediate });
+    await Round.query()
+      .where('difficulty_id', DifficultyEnum.Unknown)
+      .andWhereRaw('incorrect_answers + correct_answers > 6')
+      .andWhereRaw('(correct_answers::decimal / (incorrect_answers + correct_answers)) <= 0.2')
+      .update({ difficulty_id: DifficultyEnum.Expert });
   }
 
   public async report({ params, auth, request }: HttpContextContract) {
