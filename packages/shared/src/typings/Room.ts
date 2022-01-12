@@ -34,6 +34,7 @@ export type TopTimeAnswer = {
   name: string;
   position: number;
   avatar: string;
+  badge: string;
   score: string;
 };
 
@@ -57,6 +58,7 @@ export type Player = {
   rank: number;
   position: number;
   avatar?: string;
+  badge?: string;
   dbId?: number;
 };
 

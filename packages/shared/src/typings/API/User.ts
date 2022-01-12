@@ -6,6 +6,9 @@ export type GetUsers = {
 export type MeBasic = {
   experience: number;
   avatar: string;
+  badge: string;
+  twitchId: string | undefined;
+  twitchToken: string | undefined;
   gameStats: {
     difficultyId: number;
     id: number;

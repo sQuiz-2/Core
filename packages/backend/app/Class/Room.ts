@@ -169,6 +169,7 @@ export default class Room {
           staff: user.staff,
           dbId: user.id,
           avatar: user.avatar,
+          badge: user.badge,
         });
       }
     } else {
@@ -264,6 +265,7 @@ export default class Room {
     staff,
     dbId,
     avatar,
+    badge,
   }: {
     name: string;
     socket: Socket;
@@ -271,6 +273,7 @@ export default class Room {
     staff: boolean;
     dbId?: number;
     avatar?: string;
+    badge?: string;
   }): Player {
     /**
      * Easy way to compute a new player position without any iteration on the player's array
@@ -284,7 +287,16 @@ export default class Room {
     /**
      * Add the new player in the player's array
      */
-    const newPlayer = new Player({ name, id: socket.id, isGuess, position, staff, dbId, avatar });
+    const newPlayer = new Player({
+      name,
+      id: socket.id,
+      isGuess,
+      position,
+      staff,
+      dbId,
+      avatar,
+      badge,
+    });
     this.players.push(newPlayer);
     if (this.players.length >= this.maxPlayers) {
       this.isFull = true;
@@ -376,13 +388,14 @@ export default class Room {
   public getScoreboard(): EmitScoreboard {
     return this.players
       .slice(0, 20)
-      .map(({ id, name, score, currentRank, position, avatar, dbId }) => ({
+      .map(({ id, name, score, currentRank, position, avatar, badge, dbId }) => ({
         id,
         name,
         score,
         rank: currentRank,
         position,
         avatar,
+        badge,
         dbId,
       }));
   }
@@ -405,13 +418,14 @@ export default class Room {
 
   public emitCompleteScoreboard(): void {
     const scoreboard: EmitScoreboard = this.players.map(
-      ({ id, name, score, currentRank, position, avatar, dbId }) => ({
+      ({ id, name, score, currentRank, position, avatar, badge, dbId }) => ({
         id,
         name,
         score,
         rank: currentRank,
         position,
         avatar,
+        badge,
         dbId,
       }),
     );
