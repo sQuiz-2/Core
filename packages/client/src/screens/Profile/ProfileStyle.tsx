@@ -7,15 +7,16 @@ export default function useProfileStyle() {
 
   return StyleSheet.create({
     container: {
-      paddingTop: 40,
       alignItems: 'center',
     },
     containerAvatar: {
+      paddingTop: 40,
       width: responsive(screenWidth, '90%', '80%', '70%'),
       maxWidth: 1300,
     },
     disconnectContainer: {
       marginTop: 40,
+      marginBottom: 40,
     },
   });
 }

@@ -1,14 +1,17 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import Database from '@ioc:Adonis/Lucid/Database';
-import { Avatars, computeLevel, MeBasic } from '@squiz/shared';
+import { Avatars, badgeNames, badges, computeLevel, MeBasic, ProviderEnum } from '@squiz/shared';
 import RoomPool from 'App/Class/RoomPool';
 import GameStat from 'App/Models/GameStat';
 import RoundStat from 'App/Models/RoundStat';
 import User from 'App/Models/User';
+import { refreshToken } from 'App/Utils/oAuth/Twitch';
 import AdminValidator from 'App/Validators/AdminValidator';
 import FetchUsersValidator from 'App/Validators/FetchUsers';
 import UserBanValidator from 'App/Validators/UserBanValidator';
 import UserValidator from 'App/Validators/UserValidator';
+import { twitchClientId } from 'Config/auth';
+import got from 'got/dist/source';
 
 export default class UsersController {
   public async index({ request }: HttpContextContract) {
@@ -59,11 +62,18 @@ export default class UsersController {
     if (!auth.user) return;
     const gameStats = await GameStat.query().where('user_id', auth.user.id);
     const roundStats = await RoundStat.query().where('user_id', auth.user.id);
+    await auth.user.preload('oAuthToken');
+    const twitchInfos = auth.user.oAuthToken.find(
+      ({ providerId }) => providerId === ProviderEnum.Twitch,
+    );
     const meBasic: MeBasic = {
       experience: auth.user.experience,
       avatar: auth.user.avatar as keyof typeof Avatars,
       gameStats,
       roundStats,
+      badge: auth.user.badge,
+      twitchId: twitchInfos?.providerUserId,
+      twitchToken: twitchInfos?.token,
     };
     return meBasic;
   }
@@ -101,15 +111,62 @@ export default class UsersController {
 
   public async editMe({ auth, request, response }: HttpContextContract) {
     const data = await request.validate(UserValidator);
-    const avatarRequiredLevel = Avatars[data.avatar];
-    if (
-      isNaN(avatarRequiredLevel) ||
-      avatarRequiredLevel > computeLevel(auth.user!.experience).level
-    ) {
-      return response.status(403);
+    if (data.avatar) {
+      // Check if the user as the required level
+      const avatarRequiredLevel = Avatars[data.avatar];
+      if (
+        isNaN(avatarRequiredLevel) ||
+        avatarRequiredLevel > computeLevel(auth.user!.experience).level
+      ) {
+        return response.status(403);
+      }
+      auth.user!.avatar = data.avatar;
     }
-    auth.user!.avatar = data.avatar;
+    if (data.badge && data.badge !== badgeNames.Default) {
+      // Check if the user is sub
+      const badgeInfos = badges.find((badge) => badge.name === data.badge);
+      await auth.user?.preload('oAuthToken');
+      const twitchInfos = auth.user?.oAuthToken.find(
+        ({ providerId }) => providerId === ProviderEnum.Twitch,
+      );
+      if (!twitchInfos || !badgeInfos) return response.status(403);
+      try {
+        await got(
+          `https://api.twitch.tv/helix/subscriptions/user?broadcaster_id=${badgeInfos.broadcasterId}&user_id=${twitchInfos.providerUserId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${twitchInfos.token}`,
+              'content-type': 'application/json',
+              'Client-id': twitchClientId,
+            },
+          },
+        );
+      } catch (ex) {
+        return response.status(403);
+      }
+      auth.user!.badge = data.badge;
+    } else if (data.badge && data.badge === badgeNames.Default) {
+      auth.user!.badge = data.badge;
+    }
     return auth.user?.save();
+  }
+
+  public async refreshTwitchToken({ auth, response }: HttpContextContract) {
+    await auth.user!.preload('oAuthToken');
+    const twitchInfos = auth.user?.oAuthToken.find(
+      ({ providerId }) => providerId === ProviderEnum.Twitch,
+    );
+    if (!twitchInfos) return response.status(401);
+    const { refreshToken: token } = twitchInfos;
+    try {
+      const newTokens = await refreshToken(token);
+      twitchInfos.refreshToken = newTokens.refresh_token;
+      twitchInfos.token = newTokens.access_token;
+      await twitchInfos.save();
+      return { token: newTokens.access_token };
+    } catch (error) {
+      return response.status(401);
+    }
   }
 
   public async ban({ params, request, response }: HttpContextContract) {

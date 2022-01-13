@@ -160,8 +160,9 @@ export default class Quiz extends Room {
       .filter(
         ({ currentRank }) => currentRank > GameRank.NotAnswered && currentRank <= GameRank.Third,
       )
-      .map(({ avatar, name, timeToAnswer, id, currentRank }) => ({
+      .map(({ avatar, badge, name, timeToAnswer, id, currentRank }) => ({
         avatar,
+        badge,
         name,
         score: timeToAnswer + 's',
         id,
@@ -186,6 +187,7 @@ export default class Quiz extends Room {
           position: player.position,
           ranks: player.ranks,
           avatar: player.avatar,
+          badge: player.badge,
         };
         this.emitToSocket(RoomEvent.PlayerScore, infos, player.id);
       }

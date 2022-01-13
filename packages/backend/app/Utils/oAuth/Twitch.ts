@@ -118,4 +118,15 @@ class Twitch {
   }
 }
 
+export async function refreshToken(refreshToken: string) {
+  const newToken = await got.post<ResponseToken>(
+    `https://id.twitch.tv/oauth2/token?grant_type=refresh_token&refresh_token=${refreshToken}&client_id=${twitchClientId}&client_secret=${twitchClientSecret}`,
+    {
+      responseType: 'json',
+    },
+  );
+  const { access_token, refresh_token } = newToken.body;
+  return { access_token, refresh_token };
+}
+
 export default Twitch;

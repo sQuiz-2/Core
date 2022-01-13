@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   avatar: {
     width: 26,
     height: 26,
-    marginLeft: 10,
+    marginLeft: 5,
     marginRight: 5,
   },
   medal: {
