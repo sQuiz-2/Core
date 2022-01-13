@@ -82,13 +82,8 @@ export default function FAQ() {
           Je me suis fait bannir, comment faire pour être déban ?
         </Text>
         <Text fontSize="lg">
-          Merci de faire votre demande déban sur {' '}
-          <Pressable
-            onPress={() =>
-              openLink(
-                'https://forms.gle/gwXjh4T6otpRmM6GA'
-              )
-            }>
+          Merci de faire votre demande déban sur{' '}
+          <Pressable onPress={() => openLink('https://forms.gle/gwXjh4T6otpRmM6GA')}>
             <Text fontSize="lg" style={{ color: colors.notification }}>
               ce formulaire
             </Text>

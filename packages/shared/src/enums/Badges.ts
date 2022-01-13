@@ -1,5 +1,5 @@
 export const badgeNames = {
-  Default: 'default',
+  Default: 'Default',
   Xari: 'Xari',
   // Domingo: 'Domingo',
 };
