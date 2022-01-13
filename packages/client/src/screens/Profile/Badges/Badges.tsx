@@ -21,7 +21,7 @@ export default function Avatars() {
       { method: 'get' }
     );
     try {
-      await fetch(request, {
+      const res = await fetch(request, {
         //@ts-ignore
         headers: {
           Authorization: `Bearer ${userBasicInfos?.twitchToken}`,
@@ -29,6 +29,7 @@ export default function Avatars() {
           'Client-id': process.env.TWITCH_CLIENT_ID,
         },
       });
+      if (res.status !== 200) throw new Error('Expired token');
       return true;
     } catch (ex) {
       return false;
@@ -72,7 +73,7 @@ export default function Avatars() {
               selected={userBasicInfos.badge === key}
               image={value}
               name={key}
-              lock={!!subList.find(({ badgeName, isSub }) => badgeName === key && isSub)}
+              lock={!subList.find(({ badgeName, isSub }) => badgeName === key && isSub)}
               lockText=""
             />
           </View>
