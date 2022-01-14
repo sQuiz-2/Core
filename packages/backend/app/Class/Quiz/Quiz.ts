@@ -36,7 +36,7 @@ export default class Quiz extends Room {
   /**
    * Minimum allowed elapsed time (in ms)
    */
-  private static minElapsedTime: number = 0.7 * SECOND;
+  private static minElapsedTime: number = 0.475 * SECOND;
 
   /**
    * Used for the interval between each rounds
@@ -371,7 +371,7 @@ export default class Quiz extends Room {
             {
               id: player.dbId,
             },
-            { ban: true, banReason: 'Ban automatique: réponse < 0.7s' },
+            { ban: true, banReason: 'Ban automatique: réponse < 0.475s' },
           );
         }
         socket.disconnect();
