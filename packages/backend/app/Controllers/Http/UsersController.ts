@@ -1,6 +1,16 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import Database from '@ioc:Adonis/Lucid/Database';
-import { Avatars, badgeNames, badges, computeLevel, MeBasic, ProviderEnum } from '@squiz/shared';
+import {
+  Avatars,
+  badgeNames,
+  badges,
+  badgesSpecial,
+  computeLevel,
+  isAllowedSpecialBadge,
+  MeBasic,
+  ProviderEnum,
+  Ranks,
+} from '@squiz/shared';
 import RoomPool from 'App/Class/RoomPool';
 import GameStat from 'App/Models/GameStat';
 import RoundStat from 'App/Models/RoundStat';
@@ -74,6 +84,8 @@ export default class UsersController {
       badge: auth.user.badge,
       twitchId: twitchInfos?.providerUserId,
       twitchToken: twitchInfos?.token,
+      createdDate: (auth.user.createdAt as unknown) as string,
+      rank: auth.user.rank as Ranks,
     };
     return meBasic;
   }
@@ -122,7 +134,18 @@ export default class UsersController {
       }
       auth.user!.avatar = data.avatar;
     }
-    if (data.badge && data.badge !== badgeNames.Default) {
+    if (data.badge && badgesSpecial.find((badge) => badge.name === data.badge)) {
+      // Special badges
+      const { createdAt, rank } = auth.user!;
+      const isAllowed = isAllowedSpecialBadge(data.badge as keyof typeof badgeNames, {
+        createdDate: createdAt.toJSON(),
+        rank: rank as Ranks,
+      });
+      if (isAllowed) {
+        auth.user!.badge = data.badge;
+      }
+    } else if (data.badge && data.badge !== badgeNames.Default) {
+      // Subs badges
       // Check if the user is sub
       const badgeInfos = badges.find((badge) => badge.name === data.badge);
       await auth.user?.preload('oAuthToken');
@@ -146,6 +169,7 @@ export default class UsersController {
       }
       auth.user!.badge = data.badge;
     } else if (data.badge && data.badge === badgeNames.Default) {
+      // Default badge
       auth.user!.badge = data.badge;
     }
     return auth.user?.save();
