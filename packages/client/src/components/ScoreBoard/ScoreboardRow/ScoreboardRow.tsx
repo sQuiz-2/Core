@@ -1,6 +1,6 @@
 import { DisplayPlayer } from '@Src/global/playerInfoState';
 import avatars from '@Src/utils/loadAvatars';
-import badges from '@Src/utils/loadBadges';
+import { badges } from '@Src/utils/loadBadges';
 import { getMedalWithRank } from '@Src/utils/medals';
 import { GameRank, TopTimeAnswer } from '@squiz/shared';
 import React from 'react';
@@ -34,7 +34,11 @@ export default function PlayerRow({
         </View>
 
         <Image source={avatars[player.avatar as keyof typeof avatars]} style={styles.avatar} />
-        <Image source={badges[player.badge as keyof typeof badges]} style={styles.avatar} />
+        <Image
+          source={badges[player.badge as keyof typeof badges]}
+          ref={(component) => component?.setNativeProps({ title: player.badge })}
+          style={styles.avatar}
+        />
         <Text fontSize="lg" style={textStyle}>
           {player.name.length > 14 ? player.name.substring(0, 14) + '...' : player.name}
         </Text>

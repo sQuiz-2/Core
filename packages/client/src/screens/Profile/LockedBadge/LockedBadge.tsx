@@ -1,6 +1,6 @@
 import Text from '@Src/components/Text';
 import { useTheme } from '@react-navigation/native';
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { View, Image, Pressable } from 'react-native';
 
 import styles from './LockedBadgeStyle';
@@ -24,7 +24,9 @@ export default function LockedBadge({
 
   if (lock) {
     return (
-      <View style={styles.containerStyle}>
+      <View
+        ref={(component) => component?.setNativeProps({ title: name })}
+        style={styles.containerStyle}>
         <Image source={image} style={[styles.pictureWidth, styles.pictureGray]} />
         <Image
           source={image}
@@ -45,7 +47,11 @@ export default function LockedBadge({
           backgroundColor: selected ? colors.notification : 'none',
         },
       ]}>
-      <Image source={image} style={styles.pictureWidth} />
+      <Image
+        ref={(component) => component?.setNativeProps({ title: name })}
+        source={image}
+        style={styles.pictureWidth}
+      />
     </Pressable>
   );
 }

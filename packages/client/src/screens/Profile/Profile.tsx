@@ -18,7 +18,7 @@ export default function Profile() {
         </TitleCard>
       </View>
       <View style={styles.containerAvatar}>
-        <TitleCard title="BADGES">
+        <TitleCard title="BADGE">
           <Badges />
         </TitleCard>
       </View>

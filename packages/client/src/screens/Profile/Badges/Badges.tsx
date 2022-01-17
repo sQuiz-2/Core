@@ -1,8 +1,14 @@
+import Text from '@Src/components/Text';
 import userBasicInfoState from '@Src/global/userBasicInfos';
 import userState from '@Src/global/userState';
-import badges from '@Src/utils/loadBadges';
+import badgesTwitch, { badgesSpecial } from '@Src/utils/loadBadges';
 import { get, put } from '@Src/utils/wrappedFetch';
-import { badgeNames, badges as badgesList } from '@squiz/shared';
+import {
+  badgeNames,
+  badges as badgesList,
+  badgesSpecial as badgesSpecialList,
+  isAllowedSpecialBadge,
+} from '@squiz/shared';
 import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -10,14 +16,12 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import LockedBadge from '../LockedBadge/LockedBadge';
 import styles from './BadgeStyle';
 
-const expiredToken = 'Expired token';
-
 export default function Avatars() {
   const [userBasicInfos, setUserBasicInfos] = useRecoilState(userBasicInfoState);
   const user = useRecoilValue(userState);
   const [subList, setSubList] = useState<{ badgeName: string; isSub: boolean }[]>([]);
 
-  async function fetchFromTwitch(broadcasterId: string) {
+  async function fetchFromTwitch(broadcasterId: string, userToken: string) {
     const request = new Request(
       `https://api.twitch.tv/helix/subscriptions/user?broadcaster_id=${broadcasterId}&user_id=${userBasicInfos?.twitchId}`,
       { method: 'get' }
@@ -31,7 +35,16 @@ export default function Avatars() {
           'Client-id': process.env.TWITCH_CLIENT_ID,
         },
       });
-      if (res.status !== 200) throw new Error(expiredToken);
+      if (res.status === 401) {
+        // The twitch token can be expired so wev try again with a new token
+        const newToken = await get<{ token: string }>({
+          path: 'refresh-twitch-token',
+          token: userToken,
+        });
+        if (!newToken) return false;
+        setUserBasicInfos({ ...userBasicInfos!, twitchToken: newToken.token });
+        return false;
+      } else if (res.status !== 200) throw new Error();
       return true;
     } catch (ex) {
       return false;
@@ -43,20 +56,7 @@ export default function Avatars() {
     const subs = [];
     for (const i in badgesList) {
       const { broadcasterId, name } = badgesList[i];
-      let isSub: boolean = false;
-      try {
-        isSub = await fetchFromTwitch(broadcasterId);
-      } catch (error: any) {
-        // The twitch token can be expired so wev try again with a new token
-        if (error.message === expiredToken) {
-          const newToken = await get<{ token: string }>({
-            path: 'refresh-twitch-token',
-            token: user.token,
-          });
-          if (!newToken) return;
-          setUserBasicInfos({ ...userBasicInfos, twitchToken: newToken.token });
-        }
-      }
+      const isSub = await fetchFromTwitch(broadcasterId, user.token);
       // If the user is not sub anymore but still have the badge
       if (isSub === false && userBasicInfos.badge === name) {
         put({ path: 'me-edit', token: user.token, body: { badge: badgeNames.Default } });
@@ -84,22 +84,60 @@ export default function Avatars() {
 
   if (!userBasicInfos) return null;
 
+  // If the user is not in the staff we only display basic special badges
+  const allowedBadges = Object.entries(badgesSpecial).filter(([key]) => {
+    const isStaffBadge = badgesSpecialList.find(({ name }) => name === key)?.staff;
+    if (isStaffBadge && userBasicInfos.rank !== 'Player') {
+      return true;
+    }
+    return false;
+  });
+
   return (
-    <View style={styles.container}>
-      {Object.entries(badges).map(([key, value]) => {
-        return (
-          <View key={key}>
-            <LockedBadge
-              onPress={onPress}
-              selected={userBasicInfos.badge === key}
-              image={value}
-              name={key}
-              lock={!subList.find(({ badgeName, isSub }) => badgeName === key && isSub)}
-              lockText=""
-            />
+    <>
+      <Text fontSize="md">TWITCH</Text>
+      <View style={styles.container}>
+        {Object.entries(badgesTwitch).map(([key, value]) => {
+          return (
+            <View key={key}>
+              <LockedBadge
+                onPress={onPress}
+                selected={userBasicInfos.badge === key}
+                image={value}
+                name={key}
+                lock={!subList.find(({ badgeName, isSub }) => badgeName === key && isSub)}
+                lockText=""
+              />
+            </View>
+          );
+        })}
+      </View>
+      {allowedBadges.length > 0 && (
+        <>
+          <Text fontSize="md">SPÉCIAUX</Text>
+          <View style={styles.container}>
+            {allowedBadges.map(([key, value]) => {
+              return (
+                <View key={key}>
+                  <LockedBadge
+                    onPress={onPress}
+                    selected={userBasicInfos.badge === key}
+                    image={value}
+                    name={key}
+                    lock={
+                      !isAllowedSpecialBadge(key as keyof typeof badgeNames, {
+                        createdDate: userBasicInfos.createdDate,
+                        rank: userBasicInfos.rank,
+                      })
+                    }
+                    lockText=""
+                  />
+                </View>
+              );
+            })}
           </View>
-        );
-      })}
-    </View>
+        </>
+      )}
+    </>
   );
 }
