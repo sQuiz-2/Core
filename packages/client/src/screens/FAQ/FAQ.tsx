@@ -78,6 +78,27 @@ export default function FAQ() {
           Pour éviter les abus, il faut un minimum de 5 personnes pour que de l'expérience soit
           acquise sur une partie.
         </Text>
+        <Text fontSize="xl" style={styles.question}>
+          Je me suis fait bannir, comment faire pour être déban ?
+        </Text>
+        <Text fontSize="lg">
+          Merci de faire votre demande déban sur{' '}
+          <Pressable onPress={() => openLink('https://forms.gle/gwXjh4T6otpRmM6GA')}>
+            <Text fontSize="lg" style={{ color: colors.notification }}>
+              ce formulaire
+            </Text>
+          </Pressable>
+          .
+        </Text>
+        <Text fontSize="xl" style={styles.question}>
+          Pour toutes autres questions, merci de nous contacter via 
+          <Pressable onPress={() => openLink('https://discord.gg/3jyvnKuP6a')}>
+            <Text fontSize="lg" style={{ color: colors.notification }}>
+              Discord
+            </Text>
+          </Pressable>
+          ou sur notre adresse mail: support@squiz.gg
+        </Text>
       </View>
     </ResponsiveContainer>
   );

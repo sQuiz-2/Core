@@ -13,7 +13,13 @@ export default function PlayerInfos() {
   if (!player) return null;
   return (
     <View>
-      <ScoreboardRow player={{ ...player, avatar: userBasicInfos?.avatar || '0' }} />
+      <ScoreboardRow
+        player={{
+          ...player,
+          avatar: userBasicInfos?.avatar || '0',
+          badge: userBasicInfos?.badge || '0',
+        }}
+      />
     </View>
   );
 }

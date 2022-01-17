@@ -1,0 +1,9 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "squiz-sort-rounds"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-1nll8gvfo8gtf"
+s3_prefix = "squiz-sort-rounds"
+region = "eu-west-3"
+capabilities = "CAPABILITY_IAM"

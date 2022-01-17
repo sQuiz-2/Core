@@ -1,11 +1,12 @@
 import Redis from '@ioc:Adonis/Addons/Redis';
 import { RoomEvent, SocketErrors } from '@squiz/shared';
+import User from 'App/Models/User';
 import Ws from 'App/Services/Ws';
 import { Socket } from 'socket.io';
 
 import RoomPool from './RoomPool';
 
-const MAX_CONNECTION = 120;
+const MAX_CONNECTION = 130;
 
 class Home {
   socket: SocketIO.Server;
@@ -24,17 +25,32 @@ class Home {
    */
   streamers: string[] = [];
 
+  /**
+   * Pseudo of all admins
+   */
+  admins: string[] = [];
+
   constructor() {
     Ws.start(this.connection.bind(this));
     this.socket = Ws.io;
     Redis.subscribe('squizStreams', this.updateStreamers.bind(this));
+    this.fetchAdmins();
+  }
+
+  /**
+   * Fetch admins
+   */
+  private async fetchAdmins(): Promise<void> {
+    const admins = await User.query().where('staff', true).select('username');
+    admins.forEach(({ username }) => this.admins.push(username));
   }
 
   /**
    * Check if the socket can be connected
    */
-  private preConnection(): void {
-    if (this.connectedCounter >= MAX_CONNECTION) {
+  private preConnection(socket: Socket): void {
+    const pseudo = socket.handshake?.query?.pseudo;
+    if (this.connectedCounter >= MAX_CONNECTION && !this.admins.includes(pseudo)) {
       throw new Error(SocketErrors.ServerFull);
     }
   }
@@ -44,7 +60,7 @@ class Home {
    */
   private connection(socket: Socket): void {
     try {
-      this.preConnection();
+      this.preConnection(socket);
     } catch (error) {
       socket.emit(RoomEvent.CustomError, error.message);
       socket.disconnect(true);

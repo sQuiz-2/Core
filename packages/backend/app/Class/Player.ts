@@ -8,6 +8,7 @@ type Props = {
   staff: boolean;
   dbId?: number;
   avatar?: string;
+  badge?: string;
 };
 
 export default class Player {
@@ -86,10 +87,8 @@ export default class Player {
    */
   experience: number = 0;
 
-  /**
-   * Current game experience
-   */
   avatar: string = '0';
+  badge: string = '0';
 
   /**
    * If the player answer correctly we save the time between his answer and when the question was emit
@@ -104,6 +103,7 @@ export default class Player {
     this.staff = props.staff;
     this.dbId = props.dbId;
     this.avatar = props.avatar || '0';
+    this.badge = props.badge || '0';
   }
 
   /**

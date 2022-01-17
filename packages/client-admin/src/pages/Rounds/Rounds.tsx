@@ -7,6 +7,7 @@ import useRemoveRow from 'src/hooks/useRemoveRow';
 import useUpdateRow from 'src/hooks/useUpdateRow';
 
 import CreateRound from './Create/CreateRound';
+import TestAnswer from './Create/TestAnswer';
 import useGameColumn from './useRoundColumn';
 
 export default function Rounds() {
@@ -112,6 +113,7 @@ export default function Rounds() {
         maxPage={maxPage}
       />
       <CreateRound />
+      <TestAnswer />
     </>
   );
 }

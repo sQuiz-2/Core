@@ -25,6 +25,8 @@ function getErrorMessage(error: string) {
       return "🤖 Le code utilisé pour rejoindre cette partie est invalide ! Pour la rejoindre utilise la fonction 'Rejoindre une partie' dans le menu 'Parties persos'";
     case SocketErrors.Banned:
       return '🤕 Votre compte est banni';
+    case SocketErrors.NotConnected:
+      return '🕵️‍♂️ Vous devez être connecté !';
     default:
       return '💥 Une erreur est survenue !';
   }

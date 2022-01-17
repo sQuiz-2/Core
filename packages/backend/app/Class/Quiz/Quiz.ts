@@ -14,6 +14,7 @@ import {
   TopTimeAnswer,
 } from '@squiz/shared';
 import Round from 'App/Models/Round';
+import User from 'App/Models/User';
 import { shuffle } from 'App/Utils/Array';
 import { Socket } from 'socket.io';
 import stringSimilarity from 'string-similarity';
@@ -32,6 +33,11 @@ export enum EmitterEvents {
 const SECOND = 1000;
 
 export default class Quiz extends Room {
+  /**
+   * Minimum allowed elapsed time (in ms)
+   */
+  private static minElapsedTime: number = 0.475 * SECOND;
+
   /**
    * Used for the interval between each rounds
    */
@@ -112,11 +118,11 @@ export default class Quiz extends Room {
   /**
    * Compute player score and emit score updates
    */
-  private playerGoodAnswer(player: Player, rank: number): void {
+  private playerGoodAnswer(player: Player, rank: number, elapsedTime: number): void {
     const scoreDetail: EmitScoreDetails = player.performsValidAnswer(
       rank,
       this.roundsCounter,
-      this.quizAnswerTimer.getElapsedTime(),
+      elapsedTime,
     );
     this.sortPlayers();
     this.updatePlayersPosition();
@@ -154,8 +160,9 @@ export default class Quiz extends Room {
       .filter(
         ({ currentRank }) => currentRank > GameRank.NotAnswered && currentRank <= GameRank.Third,
       )
-      .map(({ avatar, name, timeToAnswer, id, currentRank }) => ({
+      .map(({ avatar, badge, name, timeToAnswer, id, currentRank }) => ({
         avatar,
+        badge,
         name,
         score: timeToAnswer + 's',
         id,
@@ -180,6 +187,7 @@ export default class Quiz extends Room {
           position: player.position,
           ranks: player.ranks,
           avatar: player.avatar,
+          badge: player.badge,
         };
         this.emitToSocket(RoomEvent.PlayerScore, infos, player.id);
       }
@@ -276,7 +284,7 @@ export default class Quiz extends Room {
     if (this.status === RoomStatus.Waiting && this.players.length >= 1) {
       this.eventEmitter.emit(EmitterEvents.Start);
     }
-    socket.on(GameEvent.Guess, (guess) => this.playerGuess(socket.id, guess));
+    socket.on(GameEvent.Guess, (guess) => this.playerGuess(socket, guess));
   }
 
   /**
@@ -347,16 +355,30 @@ export default class Quiz extends Room {
   /**
    * Handle sockets guesses
    */
-  private playerGuess(id: string, guess: string): void {
-    const player = this.getPlayer(id);
+  private async playerGuess(socket: Socket, guess: string): Promise<void> {
+    const player = this.getPlayer(socket.id);
     if (!this.canPerformGuess(player, guess)) {
       return;
     }
     const result = stringSimilarity.findBestMatch(guess, this.currentAnswers);
+    const elapsedTime = this.quizAnswerTimer.getElapsedTime();
     if (result.bestMatch.rating >= 0.8) {
       // correct answer
-      this.currentNumberOfValidAnswers++;
-      this.playerGoodAnswer(player!, this.currentNumberOfValidAnswers);
+      if (elapsedTime < Quiz.minElapsedTime) {
+        // cheat
+        if (player?.dbId) {
+          await User.updateOrCreate(
+            {
+              id: player.dbId,
+            },
+            { ban: true, banReason: 'Ban automatique: réponse < 0.475s' },
+          );
+        }
+        socket.disconnect();
+      } else {
+        this.currentNumberOfValidAnswers++;
+        this.playerGoodAnswer(player!, this.currentNumberOfValidAnswers, elapsedTime);
+      }
     } else {
       // bad answer
       this.playerWrongAnswer(player!);
@@ -371,7 +393,7 @@ export default class Quiz extends Room {
     this.roundsCounter = 0;
     let newRounds: Round[];
     if (this.difficulty.id === DifficultyEnum.Beginner) {
-      const unknownRounds = await this.roundFetcher.getRounds(DifficultyEnum.Unknown, 5);
+      const unknownRounds = await this.roundFetcher.getRounds(DifficultyEnum.Unknown, 2);
       const beginnerRounds = await this.roundFetcher.getRounds(
         this.difficulty.id,
         15 - unknownRounds.length,
