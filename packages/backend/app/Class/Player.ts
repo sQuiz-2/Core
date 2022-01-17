@@ -87,6 +87,11 @@ export default class Player {
    */
   experience: number = 0;
 
+  /**
+   * The player tried to answer during this game ?
+   */
+  triedToAnswer: boolean = false;
+
   avatar: string = '0';
   badge: string = '0';
 
@@ -169,6 +174,7 @@ export default class Player {
     this.ranks = Array(15).fill(GameRank.RoundComing);
     this.position = 1;
     this.experience = 0;
+    this.triedToAnswer = false;
   }
 
   /**
@@ -305,6 +311,21 @@ export default class Player {
     const roundsStats = this.computeRoundsStats();
     const gameStats = this.gameStats();
     return { roundsStats, gameStats };
+  }
+
+  /**
+   * Check if the player was here during all the rounds
+   */
+  public afkAllTheGame(): boolean {
+    const rank = this.ranks.find((rank) => rank !== GameRank.NotAnswered);
+    return rank === undefined;
+  }
+
+  /**
+   * Didn't joined at the beginning
+   */
+  public joinedAtTheBeginning(): boolean {
+    return this.ranks[0] !== GameRank.RoundComing;
   }
 }
 
