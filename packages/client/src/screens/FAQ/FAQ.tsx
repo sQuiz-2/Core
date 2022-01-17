@@ -91,7 +91,7 @@ export default function FAQ() {
           .
         </Text>
         <Text fontSize="xl" style={styles.question}>
-          Pour toutes autres questions, merci de nous contacter via 
+          Pour toutes autres questions, merci de nous contacter via
           <Pressable onPress={() => openLink('https://discord.gg/3jyvnKuP6a')}>
             <Text fontSize="lg" style={{ color: colors.notification }}>
               Discord

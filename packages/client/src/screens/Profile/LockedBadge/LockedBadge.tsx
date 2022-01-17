@@ -1,6 +1,6 @@
 import Text from '@Src/components/Text';
 import { useTheme } from '@react-navigation/native';
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import { View, Image, Pressable } from 'react-native';
 
 import styles from './LockedBadgeStyle';
