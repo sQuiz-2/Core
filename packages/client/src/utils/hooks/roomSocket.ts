@@ -18,6 +18,7 @@ export default function useRoomSocket(route?: string) {
       reconnectionAttempts: 2,
       upgrade: false,
       transports: ['websocket'],
+      forceNew: true,
     });
     setRoomSocket(roomSocket);
     roomSocket.on(RoomEvent.CustomError, (err: string) => {

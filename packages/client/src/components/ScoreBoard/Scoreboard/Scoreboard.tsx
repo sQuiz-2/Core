@@ -32,10 +32,9 @@ export default function Scoreboard({ players, displayMedal = true }: Props) {
             displayMedal={displayMedal}
           />
         ) : (
-          <Pressable onPress={() => openPlayerModal(player.dbId as number)}>
+          <Pressable key={player.id} onPress={() => openPlayerModal(player.dbId as number)}>
             <ScoreboardRow
               player={player}
-              key={player.id}
               containerStyle={styles.row}
               displayMedal={displayMedal}
             />
