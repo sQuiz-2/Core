@@ -295,6 +295,7 @@ export default class Quiz extends Room {
     this.setStatus(RoomStatus.Ended);
     this.emitAllRounds();
     this.emitCompleteScoreboard();
+    this.removeAfkPlayers();
     if (this.checkForCheat) {
       this.quizExperience.computeAndSaveExperience(this.players);
       this.quizExperience.emitExperience(this.players);
@@ -305,6 +306,21 @@ export default class Quiz extends Room {
     }
     // Time before the next game
     this.endTimer = setTimeout(() => this.restartGame(), GameTime.End * SECOND);
+  }
+
+  /**
+   * remove all AFK players
+   */
+  private removeAfkPlayers(): void {
+    this.players = this.players.filter((player) => {
+      if (player.triedToAnswer === false) {
+        // If the player didn't played all the game we keep the player
+        const afkAllTheGame = player.afkAllTheGame();
+        this.nameSpace.sockets[player.id]?.disconnect();
+        return !afkAllTheGame;
+      }
+      return true;
+    });
   }
 
   /**
@@ -357,7 +373,7 @@ export default class Quiz extends Room {
    */
   private async playerGuess(socket: Socket, guess: string): Promise<void> {
     const player = this.getPlayer(socket.id);
-    if (!this.canPerformGuess(player, guess)) {
+    if (!this.canPerformGuess(player, guess) || !player) {
       return;
     }
     const result = stringSimilarity.findBestMatch(guess, this.currentAnswers);
@@ -382,6 +398,9 @@ export default class Quiz extends Room {
     } else {
       // bad answer
       this.playerWrongAnswer(player!);
+    }
+    if (!player.triedToAnswer) {
+      player.triedToAnswer = true;
     }
   }
 
