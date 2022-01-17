@@ -1,5 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
-import { GetGame } from '@squiz/shared';
+/* import { GetGame } from '@squiz/shared'; */
 import Game from 'App/Models/Game';
 import FetchGameValidator from 'App/Validators/FetchGameValidator';
 import GameValidator from 'App/Validators/GameValidator';
@@ -7,7 +7,7 @@ import GameValidator from 'App/Validators/GameValidator';
 export default class GamesController {
   public async index({ request }: HttpContextContract) {
     const { page = 1, limit = 10 } = await request.validate(FetchGameValidator);
-    const games: GetGame[] = await Game.query().orderBy('id', 'asc').paginate(page, limit);
+    const games = await Game.query().orderBy('id', 'asc').paginate(page, limit);
     return games;
   }
 

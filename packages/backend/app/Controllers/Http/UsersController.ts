@@ -72,7 +72,7 @@ export default class UsersController {
     if (!auth.user) return;
     const gameStats = await GameStat.query().where('user_id', auth.user.id);
     const roundStats = await RoundStat.query().where('user_id', auth.user.id);
-    await auth.user.preload('oAuthToken');
+    await auth.user.load('oAuthToken');
     const twitchInfos = auth.user.oAuthToken.find(
       ({ providerId }) => providerId === ProviderEnum.Twitch,
     );
@@ -148,7 +148,7 @@ export default class UsersController {
       // Subs badges
       // Check if the user is sub
       const badgeInfos = badges.find((badge) => badge.name === data.badge);
-      await auth.user?.preload('oAuthToken');
+      await auth.user?.load('oAuthToken');
       const twitchInfos = auth.user?.oAuthToken.find(
         ({ providerId }) => providerId === ProviderEnum.Twitch,
       );
@@ -176,7 +176,7 @@ export default class UsersController {
   }
 
   public async refreshTwitchToken({ auth, response }: HttpContextContract) {
-    await auth.user!.preload('oAuthToken');
+    await auth.user!.load('oAuthToken');
     const twitchInfos = auth.user?.oAuthToken.find(
       ({ providerId }) => providerId === ProviderEnum.Twitch,
     );
