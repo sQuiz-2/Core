@@ -46,6 +46,9 @@ export default class User extends BaseModel {
   @column()
   public providerUserId: string;
 
+  @column()
+  public rank: string;
+
   @hasMany(() => OauthToken)
   public oAuthToken: HasMany<typeof OauthToken>;
 

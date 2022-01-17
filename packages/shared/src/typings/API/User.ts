@@ -1,3 +1,5 @@
+import { Ranks } from '../..';
+
 export type GetUsers = {
   id: number;
   email: string;
@@ -9,6 +11,8 @@ export type MeBasic = {
   badge: string;
   twitchId: string | undefined;
   twitchToken: string | undefined;
+  createdDate: string;
+  rank: Ranks;
   gameStats: {
     difficultyId: number;
     id: number;

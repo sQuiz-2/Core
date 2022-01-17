@@ -2,7 +2,7 @@ import { Level } from '@Src/components/ExperienceBar';
 import userBasicInfoState from '@Src/global/userBasicInfos';
 import userState from '@Src/global/userState';
 import avatars from '@Src/utils/loadAvatars';
-import badges from '@Src/utils/loadBadges';
+import { badges } from '@Src/utils/loadBadges';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { useTheme, useNavigation } from '@react-navigation/native';
 import React from 'react';
@@ -40,6 +40,7 @@ export default function Profile() {
               {badges[userBasicInfos.badge as keyof typeof badges] && (
                 <Image
                   source={badges[userBasicInfos.badge as keyof typeof badges]}
+                  ref={(component) => component?.setNativeProps({ title: userBasicInfos.badge })}
                   style={styles.avatar}
                 />
               )}
