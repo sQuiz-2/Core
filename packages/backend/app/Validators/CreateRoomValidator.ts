@@ -6,7 +6,7 @@ export default class CreateRoomValidator {
 
   public schema = schema.create({
     antiCheat: schema.boolean(),
-    players: schema.number([rules.range(10, 250)]),
+    players: schema.number([rules.range(10, 200)]),
     selectedDifficulty: schema.string(),
   });
 
