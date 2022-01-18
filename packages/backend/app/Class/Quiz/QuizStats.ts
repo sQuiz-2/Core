@@ -50,7 +50,8 @@ class QuizStats {
 
   public computeAndSaveStats(players: Player[]): void {
     if (players.length < 5) return;
-    const playersStats = this.computeStats(players);
+    const playersWhoPlayedAllTheGame = players.filter((player) => player.joinedAtTheBeginning());
+    const playersStats = this.computeStats(playersWhoPlayedAllTheGame);
     this.savePlayersGameStats(playersStats);
     this.savePlayersRoundStats(playersStats);
   }
