@@ -318,8 +318,10 @@ export default class Quiz extends Room {
       if (player.triedToAnswer === false) {
         // If the player didn't played all the game we keep the player
         const afkAllTheGame = player.afkAllTheGame();
-        this.nameSpace.sockets[player.id]?.disconnect();
-        return !afkAllTheGame;
+        if (afkAllTheGame) {
+          this.nameSpace.sockets[player.id]?.disconnect();
+          return false;
+        }
       }
       return true;
     });

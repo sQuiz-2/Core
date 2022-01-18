@@ -68,7 +68,7 @@ export default class Room {
   /**
    * Max players allowed to play in this room
    */
-  maxPlayers: number = 100;
+  maxPlayers: number = 200;
 
   /**
    * If true we will check if the player change it's window focus
