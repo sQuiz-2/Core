@@ -13,6 +13,7 @@ import {
   Answer,
   TopTimeAnswer,
 } from '@squiz/shared';
+import { sortRoundsByDifficulty } from 'App/Controllers/Http/RoundsController';
 import Round from 'App/Models/Round';
 import User from 'App/Models/User';
 import { shuffle } from 'App/Utils/Array';
@@ -304,6 +305,7 @@ export default class Quiz extends Room {
     if (this.roundTimer) {
       clearInterval(this.roundTimer);
     }
+    sortRoundsByDifficulty();
     // Time before the next game
     this.endTimer = setTimeout(() => this.restartGame(), GameTime.End * SECOND);
   }
