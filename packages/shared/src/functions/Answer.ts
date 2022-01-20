@@ -14,6 +14,8 @@ export function normalizedValue(str: string): string {
   value = value.replace(/./g, ' ');
   // Remove colon
   value = value.replace(/:/g, ' ');
+  // Remove apostrophe
+  value = value.replace(/'/g, ' ');
   // Replace œ
   value = value.replace(/œ/g, 'oe');
   return value;
