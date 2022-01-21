@@ -291,16 +291,20 @@ export default class Quiz extends Room {
   /**
    * emit endGame infos and wait for restart
    */
-  private gameEnd(): void {
+  private async gameEnd(): Promise<void> {
     // End the room and reset everyone
     this.setStatus(RoomStatus.Ended);
     this.emitAllRounds();
     this.emitCompleteScoreboard();
     this.removeAfkPlayers();
     if (this.checkForCheat) {
-      this.quizExperience.computeAndSaveExperience(this.players);
-      this.quizExperience.emitExperience(this.players);
-      this.quizStats.computeAndSaveStats(this.players);
+      try {
+        await this.quizExperience.computeAndSaveExperience(this.players);
+        this.quizExperience.emitExperience(this.players);
+        await this.quizStats.computeAndSaveStats(this.players);
+      } catch (error) {
+        console.error('Error while saving stats', error);
+      }
     }
     if (this.roundTimer) {
       clearInterval(this.roundTimer);

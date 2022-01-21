@@ -13,5 +13,6 @@ export function isAllowedSpecialBadge(
   if (badgeName === 'VIP' && rank === Ranks.VIP) return true;
   if (badgeName === 'Fondateur' && rank === Ranks.Fondateur) return true;
   if (badgeName === 'Staff' && rank === Ranks.Staff) return true;
+  if (badgeName === 'Streamer' && rank === Ranks.Streamer) return true;
   return false;
 }
