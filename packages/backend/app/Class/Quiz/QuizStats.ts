@@ -48,12 +48,12 @@ class QuizStats {
     this.difficulty = params.difficulty;
   }
 
-  public computeAndSaveStats(players: Player[]): void {
+  public async computeAndSaveStats(players: Player[]): Promise<void> {
     if (players.length < 5) return;
     const playersWhoPlayedAllTheGame = players.filter((player) => player.joinedAtTheBeginning());
     const playersStats = this.computeStats(playersWhoPlayedAllTheGame);
-    this.savePlayersGameStats(playersStats);
-    this.savePlayersRoundStats(playersStats);
+    await this.savePlayersGameStats(playersStats);
+    await this.savePlayersRoundStats(playersStats);
   }
 
   private async savePlayersGameStats(playersStats: PlayersStats[]): Promise<void> {
@@ -85,8 +85,8 @@ class QuizStats {
         difficultyId: this.difficulty.id,
       });
     });
-    GameStat.updateOrCreateMany('id', gameStatsToUpdate);
-    GameStat.createMany(gameStatsToCreate);
+    await GameStat.updateOrCreateMany('id', gameStatsToUpdate);
+    await GameStat.createMany(gameStatsToCreate);
   }
 
   private async savePlayersRoundStats(playersStats: PlayersStats[]): Promise<void> {
@@ -116,8 +116,8 @@ class QuizStats {
         difficultyId: this.difficulty.id,
       });
     });
-    RoundStat.updateOrCreateMany('id', roundStatsToUpdate);
-    RoundStat.createMany(roundStatsToCreate);
+    await RoundStat.updateOrCreateMany('id', roundStatsToUpdate);
+    await RoundStat.createMany(roundStatsToCreate);
   }
 
   private computeStats(players: Player[]): PlayersStats[] {
