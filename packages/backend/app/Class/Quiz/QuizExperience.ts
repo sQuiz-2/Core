@@ -29,10 +29,10 @@ class QuizExperience {
     this.difficulty = params.difficulty;
   }
 
-  public computeAndSaveExperience(players: Player[]): void {
+  public async computeAndSaveExperience(players: Player[]): Promise<void> {
     if (players.length < 5) return;
     const playersExperience = this.computeExperience(players);
-    this.savePlayersExperience(playersExperience);
+    await this.savePlayersExperience(playersExperience);
   }
 
   private async savePlayersExperience(playerExperience: PlayerExperience[]): Promise<void> {
@@ -42,7 +42,7 @@ class QuizExperience {
       const user = users.find(({ id }) => id === player.id);
       player.experience += user?.experience || 0;
     });
-    User.updateOrCreateMany('id', playerExperience);
+    await User.updateOrCreateMany('id', playerExperience);
   }
 
   private computeExperience(players: Player[]): PlayerExperience[] {

@@ -2,6 +2,7 @@ export const badgeNames = {
   Default: 'Default',
   Fondateur: 'Fondateur',
   Staff: 'Staff',
+  Streamer: 'Streamer',
   VIP: 'VIP',
   Xari: 'Xari',
   // Domingo: 'Domingo',
@@ -37,6 +38,10 @@ export const badgesSpecial: BadgesSpecial[] = [
   },
   {
     name: 'Staff',
+    staff: true,
+  },
+  {
+    name: 'Streamer',
     staff: true,
   },
   {
