@@ -47,6 +47,7 @@ export function removePrefix(str: string): string {
     'au',
     'aux',
     'dans',
+    'a',
   ];
   const splitAnswer = str.split(' ');
   if (splitAnswer.length > 1 && prefix.includes(splitAnswer[0])) {
