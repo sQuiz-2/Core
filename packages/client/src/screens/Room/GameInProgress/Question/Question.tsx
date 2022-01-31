@@ -6,13 +6,23 @@ import React from 'react';
 import { View } from 'react-native';
 import { useRecoilValue } from 'recoil';
 
+import GameTimer from '../GameInput/GameTimer';
 import useGameInProgressQuestionStyle from './QuestionStyle';
 
 export default function GameInProgressQuestion() {
   const styles = useGameInProgressQuestionStyle();
   const question = useRecoilValue(questionState);
 
-  if (!question) return null;
+  if (!question)
+    return (
+      <View style={styles.joinMessageContainer}>
+        <View style={styles.joinCounterContainer}>
+          <GameTimer />
+        </View>
+        <Text fontSize="xxl">La partie va bientôt commencer</Text>
+        <Text fontSize="md">À vos claviers !</Text>
+      </View>
+    );
 
   return (
     <Card>

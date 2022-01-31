@@ -18,6 +18,15 @@ export default function useGameInProgressQuestionStyle() {
     questionCounter: {
       fontWeight: 'bold',
     },
+    joinMessageContainer: {
+      flex: 1,
+      flexGrow: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    joinCounterContainer: {
+      paddingBottom: 20,
+    },
   });
   return styles;
 }
