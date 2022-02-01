@@ -6,7 +6,6 @@ import {
   EmitScoreDetails,
   EmitQuestions,
   EmitQuestion,
-  GameTime,
   RoomEvent,
   EmitPlayerScore,
   DifficultyEnum,
@@ -248,7 +247,7 @@ export default class Quiz extends Room {
         this.quizAnswerTimer.reset();
       }
       // Wait the round time then send the answer
-      this.answerTimer = setTimeout(() => this.roundEnd(), GameTime.Question * SECOND);
+      this.answerTimer = setTimeout(() => this.roundEnd(), this.timeToAnswer * SECOND);
     }
   }
 
@@ -272,7 +271,7 @@ export default class Quiz extends Room {
     this.setStatus(RoomStatus.Starting);
     this.roundTimer = setInterval(
       () => this.startNewRound(),
-      (GameTime.Question + GameTime.Answer) * SECOND,
+      (this.timeToAnswer + this.timeBetweenQuestion) * SECOND,
     );
   }
 
@@ -311,7 +310,7 @@ export default class Quiz extends Room {
     }
     sortRoundsByDifficulty();
     // Time before the next game
-    this.endTimer = setTimeout(() => this.restartGame(), GameTime.End * SECOND);
+    this.endTimer = setTimeout(() => this.restartGame(), this.timeBetweenGames * SECOND);
   }
 
   /**
@@ -420,14 +419,18 @@ export default class Quiz extends Room {
     this.roundsCounter = 0;
     let newRounds: Round[];
     if (this.difficulty.id === DifficultyEnum.Beginner) {
-      const unknownRounds = await this.roundFetcher.getRounds(DifficultyEnum.Unknown, 2);
+      let unknownRounds: Round[] = [];
+      if (this.selectedThemes.length <= 0) {
+        unknownRounds = await this.roundFetcher.getRounds(DifficultyEnum.Unknown, 2);
+      }
       const beginnerRounds = await this.roundFetcher.getRounds(
         this.difficulty.id,
         15 - unknownRounds.length,
+        this.selectedThemes,
       );
       newRounds = shuffle<Round>([...unknownRounds, ...beginnerRounds]);
     } else {
-      newRounds = await this.roundFetcher.getRounds(this.difficulty.id, 15);
+      newRounds = await this.roundFetcher.getRounds(this.difficulty.id, 15, this.selectedThemes);
     }
     this.rounds = newRounds;
   }

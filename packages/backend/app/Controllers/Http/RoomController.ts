@@ -14,6 +14,10 @@ export default class GamesController {
       maxPlayers: roomConfig.players,
       private: true,
       title: randomPrivateTitle,
+      timeToAnswer: roomConfig.timeToAnswer,
+      timeBetweenQuestion: roomConfig.timeBetweenQuestion,
+      timeBetweenGames: roomConfig.timeBetweenGames,
+      selectedThemes: roomConfig.selectedThemes,
     });
     return {
       roomId,

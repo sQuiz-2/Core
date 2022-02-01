@@ -21,6 +21,7 @@ export default function CreateRoom() {
   const [antiCheat, setAntiCheat] = useState(false);
   const [players, setPlayers] = useState(42);
   const [timeToAnswer, setTimeToAnswer] = useState(14);
+  const [timeBetweenQuestion, setTimeBetweenQuestion] = useState(5);
   const [timeBetweenGames, setTimeBetweenGames] = useState(30);
   const [selectedThemes, setSelectedThemes] = useState<number[]>([]);
   const navigation = useNavigation();
@@ -62,6 +63,7 @@ export default function CreateRoom() {
       antiCheat,
       selectedDifficulty,
       timeToAnswer,
+      timeBetweenQuestion,
       timeBetweenGames,
       selectedThemes,
     };
@@ -112,6 +114,18 @@ export default function CreateRoom() {
         thumbTintColor={colors.text}
         value={timeToAnswer}
         onValueChange={setTimeToAnswer}
+      />
+      <Text style={[styles.title, styles.separator]}>Temps entre les questions</Text>
+      <Text style={styles.playersNumber}>{timeBetweenQuestion}s</Text>
+      <Slider
+        minimumValue={5}
+        maximumValue={25}
+        step={1}
+        minimumTrackTintColor={colors.text}
+        maximumTrackTintColor={colors.border}
+        thumbTintColor={colors.text}
+        value={timeBetweenQuestion}
+        onValueChange={setTimeBetweenQuestion}
       />
       <Text style={[styles.title, styles.separator]}>Temps entre les parties</Text>
       <Text style={styles.playersNumber}>{timeBetweenGames}s</Text>
