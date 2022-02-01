@@ -95,4 +95,7 @@ export type RoomCreateConfig = {
   players: number;
   antiCheat: boolean;
   selectedDifficulty: string;
+  timeToAnswer: number;
+  timeBetweenGames: number;
+  selectedThemes: number[];
 };
