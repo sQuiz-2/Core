@@ -8,7 +8,7 @@ import Slider from '@react-native-community/slider';
 import { useNavigation, useTheme } from '@react-navigation/native';
 import { GetThemes, RoomCreateConfig } from '@squiz/shared/src/typings/Room';
 import React, { useState, useEffect } from 'react';
-import { Pressable, View } from 'react-native';
+import { ActivityIndicator, Pressable, View } from 'react-native';
 import { useRecoilState } from 'recoil';
 
 import useCreateRoomStyle from './CreateRoomStyle';
@@ -148,11 +148,15 @@ export default function CreateRoom() {
           <Text>Tout retirer</Text>
         </Pressable>
       </View>
-      <Themes
-        themes={themes}
-        selectedThemes={selectedThemes}
-        handleSelectedTheme={handleSelectedTheme}
-      />
+      {themes.length <= 0 ? (
+        <ActivityIndicator />
+      ) : (
+        <Themes
+          themes={themes}
+          selectedThemes={selectedThemes}
+          handleSelectedTheme={handleSelectedTheme}
+        />
+      )}
       <Text style={[styles.title, styles.separator]}>Anti-triche</Text>
       <View style={styles.cheatBox}>
         <CheckBox selected={antiCheat} onSelect={(newSelected) => setAntiCheat(newSelected)} />
