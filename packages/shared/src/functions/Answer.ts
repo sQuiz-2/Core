@@ -23,7 +23,7 @@ export function normalizedValue(str: string): string {
 
 export function removePrefix(str: string): string {
   // special case : l', d', s'
-  if (str.startsWith("l'") || str.startsWith("d'")) || str.startsWith("s'")) {
+  if (str.startsWith("l'") || str.startsWith("d'") || str.startsWith("s'")) {
     return str.substring(2);
   }
   // basic cases
