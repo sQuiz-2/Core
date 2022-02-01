@@ -27,6 +27,9 @@ export default function useGameInProgressQuestionStyle() {
     joinCounterContainer: {
       paddingBottom: 20,
     },
+    joinTextInfo: {
+      textAlign: 'center',
+    },
   });
   return styles;
 }

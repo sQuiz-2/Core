@@ -19,8 +19,12 @@ export default function GameInProgressQuestion() {
         <View style={styles.joinCounterContainer}>
           <GameTimer />
         </View>
-        <Text fontSize="xxl">La partie va bientôt commencer</Text>
-        <Text fontSize="md">À vos claviers !</Text>
+        <Text fontSize="xxl" style={styles.joinTextInfo}>
+          La partie va bientôt commencer
+        </Text>
+        <Text fontSize="md" style={styles.joinTextInfo}>
+          À vos claviers !
+        </Text>
       </View>
     );
 
