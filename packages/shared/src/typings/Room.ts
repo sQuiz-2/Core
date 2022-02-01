@@ -89,10 +89,17 @@ export type EmitRoomInfos = {
   checkForCheat: boolean;
   staff: boolean;
   isPrivate: boolean;
+  timeToAnswer: number;
+  timeBetweenQuestion: number;
+  timeBetweenGames: number;
 };
 
 export type RoomCreateConfig = {
   players: number;
   antiCheat: boolean;
   selectedDifficulty: string;
+  timeToAnswer: number;
+  timeBetweenQuestion: number;
+  timeBetweenGames: number;
+  selectedThemes: number[];
 };

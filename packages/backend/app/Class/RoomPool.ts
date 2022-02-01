@@ -11,6 +11,10 @@ export type RoomConfig = {
   private: boolean;
   antiCheat: boolean;
   maxPlayers: number;
+  timeToAnswer?: number;
+  timeBetweenQuestion?: number;
+  timeBetweenGames?: number;
+  selectedThemes?: number[];
 };
 
 class RoomPool {

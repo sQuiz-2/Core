@@ -1,6 +1,7 @@
 import answerState from '@Src/global/Room/answer';
 import playerRankState from '@Src/global/Room/playerRanks';
 import questionState from '@Src/global/Room/question';
+import roomInfosState from '@Src/global/Room/roomInfos';
 import topTimeAnswerState from '@Src/global/Room/topTimeAnswers';
 import isQuestionTimeState from '@Src/global/isQuestionTimeState';
 import timerState from '@Src/global/timerState';
@@ -19,6 +20,7 @@ export default function useRoundEndListener() {
   const ranks = useRecoilValue(playerRankState);
   const question = useRecoilValue(questionState);
   const updateRank = useRankUpdate();
+  const roomInfos = useRecoilValue(roomInfosState);
 
   function handleAnswer(roundEndInfo: EmitRoundEndInfo) {
     setAnswer(roundEndInfo.answers);
@@ -29,7 +31,7 @@ export default function useRoundEndListener() {
 
   function displayAnswer() {
     setIsQuestionTime(false);
-    setTime(GameTime.Answer);
+    setTime(roomInfos?.timeBetweenQuestion || GameTime.Answer);
   }
 
   function setRankIfNeeded() {

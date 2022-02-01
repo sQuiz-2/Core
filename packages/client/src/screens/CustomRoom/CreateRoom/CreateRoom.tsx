@@ -2,16 +2,17 @@ import { Radio, CheckBox } from '@Src/components/Buttons';
 import { TitleCard } from '@Src/components/Card';
 import Text from '@Src/components/Text';
 import userState from '@Src/global/userState';
-import { post } from '@Src/utils/wrappedFetch';
+import { get, post } from '@Src/utils/wrappedFetch';
 import { FontAwesome5 } from '@expo/vector-icons';
 import Slider from '@react-native-community/slider';
 import { useNavigation, useTheme } from '@react-navigation/native';
-import { RoomCreateConfig } from '@squiz/shared/src/typings/Room';
-import React, { useState } from 'react';
+import { GetThemes, RoomCreateConfig } from '@squiz/shared/src/typings/Room';
+import React, { useState, useEffect } from 'react';
 import { Pressable, View } from 'react-native';
 import { useRecoilState } from 'recoil';
 
 import useCreateRoomStyle from './CreateRoomStyle';
+import Themes from './Themes';
 
 export default function CreateRoom() {
   const { colors } = useTheme();
@@ -19,8 +20,41 @@ export default function CreateRoom() {
   const [selectedDifficulty, setSelectedDifficulty] = useState('Initié');
   const [antiCheat, setAntiCheat] = useState(false);
   const [players, setPlayers] = useState(42);
+  const [timeToAnswer, setTimeToAnswer] = useState(14);
+  const [timeBetweenQuestion, setTimeBetweenQuestion] = useState(5);
+  const [timeBetweenGames, setTimeBetweenGames] = useState(30);
+  const [selectedThemes, setSelectedThemes] = useState<number[]>([]);
   const navigation = useNavigation();
   const [user, setUser] = useRecoilState(userState);
+  const [themes, setThemes] = useState<GetThemes>([]);
+
+  function enableAllThemes() {
+    setSelectedThemes(themes.map(({ id }) => id));
+  }
+
+  async function fetchThemes() {
+    if (!user.token) return;
+    try {
+      const themes = await get<GetThemes>({ path: 'themes', token: user.token });
+      if (!themes) return;
+      setThemes(themes);
+      setSelectedThemes(themes.map(({ id }) => id));
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    fetchThemes();
+  }, []);
+
+  function handleSelectedTheme(theme: number) {
+    if (selectedThemes.includes(theme)) {
+      setSelectedThemes([...selectedThemes.filter((st) => st !== theme)]);
+    } else {
+      setSelectedThemes([...selectedThemes, theme]);
+    }
+  }
 
   async function createRoom() {
     if (!user.token) return;
@@ -28,6 +62,10 @@ export default function CreateRoom() {
       players,
       antiCheat,
       selectedDifficulty,
+      timeToAnswer,
+      timeBetweenQuestion,
+      timeBetweenGames,
+      selectedThemes,
     };
     try {
       const room = await post<{ privateCode: string; roomId: string }>({
@@ -36,7 +74,7 @@ export default function CreateRoom() {
         token: user.token,
       });
       if (!room) return;
-      setUser({ ...user, privateCode: room.privateCode });
+      await setUser({ ...user, privateCode: room.privateCode });
       navigation.navigate('Room', { id: room.roomId });
     } catch (error) {
       console.error(error);
@@ -64,6 +102,56 @@ export default function CreateRoom() {
         thumbTintColor={colors.text}
         value={players}
         onValueChange={setPlayers}
+      />
+      <Text style={[styles.title, styles.separator]}>Temps pour répondre</Text>
+      <Text style={styles.playersNumber}>{timeToAnswer}s</Text>
+      <Slider
+        minimumValue={6}
+        maximumValue={25}
+        step={1}
+        minimumTrackTintColor={colors.text}
+        maximumTrackTintColor={colors.border}
+        thumbTintColor={colors.text}
+        value={timeToAnswer}
+        onValueChange={setTimeToAnswer}
+      />
+      <Text style={[styles.title, styles.separator]}>Temps entre les questions</Text>
+      <Text style={styles.playersNumber}>{timeBetweenQuestion}s</Text>
+      <Slider
+        minimumValue={5}
+        maximumValue={25}
+        step={1}
+        minimumTrackTintColor={colors.text}
+        maximumTrackTintColor={colors.border}
+        thumbTintColor={colors.text}
+        value={timeBetweenQuestion}
+        onValueChange={setTimeBetweenQuestion}
+      />
+      <Text style={[styles.title, styles.separator]}>Temps entre les parties</Text>
+      <Text style={styles.playersNumber}>{timeBetweenGames}s</Text>
+      <Slider
+        minimumValue={10}
+        maximumValue={120}
+        step={1}
+        minimumTrackTintColor={colors.text}
+        maximumTrackTintColor={colors.border}
+        thumbTintColor={colors.text}
+        value={timeBetweenGames}
+        onValueChange={setTimeBetweenGames}
+      />
+      <Text style={[styles.title, styles.separator]}>Thèmes</Text>
+      <View style={styles.themeSelectAllContainer}>
+        <Pressable onPress={enableAllThemes} style={styles.selectTheme}>
+          <Text>Tout selectioner</Text>
+        </Pressable>
+        <Pressable onPress={() => setSelectedThemes([])} style={styles.selectTheme}>
+          <Text>Tout retirer</Text>
+        </Pressable>
+      </View>
+      <Themes
+        themes={themes}
+        selectedThemes={selectedThemes}
+        handleSelectedTheme={handleSelectedTheme}
       />
       <Text style={[styles.title, styles.separator]}>Anti-triche</Text>
       <View style={styles.cheatBox}>

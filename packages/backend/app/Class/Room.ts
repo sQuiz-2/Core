@@ -8,6 +8,7 @@ import {
   GameRank,
   EmitPlayerScore,
   EmitRoomInfos,
+  GameTime,
 } from '@squiz/shared';
 import User from 'App/Models/User';
 import Ws from 'App/Services/Ws';
@@ -85,6 +86,11 @@ export default class Room {
    */
   authentication = new SocketAuthentication();
 
+  timeToAnswer: number;
+  timeBetweenQuestion: number;
+  timeBetweenGames: number;
+  selectedThemes: number[];
+
   constructor(roomConfig: RoomProps) {
     this.nameSpace = Ws.io.of(roomConfig.roomNumber);
     this.nameSpace.on(RoomEvent.Connection, this.connection.bind(this));
@@ -94,6 +100,14 @@ export default class Room {
     this.maxPlayers = roomConfig.maxPlayers;
     this.checkForCheat = roomConfig.antiCheat;
     this.isPrivate = roomConfig.private;
+    this.selectedThemes = roomConfig.selectedThemes ? roomConfig.selectedThemes : [];
+    this.timeToAnswer = roomConfig.timeToAnswer ? roomConfig.timeToAnswer : GameTime.Question;
+    this.timeBetweenGames = roomConfig.timeBetweenGames
+      ? roomConfig.timeBetweenGames
+      : GameTime.End;
+    this.timeBetweenQuestion = roomConfig.timeBetweenQuestion
+      ? roomConfig.timeBetweenQuestion
+      : GameTime.Answer;
   }
 
   /**
@@ -469,6 +483,9 @@ export default class Room {
       checkForCheat: this.checkForCheat,
       staff: player.staff,
       isPrivate: this.isPrivate,
+      timeToAnswer: this.timeToAnswer,
+      timeBetweenQuestion: this.timeBetweenQuestion,
+      timeBetweenGames: this.timeBetweenGames,
     };
     this.emitToSocket(RoomEvent.Infos, roomInfos, socket.id);
   }

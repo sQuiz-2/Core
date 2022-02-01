@@ -40,7 +40,7 @@ export default function RoomGameEndResult() {
         <Text style={styles.title} fontFamily="title" fontSize="xxl">
           RÉSULTATS
         </Text>
-        <Timer time={GameTime.End} size={40} strokeWidth={3} />
+        <Timer time={roomInfos?.timeBetweenGames || GameTime.End} size={40} strokeWidth={3} />
       </View>
       <View style={styles.content}>
         <View style={styles.textContainer}>

@@ -4,8 +4,12 @@ class RoundFetcher {
   /**
    * Pull new random rounds
    */
-  public async getRounds(difficultyId: number, amountOfRoundWanted: number): Promise<Round[]> {
-    const roundIds = await this.getNotPlayedRoundsIds(difficultyId, amountOfRoundWanted);
+  public async getRounds(
+    difficultyId: number,
+    amountOfRoundWanted: number,
+    themes?: number[],
+  ): Promise<Round[]> {
+    const roundIds = await this.getNotPlayedRoundsIds(difficultyId, amountOfRoundWanted, themes);
     if (roundIds.length < 1) return [];
     const selectedIds = this.getRandomRounds(roundIds, amountOfRoundWanted);
     this.setPlayedRounds(selectedIds);
@@ -46,8 +50,12 @@ class RoundFetcher {
   /**
    * Get only not played rounds ids
    */
-  private async getNotPlayedRoundsIds(difficultyId: number, amountOfRoundWanted: number) {
-    const roundIds = await this.fetchAllRoundsIds(difficultyId);
+  private async getNotPlayedRoundsIds(
+    difficultyId: number,
+    amountOfRoundWanted: number,
+    themes?: number[],
+  ) {
+    const roundIds = await this.fetchAllRoundsIds(difficultyId, themes);
     // Check if we have enough roundIds
     if (roundIds.length >= amountOfRoundWanted) {
       return roundIds;
@@ -55,20 +63,23 @@ class RoundFetcher {
       // All rounds have been played we need to reset the 'played' boolean
       await this.resetPlayedRounds(difficultyId);
       // Fetch them again
-      return this.fetchAllRoundsIds(difficultyId);
+      return this.fetchAllRoundsIds(difficultyId, themes);
     }
   }
 
   /**
    * Fetch all not played rounds for a given difficulty
    */
-  private async fetchAllRoundsIds(difficultyId: number) {
-    const roundIds = await Round.query()
+  private async fetchAllRoundsIds(difficultyId: number, themes?: number[]) {
+    const request = Round.query()
       .select('id')
       .where('validated', true)
       .where('difficulty_id', difficultyId)
       .where('played', false);
-    return roundIds;
+    if (themes?.length && themes?.length > 0) {
+      request.whereIn('theme_id', themes);
+    }
+    return request;
   }
 
   /**

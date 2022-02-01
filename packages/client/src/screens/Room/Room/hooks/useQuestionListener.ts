@@ -1,5 +1,6 @@
 import playerScoreState from '@Src/global/Room/playerScore';
 import questionState from '@Src/global/Room/question';
+import roomInfosState from '@Src/global/Room/roomInfos';
 import scoreDetailState from '@Src/global/Room/scoreDetail';
 import scoreboardState from '@Src/global/Room/scoreboard';
 import isQuestionTimeState from '@Src/global/isQuestionTimeState';
@@ -7,7 +8,7 @@ import timerState from '@Src/global/timerState';
 import { useSound } from '@Src/utils/hooks/sound';
 import useListener from '@Src/utils/hooks/useListener';
 import { GameEvent, EmitQuestion, GameTime, GameRank } from '@squiz/shared';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 export default function useQuestionListener() {
   useListener(GameEvent.Question, handleNewQuestion);
@@ -17,6 +18,7 @@ export default function useQuestionListener() {
   const setScoreDetail = useSetRecoilState(scoreDetailState);
   const [scoreboard, setScoreboard] = useRecoilState(scoreboardState);
   const [playerScore, setPlayerScore] = useRecoilState(playerScoreState);
+  const roomInfos = useRecoilValue(roomInfosState);
   const startRoundSound = useSound({ source: require('@Assets/sounds/round-start.mp3') });
 
   function handleNewQuestion(question: EmitQuestion) {
@@ -32,7 +34,7 @@ export default function useQuestionListener() {
 
   function startRound() {
     setIsQuestionTime(true);
-    setTime(GameTime.Question);
+    setTime(roomInfos?.timeToAnswer || GameTime.Question);
     startRoundSound?.play();
     setScoreDetail(null);
   }
