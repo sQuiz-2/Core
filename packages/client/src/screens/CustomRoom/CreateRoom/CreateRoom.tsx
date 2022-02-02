@@ -23,6 +23,7 @@ export default function CreateRoom() {
   const [timeToAnswer, setTimeToAnswer] = useState(14);
   const [timeBetweenQuestion, setTimeBetweenQuestion] = useState(5);
   const [timeBetweenGames, setTimeBetweenGames] = useState(30);
+  const [rounds, setRounds] = useState(15);
   const [selectedThemes, setSelectedThemes] = useState<number[]>([]);
   const navigation = useNavigation();
   const [user, setUser] = useRecoilState(userState);
@@ -66,6 +67,7 @@ export default function CreateRoom() {
       timeBetweenQuestion,
       timeBetweenGames,
       selectedThemes,
+      rounds,
     };
     try {
       const room = await post<{ privateCode: string; roomId: string }>({
@@ -86,7 +88,7 @@ export default function CreateRoom() {
       <Text style={styles.title}>Difficulté</Text>
       <View style={styles.radioContainer}>
         <Radio
-          choices={['Initié', 'Confirmé', 'Expert']}
+          choices={['Initié', 'Confirmé', 'Expert', 'Aléatoire']}
           selected={selectedDifficulty}
           onSelect={(newSelected) => setSelectedDifficulty(newSelected)}
         />
@@ -138,6 +140,18 @@ export default function CreateRoom() {
         thumbTintColor={colors.text}
         value={timeBetweenGames}
         onValueChange={setTimeBetweenGames}
+      />
+      <Text style={[styles.title, styles.separator]}>Rounds</Text>
+      <Text style={styles.playersNumber}>{rounds}</Text>
+      <Slider
+        minimumValue={10}
+        maximumValue={25}
+        step={1}
+        minimumTrackTintColor={colors.text}
+        maximumTrackTintColor={colors.border}
+        thumbTintColor={colors.text}
+        value={rounds}
+        onValueChange={setRounds}
       />
       <Text style={[styles.title, styles.separator]}>Thèmes</Text>
       <View style={styles.themeSelectAllContainer}>

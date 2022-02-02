@@ -91,6 +91,11 @@ export default class Room {
   timeBetweenGames: number;
   selectedThemes: number[];
 
+  /**
+   * Number of rounds per game
+   */
+  roundsToFetch: number;
+
   constructor(roomConfig: RoomProps) {
     this.nameSpace = Ws.io.of(roomConfig.roomNumber);
     this.nameSpace.on(RoomEvent.Connection, this.connection.bind(this));
@@ -108,6 +113,7 @@ export default class Room {
     this.timeBetweenQuestion = roomConfig.timeBetweenQuestion
       ? roomConfig.timeBetweenQuestion
       : GameTime.Answer;
+    this.roundsToFetch = roomConfig.rounds ? roomConfig.rounds : 15;
   }
 
   /**
@@ -310,6 +316,7 @@ export default class Room {
       dbId,
       avatar,
       badge,
+      numberOfRounds: this.roundsToFetch,
     });
     this.players.push(newPlayer);
     if (this.players.length >= this.maxPlayers) {

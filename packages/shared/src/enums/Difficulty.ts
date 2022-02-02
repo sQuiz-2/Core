@@ -6,6 +6,7 @@ export type Difficulty = {
 };
 
 enum DifficultyEnum {
+  Random = -1,
   Beginner = 1,
   Intermediate = 2,
   Expert = 3,
@@ -36,6 +37,12 @@ export const Difficulties: Difficulty[] = [
   {
     id: DifficultyEnum.Unknown,
     title: 'Inconnu',
+    color: ['#a8e063', '#56ab2f'],
+    xpMultiplier: 1,
+  },
+  {
+    id: DifficultyEnum.Random,
+    title: 'Aléatoire',
     color: ['#a8e063', '#56ab2f'],
     xpMultiplier: 1,
   },

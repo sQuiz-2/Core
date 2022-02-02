@@ -15,6 +15,7 @@ export type RoomConfig = {
   timeBetweenQuestion?: number;
   timeBetweenGames?: number;
   selectedThemes?: number[];
+  rounds?: number;
 };
 
 class RoomPool {

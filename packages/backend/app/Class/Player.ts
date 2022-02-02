@@ -9,6 +9,7 @@ type Props = {
   dbId?: number;
   avatar?: string;
   badge?: string;
+  numberOfRounds: number;
 };
 
 export default class Player {
@@ -55,7 +56,7 @@ export default class Player {
   /**
    * All ranks obtained during a game
    */
-  ranks: number[] = Array(15).fill(GameRank.RoundComing);
+  ranks: number[];
 
   /**
    * Rank obtained during the round
@@ -100,6 +101,11 @@ export default class Player {
    */
   timeToAnswer: number = 15;
 
+  /**
+   * Number of rounds in this game
+   */
+  numberOfRounds: number = 15;
+
   constructor(props: Props) {
     this.id = props.id;
     this.name = props.name;
@@ -109,6 +115,8 @@ export default class Player {
     this.dbId = props.dbId;
     this.avatar = props.avatar || '0';
     this.badge = props.badge || '0';
+    this.numberOfRounds = props.numberOfRounds;
+    this.ranks = Array(props.numberOfRounds).fill(GameRank.RoundComing);
   }
 
   /**
@@ -171,7 +179,7 @@ export default class Player {
     this.score = 0;
     this.streak = 0;
     this.find = false;
-    this.ranks = Array(15).fill(GameRank.RoundComing);
+    this.ranks = Array(this.numberOfRounds).fill(GameRank.RoundComing);
     this.position = 1;
     this.experience = 0;
     this.triedToAnswer = false;

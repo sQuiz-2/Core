@@ -101,5 +101,6 @@ export type RoomCreateConfig = {
   timeToAnswer: number;
   timeBetweenQuestion: number;
   timeBetweenGames: number;
+  rounds: number;
   selectedThemes: number[];
 };
