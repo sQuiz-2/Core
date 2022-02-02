@@ -5,7 +5,7 @@ import React from 'react';
 import { StyleSheet, View, Platform } from 'react-native';
 
 import footerIcons from '../constant/footerIcons.json';
-import Hoverable from './Hoverable';
+import OverStyle from './Over/OverStyle';
 import Text from './Text';
 
 type FooterProps = {
@@ -33,14 +33,14 @@ export default function Footer({ enable }: FooterProps) {
       ]}>
       <View style={styles.buttonContainer}>
         {footerIcons.map(({ name, url, icon }) => (
-          <Hoverable
+          <OverStyle
             key={name}
             style={[styles.button, { borderColor: colors.border }]}
             onHover={{ backgroundColor: colors.border }}
             onPress={() => openLink(url)}>
             <FontAwesome5 style={styles.icon} name={icon} size={20} color={colors.text} />
             <Text fontSize="lg">{name}</Text>
-          </Hoverable>
+          </OverStyle>
         ))}
       </View>
     </View>

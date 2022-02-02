@@ -12,7 +12,7 @@ interface Props extends TouchableOpacityProps {
   children: React.ReactNode;
 }
 
-export default function Hoverable({ onHover, style, ...passThrough }: Props) {
+export default function OverStyle({ onHover, style, ...passThrough }: Props) {
   const ref = useRef<TouchableOpacity | null>(null);
 
   function setNativeProps(styles: any) {

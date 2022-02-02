@@ -1,3 +1,4 @@
+import Badge from '@Src/components/Badge';
 import { Level } from '@Src/components/ExperienceBar';
 import userBasicInfoState from '@Src/global/userBasicInfos';
 import userState from '@Src/global/userState';
@@ -38,11 +39,7 @@ export default function Profile() {
                 style={styles.avatar}
               />
               {badges[userBasicInfos.badge as keyof typeof badges] && (
-                <Image
-                  source={badges[userBasicInfos.badge as keyof typeof badges]}
-                  ref={(component) => component?.setNativeProps({ title: userBasicInfos.badge })}
-                  style={styles.avatar}
-                />
+                <Badge badgeName={userBasicInfos.badge} imageStyle={styles.avatar} />
               )}
             </>
           )}

@@ -103,10 +103,8 @@ export default function Avatars() {
               <LockedBadge
                 onPress={onPress}
                 selected={userBasicInfos.badge === key}
-                image={value}
                 name={key}
                 lock={!subList.find(({ badgeName, isSub }) => badgeName === key && isSub)}
-                lockText=""
               />
             </View>
           );
@@ -122,7 +120,6 @@ export default function Avatars() {
                   <LockedBadge
                     onPress={onPress}
                     selected={userBasicInfos.badge === key}
-                    image={value}
                     name={key}
                     lock={
                       !isAllowedSpecialBadge(key as keyof typeof badgeNames, {
@@ -130,7 +127,6 @@ export default function Avatars() {
                         rank: userBasicInfos.rank,
                       })
                     }
-                    lockText=""
                   />
                 </View>
               );

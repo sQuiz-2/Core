@@ -10,26 +10,6 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
   },
-  pictureGray: {
-    tintColor: 'gray',
-  },
-  absolute: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-  },
-  center: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  opacity: {
-    opacity: 0.3,
-  },
-  pictureAbsolute: {
-    position: 'absolute',
-  },
 });
 
 export default styles;

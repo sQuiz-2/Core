@@ -5,7 +5,7 @@ import { useTheme, useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { View } from 'react-native';
 
-import Hoverable from '../../Hoverable';
+import OverStyle from '../../Over/OverStyle';
 import Text from '../../Text';
 import useNavBarStyle from './NavBarStyle';
 
@@ -29,7 +29,7 @@ export default function NavBar({ currentName, context }: Props) {
       {navItems.map(({ name, icon, route }) => {
         const bgColor = route === currentName ? colors.border : colors.primary;
         return (
-          <Hoverable
+          <OverStyle
             key={route}
             style={[styles.navItem, { backgroundColor: bgColor }]}
             onHover={{ backgroundColor: colors.border }}
@@ -40,7 +40,7 @@ export default function NavBar({ currentName, context }: Props) {
                 {name}
               </Text>
             )}
-          </Hoverable>
+          </OverStyle>
         );
       })}
     </View>
