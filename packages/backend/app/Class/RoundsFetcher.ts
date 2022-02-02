@@ -1,3 +1,4 @@
+import { DifficultyEnum } from '@squiz/shared';
 import Round from 'App/Models/Round';
 
 class RoundFetcher {
@@ -71,13 +72,12 @@ class RoundFetcher {
    * Fetch all not played rounds for a given difficulty
    */
   private async fetchAllRoundsIds(difficultyId: number, themes?: number[]) {
-    const request = Round.query()
-      .select('id')
-      .where('validated', true)
-      .where('difficulty_id', difficultyId)
-      .where('played', false);
-    if (themes?.length && themes?.length > 0) {
+    const request = Round.query().select('id').where('validated', true).where('played', false);
+    if (themes && themes.length > 0) {
       request.whereIn('theme_id', themes);
+    }
+    if (difficultyId !== DifficultyEnum.Random) {
+      request.where('difficulty_id', difficultyId);
     }
     return request;
   }

@@ -1,4 +1,4 @@
-import { Difficulty, GameEvent } from '@squiz/shared';
+import { Difficulty, DifficultyEnum, GameEvent } from '@squiz/shared';
 import User from 'App/Models/User';
 
 import Player from '../Player';
@@ -30,7 +30,7 @@ class QuizExperience {
   }
 
   public async computeAndSaveExperience(players: Player[]): Promise<void> {
-    if (players.length < 5) return;
+    if (players.length < 5 || this.difficulty.id === DifficultyEnum.Random) return;
     const playersExperience = this.computeExperience(players);
     await this.savePlayersExperience(playersExperience);
   }

@@ -1,4 +1,4 @@
-import { Difficulty } from '@squiz/shared';
+import { Difficulty, DifficultyEnum } from '@squiz/shared';
 import GameStat from 'App/Models/GameStat';
 import RoundStat from 'App/Models/RoundStat';
 
@@ -49,7 +49,7 @@ class QuizStats {
   }
 
   public async computeAndSaveStats(players: Player[]): Promise<void> {
-    if (players.length < 5) return;
+    if (players.length < 5 || this.difficulty.id === DifficultyEnum.Random) return;
     const playersWhoPlayedAllTheGame = players.filter((player) => player.joinedAtTheBeginning());
     const playersStats = this.computeStats(playersWhoPlayedAllTheGame);
     await this.savePlayersGameStats(playersStats);

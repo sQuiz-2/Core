@@ -18,6 +18,7 @@ export default class GamesController {
       timeBetweenQuestion: roomConfig.timeBetweenQuestion,
       timeBetweenGames: roomConfig.timeBetweenGames,
       selectedThemes: roomConfig.selectedThemes,
+      rounds: roomConfig.rounds,
     });
     return {
       roomId,

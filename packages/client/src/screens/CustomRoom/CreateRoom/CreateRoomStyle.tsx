@@ -20,7 +20,7 @@ export default function useCreateRoomStyle() {
       textAlign: 'center',
     },
     separator: {
-      paddingTop: 14,
+      paddingTop: 8,
     },
     cheatBox: {
       paddingTop: 5,
@@ -44,6 +44,7 @@ export default function useCreateRoomStyle() {
       marginTop: 5,
       alignSelf: 'center',
       flexDirection: 'row',
+      userSelect: 'none',
     },
     createButtonIcon: {
       marginRight: 5,
@@ -51,6 +52,7 @@ export default function useCreateRoomStyle() {
     themeSelectAllContainer: {
       flexDirection: 'row',
       justifyContent: 'space-evenly',
+      paddingBottom: 6,
     },
   });
 }

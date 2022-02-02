@@ -425,12 +425,16 @@ export default class Quiz extends Room {
       }
       const beginnerRounds = await this.roundFetcher.getRounds(
         this.difficulty.id,
-        15 - unknownRounds.length,
+        this.roundsToFetch - unknownRounds.length,
         this.selectedThemes,
       );
       newRounds = shuffle<Round>([...unknownRounds, ...beginnerRounds]);
     } else {
-      newRounds = await this.roundFetcher.getRounds(this.difficulty.id, 15, this.selectedThemes);
+      newRounds = await this.roundFetcher.getRounds(
+        this.difficulty.id,
+        this.roundsToFetch,
+        this.selectedThemes,
+      );
     }
     this.rounds = newRounds;
   }
