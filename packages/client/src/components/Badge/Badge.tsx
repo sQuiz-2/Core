@@ -37,7 +37,7 @@ export default function Badge({
         ]}
       />
       {displayInfo && (
-        <View style={styles.label}>
+        <View style={[styles.label, { top: overForInfo ? '0%' : '100%' }]}>
           <Text fontSize="sm">{badgeName}</Text>
         </View>
       )}

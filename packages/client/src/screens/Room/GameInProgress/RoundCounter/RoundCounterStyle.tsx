@@ -8,10 +8,14 @@ export default function useRoundCounterStyle() {
     container: {
       flexDirection: 'row',
       justifyContent: 'space-between',
-      marginVertical: 10,
-      height: 37,
-      overflowY: 'scroll',
-      overflowX: 'none',
+      marginTop: 10,
+      height: 45,
+      overflowY: 'auto',
+      overflowX: 'auto',
+    },
+    textContainer: {
+      width: 20,
+      height: 27,
     },
     medal: {
       width: 19,
