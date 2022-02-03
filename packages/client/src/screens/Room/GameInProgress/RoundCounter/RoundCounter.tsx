@@ -16,7 +16,7 @@ export default function RoundCounter() {
       {ranks.map((rank, value) => {
         const image = getMedalWithRank(rank);
         return (
-          <Text key={value} fontSize="xl">
+          <Text key={value} fontSize="xl" style={styles.textContainer}>
             {image ? <Image source={image} style={styles.medal} /> : <View style={styles.dot} />}
           </Text>
         );

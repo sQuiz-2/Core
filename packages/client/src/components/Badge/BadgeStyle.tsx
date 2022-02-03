@@ -21,7 +21,6 @@ export default function useBadgeStyle() {
       justifyContent: 'center',
       alignItems: 'center',
       position: 'absolute',
-      top: '100%',
       left: '50%',
       //@ts-ignore
       transform: 'translate(-50%, -50%)',
