@@ -10,14 +10,20 @@ export function normalizedValue(str: string): string {
   value = value.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   // Remove hyphens
   value = value.replace(/-/g, ' ');
-  // Remove œ
+  // Remove dot
+  value = value.replace(/./g, ' ');
+  // Remove colon
+  value = value.replace(/:/g, ' ');
+  // Remove apostrophe
+  value = value.replace(/'/g, ' ');
+  // Replace œ
   value = value.replace(/œ/g, 'oe');
   return value;
 }
 
 export function removePrefix(str: string): string {
-  // special case : l'
-  if (str.startsWith("l'") || str.startsWith("d'")) {
+  // special case : l', d', s'
+  if (str.startsWith("l'") || str.startsWith("d'") || str.startsWith("s'")) {
     return str.substring(2);
   }
   // basic cases
@@ -40,6 +46,8 @@ export function removePrefix(str: string): string {
     'pour',
     'au',
     'aux',
+    'dans',
+    'a',
   ];
   const splitAnswer = str.split(' ');
   if (splitAnswer.length > 1 && prefix.includes(splitAnswer[0])) {
