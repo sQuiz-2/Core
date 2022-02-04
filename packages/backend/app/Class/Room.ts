@@ -519,7 +519,7 @@ export default class Room {
     for (let i = 0, position = 1; i < this.players.length; i++) {
       this.players[i].position = position;
       if (this.players[i + 1] && this.players[i + 1].score < this.players[i].score) {
-        position++;
+        position = i + 2;
       }
     }
   }
