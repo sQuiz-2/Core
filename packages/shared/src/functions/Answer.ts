@@ -1,6 +1,7 @@
 export default function parseAnswer(answer: string) {
   let result = normalizedValue(answer);
   result = removePrefix(result);
+  result = result.replace(/ /g, '');
   return result;
 }
 
@@ -8,16 +9,12 @@ export function normalizedValue(str: string): string {
   let value = str.toLowerCase();
   // Remove accents
   value = value.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-  // Remove hyphens
-  value = value.replace(/-/g, ' ');
-  // Remove dot
-  value = value.replace(/./g, ' ');
-  // Remove colon
-  value = value.replace(/:/g, ' ');
-  // Remove apostrophe
-  value = value.replace(/'/g, ' ');
+  // Remove hyphens, dot, colon
+  value = value.replace(/-|\.|:/g, '');
   // Replace œ
   value = value.replace(/œ/g, 'oe');
+  // Remove ending and beginning spaces
+  value = value.trim();
   return value;
 }
 
