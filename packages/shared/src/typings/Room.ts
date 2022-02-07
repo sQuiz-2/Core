@@ -47,6 +47,7 @@ export type EmitAnswerIsValid = {
 export type EmitScoreDetails = {
   streak: number;
   position: number;
+  timeToAnswer: string;
 };
 
 export type EmitRanks = number[];
