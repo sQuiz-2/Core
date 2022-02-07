@@ -129,7 +129,7 @@ export default class Quiz extends Room {
     this.emitToSocket(
       GameEvent.ValidAnswer,
       {
-        scoreDetail: { ...scoreDetail, timeToAnswer: player.timeToAnswer + 's' },
+        scoreDetail,
         rank: player.currentRank,
         score: player.score,
         position: player.position,
