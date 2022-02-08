@@ -24,7 +24,7 @@ export default function useOAuthTwitch(onSuccess: (token: string) => void) {
       clientId: process.env.TWITCH_CLIENT_ID || '',
       // For usage in managed apps using the proxy
       redirectUri: makeRedirectUri({}),
-      scopes: ['user:read:email', 'user:read:subscriptions'],
+      scopes: ['user:read:email', 'user:read:subscriptions', 'channel:read:redemptions'],
     },
     TwitchDiscovery
   );
