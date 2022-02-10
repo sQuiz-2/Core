@@ -3,7 +3,6 @@ import Database from '@ioc:Adonis/Lucid/Database';
 import {
   Avatars,
   badgeNames,
-  badgesSpecial,
   computeLevel,
   isAllowedSpecialBadge,
   MeBasic,

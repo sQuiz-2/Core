@@ -1,6 +1,6 @@
 import userBasicInfoState from '@Src/global/userBasicInfos';
 import userState from '@Src/global/userState';
-import { badges as badgesList } from '@squiz/shared';
+import { subBadges } from '@squiz/shared';
 import { useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
@@ -42,8 +42,8 @@ export default function useAutoSetBadges() {
 
   async function autoEquipBadge() {
     if (!userBasicInfos || !user.token) return;
-    for (const i in badgesList) {
-      const { broadcasterId, name } = badgesList[i];
+    for (const i in subBadges) {
+      const { broadcasterId, name } = subBadges[i];
       const isSub = await fetchFromTwitch(broadcasterId, user.token);
       if (isSub) {
         put({ path: 'me-edit', token: user.token, body: { badge: name } });
