@@ -1,14 +1,21 @@
 import userBasicInfoState from '@Src/global/userBasicInfos';
 import userState from '@Src/global/userState';
-import { subBadges } from '@squiz/shared';
-import { useEffect } from 'react';
+import { get, put } from '@Src/utils/wrappedFetch';
+import { badgeNames, subBadges } from '@squiz/shared';
+import React, { useEffect, useState } from 'react';
+import { View } from 'react-native';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { get, put } from '../wrappedFetch';
+import LockedBadge from '../../LockedBadge';
 
-export default function useAutoSetBadges() {
+type RewardBadgesProps = {
+  handlePress: (badgeId: string) => void;
+};
+
+export default function SubBadges({ handlePress }: RewardBadgesProps) {
   const [userBasicInfos, setUserBasicInfos] = useRecoilState(userBasicInfoState);
   const user = useRecoilValue(userState);
+  const [subList, setSubList] = useState<{ badgeId: string; isSub: boolean }[]>([]);
 
   async function fetchFromTwitch(broadcasterId: string, userToken: string) {
     const request = new Request(
@@ -40,25 +47,44 @@ export default function useAutoSetBadges() {
     }
   }
 
-  async function autoEquipBadge() {
+  async function fetchUnlockedBadges() {
     if (!userBasicInfos || !user.token) return;
+    const subs = [];
     for (const i in subBadges) {
-      const { broadcasterId, name } = subBadges[i];
+      const { broadcasterId, id } = subBadges[i];
       const isSub = await fetchFromTwitch(broadcasterId, user.token);
-      if (isSub) {
-        put({ path: 'me-edit', token: user.token, body: { badge: name } });
-        setUserBasicInfos({ ...userBasicInfos, badge: name });
+      // If the user is not sub anymore but still have the badge
+      if (isSub === false && userBasicInfos.badge === id) {
+        put({ path: 'me-edit', token: user.token, body: { badge: badgeNames.Default } });
+        setUserBasicInfos({ ...userBasicInfos, badge: badgeNames.Default });
       }
+      subs.push({ badgeId: id, isSub });
     }
+    setSubList(subs);
   }
 
   useEffect(() => {
-    if (
-      userBasicInfos &&
-      (userBasicInfos.badge === '1' || userBasicInfos.badge === 'Default') &&
-      user.token
-    ) {
-      autoEquipBadge();
-    }
-  }, [userBasicInfos, user]);
+    if (!userBasicInfos?.twitchId) return;
+    fetchUnlockedBadges();
+  }, [userBasicInfos]);
+
+  if (!userBasicInfos) return null;
+
+  return (
+    <>
+      {subBadges.map((sub) => {
+        return (
+          <View key={sub.id}>
+            <LockedBadge
+              onPress={handlePress}
+              selected={userBasicInfos.badge === sub.id}
+              name={sub.name}
+              id={sub.id}
+              lock={!subList.find(({ badgeId, isSub }) => badgeId === sub.id && isSub)}
+            />
+          </View>
+        );
+      })}
+    </>
+  );
 }

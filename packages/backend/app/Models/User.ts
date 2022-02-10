@@ -5,6 +5,7 @@ import { DateTime } from 'luxon';
 
 import ApiToken from './ApiToken';
 import OauthToken from './OauthToken';
+import UserBadges from './UserBadge';
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
@@ -27,6 +28,9 @@ export default class User extends BaseModel {
 
   @column()
   public badge: string;
+
+  @hasMany(() => UserBadges)
+  public badges: HasMany<typeof UserBadges>;
 
   @column()
   public staff: boolean;
