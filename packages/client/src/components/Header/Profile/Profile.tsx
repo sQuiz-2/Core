@@ -6,6 +6,7 @@ import avatars from '@Src/utils/loadAvatars';
 import { badges } from '@Src/utils/loadBadges';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { useTheme, useNavigation } from '@react-navigation/native';
+import { allBadgesInfos } from '@squiz/shared';
 import React from 'react';
 import { View, Image } from 'react-native';
 import { useRecoilValue } from 'recoil';
@@ -39,7 +40,11 @@ export default function Profile() {
                 style={styles.avatar}
               />
               {badges[userBasicInfos.badge as keyof typeof badges] && (
-                <Badge badgeName={userBasicInfos.badge} imageStyle={styles.avatar} />
+                <Badge
+                  id={userBasicInfos.badge}
+                  badgeName={allBadgesInfos.find(({ id }) => id === userBasicInfos.badge)?.name}
+                  imageStyle={styles.avatar}
+                />
               )}
             </>
           )}

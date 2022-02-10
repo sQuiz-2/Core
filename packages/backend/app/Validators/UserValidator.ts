@@ -7,7 +7,7 @@ export default class UserValidator {
 
   public schema = schema.create({
     avatar: schema.string.optional({}, [rules.keyOf(Avatars)]),
-    badge: schema.string.optional({}, [rules.keyOf(badgeNames)]),
+    badge: schema.enum.optional(Object.values(badgeNames)),
   });
 
   public messages = {};

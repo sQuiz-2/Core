@@ -1,18 +1,19 @@
-import { badgeNames, Ranks } from '../enums';
+import { Ranks } from '../enums';
+import { badgeSpecialId } from '../enums/Badges';
 
 export type PlayerSpecialBadgeInfos = {
   rank: keyof typeof Ranks;
-  createdDate: string;
+  /* createdDate: string; */
 };
 
 export function isAllowedSpecialBadge(
-  badgeName: keyof typeof badgeNames,
+  badgeName: badgeSpecialId,
   playerInfos: PlayerSpecialBadgeInfos
 ): boolean {
   const { rank } = playerInfos;
-  if (badgeName === 'VIP' && rank === Ranks.VIP) return true;
-  if (badgeName === 'Fondateur' && rank === Ranks.Fondateur) return true;
-  if (badgeName === 'Staff' && rank === Ranks.Staff) return true;
-  if (badgeName === 'Streamer' && rank === Ranks.Streamer) return true;
+  if (badgeName === badgeSpecialId.VIP && rank === Ranks.VIP) return true;
+  if (badgeName === badgeSpecialId.Fondateur && rank === Ranks.Fondateur) return true;
+  if (badgeName === badgeSpecialId.Staff && rank === Ranks.Staff) return true;
+  if (badgeName === badgeSpecialId.Streamer && rank === Ranks.Streamer) return true;
   return false;
 }

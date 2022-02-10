@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export enum StorageEnum {
-  User = 'sQuiz-userV3',
+  User = 'sQuiz-userV2',
   SoundVolume = 'sQuiz-sound-volume',
 }
 

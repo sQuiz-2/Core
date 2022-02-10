@@ -3,13 +3,19 @@ import Database from '@ioc:Adonis/Lucid/Database';
 import {
   Avatars,
   badgeNames,
-  badges,
   badgesSpecial,
   computeLevel,
   isAllowedSpecialBadge,
   MeBasic,
   ProviderEnum,
   Ranks,
+  badgeSpecialId,
+  subBadges,
+  badgeRewardId,
+  badgeRewardIdValues,
+  badgeSpecialIdValues,
+  badgeSubIdValues,
+  badgeSubId,
 } from '@squiz/shared';
 import RoomPool from 'App/Class/RoomPool';
 import GameStat from 'App/Models/GameStat';
@@ -134,20 +140,26 @@ export default class UsersController {
       }
       auth.user!.avatar = data.avatar;
     }
-    if (data.badge && badgesSpecial.find((badge) => badge.name === data.badge)) {
+    if (data.badge && badgeSpecialIdValues.includes(data.badge as badgeSpecialId)) {
       // Special badges
-      const { createdAt, rank } = auth.user!;
-      const isAllowed = isAllowedSpecialBadge(data.badge as keyof typeof badgeNames, {
-        createdDate: createdAt.toJSON(),
+      const { rank } = auth.user!;
+      const isAllowed = isAllowedSpecialBadge(data.badge as badgeSpecialId, {
         rank: rank as Ranks,
       });
       if (isAllowed) {
         auth.user!.badge = data.badge;
       }
-    } else if (data.badge && data.badge !== badgeNames.Default) {
+    } else if (data.badge && badgeRewardIdValues.includes(data.badge as badgeRewardId)) {
+      // Rewards badges
+      await auth.user?.load('badges');
+      const userBadges = auth.user?.badges.map(({ badgeId }) => badgeId);
+      if (userBadges && userBadges.includes(data.badge)) {
+        auth.user!.badge = data.badge;
+      }
+    } else if (data.badge && badgeSubIdValues.includes(data.badge as badgeSubId)) {
       // Subs badges
       // Check if the user is sub
-      const badgeInfos = badges.find((badge) => badge.name === data.badge);
+      const badgeInfos = subBadges.find((badge) => badge.id === data.badge);
       await auth.user?.load('oAuthToken');
       const twitchInfos = auth.user?.oAuthToken.find(
         ({ providerId }) => providerId === ProviderEnum.Twitch,

@@ -14,16 +14,36 @@ export default function useBadgeStyle() {
     pictureAbsolute: {
       position: 'absolute',
     },
+    labelContainer: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      position: 'absolute',
+      left: '53%',
+      width: '10vw',
+      //@ts-ignore
+      transform: 'translate(-50%, -50%)',
+    },
     label: {
       backgroundColor: colors.background,
       borderRadius: 5,
       paddingHorizontal: 5,
       justifyContent: 'center',
       alignItems: 'center',
+    },
+    lockedDescriptionContainer: {
+      justifyContent: 'center',
+      alignItems: 'center',
       position: 'absolute',
       left: '50%',
+      width: '30vw',
+      top: '50%',
       //@ts-ignore
       transform: 'translate(-50%, -50%)',
+    },
+    lockedDescription: {
+      backgroundColor: colors.background,
+      borderRadius: 5,
+      paddingHorizontal: 5,
     },
   });
 }

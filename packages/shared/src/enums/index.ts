@@ -17,6 +17,6 @@ export { Report, ReportDetail } from './Reports';
 
 export { default as Avatars } from './Avatars';
 
-export { Badge, Badges, badges, badgeNames, BadgesSpecial, badgesSpecial } from './Badges';
+export * from './Badges';
 
 export { Ranks } from './Ranks';

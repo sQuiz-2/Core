@@ -1,15 +1,19 @@
 const badgesTwitch = {
-  Xari: require('@Assets/images/badges/Xari.png'),
+  'sub-1': require('@Assets/images/badges/sub-1.png'),
   // Domingo: require('@Assets/images/badges/Domingo.png'),
 };
 
 export default badgesTwitch;
 
-export const badgesSpecial = {
-  Fondateur: require('@Assets/images/badges/Fondateur.png'),
-  Staff: require('@Assets/images/badges/Staff.png'),
-  Streamer: require('@Assets/images/badges/Streamer.png'),
-  VIP: require('@Assets/images/badges/VIP.png'),
+export const badgesTwitchReward = {
+  'reward-1': require('@Assets/images/badges/reward-1.png'),
 };
 
-export const badges = { ...badgesTwitch, ...badgesSpecial };
+export const badgesSpecial = {
+  'special-1': require('@Assets/images/badges/special-1.png'),
+  'special-2': require('@Assets/images/badges/special-2.png'),
+  'special-3': require('@Assets/images/badges/special-3.png'),
+  'special-4': require('@Assets/images/badges/special-4.png'),
+};
+
+export const badges = { ...badgesTwitch, ...badgesSpecial, ...badgesTwitchReward };
