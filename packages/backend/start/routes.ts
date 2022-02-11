@@ -18,3 +18,4 @@ import './routes/Auth';
 import './routes/News';
 import './routes/Rooms';
 import './routes/Scoreboard';
+import './routes/Badges';

@@ -169,7 +169,11 @@ export default class Player {
 
     this.timeToAnswer = timeToAnswer / 1000;
 
-    return { streak: this.streak, position: additionalPoints };
+    return {
+      streak: this.streak,
+      position: additionalPoints,
+      timeToAnswer: this.timeToAnswer + 's',
+    };
   }
 
   /**

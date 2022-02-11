@@ -2,7 +2,7 @@ import Badge from '@Src/components/Badge';
 import { DisplayPlayer } from '@Src/global/playerInfoState';
 import avatars from '@Src/utils/loadAvatars';
 import { getMedalWithRank } from '@Src/utils/medals';
-import { GameRank, TopTimeAnswer } from '@squiz/shared';
+import { allBadgesInfos, GameRank, TopTimeAnswer } from '@squiz/shared';
 import React from 'react';
 import { View, StyleProp, ViewStyle, TextStyle, Image } from 'react-native';
 
@@ -34,7 +34,11 @@ export default function PlayerRow({
         </View>
 
         <Image source={avatars[player.avatar as keyof typeof avatars]} style={styles.avatar} />
-        <Badge badgeName={player.badge} imageStyle={styles.avatar} />
+        <Badge
+          id={player.badge}
+          badgeName={allBadgesInfos.find(({ id }) => id === player.badge)?.name}
+          imageStyle={styles.avatar}
+        />
         <Text fontSize="lg" style={textStyle}>
           {player.name.length > 14 ? player.name.substring(0, 14) + '...' : player.name}
         </Text>

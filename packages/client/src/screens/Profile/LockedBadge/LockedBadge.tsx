@@ -10,31 +10,42 @@ export default function LockedBadge({
   lock = false,
   onPress,
   name,
+  id,
+  lockedDescription,
 }: {
   lock?: boolean;
   selected?: boolean;
   onPress: (avatar: string) => void;
   name: string;
+  id: string;
+  lockedDescription?: string;
 }) {
   const { colors } = useTheme();
 
   if (lock) {
     return (
       <View style={styles.containerStyle}>
-        <Badge locked badgeName={name} imageStyle={styles.pictureWidth} overForInfo={false} />
+        <Badge
+          locked
+          badgeName={name}
+          id={id}
+          imageStyle={styles.pictureWidth}
+          overForInfo={false}
+          lockedDescription={lockedDescription}
+        />
       </View>
     );
   }
   return (
     <Pressable
-      onPress={() => onPress(name)}
+      onPress={() => onPress(id)}
       style={[
         styles.containerStyle,
         {
           backgroundColor: selected ? colors.notification : 'none',
         },
       ]}>
-      <Badge badgeName={name} imageStyle={styles.pictureWidth} overForInfo={false} />
+      <Badge badgeName={name} id={id} imageStyle={styles.pictureWidth} overForInfo={false} />
     </Pressable>
   );
 }

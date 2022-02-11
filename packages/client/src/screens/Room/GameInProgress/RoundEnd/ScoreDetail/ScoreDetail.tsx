@@ -19,12 +19,16 @@ export default function ScoreDetail({ scoreDetail }: ScoreDetailProps) {
         <Text fontSize="lg" style={styles.scoreText}>
           +5 points
         </Text>
-        <Text fontSize="lg" style={styles.scoreText}>
-          +{scoreDetail.streak} combo
-        </Text>
-        <Text fontSize="lg" style={styles.scoreText}>
-          +{scoreDetail.position} position
-        </Text>
+        {scoreDetail.streak > 0 && (
+          <Text fontSize="lg" style={styles.scoreText}>
+            +{scoreDetail.streak} combo
+          </Text>
+        )}
+        {scoreDetail.position > 0 && (
+          <Text fontSize="lg" style={styles.scoreText}>
+            +{scoreDetail.position} position
+          </Text>
+        )}
       </View>
     </View>
   );

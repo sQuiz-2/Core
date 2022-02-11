@@ -11,12 +11,18 @@ import React, { useState, createRef, useEffect } from 'react';
 import { TextInput, NativeSyntheticEvent, TextInputKeyPressEventData } from 'react-native';
 import { useRecoilValue } from 'recoil';
 
+import { GuessStatus } from '../../GameInProgress/GameInProgress';
 import GameTimer from '../GameTimer';
 import Life from '../Life';
 import styles from './GameInputStyle';
 import useCheatTab from './useCheatTab';
 
-export default function GameInput() {
+type GameInputProps = {
+  handleGuess: (guess: string, guessStatus: GuessStatus) => void;
+  wrongGuess: () => void;
+};
+
+export default function GameInput({ handleGuess, wrongGuess }: GameInputProps) {
   const [playerAnswer, setPlayerAnswer] = useState('');
   const [cheating, setCheating] = useState(false);
   const roomSocket = useRecoilValue(roomSocketState);
@@ -38,10 +44,12 @@ export default function GameInput() {
   function wrongAnswer() {
     wrongSound?.play();
     setLife(life - 1);
+    wrongGuess();
   }
 
   function emitAnswer() {
     if (roomSocket && isQuestionTime && life > 0) {
+      handleGuess(playerAnswer, GuessStatus.Waiting);
       const parsedAnswer = parseAnswer(playerAnswer);
       roomSocket.emit('guess', parsedAnswer);
       setPlayerAnswer('');

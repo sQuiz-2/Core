@@ -1,0 +1,30 @@
+{
+  "name": "squiz-handle-buy-custom-reward",
+  "description": "squiz-handle-buy-custom-reward",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "got": "^11.8.2"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.17.0",
+    "@typescript-eslint/parser": "^4.17.0",
+    "eslint": "^7.22.0",
+    "eslint-config-universe": "^7.0.1",
+    "prettier": "^2.2.1",
+    "typescript": "^4.2.3"
+  },
+  "scripts": {
+    "test": "jest",
+    "build": "tsc",
+    "prestart": "yarn build && sam build",
+    "start": "sam local invoke 'HandleBuyCustomReward' --docker-network core_default --env-vars env.json -e events/event-verification.json",
+    "predeploy": "yarn build && sam build",
+    "deploy": "sam deploy",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint --ext '.js,.ts,.tsx' ./src --max-warnings=0"
+  },
+  "eslintConfig": {
+    "extends": "universe/node"
+  }
+}
