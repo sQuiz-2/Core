@@ -9,10 +9,6 @@ const MESSAGE_TYPE_VERIFICATION = 'webhook_callback_verification';
 const MESSAGE_TYPE_NOTIFICATION = 'notification';
 const MESSAGE_TYPE_REVOCATION = 'revocation';
 
-const NOTIFICATION_TYPE = 'channel.channel_points_custom_reward_redemption.add';
-
-const FULFILLED = 'fulfilled';
-
 exports.handleBuyCustomReward = async (req: any) => {
   console.log(req);
   const success = isValidMessage(req);
@@ -21,21 +17,9 @@ exports.handleBuyCustomReward = async (req: any) => {
     const notification = JSON.parse(req.body);
 
     if (MESSAGE_TYPE_NOTIFICATION === req.headers[MESSAGE_TYPE]) {
-      console.log('notification', notification.subscription.type);
-      if (notification.subscription.type === NOTIFICATION_TYPE) {
-        const {
-          user_id: userId,
-          broadcaster_user_id: streamerId,
-          reward,
-          status,
-        } = notification.event;
-        console.log('reward.id', reward.id, 'userId', userId, 'streamerId', streamerId);
-        if (status === FULFILLED) {
-          await applyBadge(reward.id, userId, streamerId);
-        } else {
-          console.log('Not FULFILLED');
-        }
-      }
+      const { user_id: userId, broadcaster_user_id: streamerId, reward } = notification.event;
+      console.log('reward.id', reward.id, 'userId', userId, 'streamerId', streamerId);
+      await applyBadge(reward.id, userId, streamerId);
       return { statusCode: 204 };
     } else if (MESSAGE_TYPE_VERIFICATION === req.headers[MESSAGE_TYPE]) {
       return { statusCode: 200, body: notification.challenge };

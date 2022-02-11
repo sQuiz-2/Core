@@ -50,13 +50,13 @@ export enum badgeRewardId {
 export const badgeRewardIdValues = Object.values(badgeRewardId);
 
 export const twitchRewards: TwitchRewardsBadges = [
-  {
+  /* {
     id: badgeRewardId.XariCoin,
     broadcasterId: Streamers.Xari,
     rewardId: RewardsId.Xari,
     name: 'Team PAX',
     description: 'À débloquer sur la chaine de Xari',
-  },
+  }, */
 ];
 
 export type BadgesSpecial = {
