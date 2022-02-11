@@ -21,7 +21,7 @@ export const subBadges: SubBadges = [
   {
     id: badgeSubId.Xari,
     broadcasterId: '88301612',
-    name: 'Sub à Xari',
+    name: 'Sub chez Xari',
   },
   /* {
     broadcasterId: '40063341',
