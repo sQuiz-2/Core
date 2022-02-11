@@ -153,7 +153,7 @@ export default function CreateRoom() {
         value={rounds}
         onValueChange={setRounds}
       />
-      <Text style={[styles.title, styles.separator]}>Thèmes</Text>
+      <Text style={[styles.title, styles.separator]}>Catégories</Text>
       <View style={styles.themeSelectAllContainer}>
         <Pressable onPress={enableAllThemes} style={styles.selectTheme}>
           <Text>Tout selectioner</Text>
