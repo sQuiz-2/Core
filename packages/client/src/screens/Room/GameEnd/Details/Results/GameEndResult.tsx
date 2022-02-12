@@ -2,6 +2,7 @@ import Card from '@Src/components/Card';
 import { LargeExperienceBar } from '@Src/components/ExperienceBar';
 import Text from '@Src/components/Text';
 import Timer from '@Src/components/Timer';
+import completeScoreboardState from '@Src/global/Room/completeScoreboard';
 import onlinePlayersState from '@Src/global/Room/onlinePlayers';
 import playerScoreState from '@Src/global/Room/playerScore';
 import roomInfosState from '@Src/global/Room/roomInfos';
@@ -19,6 +20,8 @@ export default function RoomGameEndResult() {
   const userBasicInfos = useRecoilValue(userBasicInfoState);
   const roomInfos = useRecoilValue(roomInfosState);
   const [staticOnlinePlayers, setStaticOnlinePlayers] = useState(0);
+  const allPlayers = useRecoilValue(completeScoreboardState);
+  const playerPosition = allPlayers.find((player) => player.id === playerScore?.id)?.position;
   const [staticPlayerScore, setStaticPlayerScore] = useState<null | Player>(null);
 
   useEffect(() => {
@@ -45,8 +48,8 @@ export default function RoomGameEndResult() {
       <View style={styles.content}>
         <View style={styles.textContainer}>
           <View style={styles.positionContainer}>
-            <Text fontSize="xxl">{staticPlayerScore.position}</Text>
-            <Text fontSize="xl">{staticPlayerScore.position === 1 ? 'er' : 'e'}</Text>
+            <Text fontSize="xxl">{playerPosition}</Text>
+            <Text fontSize="xl">{playerPosition === 1 ? 'er' : 'e'}</Text>
           </View>
           <Text fontSize="xl">
             /{staticOnlinePlayers} joueur{staticOnlinePlayers > 1 && 's'}

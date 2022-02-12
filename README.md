@@ -141,9 +141,10 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="http://m4gie.com/"><img src="https://avatars2.githubusercontent.com/u/33150916?v=4?s=100" width="100px;" alt=""/><br /><sub><b>M4gie</b></sub></a><br /><a href="https://github.com/M4gie/sQuiz/commits?author=M4gie" title="Code">💻</a> <a href="#design-M4gie" title="Design">🎨</a> <a href="#infra-M4gie" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
-    <td align="center"><a href="https://github.com/JulesDT"><img src="https://avatars2.githubusercontent.com/u/14008484?v=4?s=100" width="100px;" alt=""/><br /><sub><b>JulesD</b></sub></a><br /><a href="https://github.com/M4gie/sQuiz/commits?author=JulesDT" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/kahlys"><img src="https://avatars0.githubusercontent.com/u/23560176?v=4?s=100" width="100px;" alt=""/><br /><sub><b>kahlys</b></sub></a><br /><a href="https://github.com/M4gie/sQuiz/commits?author=kahlys" title="Code">💻</a></td>
+    <td align="center"><a href="http://m4gie.com/"><img src="https://avatars2.githubusercontent.com/u/33150916?v=4?s=100" width="100px;" alt=""/><br /><sub><b>M4gie</b></sub></a><br /><a href="https://github.com/sQuiz-2/Core/commits?author=M4gie" title="Code">💻</a> <a href="#design-M4gie" title="Design">🎨</a> <a href="#infra-M4gie" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
+    <td align="center"><a href="https://github.com/JulesDT"><img src="https://avatars2.githubusercontent.com/u/14008484?v=4?s=100" width="100px;" alt=""/><br /><sub><b>JulesD</b></sub></a><br /><a href="https://github.com/sQuiz-2/Core/commits?author=JulesDT" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/kahlys"><img src="https://avatars0.githubusercontent.com/u/23560176?v=4?s=100" width="100px;" alt=""/><br /><sub><b>kahlys</b></sub></a><br /><a href="https://github.com/sQuiz-2/Core/commits?author=kahlys" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/Worazme"><img src="https://avatars.githubusercontent.com/u/39632157?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Worazme</b></sub></a><br /><a href="https://github.com/sQuiz-2/Core/commits?author=Worazme" title="Code">💻</a> <a href="#content-Worazme" title="Content">🖋</a></td>
   </tr>
 </table>
 

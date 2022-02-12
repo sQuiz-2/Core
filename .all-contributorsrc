@@ -1,6 +1,6 @@
 {
-  "projectName": "sQuiz",
-  "projectOwner": "M4gie",
+  "projectName": "Core",
+  "projectOwner": "sQuiz-2",
   "repoType": "github",
   "repoHost": "https://github.com",
   "files": [
@@ -38,8 +38,18 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "Worazme",
+      "name": "Worazme",
+      "avatar_url": "https://avatars.githubusercontent.com/u/39632157?v=4",
+      "profile": "https://github.com/Worazme",
+      "contributions": [
+        "code",
+        "content"
+      ]
     }
   ],
-  "contributorsPerLine": 7
+  "contributorsPerLine": 7,
+  "skipCi": true
 }
-
