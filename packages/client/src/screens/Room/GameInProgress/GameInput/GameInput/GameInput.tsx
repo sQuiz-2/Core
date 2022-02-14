@@ -48,7 +48,7 @@ export default function GameInput({ handleGuess, wrongGuess }: GameInputProps) {
   }
 
   function emitAnswer() {
-    if (roomSocket && isQuestionTime && life > 0) {
+    if (roomSocket && isQuestionTime && life > 0 && playerAnswer.length > 0) {
       handleGuess(playerAnswer, GuessStatus.Waiting);
       const parsedAnswer = parseAnswer(playerAnswer);
       roomSocket.emit('guess', parsedAnswer);

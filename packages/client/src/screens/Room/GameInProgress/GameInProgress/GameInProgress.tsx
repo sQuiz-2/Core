@@ -34,6 +34,10 @@ export default function GameInProgress() {
   const isQuestionTime = useRecoilValue(isQuestionTimeState);
 
   function handleGuess(guess: string, guessStatus: GuessStatus) {
+    const correctAnswer = guesses.findIndex(
+      ({ guessStatus }) => guessStatus === GuessStatus.Correct
+    );
+    if (correctAnswer !== -1) return;
     setGuesses([...guesses, { guess, guessStatus }]);
   }
 
