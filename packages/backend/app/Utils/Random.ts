@@ -7,3 +7,7 @@ export function randomString(length: number) {
   }
   return result;
 }
+
+export function getRandomNumber(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min) + min);
+}
