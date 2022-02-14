@@ -25,7 +25,6 @@
     "expo": "^40.0.0",
     "expo-auth-session": "~3.0.0",
     "expo-av": "~8.7.0",
-    "expo-blur": "~8.2.2",
     "expo-linear-gradient": "~8.4.0",
     "expo-random": "~10.0.0",
     "expo-status-bar": "~1.0.3",

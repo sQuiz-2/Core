@@ -2,7 +2,6 @@ import { CenterContainer } from '@Src/components/Containers';
 import Text from '@Src/components/Text';
 import roomInfosState from '@Src/global/Room/roomInfos';
 import { useTheme } from '@react-navigation/native';
-import { BlurView } from 'expo-blur';
 import React, { useState } from 'react';
 import { ActivityIndicator, Pressable, View } from 'react-native';
 import { useRecoilValue } from 'recoil';
@@ -27,11 +26,15 @@ export default function RoomTitle() {
         <Text fontFamily="title" fontSize="xxl">
           CODE:
         </Text>
-        <View style={styles.privateCodeContainer}>
+        <View
+          style={[
+            styles.privateCodeContainer,
+            /* @ts-ignore */
+            blurred && { filter: 'blur(10px)' },
+          ]}>
           <Text fontFamily="title" fontSize="xxl">
             {roomInfos.title.toLocaleUpperCase()}
           </Text>
-          <BlurView intensity={blurred ? 30 : 0} style={styles.codeBlur} />
         </View>
       </Pressable>
     );
