@@ -2,6 +2,7 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import { oAuthResponse, ProviderEnum } from '@squiz/shared';
 import AuthenticationException from 'App/Exceptions/AuthenticationException';
 import User from 'App/Models/User';
+import { getRandomNumber } from 'App/Utils/Random';
 import Twitch from 'App/Utils/oAuth/Twitch';
 import LoginValidator from 'App/Validators/LoginValidator';
 import OAuthValidator from 'App/Validators/OAuthValidator';
@@ -31,10 +32,13 @@ export default class AuthController {
     // Retrieve user's twitch access token
     const oAuthData = await twitch.login(code);
     // Create a new user or get the user if already exist
-    const user = await User.firstOrCreate({
-      providerId: ProviderEnum.Twitch,
-      providerUserId: oAuthData.userId,
-    });
+    const user = await User.firstOrCreate(
+      {
+        providerId: ProviderEnum.Twitch,
+        providerUserId: oAuthData.userId,
+      },
+      { badge: getRandomNumber(1, 5).toString() },
+    );
     // Store/Update user's information (because email or pseudo can change)
     user.merge({ email: oAuthData.email, username: oAuthData.username });
     // Store/Update user's oauth credentials
