@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export enum StorageEnum {
   User = 'sQuiz-userV2',
   SoundVolume = 'sQuiz-sound-volume',
+  CustomGameConfig = 'sQuiz-custom-game-config',
 }
 
 export function setInStore(key: StorageEnum, value: any) {

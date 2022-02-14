@@ -2,6 +2,7 @@ import { Radio, CheckBox } from '@Src/components/Buttons';
 import { TitleCard } from '@Src/components/Card';
 import Text from '@Src/components/Text';
 import userState from '@Src/global/userState';
+import { getFromStore, setInStore, StorageEnum } from '@Src/utils/storage';
 import { get, post } from '@Src/utils/wrappedFetch';
 import { FontAwesome5 } from '@expo/vector-icons';
 import Slider from '@react-native-community/slider';
@@ -33,6 +34,19 @@ export default function CreateRoom() {
     setSelectedThemes(themes.map(({ id }) => id));
   }
 
+  async function setMyPreviousSettings() {
+    const myCustomSettings = await getFromStore<RoomCreateConfig>(StorageEnum.CustomGameConfig);
+    if (!myCustomSettings) return;
+    setSelectedThemes(myCustomSettings.selectedThemes);
+    setPlayers(myCustomSettings.players);
+    setTimeToAnswer(myCustomSettings.timeToAnswer);
+    setAntiCheat(myCustomSettings.antiCheat);
+    setTimeBetweenQuestion(myCustomSettings.timeBetweenQuestion);
+    setSelectedDifficulty(myCustomSettings.selectedDifficulty);
+    setTimeBetweenGames(myCustomSettings.timeBetweenGames);
+    setRounds(myCustomSettings.rounds);
+  }
+
   async function fetchThemes() {
     if (!user.token) return;
     try {
@@ -40,6 +54,7 @@ export default function CreateRoom() {
       if (!themes) return;
       setThemes(themes);
       setSelectedThemes(themes.map(({ id }) => id));
+      await setMyPreviousSettings();
     } catch (error) {
       console.error(error);
     }
@@ -70,6 +85,7 @@ export default function CreateRoom() {
       rounds,
     };
     try {
+      await setInStore(StorageEnum.CustomGameConfig, roomConfig);
       const room = await post<{ privateCode: string; roomId: string }>({
         path: 'room-create',
         body: roomConfig,
