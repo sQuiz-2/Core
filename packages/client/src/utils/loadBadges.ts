@@ -14,6 +14,10 @@ export const badgesSpecial = {
   'special-2': require('@Assets/images/badges/special-2.png'),
   'special-3': require('@Assets/images/badges/special-3.png'),
   'special-4': require('@Assets/images/badges/special-4.png'),
+  'special-5': {
+    static: require('@Assets/images/badges/special-5-static.png'),
+    animated: 'surprise',
+  },
 };
 
 export const badges = { ...badgesTwitch, ...badgesSpecial, ...badgesTwitchReward };

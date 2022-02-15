@@ -70,6 +70,7 @@ export enum badgeSpecialId {
   Staff = 'special-2',
   Streamer = 'special-3',
   VIP = 'special-4',
+  surprise = 'special-5',
 }
 
 export const badgeSpecialIdValues = Object.values(badgeSpecialId);
@@ -94,6 +95,11 @@ export const badgesSpecial: BadgesSpecial[] = [
     id: badgeSpecialId.VIP,
     name: 'VIP',
     staff: true,
+  },
+  {
+    id: badgeSpecialId.surprise,
+    name: 'Surprise',
+    staff: false,
   },
 ];
 
