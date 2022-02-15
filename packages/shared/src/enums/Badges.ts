@@ -40,7 +40,7 @@ export type TwitchRewardsBadge = {
 export type TwitchRewardsBadges = TwitchRewardsBadge[];
 
 export enum RewardsId {
-  Xari = '01ccb2ee-89cc-4e8e-96cf-f30577cffa13',
+  Xari = 'eaaf38a3-d949-475c-88da-fe4ddf3a848e',
 }
 
 export enum badgeRewardId {
@@ -50,13 +50,13 @@ export enum badgeRewardId {
 export const badgeRewardIdValues = Object.values(badgeRewardId);
 
 export const twitchRewards: TwitchRewardsBadges = [
-  /* {
+  {
     id: badgeRewardId.XariCoin,
     broadcasterId: Streamers.Xari,
     rewardId: RewardsId.Xari,
-    name: 'Team PAX',
+    name: 'Riche',
     description: 'À débloquer sur la chaine de Xari',
-  }, */
+  },
 ];
 
 export type BadgesSpecial = {
