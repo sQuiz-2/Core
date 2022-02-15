@@ -10,7 +10,6 @@ const MESSAGE_TYPE_NOTIFICATION = 'notification';
 const MESSAGE_TYPE_REVOCATION = 'revocation';
 
 exports.handleBuyCustomReward = async (req: any) => {
-  console.log(req);
   const success = isValidMessage(req);
   if (success) {
     // Get JSON object from body, so you can process the message.
