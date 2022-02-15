@@ -30,6 +30,7 @@ export default function Avatars() {
 
   // If the user is not in the staff we only display basic special badges
   const allowedBadges = badgesSpecial.filter((special) => {
+    if (!special.staff) return true;
     if (special.staff && userBasicInfos.rank !== 'Player') {
       return true;
     }

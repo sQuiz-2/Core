@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Platform, TouchableOpacityProps } from 'react-native';
+import { Platform, TouchableOpacityProps, View } from 'react-native';
 
 interface Props extends TouchableOpacityProps {
   onHover: () => void;
@@ -9,7 +9,7 @@ interface Props extends TouchableOpacityProps {
 
 export default function isOver({ onHover, onLeaveOver, ...passThrough }: Props) {
   return (
-    <TouchableOpacity
+    <View
       {...Platform.select({
         web: {
           accessibilityRole: 'link',

@@ -24,6 +24,7 @@ export default function Badge({
   lockedDescription,
 }: Props) {
   const [displayInfo, setDisplayInfo] = useState(!overForInfo);
+  const [animate, setAnimate] = useState(false);
   const [displayDescription, setDisplayDescription] = useState(false);
   const source = badges[id as keyof typeof badges];
   const styles = useBadgeStyle();
@@ -48,18 +49,51 @@ export default function Badge({
     }
   }
 
-  const badgeAndInfos = (
-    <>
-      <View>
-        {locked && <Image source={source} style={[imageStyle, styles.pictureGray as ImageStyle]} />}
+  function handleAnimate() {
+    if (!locked) {
+      setAnimate(true);
+    }
+  }
+
+  function handleLeaveAnimate() {
+    if (!locked) {
+      setAnimate(false);
+    }
+  }
+
+  const badge = source.animated ? (
+    <IsOver onHover={handleAnimate} onLeaveOver={handleLeaveAnimate}>
+      {animate && <Image source={source.animated} style={[imageStyle]} />}
+      {locked && <Image source={source} style={[imageStyle, styles.pictureGray as ImageStyle]} />}
+      {!animate && (
         <Image
-          source={source}
+          source={source.static}
           style={[
             imageStyle,
             locked && (styles.pictureAbsolute as ImageStyle),
             locked && (styles.opacity as ImageStyle),
           ]}
         />
+      )}
+    </IsOver>
+  ) : (
+    <>
+      {locked && <Image source={source} style={[imageStyle, styles.pictureGray as ImageStyle]} />}
+      <Image
+        source={source}
+        style={[
+          imageStyle,
+          locked && (styles.pictureAbsolute as ImageStyle),
+          locked && (styles.opacity as ImageStyle),
+        ]}
+      />
+    </>
+  );
+
+  const badgeAndInfos = (
+    <>
+      <View>
+        {badge}
         {displayInfo && (
           <View style={[styles.labelContainer, { top: overForInfo ? '0%' : '100%' }]}>
             <View style={[styles.label]}>
