@@ -1,5 +1,5 @@
 import tracer from 'dd-trace';
 
-tracer.init({ debug: true });
+tracer.init();
 
 export default tracer;
