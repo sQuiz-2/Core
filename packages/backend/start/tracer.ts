@@ -1,7 +1,5 @@
 import tracer from 'dd-trace';
 
-console.log('before', tracer);
-tracer.init();
-console.log('after', tracer);
+tracer.init({ debug: true });
 
 export default tracer;
