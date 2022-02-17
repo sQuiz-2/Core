@@ -26,6 +26,7 @@ export default class AppProvider {
      * words do not import during ace commands.
      */
     if (App.default.environment === 'web') {
+      await import('../start/tracer');
       /**
        * Room pool needs to be init before the socket
        * because we use the RoomPool in the socket
