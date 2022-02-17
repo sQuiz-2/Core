@@ -37,7 +37,7 @@ export default class AuthController {
         providerId: ProviderEnum.Twitch,
         providerUserId: oAuthData.userId,
       },
-      { badge: getRandomNumber(1, 5).toString() },
+      { avatar: getRandomNumber(1, 5).toString() },
     );
     // Store/Update user's information (because email or pseudo can change)
     user.merge({ email: oAuthData.email, username: oAuthData.username });
