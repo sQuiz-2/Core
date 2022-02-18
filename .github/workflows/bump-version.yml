@@ -15,24 +15,33 @@ jobs:
         uses: 'actions/checkout@v2'
         with:
           ref: ${{ github.ref }}
+      - name: 'Change directory'
+        run: cd ./packages/frontend
       - name: 'Automated Version Bump'
         id: version-bump
         uses: 'phips28/gh-action-bump-version@master'
         with:
           skip-push: 'true'
+      - name: 'Change directory'
+        run: cd ./packages/backend
       - name: 'Automated Version Bump'
-        working-directory: './packages/backend'
         id: version-bump
         uses: 'phips28/gh-action-bump-version@master'
         with:
           skip-push: 'true'
+      - name: 'Change directory'
+        run: cd ./packages/shared
       - name: 'Automated Version Bump'
-        working-directory: './packages/frontend'
         id: version-bump
         uses: 'phips28/gh-action-bump-version@master'
         with:
           skip-push: 'true'
+      - name: 'ls'
+        run: ls
+      - name: 'Change directory'
+        run: cd .
+      - name: 'ls'
+        run: ls
       - name: 'Automated Version Bump'
-        working-directory: './packages/shared'
         id: version-bump
         uses: 'phips28/gh-action-bump-version@master'
