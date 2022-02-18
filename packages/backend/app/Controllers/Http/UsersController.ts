@@ -26,6 +26,7 @@ import AdminValidator from 'App/Validators/AdminValidator';
 import FetchUsersValidator from 'App/Validators/FetchUsers';
 import UserBanValidator from 'App/Validators/UserBanValidator';
 import UserValidator from 'App/Validators/UserValidator';
+import { logger } from 'Config/app';
 import { twitchClientId } from 'Config/auth';
 import got from 'got/dist/source';
 
@@ -202,6 +203,7 @@ export default class UsersController {
     if (!twitchInfos) return response.status(401);
     const { refreshToken: token } = twitchInfos;
     try {
+      console.log(auth.user?.username);
       const newTokens = await refreshToken(token);
       twitchInfos.refreshToken = newTokens.refresh_token;
       twitchInfos.token = newTokens.access_token;
