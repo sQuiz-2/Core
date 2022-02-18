@@ -9,8 +9,6 @@ export type MeBasic = {
   experience: number;
   avatar: string;
   badge: string;
-  twitchId: string | undefined;
-  twitchToken: string | undefined;
   createdDate: string;
   rank: Ranks;
   gameStats: {
@@ -32,6 +30,11 @@ export type MeBasic = {
     createdAt: any;
     userId: number;
   }[];
+};
+
+export type TwitchInfo = {
+  twitchId?: string;
+  twitchToken?: string;
 };
 
 export type PlayerPublicInfos = {

@@ -1,13 +1,13 @@
-import userBasicInfoState from '@Src/global/userBasicInfos';
+/* import userBasicInfoState from '@Src/global/userBasicInfos';
 import userState from '@Src/global/userState';
 import { subBadges } from '@squiz/shared';
 import { useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { get, put } from '../wrappedFetch';
+import { get, put } from '../wrappedFetch'; */
 
 export default function useAutoSetBadges() {
-  const [userBasicInfos, setUserBasicInfos] = useRecoilState(userBasicInfoState);
+  /*   const [userBasicInfos, setUserBasicInfos] = useRecoilState(userBasicInfoState);
   const user = useRecoilValue(userState);
 
   async function fetchFromTwitch(broadcasterId: string, userToken: string) {
@@ -60,5 +60,5 @@ export default function useAutoSetBadges() {
     ) {
       autoEquipBadge();
     }
-  }, [userBasicInfos, user]);
+  }, [userBasicInfos, user]); */
 }

@@ -4,7 +4,7 @@ import NewsValidator from 'App/Validators/NewsValidator';
 
 export default class ThemesController {
   public async index() {
-    return News.query().orderBy('id', 'desc');
+    return News.query().orderBy('id', 'desc').limit(2);
   }
 
   public async store({ request }: HttpContextContract) {
