@@ -1,0 +1,38 @@
+name: 'Bump Version'
+
+on:
+  push:
+    branches:
+      - 'master'
+
+jobs:
+  bump-version:
+    name: 'Bump Version on master'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 'Checkout source code'
+        uses: 'actions/checkout@v2'
+        with:
+          ref: ${{ github.ref }}
+      - name: 'Automated Version Bump'
+        id: version-bump
+        uses: 'phips28/gh-action-bump-version@master'
+        with:
+          skip-push: 'true'
+      - name: 'Automated Version Bump'
+        working-directory: ./packages/backend
+        id: version-bump
+        uses: 'phips28/gh-action-bump-version@master'
+        with:
+          skip-push: 'true'
+      - name: 'Automated Version Bump'
+        working-directory: ./packages/frontend
+        id: version-bump
+        uses: 'phips28/gh-action-bump-version@master'
+        with:
+          skip-push: 'true'
+      - name: 'Automated Version Bump'
+        working-directory: ./packages/shared
+        id: version-bump
+        uses: 'phips28/gh-action-bump-version@master'
