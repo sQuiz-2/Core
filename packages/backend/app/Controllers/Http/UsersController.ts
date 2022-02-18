@@ -15,6 +15,7 @@ import {
   badgeSpecialIdValues,
   badgeSubIdValues,
   badgeSubId,
+  TwitchInfo,
 } from '@squiz/shared';
 import RoomPool from 'App/Class/RoomPool';
 import GameStat from 'App/Models/GameStat';
@@ -77,22 +78,29 @@ export default class UsersController {
     if (!auth.user) return;
     const gameStats = await GameStat.query().where('user_id', auth.user.id);
     const roundStats = await RoundStat.query().where('user_id', auth.user.id);
-    await auth.user.load('oAuthToken');
-    const twitchInfos = auth.user.oAuthToken.find(
-      ({ providerId }) => providerId === ProviderEnum.Twitch,
-    );
     const meBasic: MeBasic = {
       experience: auth.user.experience,
       avatar: auth.user.avatar as keyof typeof Avatars,
       gameStats,
       roundStats,
       badge: auth.user.badge,
-      twitchId: twitchInfos?.providerUserId,
-      twitchToken: twitchInfos?.token,
       createdDate: (auth.user.createdAt as unknown) as string,
       rank: auth.user.rank as Ranks,
     };
     return meBasic;
+  }
+
+  public async twitchToken({ auth }: HttpContextContract) {
+    if (!auth.user) return;
+    await auth.user.load('oAuthToken');
+    const twitchInfos = auth.user.oAuthToken.find(
+      ({ providerId }) => providerId === ProviderEnum.Twitch,
+    );
+    const result: TwitchInfo = {
+      twitchId: twitchInfos?.providerUserId,
+      twitchToken: twitchInfos?.token,
+    };
+    return result;
   }
 
   public async publicUser({ params, response }: HttpContextContract) {

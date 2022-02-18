@@ -1,7 +1,8 @@
 import userBasicInfoState from '@Src/global/userBasicInfos';
 import userState from '@Src/global/userState';
+import { isSubProcess } from '@Src/utils/twitch';
 import { get, put } from '@Src/utils/wrappedFetch';
-import { badgeNames, subBadges } from '@squiz/shared';
+import { badgeNames, subBadges, TwitchInfo } from '@squiz/shared';
 import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -16,43 +17,19 @@ export default function SubBadges({ handlePress }: RewardBadgesProps) {
   const [userBasicInfos, setUserBasicInfos] = useRecoilState(userBasicInfoState);
   const user = useRecoilValue(userState);
   const [subList, setSubList] = useState<{ badgeId: string; isSub: boolean }[]>([]);
-
-  async function fetchFromTwitch(broadcasterId: string, userToken: string) {
-    const request = new Request(
-      `https://api.twitch.tv/helix/subscriptions/user?broadcaster_id=${broadcasterId}&user_id=${userBasicInfos?.twitchId}`,
-      { method: 'get' }
-    );
-    try {
-      const res = await fetch(request, {
-        //@ts-ignore
-        headers: {
-          Authorization: `Bearer ${userBasicInfos?.twitchToken}`,
-          'content-type': 'application/json',
-          'Client-id': process.env.TWITCH_CLIENT_ID,
-        },
-      });
-      if (res.status === 401) {
-        // The twitch token can be expired so wev try again with a new token
-        const newToken = await get<{ token: string }>({
-          path: 'refresh-twitch-token',
-          token: userToken,
-        });
-        if (!newToken) return false;
-        setUserBasicInfos({ ...userBasicInfos!, twitchToken: newToken.token });
-        return false;
-      } else if (res.status !== 200) throw new Error();
-      return true;
-    } catch (ex) {
-      return false;
-    }
-  }
+  const [twitchToken, setTwitchToken] = useState<TwitchInfo>();
 
   async function fetchUnlockedBadges() {
-    if (!userBasicInfos || !user.token) return;
+    if (!userBasicInfos || !user.token || !twitchToken) return;
     const subs = [];
     for (const i in subBadges) {
       const { broadcasterId, id } = subBadges[i];
-      const isSub = await fetchFromTwitch(broadcasterId, user.token);
+      const isSub = await isSubProcess(
+        broadcasterId,
+        user.token,
+        twitchToken.twitchToken as string,
+        twitchToken.twitchId as string
+      );
       // If the user is not sub anymore but still have the badge
       if (isSub === false && userBasicInfos.badge === id) {
         put({ path: 'me-edit', token: user.token, body: { badge: badgeNames.Default } });
@@ -63,9 +40,25 @@ export default function SubBadges({ handlePress }: RewardBadgesProps) {
     setSubList(subs);
   }
 
+  async function fetchTwitchToken() {
+    if (!userBasicInfos || !user.token) return;
+    try {
+      const twitchToken = await get<TwitchInfo>({ path: 'twitch-token', token: user.token });
+      if (!twitchToken) return;
+      setTwitchToken(twitchToken);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   useEffect(() => {
-    if (!userBasicInfos?.twitchId) return;
+    if (!twitchToken || !twitchToken.twitchToken) return;
     fetchUnlockedBadges();
+  }, [twitchToken]);
+
+  useEffect(() => {
+    if (!userBasicInfos) return;
+    fetchTwitchToken();
   }, [userBasicInfos]);
 
   if (!userBasicInfos) return null;

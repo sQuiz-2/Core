@@ -2,7 +2,6 @@ import SocketError from '@Src/components/SocketError';
 import soundVolumeState from '@Src/global/soundVolume';
 import userBasicInfoState from '@Src/global/userBasicInfos';
 import useHomeSocketError from '@Src/screens/Home/Home/useHomeSocketError';
-import useAutoSetBadges from '@Src/utils/hooks/autoSetBadge';
 import useHomeSocket from '@Src/utils/hooks/homeSocket';
 import { get } from '@Src/utils/wrappedFetch';
 import { NavigationContainer } from '@react-navigation/native';
@@ -57,7 +56,7 @@ function AppWithProviders() {
   const setSoundVolume = useSetRecoilState(soundVolumeState);
   useHomeSocket(onSocketConnected);
   const error = useHomeSocketError();
-  useAutoSetBadges();
+  /* useAutoSetBadges(); */
 
   useEffect(function mount() {
     getSoundVolume();
@@ -77,6 +76,7 @@ function AppWithProviders() {
       setUser({ username: null, token: null, connected: false, privateCode: null, staff: false });
     }
 
+    if (!user || !user.token) return;
     try {
       const meBasicInfos = await get<MeBasic>({ path: 'me-basic', token: user?.token });
       if (!meBasicInfos) return;
