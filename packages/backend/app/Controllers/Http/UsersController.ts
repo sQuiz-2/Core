@@ -26,7 +26,6 @@ import AdminValidator from 'App/Validators/AdminValidator';
 import FetchUsersValidator from 'App/Validators/FetchUsers';
 import UserBanValidator from 'App/Validators/UserBanValidator';
 import UserValidator from 'App/Validators/UserValidator';
-import { logger } from 'Config/app';
 import { twitchClientId } from 'Config/auth';
 import got from 'got/dist/source';
 
