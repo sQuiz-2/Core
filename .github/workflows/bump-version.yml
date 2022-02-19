@@ -16,9 +16,9 @@ jobs:
       - name: 'ls packages'
         run: ls packages
       - name: 'Change directory'
-        run: cd ./packages/frontend
+        run: cd ./packages/client
       - name: 'Automated Version Bump'
-        id: version-bump-frontend
+        id: version-bump-client
         uses: 'phips28/gh-action-bump-version@master'
         with:
           skip-push: 'true'
