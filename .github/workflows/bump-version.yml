@@ -13,9 +13,7 @@ jobs:
     steps:
       - name: 'Checkout source code'
         uses: 'actions/checkout@v2'
-        with:
-          ref: ${{ github.ref }}
-      - name: 'ls'
+      - name: 'ls packages'
         run: ls
       - name: 'Change directory'
         run: cd ./packages/frontend
