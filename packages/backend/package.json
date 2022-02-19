@@ -30,7 +30,7 @@
     "@adonisjs/lucid": "^16.3.2",
     "@adonisjs/redis": "^7.1.0",
     "@adonisjs/repl": "^3.1.0",
-    "@squiz/shared": "1.0.0",
+    "@squiz/shared": "^0.8.7",
     "dd-trace": "^2.2.0",
     "got": "^11.8.0",
     "luxon": "^2.2.0",

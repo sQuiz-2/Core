@@ -17,7 +17,7 @@ export async function http<T>(
   init: RequestInit,
   token?: string
 ): Promise<T | undefined> {
-  const request = new Request(`${process.env.BACKEND_URL}${path}`, init);
+  const request = new Request(`${process.env.BACKEND_URL}${process.env.APP_VERSION}/${path}`, init);
   const response: HttpResponse<T> = await fetch(request, {
     headers: { Authorization: `Bearer ${token}`, 'content-type': 'application/json' },
   });
