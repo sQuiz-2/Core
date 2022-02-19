@@ -18,21 +18,21 @@ jobs:
       - name: 'Change directory'
         run: cd ./packages/frontend
       - name: 'Automated Version Bump'
-        id: version-bump
+        id: version-bump-frontend
         uses: 'phips28/gh-action-bump-version@master'
         with:
           skip-push: 'true'
       - name: 'Change directory'
         run: cd ./packages/backend
       - name: 'Automated Version Bump'
-        id: version-bump
+        id: version-bump-backend
         uses: 'phips28/gh-action-bump-version@master'
         with:
           skip-push: 'true'
       - name: 'Change directory'
         run: cd ./packages/shared
       - name: 'Automated Version Bump'
-        id: version-bump
+        id: version-bump-shared
         uses: 'phips28/gh-action-bump-version@master'
         with:
           skip-push: 'true'
