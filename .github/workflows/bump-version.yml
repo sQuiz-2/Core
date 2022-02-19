@@ -21,6 +21,7 @@ jobs:
         env:
           PACKAGEJSON_DIR: './packages/client'
         with:
+          skip-commit: 'true'
           skip-push: 'true'
           skip-tag: 'true'
 
@@ -30,6 +31,7 @@ jobs:
         env:
           PACKAGEJSON_DIR: './packages/backend'
         with:
+          skip-commit: 'true'
           skip-push: 'true'
           skip-tag: 'true'
 
@@ -39,6 +41,7 @@ jobs:
         env:
           PACKAGEJSON_DIR: './packages/shared'
         with:
+          skip-commit: 'true'
           skip-push: 'true'
           skip-tag: 'true'
 

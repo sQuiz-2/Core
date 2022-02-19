@@ -1,6 +1,6 @@
 {
   "name": "@squiz/shared",
-  "version": "1.0.1",
+  "version": "0.8.7",
   "description": "shared stuff in squiz",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
