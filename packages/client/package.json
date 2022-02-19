@@ -1,6 +1,6 @@
 {
   "name": "@squiz/client",
-  "version": "0.8.8",
+  "version": "0.8.9",
   "scripts": {
     "dev": "expo start",
     "android": "expo start --android",
