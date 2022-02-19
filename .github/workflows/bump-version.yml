@@ -46,7 +46,7 @@ jobs:
           skip-tag: 'true'
 
       - name: 'Automated Version Bump'
-        id: version-bump-shared
+        id: version-bump-client-admin
         uses: 'phips28/gh-action-bump-version@master'
         env:
           PACKAGEJSON_DIR: './packages/client-admin'
