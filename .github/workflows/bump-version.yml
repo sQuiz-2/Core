@@ -22,6 +22,7 @@ jobs:
           PACKAGEJSON_DIR: './packages/client'
         with:
           skip-push: 'true'
+          skip-tag: 'true'
 
       - name: 'Automated Version Bump'
         id: version-bump-backend
@@ -30,6 +31,7 @@ jobs:
           PACKAGEJSON_DIR: './packages/backend'
         with:
           skip-push: 'true'
+          skip-tag: 'true'
 
       - name: 'Automated Version Bump'
         id: version-bump-shared
@@ -38,6 +40,7 @@ jobs:
           PACKAGEJSON_DIR: './packages/shared'
         with:
           skip-push: 'true'
+          skip-tag: 'true'
 
       - name: 'Automated Version Bump'
         id: version-bump
