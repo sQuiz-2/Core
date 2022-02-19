@@ -5,7 +5,10 @@ interface HttpResponse<T> extends Response {
 }
 
 export async function http<T>(path: string, init: RequestInit): Promise<T | undefined> {
-  const request = new Request(`${process.env.REACT_APP_API_URL}${path}`, init);
+  const request = new Request(
+    `${process.env.REACT_APP_API_URL}${process.env.REACT_APP_VERSION}/${path}`,
+    init
+  );
   const user = getUser();
   const response: HttpResponse<T> = await fetch(request, {
     headers: { Authorization: `Bearer ${user?.token}`, 'content-type': 'application/json' },
