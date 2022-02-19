@@ -16,7 +16,7 @@
     "@material-ui/data-grid": "^4.0.0-alpha.10",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.56",
-    "@squiz/shared": "1.0.0",
+    "@squiz/shared": "^0.8.7",
     "autoprefixer": "^9",
     "postcss": "^7",
     "react": "^17.0.1",

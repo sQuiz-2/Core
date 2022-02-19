@@ -34,5 +34,12 @@ module.exports = async function (env, argv) {
     require(`${sharedDir}/package.json`).source
   );
 
+  const envIndex = config.plugins.findIndex((plugin) => plugin.definitions);
+  if (envIndex !== -1) {
+    config.plugins[envIndex].definitions['process.env']['APP_VERSION'] = JSON.stringify(
+      require('./package.json').version
+    );
+  }
+
   return config;
 };
