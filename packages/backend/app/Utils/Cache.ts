@@ -14,6 +14,8 @@ export enum CacheKeys {
   PodiumCorrectAnswerConfirmed = 'PodiumCorrectAnswerConfirmed',
   PodiumCorrectAnswerExpert = 'PodiumCorrectAnswerExpert',
   PodiumExperience = 'PodiumExperience',
+  News = 'News',
+  Themes = 'Themes',
 }
 
 type cacheElem = {

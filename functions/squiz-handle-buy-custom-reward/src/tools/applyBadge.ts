@@ -5,7 +5,7 @@ const API_SECRET = process.env.API_SECRET;
 export async function applyBadge(rewardId: string, userId: string, streamerId: string) {
   try {
     await got
-      .post('https://backend.squiz.gg/badges/twitch-reward', {
+      .post('https://back.squiz.gg/badges/twitch-reward', {
         json: {
           userId,
           rewardId,

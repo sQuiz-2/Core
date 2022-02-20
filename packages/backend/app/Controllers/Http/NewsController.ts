@@ -1,10 +1,19 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import News from 'App/Models/News';
+import Cache, { CacheKeys } from 'App/Utils/Cache';
 import NewsValidator from 'App/Validators/NewsValidator';
 
 export default class ThemesController {
   public async index() {
-    return News.query().orderBy('id', 'desc').limit(2);
+    const cachedValue = Cache.get(CacheKeys.News);
+
+    if (!cachedValue || cachedValue.isExpired) {
+      const news = News.query().orderBy('id', 'desc');
+      Cache.set(CacheKeys.News, news);
+      return news;
+    } else {
+      return cachedValue.value;
+    }
   }
 
   public async store({ request }: HttpContextContract) {

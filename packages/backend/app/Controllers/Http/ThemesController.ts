@@ -1,10 +1,19 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 import Theme from 'App/Models/Theme';
+import Cache, { CacheKeys } from 'App/Utils/Cache';
 import ThemeValidator from 'App/Validators/ThemeValidator';
 
 export default class ThemesController {
   public async index() {
-    return Theme.query().orderBy('title');
+    const cachedValue = Cache.get(CacheKeys.Themes);
+
+    if (!cachedValue || cachedValue.isExpired) {
+      const themes = Theme.query().orderBy('title');
+      Cache.set(CacheKeys.Themes, themes);
+      return themes;
+    } else {
+      return cachedValue.value;
+    }
   }
 
   public async store({ request }: HttpContextContract) {
