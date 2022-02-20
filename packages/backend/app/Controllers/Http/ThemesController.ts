@@ -8,7 +8,7 @@ export default class ThemesController {
     const cachedValue = Cache.get(CacheKeys.Themes);
 
     if (!cachedValue || cachedValue.isExpired) {
-      const themes = Theme.query().orderBy('title');
+      const themes = await Theme.query().orderBy('title');
       Cache.set(CacheKeys.Themes, themes);
       return themes;
     } else {

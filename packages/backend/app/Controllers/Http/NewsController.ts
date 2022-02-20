@@ -8,7 +8,7 @@ export default class ThemesController {
     const cachedValue = Cache.get(CacheKeys.News);
 
     if (!cachedValue || cachedValue.isExpired) {
-      const news = News.query().orderBy('id', 'desc');
+      const news = await News.query().orderBy('id', 'desc');
       Cache.set(CacheKeys.News, news);
       return news;
     } else {
