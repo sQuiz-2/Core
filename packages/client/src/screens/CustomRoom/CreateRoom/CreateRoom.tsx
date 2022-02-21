@@ -48,9 +48,8 @@ export default function CreateRoom() {
   }
 
   async function fetchThemes() {
-    if (!user.token) return;
     try {
-      const themes = await get<GetThemes>({ path: 'themes', token: user.token });
+      const themes = await get<GetThemes>({ path: 'themes' });
       if (!themes) return;
       setThemes(themes);
       setSelectedThemes(themes.map(({ id }) => id));

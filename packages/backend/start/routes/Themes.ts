@@ -5,7 +5,6 @@ Route.group(() => {
   Route.resource('themes', 'ThemesController')
     .apiOnly()
     .middleware({
-      index: ['auth'],
       store: ['auth', 'admin'],
       update: ['auth', 'admin'],
       destroy: ['auth', 'admin'],
