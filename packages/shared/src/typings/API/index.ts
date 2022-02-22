@@ -4,3 +4,4 @@ export * from './Theme';
 export * from './Round';
 export * from './Paginate';
 export * from './Badges';
+export * from './Challenges';

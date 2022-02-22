@@ -1,4 +1,5 @@
 import { GameRank, EmitScoreDetails } from '@squiz/shared';
+import { SECOND } from 'App/Utils/Cache';
 
 type Props = {
   name: string;
@@ -106,6 +107,11 @@ export default class Player {
    */
   numberOfRounds: number = 15;
 
+  /**
+   * FastestAnswer
+   */
+  fastestAnswer: number = 14 * SECOND;
+
   constructor(props: Props) {
     this.id = props.id;
     this.name = props.name;
@@ -169,6 +175,10 @@ export default class Player {
 
     this.timeToAnswer = timeToAnswer / 1000;
 
+    if (timeToAnswer < this.fastestAnswer) {
+      this.fastestAnswer = timeToAnswer;
+    }
+
     return {
       streak: this.streak,
       position: additionalPoints,
@@ -187,6 +197,7 @@ export default class Player {
     this.position = 1;
     this.experience = 0;
     this.triedToAnswer = false;
+    this.fastestAnswer = 14 * SECOND;
   }
 
   /**
@@ -339,8 +350,48 @@ export default class Player {
   public joinedAtTheBeginning(): boolean {
     return this.ranks[0] !== GameRank.RoundComing;
   }
+
+  /**
+   * Compute the max successive correct answer
+   */
+  public computeMaxStreak(): number {
+    let maxStreak = 0;
+    const streak = this.ranks.reduce((acc, value) => {
+      if (value === GameRank.NotAnswered || value === GameRank.RoundComing) {
+        if (acc > maxStreak) {
+          maxStreak = acc;
+        }
+        return 0;
+      } else {
+        return acc + 1;
+      }
+    }, 0);
+    if (streak > maxStreak) {
+      maxStreak = streak;
+    }
+    return maxStreak;
+  }
+
+  /**
+   * Useful infos to check if the user will unlock new challenges
+   */
+  public challengeInfos(): PlayerChallengeInfos {
+    const maxStreak = this.computeMaxStreak();
+    return {
+      fastestAnswer: this.fastestAnswer,
+      points: this.score,
+      maxStreak,
+      position: this.position,
+    };
+  }
 }
 
 export type GameStats = { podium: number; win: number };
 export type RoundStats = { played: number; correct: number };
 export type Stats = { roundsStats: RoundStats; gameStats: GameStats };
+export type PlayerChallengeInfos = {
+  fastestAnswer: number;
+  maxStreak: number;
+  points: number;
+  position: number;
+};

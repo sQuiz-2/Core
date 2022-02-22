@@ -19,3 +19,4 @@ import './routes/News';
 import './routes/Rooms';
 import './routes/Scoreboard';
 import './routes/Badges';
+import './routes/Challenges';

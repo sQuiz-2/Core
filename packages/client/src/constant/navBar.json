@@ -43,6 +43,11 @@
       "name": "Statistiques",
       "icon": "chart-bar",
       "route": "Stats"
+    },
+    {
+      "name": "Trophées",
+      "icon": "trophy",
+      "route": "Challenges"
     }
   ]
 }
