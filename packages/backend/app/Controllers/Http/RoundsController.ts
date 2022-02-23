@@ -79,11 +79,6 @@ export default class RoundsController {
       .select('id', 'question', 'themeId', 'difficultyId', 'maxNumberOfGuesses');
   }
 
-  // Sort rounds with an undefined difficulty
-  public async sortDifficulty() {
-    await sortRoundsByDifficulty();
-  }
-
   public async report({ params, auth, request }: HttpContextContract) {
     const { reports } = await request.validate(ReportValidator);
     const { id } = params;
@@ -105,20 +100,23 @@ export default class RoundsController {
   }
 }
 
-export async function sortRoundsByDifficulty() {
+export async function sortRoundsByDifficulty(roundsIds: number[]) {
   try {
     await Round.query()
-      .where('difficulty_id', DifficultyEnum.Unknown)
+      .whereIn('id', roundsIds)
+      .andWhere('difficulty_id', DifficultyEnum.Unknown)
       .andWhereRaw('incorrect_answers + correct_answers > 6')
       .andWhereRaw('(correct_answers::decimal / (incorrect_answers + correct_answers)) >= 0.5')
       .update({ difficulty_id: DifficultyEnum.Beginner });
     await Round.query()
-      .where('difficulty_id', DifficultyEnum.Unknown)
+      .whereIn('id', roundsIds)
+      .andWhere('difficulty_id', DifficultyEnum.Unknown)
       .andWhereRaw('incorrect_answers + correct_answers > 6')
       .andWhereRaw('(correct_answers::decimal / (incorrect_answers + correct_answers)) > 0.2')
       .update({ difficulty_id: DifficultyEnum.Intermediate });
     await Round.query()
-      .where('difficulty_id', DifficultyEnum.Unknown)
+      .whereIn('id', roundsIds)
+      .andWhere('difficulty_id', DifficultyEnum.Unknown)
       .andWhereRaw('incorrect_answers + correct_answers > 6')
       .andWhereRaw('(correct_answers::decimal / (incorrect_answers + correct_answers)) <= 0.2')
       .update({ difficulty_id: DifficultyEnum.Expert });

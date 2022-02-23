@@ -317,13 +317,20 @@ export default class Quiz extends Room {
     if (this.roundTimer) {
       clearInterval(this.roundTimer);
     }
-    sortRoundsByDifficulty();
     // Time before the next game
     this.endTimer = setTimeout(() => this.restartGame(), this.timeBetweenGames * SECOND);
 
     // Save challenges
     if (!this.isPrivate && this.checkForCheat) {
       await this.quizChallenges.computeAndSaveChallenges(this.players);
+    }
+
+    // Sort unknown rounds if there was unknown rounds in this game
+    const unknownRoundIds = this.rounds
+      .filter(({ difficultyId }) => difficultyId === DifficultyEnum.Unknown)
+      .map(({ id }) => id);
+    if (unknownRoundIds.length > 0) {
+      await sortRoundsByDifficulty(unknownRoundIds);
     }
   }
 
@@ -450,6 +457,10 @@ export default class Quiz extends Room {
         this.selectedThemes,
       );
     }
+    const unknownRoundIds = newRounds
+      .filter(({ difficultyId }) => difficultyId === DifficultyEnum.Unknown)
+      .map(({ id }) => id);
+    console.log('INCONNU: ', unknownRoundIds);
     this.rounds = newRounds;
   }
 
