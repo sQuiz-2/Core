@@ -6,7 +6,9 @@ import {
   challengeSpeed,
   challengeStreak,
   challengeWin,
+  checkWinChallenges,
   ShowChallenges,
+  UnlockedChallenge,
 } from '@squiz/shared';
 import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
@@ -18,7 +20,10 @@ import LockedChallenge from './LockedChallenge/LockedChallenge';
 export default function Challenges() {
   const styles = useChallengeStyle();
   const user = useRecoilValue(userState);
-  const [challenges, setChallenges] = useState<ShowChallenges>([]);
+  const [challenges, setChallenges] = useState<ShowChallenges>({
+    unlockedChallenges: [] as UnlockedChallenge[],
+    winnedGames: 0,
+  });
 
   async function fetchChallenge() {
     if (!user.token) return;
@@ -35,7 +40,8 @@ export default function Challenges() {
     fetchChallenge();
   }, [user]);
 
-  const unlockedChallengesId = challenges.map(({ title }) => title);
+  const unlockedChallengesId = challenges.unlockedChallenges.map(({ title }) => title);
+  unlockedChallengesId.push(...checkWinChallenges(challenges.winnedGames));
 
   return (
     <View style={styles.container}>
@@ -95,6 +101,7 @@ export default function Challenges() {
           </View>
         </TitleCard>
       </View>
+      <View style={styles.endPage} />
     </View>
   );
 }

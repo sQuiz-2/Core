@@ -20,5 +20,8 @@ export default function useProfileStyle() {
       justifyContent: 'space-between',
       alignItems: 'center',
     },
+    endPage: {
+      height: 80,
+    },
   });
 }

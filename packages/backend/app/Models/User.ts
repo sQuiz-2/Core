@@ -41,7 +41,9 @@ export default class User extends BaseModel {
   @hasMany(() => UserBadge)
   public badges: HasMany<typeof UserBadge>;
 
-  @manyToMany(() => Challenge)
+  @manyToMany(() => Challenge, {
+    pivotTable: 'challenge_users',
+  })
   public challenges: ManyToMany<typeof Challenge>;
 
   @column()

@@ -36,7 +36,7 @@ export const challengePoint: ChallengePoint[] = [
     id: ChallengePointIds.eightyBeginner,
     title: '80 points - Initié',
     description: 'Obtenir 80 points sur le salon initié public',
-    requiredPoint: 1,
+    requiredPoint: 80,
     hidden: false,
     difficultyId: DifficultyEnum.Beginner,
   },
@@ -44,7 +44,7 @@ export const challengePoint: ChallengePoint[] = [
     id: ChallengePointIds.oneHundredBeginner,
     title: '100 points - Initié',
     description: 'Obtenir 100 points sur le salon initié public',
-    requiredPoint: 2,
+    requiredPoint: 100,
     hidden: false,
     difficultyId: DifficultyEnum.Beginner,
   },
@@ -52,7 +52,7 @@ export const challengePoint: ChallengePoint[] = [
     id: ChallengePointIds.oneHundredFiftyBeginner,
     title: '150 points - Initié',
     description: 'Obtenir 150 points sur le salon initié public',
-    requiredPoint: 3,
+    requiredPoint: 150,
     hidden: false,
     difficultyId: DifficultyEnum.Beginner,
   },
@@ -129,7 +129,7 @@ export const challengeStreak: ChallengeStreak[] = [
     id: ChallengeStreakIds.fiveStreakBeginner,
     title: 'Série de 5 questions - Initié',
     description: 'Répondre correctement à 5 questions successives sur le salon initié public',
-    requiredStreak: 1,
+    requiredStreak: 5,
     hidden: false,
     difficultyId: DifficultyEnum.Beginner,
   },
@@ -137,7 +137,7 @@ export const challengeStreak: ChallengeStreak[] = [
     id: ChallengeStreakIds.tenStreakBeginner,
     title: 'Série de 10 questions - Initié',
     description: 'Répondre correctement à 10 questions successives sur le salon initié public',
-    requiredStreak: 2,
+    requiredStreak: 10,
     hidden: false,
     difficultyId: DifficultyEnum.Beginner,
   },
@@ -145,7 +145,7 @@ export const challengeStreak: ChallengeStreak[] = [
     id: ChallengeStreakIds.fifteenStreakBeginner,
     title: 'Série de 15 questions - Initié',
     description: 'Répondre correctement à 15 questions successives sur le salon initié public',
-    requiredStreak: 3,
+    requiredStreak: 15,
     hidden: false,
     difficultyId: DifficultyEnum.Beginner,
   },
@@ -209,19 +209,21 @@ export enum ChallengeSpeedIds {
   onePointFiveSec = 'speed-2',
 }
 
+const SECOND = 1000;
+
 export const challengeSpeed: ChallengeSpeed[] = [
   {
     id: ChallengeSpeedIds.oneSec,
     title: 'Le Fast',
     description: "Vous avez répondu correctement à une question en moins d'une seconde",
-    maxTime: 1000,
+    maxTime: SECOND * 1,
     hidden: true,
   },
   {
     id: ChallengeSpeedIds.onePointFiveSec,
     title: 'La question est vite répondue',
     description: "Vous avez répondu correctement à une question en moins d'une seconde et demi",
-    maxTime: 1500,
+    maxTime: SECOND * 1.5,
     hidden: false,
   },
 ];

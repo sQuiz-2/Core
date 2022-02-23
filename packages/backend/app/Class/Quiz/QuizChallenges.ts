@@ -1,7 +1,9 @@
 import Logger from '@ioc:Adonis/Core/Logger';
 import {
+  badgeSpecialId,
   challengePoint,
   ChallengePointIds,
+  challengeSpeed,
   ChallengeSpeedIds,
   challengeStreak,
   ChallengeStreakIds,
@@ -10,7 +12,7 @@ import {
 } from '@squiz/shared';
 import Challenge from 'App/Models/Challenge';
 import ChallengeUser from 'App/Models/ChallengeUser';
-import { SECOND } from 'App/Utils/Cache';
+import UserBadge from 'App/Models/UserBadge';
 
 import Player, { PlayerChallengeInfos } from '../Player';
 
@@ -23,6 +25,11 @@ type PlayerChallenge = {
   challengeId: ChallengeSpeedIds | ChallengeStreakIds | ChallengePointIds;
 };
 
+type userBadge = {
+  userId: number | undefined;
+  badgeId: badgeSpecialId;
+};
+
 class QuizChallenges {
   difficulty: Difficulty;
 
@@ -33,6 +40,8 @@ class QuizChallenges {
   public async computeAndSaveChallenges(players: Player[]): Promise<void> {
     if (players.length < 5 || this.difficulty.id === DifficultyEnum.Random) return;
     const playersChallenges = this.checkAllPlayersChallenges(players);
+    if (playersChallenges.length <= 0) return;
+    await this.setSpecialBadges(playersChallenges);
     await this.savePlayersChallenges(playersChallenges);
   }
 
@@ -75,9 +84,9 @@ class QuizChallenges {
   }
 
   private checkSpeedChallenges(fastestAnswer: number): ChallengeSpeedIds[] {
-    const validated: ChallengeSpeedIds[] = [];
-    if (fastestAnswer < SECOND) validated.push(ChallengeSpeedIds.oneSec);
-    if (fastestAnswer < SECOND + SECOND / 2) validated.push(ChallengeSpeedIds.onePointFiveSec);
+    const validated: ChallengeSpeedIds[] = challengeSpeed
+      .filter(({ maxTime }) => fastestAnswer < maxTime)
+      .map(({ id }) => id);
     return validated;
   }
 
@@ -100,6 +109,26 @@ class QuizChallenges {
       .map(({ id }) => id);
 
     return validated;
+  }
+
+  /**
+   * Players can unlock special badges with their challenges
+   */
+  private async setSpecialBadges(playersChallenge: PlayerChallenge[]) {
+    const badgesToCreates: userBadge[] = [];
+    console.log(playersChallenge);
+    for (const i of playersChallenge) {
+      if (i.challengeId === ChallengeSpeedIds.oneSec) {
+        badgesToCreates.push({ userId: i.userId, badgeId: badgeSpecialId.Fast });
+      }
+    }
+    console.log(badgesToCreates);
+    if (badgesToCreates.length <= 0) return;
+    try {
+      await UserBadge.fetchOrCreateMany(['userId', 'badgeId'], badgesToCreates);
+    } catch (error) {
+      Logger.error(error);
+    }
   }
 }
 
