@@ -20,3 +20,5 @@ export { default as Avatars } from './Avatars';
 export * from './Badges';
 
 export { Ranks } from './Ranks';
+
+export * from './Challenges';

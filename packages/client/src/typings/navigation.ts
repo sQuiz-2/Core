@@ -11,6 +11,7 @@ export type HomeStackParamList = {
   Profile: undefined;
   Scoreboard: undefined;
   Stats: undefined;
+  Challenges: undefined;
   Room: { id: string };
 };
 

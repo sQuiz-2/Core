@@ -16,7 +16,7 @@ export const badgesSpecial = {
   'special-4': require('@Assets/images/badges/special-4.png'),
   'special-5': {
     static: require('@Assets/images/badges/special-5-static.png'),
-    animated: 'surprise',
+    animated: require('@Assets/images/badges/special-5.gif'),
   },
 };
 

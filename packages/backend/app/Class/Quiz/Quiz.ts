@@ -23,6 +23,7 @@ import Player from '../Player';
 import Room, { RoomProps } from '../Room';
 import RoundFetcher from '../RoundsFetcher';
 import QuizAnswerTimer from './QuizAnswerTimer';
+import QuizChallenges from './QuizChallenges';
 import QuizExperience from './QuizExperience';
 import QuizStats from './QuizStats';
 
@@ -107,6 +108,13 @@ export default class Quiz extends Room {
   quizStats: QuizStats = new QuizStats({
     players: this.players,
     isPrivate: this.isPrivate,
+    difficulty: this.difficulty,
+  });
+
+  /**
+   * Compute and save players challenges
+   */
+  quizChallenges: QuizChallenges = new QuizChallenges({
     difficulty: this.difficulty,
   });
 
@@ -305,12 +313,18 @@ export default class Quiz extends Room {
         console.error('Error while saving stats', error);
       }
     }
+
     if (this.roundTimer) {
       clearInterval(this.roundTimer);
     }
     sortRoundsByDifficulty();
     // Time before the next game
     this.endTimer = setTimeout(() => this.restartGame(), this.timeBetweenGames * SECOND);
+
+    // Save challenges
+    if (!this.isPrivate && this.checkForCheat) {
+      await this.quizChallenges.computeAndSaveChallenges(this.players);
+    }
   }
 
   /**

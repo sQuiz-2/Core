@@ -13,6 +13,7 @@ const Linking: LinkingOptions = {
       Profile: 'profil',
       Scoreboard: 'classement',
       Stats: 'stats',
+      Challenges: 'challenges',
     },
   },
 };

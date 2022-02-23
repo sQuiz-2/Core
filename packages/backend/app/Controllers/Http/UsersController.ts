@@ -150,9 +150,16 @@ export default class UsersController {
     if (data.badge && badgeSpecialIdValues.includes(data.badge as badgeSpecialId)) {
       // Special badges
       const { rank } = auth.user!;
-      const isAllowed = isAllowedSpecialBadge(data.badge as badgeSpecialId, {
+      let isAllowed = isAllowedSpecialBadge(data.badge as badgeSpecialId, {
         rank: rank as Ranks,
       });
+      if (isAllowed === false) {
+        await auth.user?.load('badges');
+        const userBadges = auth.user?.badges.map(({ badgeId }) => badgeId);
+        if (userBadges && userBadges.includes(data.badge)) {
+          isAllowed = true;
+        }
+      }
       if (isAllowed) {
         auth.user!.badge = data.badge;
       }
