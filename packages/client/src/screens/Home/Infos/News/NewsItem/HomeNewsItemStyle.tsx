@@ -15,6 +15,14 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     textAlign: 'justify',
   },
+  freshLabel: {
+    backgroundColor: 'red',
+    borderRadius: 5,
+    fontWeight: 'bold',
+    paddingRight: 7,
+    paddingLeft: 5,
+    marginLeft: 10,
+  },
 });
 
 export default styles;
