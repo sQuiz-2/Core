@@ -15,7 +15,6 @@ import {
 } from '@squiz/shared';
 import { sortRoundsByDifficulty } from 'App/Controllers/Http/RoundsController';
 import Round from 'App/Models/Round';
-import User from 'App/Models/User';
 import { shuffle } from 'App/Utils/Array';
 import { Socket } from 'socket.io';
 import stringSimilarity from 'string-similarity';
@@ -35,11 +34,6 @@ export enum EmitterEvents {
 const SECOND = 1000;
 
 export default class Quiz extends Room {
-  /**
-   * Minimum allowed elapsed time (in ms)
-   */
-  private static minElapsedTime: number = 0.475 * SECOND;
-
   /**
    * Used for the interval between each rounds
    */
@@ -409,21 +403,8 @@ export default class Quiz extends Room {
     const elapsedTime = this.quizAnswerTimer.getElapsedTime();
     if (result.bestMatch.rating >= 0.8) {
       // correct answer
-      if (elapsedTime < Quiz.minElapsedTime) {
-        // cheat
-        if (player?.dbId) {
-          await User.updateOrCreate(
-            {
-              id: player.dbId,
-            },
-            { ban: true, banReason: 'Ban automatique: réponse < 0.475s' },
-          );
-        }
-        socket.disconnect();
-      } else {
-        this.currentNumberOfValidAnswers++;
-        this.playerGoodAnswer(player!, this.currentNumberOfValidAnswers, elapsedTime);
-      }
+      this.currentNumberOfValidAnswers++;
+      this.playerGoodAnswer(player!, this.currentNumberOfValidAnswers, elapsedTime);
     } else {
       // bad answer
       this.playerWrongAnswer(player!);
