@@ -16,6 +16,7 @@ import {
 import { sortRoundsByDifficulty } from 'App/Controllers/Http/RoundsController';
 import Round from 'App/Models/Round';
 import { shuffle } from 'App/Utils/Array';
+import { isNumeric } from 'App/Utils/Number';
 import { Socket } from 'socket.io';
 import stringSimilarity from 'string-similarity';
 
@@ -58,6 +59,11 @@ export default class Quiz extends Room {
    * Answers for the current round
    */
   currentAnswers: string[] = [];
+
+  /**
+   * If the current answer is a number we want a perfect answer
+   */
+  answerNeedToBePerfect: boolean = false;
 
   /**
    * Number of valid answers given by the sockets for the current round
@@ -231,6 +237,11 @@ export default class Quiz extends Room {
     if (!round) return null;
     this.currentRound = round;
     this.currentAnswers = round.answers.map(({ answer }) => parseAnswer(answer));
+    if (this.currentAnswers.length === 1 && isNumeric(this.currentAnswers[0])) {
+      this.answerNeedToBePerfect = true;
+    } else {
+      this.answerNeedToBePerfect = false;
+    }
     return round;
   }
 
@@ -399,9 +410,15 @@ export default class Quiz extends Room {
     if (!this.canPerformGuess(player, guess) || !player) {
       return;
     }
-    const result = stringSimilarity.findBestMatch(guess, this.currentAnswers);
     const elapsedTime = this.quizAnswerTimer.getElapsedTime();
-    if (result.bestMatch.rating >= 0.8) {
+    let answerIsCorrect = false;
+    if (this.answerNeedToBePerfect && guess === this.currentAnswers[0]) {
+      answerIsCorrect = true;
+    } else if (!this.answerNeedToBePerfect) {
+      const result = stringSimilarity.findBestMatch(guess, this.currentAnswers);
+      answerIsCorrect = result.bestMatch.rating >= 0.8;
+    }
+    if (answerIsCorrect) {
       // correct answer
       this.currentNumberOfValidAnswers++;
       this.playerGoodAnswer(player!, this.currentNumberOfValidAnswers, elapsedTime);
