@@ -267,7 +267,7 @@ export const challengeWin: ChallengeWin[] = [
   },
   {
     id: ChallengeWinIds.fiftyWin,
-    title: 'Cinquetième victoire',
+    title: 'Cinquantième victoire',
     description: 'Vous avez gagné 50 parties',
     requiredWin: 50,
     hidden: false,
