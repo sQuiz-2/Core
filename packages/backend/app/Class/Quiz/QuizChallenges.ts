@@ -116,13 +116,11 @@ class QuizChallenges {
    */
   private async setSpecialBadges(playersChallenge: PlayerChallenge[]) {
     const badgesToCreates: userBadge[] = [];
-    console.log(playersChallenge);
     for (const i of playersChallenge) {
       if (i.challengeId === ChallengeSpeedIds.oneSec) {
         badgesToCreates.push({ userId: i.userId, badgeId: badgeSpecialId.Fast });
       }
     }
-    console.log(badgesToCreates);
     if (badgesToCreates.length <= 0) return;
     try {
       await UserBadge.fetchOrCreateMany(['userId', 'badgeId'], badgesToCreates);

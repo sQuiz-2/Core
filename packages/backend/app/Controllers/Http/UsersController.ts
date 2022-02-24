@@ -209,7 +209,6 @@ export default class UsersController {
     if (!twitchInfos) return response.status(401);
     const { refreshToken: token } = twitchInfos;
     try {
-      console.log(auth.user?.username);
       const newTokens = await refreshToken(token);
       twitchInfos.refreshToken = newTokens.refresh_token;
       twitchInfos.token = newTokens.access_token;

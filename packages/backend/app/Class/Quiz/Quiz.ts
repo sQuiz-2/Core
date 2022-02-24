@@ -1,3 +1,4 @@
+import Logger from '@ioc:Adonis/Core/Logger';
 import {
   parseAnswer,
   GameEvent,
@@ -310,7 +311,7 @@ export default class Quiz extends Room {
         this.quizExperience.emitExperience(this.players);
         await this.quizStats.computeAndSaveStats(this.players);
       } catch (error) {
-        console.error('Error while saving stats', error);
+        Logger.error('Error while saving stats', error);
       }
     }
 
@@ -457,10 +458,6 @@ export default class Quiz extends Room {
         this.selectedThemes,
       );
     }
-    const unknownRoundIds = newRounds
-      .filter(({ difficultyId }) => difficultyId === DifficultyEnum.Unknown)
-      .map(({ id }) => id);
-    console.log('INCONNU: ', unknownRoundIds);
     this.rounds = newRounds;
   }
 

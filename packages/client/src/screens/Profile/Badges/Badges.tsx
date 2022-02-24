@@ -53,8 +53,6 @@ export default function Avatars() {
     return false;
   });
 
-  console.log(unlockedBadges);
-
   return (
     <>
       <Text fontSize="md">TWITCH</Text>
