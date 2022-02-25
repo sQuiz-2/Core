@@ -1,6 +1,8 @@
 import { Difficulty, DifficultyEnum } from '@squiz/shared';
 import GameStat from 'App/Models/GameStat';
+import Round from 'App/Models/Round';
 import RoundStat from 'App/Models/RoundStat';
+import StatTheme from 'App/Models/StatTheme';
 
 import Player, { Stats } from '../Player';
 
@@ -38,6 +40,17 @@ interface RoundStatsUpdate extends RoundStatsCreate {
   id: number;
 }
 
+type ThemeStatsCreate = {
+  userId: number;
+  themeId: number;
+  correct: number;
+  played: number;
+};
+
+interface ThemeStatsUpdate extends ThemeStatsCreate {
+  id: number;
+}
+
 class QuizStats {
   isPrivate: boolean;
 
@@ -48,12 +61,15 @@ class QuizStats {
     this.difficulty = params.difficulty;
   }
 
-  public async computeAndSaveStats(players: Player[]): Promise<void> {
+  public async computeAndSaveStats(players: Player[], rounds: Round[]): Promise<void> {
     if (players.length < 5 || this.difficulty.id === DifficultyEnum.Random) return;
     const playersWhoPlayedAllTheGame = players.filter((player) => player.joinedAtTheBeginning());
-    const playersStats = this.computeStats(playersWhoPlayedAllTheGame);
+    const playersStats = this.computeStats(playersWhoPlayedAllTheGame, rounds);
     await this.savePlayersGameStats(playersStats);
     await this.savePlayersRoundStats(playersStats);
+    if (!this.isPrivate) {
+      await this.savePlayersThemeStats(playersStats, rounds);
+    }
   }
 
   private async savePlayersGameStats(playersStats: PlayersStats[]): Promise<void> {
@@ -120,13 +136,51 @@ class QuizStats {
     await RoundStat.createMany(roundStatsToCreate);
   }
 
-  private computeStats(players: Player[]): PlayersStats[] {
+  private async savePlayersThemeStats(
+    playersStats: PlayersStats[],
+    rounds: Round[],
+  ): Promise<void> {
+    const themeStatsToUpdate: ThemeStatsUpdate[] = [];
+    const themeStatsToCreate: ThemeStatsCreate[] = [];
+    const themeStats = playersStats.map(({ stats }) => stats.themeStats);
+    const userIds = playersStats.map(({ id }) => id);
+    const themeIds = rounds.map(({ themeId }) => themeId);
+
+    const usersThemeStats = await StatTheme.query()
+      .whereIn('user_id', userIds)
+      .andWhereIn('theme_id', themeIds);
+
+    themeStats.flat().forEach(({ userId, correct, played, themeId }) => {
+      const userStats = usersThemeStats.find(
+        ({ userId: uId, themeId: tId }) => userId === uId && themeId === tId,
+      );
+      if (userStats) {
+        return themeStatsToUpdate.push({
+          id: userStats.id,
+          userId,
+          played: userStats.played + played,
+          correct: userStats.correct + correct,
+          themeId,
+        });
+      }
+      return themeStatsToCreate.push({
+        userId,
+        played,
+        correct,
+        themeId,
+      });
+    });
+    await StatTheme.updateOrCreateMany('id', themeStatsToUpdate);
+    await StatTheme.createMany(themeStatsToCreate);
+  }
+
+  private computeStats(players: Player[], rounds: Round[]): PlayersStats[] {
     /**
      * Compute players stats
      */
     const playersStats = players.map((player) => {
       if (player.isGuess) return;
-      const stats = player.computeStats();
+      const stats = player.computeStats(rounds);
       return { id: player.dbId, stats };
     });
 

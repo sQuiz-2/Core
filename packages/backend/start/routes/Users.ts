@@ -14,6 +14,8 @@ Route.group(() => {
 
   Route.put('/me-edit', 'UsersController.editMe').middleware('auth');
 
+  Route.get('/theme-stats', 'UsersController.themeStats').middleware('auth');
+
   Route.get('/users/public/:id', 'UsersController.publicUser');
 
   Route.put('/users/ban/:id', 'UsersController.ban').middleware(['auth', 'admin']);

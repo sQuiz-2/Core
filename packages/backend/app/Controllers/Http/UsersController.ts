@@ -20,7 +20,9 @@ import {
 import RoomPool from 'App/Class/RoomPool';
 import GameStat from 'App/Models/GameStat';
 import RoundStat from 'App/Models/RoundStat';
+import StatTheme from 'App/Models/StatTheme';
 import User from 'App/Models/User';
+import Cache, { CacheKeys } from 'App/Utils/Cache';
 import { refreshToken } from 'App/Utils/oAuth/Twitch';
 import AdminValidator from 'App/Validators/AdminValidator';
 import FetchUsersValidator from 'App/Validators/FetchUsers';
@@ -246,5 +248,33 @@ export default class UsersController {
     const user = await User.findOrFail(id);
     user.ban = false;
     await user.save();
+  }
+
+  public async themeStats({ auth }: HttpContextContract) {
+    await auth.user?.load('statsThemes');
+    const userStatsThemes = auth.user?.statsThemes.map(({ title, $extras }) => ({
+      title,
+      played: $extras.pivot_played,
+      correct: $extras.pivot_correct,
+    }));
+    const cachedGlobalThemeStats = Cache.get(CacheKeys.GlobalStatsThemes);
+
+    if (!cachedGlobalThemeStats || cachedGlobalThemeStats.isExpired) {
+      const globalThemeStats = await StatTheme.query()
+        .sum('played as played')
+        .sum('correct as correct')
+        .leftJoin('themes', 'stat_themes.theme_id', '=', 'themes.id')
+        .select('themes.title as title')
+        .groupBy('themeId', 'themes.title');
+      const globalThemeStatsFormatted = globalThemeStats.map(({ played, correct, $extras }) => ({
+        played,
+        correct,
+        title: $extras.title,
+      }));
+      Cache.set(CacheKeys.GlobalStatsThemes, globalThemeStatsFormatted);
+      return { userStatsThemes, globalThemeStats: globalThemeStatsFormatted };
+    } else {
+      return { userStatsThemes, globalThemeStats: cachedGlobalThemeStats.value };
+    }
   }
 }

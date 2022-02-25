@@ -314,7 +314,7 @@ export default class Quiz extends Room {
       try {
         await this.quizExperience.computeAndSaveExperience(this.players);
         this.quizExperience.emitExperience(this.players);
-        await this.quizStats.computeAndSaveStats(this.players);
+        await this.quizStats.computeAndSaveStats(this.players, this.rounds);
       } catch (error) {
         Logger.error('Error while saving stats', error);
       }
@@ -327,7 +327,7 @@ export default class Quiz extends Room {
     this.endTimer = setTimeout(() => this.restartGame(), this.timeBetweenGames * SECOND);
 
     // Save challenges
-    if (!this.isPrivate && this.checkForCheat) {
+    if (!this.isPrivate && this.checkForCheat && !this.isPrivate) {
       await this.quizChallenges.computeAndSaveChallenges(this.players);
     }
 

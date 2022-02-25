@@ -16,6 +16,7 @@ export enum CacheKeys {
   PodiumExperience = 'PodiumExperience',
   News = 'News',
   Themes = 'Themes',
+  GlobalStatsThemes = 'GlobalStatsThemes',
 }
 
 type cacheElem = {
