@@ -8,6 +8,7 @@ import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Image, View } from 'react-native';
 import { useRecoilValue } from 'recoil';
 
+import StatByThemes from './StatByThemes';
 import useStatsStyle from './StatsStyle';
 
 export default function Stats() {
@@ -86,6 +87,9 @@ export default function Stats() {
             );
           })}
         </TitleCard>
+      </View>
+      <View style={styles.separator}>
+        <StatByThemes />
       </View>
     </ResponsiveContainer>
   );

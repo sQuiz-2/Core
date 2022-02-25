@@ -14,6 +14,7 @@ import { DateTime } from 'luxon';
 import ApiToken from './ApiToken';
 import Challenge from './Challenge';
 import OauthToken from './OauthToken';
+import Theme from './Theme';
 import UserBadge from './UserBadge';
 
 export default class User extends BaseModel {
@@ -45,6 +46,16 @@ export default class User extends BaseModel {
     pivotTable: 'challenge_users',
   })
   public challenges: ManyToMany<typeof Challenge>;
+
+  @manyToMany(() => Theme, {
+    pivotTable: 'stat_themes',
+    localKey: 'id',
+    pivotForeignKey: 'user_id',
+    relatedKey: 'id',
+    pivotRelatedForeignKey: 'theme_id',
+    pivotColumns: ['played', 'correct'],
+  })
+  public statsThemes: ManyToMany<typeof Theme>;
 
   @column()
   public staff: boolean;

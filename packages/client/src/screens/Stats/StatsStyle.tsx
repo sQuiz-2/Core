@@ -12,11 +12,11 @@ export default function useStatsStyle() {
     container: {
       flexDirection: responsive(screenWidth, 'column', 'row', 'row'),
       flexWrap: 'wrap',
-      justifyContent: 'space-around',
+      justifyContent: 'space-between',
       alignItems: responsive(screenWidth, 'center', 'auto', 'auto'),
     },
     column: {
-      width: responsive(screenWidth, '90%', '45%', '40%'),
+      width: responsive(screenWidth, '100%', '45%', '45%'),
       marginBottom: responsive(screenWidth, 20, 0, 0),
     },
     row: {
@@ -34,6 +34,9 @@ export default function useStatsStyle() {
     },
     center: {
       textAlign: 'center',
+    },
+    separator: {
+      paddingTop: 30,
     },
   });
 }

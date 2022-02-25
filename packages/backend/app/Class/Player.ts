@@ -1,4 +1,5 @@
 import { GameRank, EmitScoreDetails } from '@squiz/shared';
+import Round from 'App/Models/Round';
 import { SECOND } from 'App/Utils/Cache';
 
 type Props = {
@@ -327,13 +328,30 @@ export default class Player {
     };
   }
 
+  public themeStats(rounds: Round[]): ThemeStats {
+    const stats = {};
+    rounds.forEach(({ themeId }, i) => {
+      const rank = this.ranks[i];
+      const playedThisRound = this.ranks[i] !== GameRank.RoundComing;
+      if (!stats[themeId]) {
+        stats[themeId] = { played: 0, correct: 0, userId: this.dbId, themeId };
+      }
+      if (playedThisRound) {
+        stats[themeId]['played'] += 1;
+        stats[themeId]['correct'] += rank !== GameRank.NotAnswered ? 1 : 0;
+      }
+    });
+    return Object.values(stats);
+  }
+
   /**
    * Compute round stats and game stats
    */
-  public computeStats(): Stats {
+  public computeStats(rounds: Round[]): Stats {
     const roundsStats = this.computeRoundsStats();
     const gameStats = this.gameStats();
-    return { roundsStats, gameStats };
+    const themeStats = this.themeStats(rounds);
+    return { roundsStats, gameStats, themeStats };
   }
 
   /**
@@ -388,7 +406,8 @@ export default class Player {
 
 export type GameStats = { podium: number; win: number };
 export type RoundStats = { played: number; correct: number };
-export type Stats = { roundsStats: RoundStats; gameStats: GameStats };
+export type ThemeStats = { played: number; correct: number; userId: number; themeId: number }[];
+export type Stats = { roundsStats: RoundStats; gameStats: GameStats; themeStats: ThemeStats };
 export type PlayerChallengeInfos = {
   fastestAnswer: number;
   maxStreak: number;

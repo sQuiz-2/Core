@@ -52,3 +52,14 @@ export type oAuthResponse = {
   token: string;
   staff: boolean;
 };
+
+export type ThemeStat = {
+  played: number;
+  correct: number;
+  title: string;
+};
+
+export type ThemeStats = {
+  userStatsThemes: ThemeStat[];
+  globalThemeStats: ThemeStat[];
+};
