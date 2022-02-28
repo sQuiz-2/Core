@@ -170,7 +170,7 @@ export default class Player {
       this.streak++;
     }
     // default score is 4 points
-    this.score += 4 + this.streak + additionalPoints;
+    this.score += 5 + this.streak + additionalPoints;
     this.find = true;
     this.canGuess = false;
 
