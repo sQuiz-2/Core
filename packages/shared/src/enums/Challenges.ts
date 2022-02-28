@@ -143,7 +143,7 @@ export const challengeStreak: ChallengeStreak[] = [
   },
   {
     id: ChallengeStreakIds.fifteenStreakBeginner,
-    title: "Un parfait initié",
+    title: 'Un parfait initié',
     description: 'Répondre correctement à 15 questions successives sur le salon initié public',
     requiredStreak: 15,
     hidden: false,
