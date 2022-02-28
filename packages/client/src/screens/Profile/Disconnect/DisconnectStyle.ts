@@ -1,11 +1,14 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-  button: {
-    borderColor: 'darkred',
+  container: {
+    flexDirection: 'row',
+    paddingVertical: 4,
+    alignItems: 'center',
   },
   text: {
-    color: 'red',
+    paddingLeft: 10,
+    fontWeight: 'bold',
   },
 });
 

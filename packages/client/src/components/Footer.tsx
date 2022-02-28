@@ -2,10 +2,10 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { useTheme } from '@react-navigation/native';
 import * as Linking from 'expo-linking';
 import React from 'react';
-import { StyleSheet, View, Platform } from 'react-native';
+import { StyleSheet, View, Platform, Pressable } from 'react-native';
 
 import footerIcons from '../constant/footerIcons.json';
-import OverStyle from './Over/OverStyle';
+import { HoverStyle } from './Hover';
 import Text from './Text';
 
 type FooterProps = {
@@ -33,14 +33,14 @@ export default function Footer({ enable }: FooterProps) {
       ]}>
       <View style={styles.buttonContainer}>
         {footerIcons.map(({ name, url, icon }) => (
-          <OverStyle
-            key={name}
-            style={[styles.button, { borderColor: colors.border }]}
-            onHover={{ backgroundColor: colors.border }}
-            onPress={() => openLink(url)}>
-            <FontAwesome5 style={styles.icon} name={icon} size={20} color={colors.text} />
-            <Text fontSize="lg">{name}</Text>
-          </OverStyle>
+          <Pressable onPress={() => openLink(url)} key={name}>
+            <HoverStyle
+              style={[styles.button, { borderColor: colors.border }]}
+              onHover={{ backgroundColor: colors.border }}>
+              <FontAwesome5 style={styles.icon} name={icon} size={20} color={colors.text} />
+              <Text fontSize="lg">{name}</Text>
+            </HoverStyle>
+          </Pressable>
         ))}
       </View>
     </View>

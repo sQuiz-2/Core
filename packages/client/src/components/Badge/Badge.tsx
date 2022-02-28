@@ -2,7 +2,7 @@ import { badges } from '@Src/utils/loadBadges';
 import React, { useState } from 'react';
 import { View, StyleProp, Image, ImageStyle } from 'react-native';
 
-import { IsOver } from '../Over';
+import { IsHover } from '../Hover';
 import Text from '../Text';
 import useBadgeStyle from './BadgeStyle';
 
@@ -62,7 +62,7 @@ export default function Badge({
   }
 
   const badge = source.animated ? (
-    <IsOver onHover={handleAnimate} onLeaveOver={handleLeaveAnimate}>
+    <IsHover onHover={handleAnimate} onLeaveOver={handleLeaveAnimate}>
       {animate && <Image source={source.animated} style={[imageStyle]} />}
       {locked && <Image source={source} style={[imageStyle, styles.pictureGray as ImageStyle]} />}
       {!animate && (
@@ -75,7 +75,7 @@ export default function Badge({
           ]}
         />
       )}
-    </IsOver>
+    </IsHover>
   ) : (
     <>
       {locked && <Image source={source} style={[imageStyle, styles.pictureGray as ImageStyle]} />}
@@ -116,9 +116,9 @@ export default function Badge({
     return <>{badgeAndInfos}</>;
   } else {
     return (
-      <IsOver onHover={handleOver} onLeaveOver={handleLeaveOver}>
+      <IsHover onHover={handleOver} onLeaveOver={handleLeaveOver}>
         {badgeAndInfos}
-      </IsOver>
+      </IsHover>
     );
   }
 }

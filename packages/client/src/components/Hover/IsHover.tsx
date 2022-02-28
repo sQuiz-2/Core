@@ -7,7 +7,7 @@ interface Props extends TouchableOpacityProps {
   children: React.ReactNode;
 }
 
-export default function isOver({ onHover, onLeaveOver, ...passThrough }: Props) {
+export default function IsHover({ onHover, onLeaveOver, ...passThrough }: Props) {
   return (
     <View
       {...Platform.select({
