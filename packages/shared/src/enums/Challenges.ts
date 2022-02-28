@@ -127,7 +127,7 @@ export enum ChallengeStreakIds {
 export const challengeStreak: ChallengeStreak[] = [
   {
     id: ChallengeStreakIds.fiveStreakBeginner,
-    title: 'Série de 5 questions - Initié',
+    title: 'C-C-C-Combo novice',
     description: 'Répondre correctement à 5 questions successives sur le salon initié public',
     requiredStreak: 5,
     hidden: false,
@@ -143,7 +143,7 @@ export const challengeStreak: ChallengeStreak[] = [
   },
   {
     id: ChallengeStreakIds.fifteenStreakBeginner,
-    title: 'Série de 15 questions - Initié',
+    title: "Un parfait initié",
     description: 'Répondre correctement à 15 questions successives sur le salon initié public',
     requiredStreak: 15,
     hidden: false,
@@ -151,7 +151,7 @@ export const challengeStreak: ChallengeStreak[] = [
   },
   {
     id: ChallengeStreakIds.fiveStreakConfirmed,
-    title: 'Série de 5 questions - Confirmé',
+    title: 'C-C-C-Combo builder',
     description: 'Répondre correctement à 5 questions successives sur le salon confirmé public',
     requiredStreak: 5,
     hidden: false,
@@ -167,7 +167,7 @@ export const challengeStreak: ChallengeStreak[] = [
   },
   {
     id: ChallengeStreakIds.fifteenStreakConfirmed,
-    title: 'Série de 15 questions - Confirmé',
+    title: 'Inarrêtable',
     description: 'Répondre correctement à 15 questions successives sur le salon confirmé public',
     requiredStreak: 15,
     hidden: false,
@@ -175,7 +175,7 @@ export const challengeStreak: ChallengeStreak[] = [
   },
   {
     id: ChallengeStreakIds.fiveStreakExpert,
-    title: 'Série de 5 questions - Expert',
+    title: 'C-C-C-Combo Expert',
     description: 'Répondre correctement à 5 questions successives sur le salon expert public',
     requiredStreak: 5,
     hidden: false,
@@ -191,7 +191,7 @@ export const challengeStreak: ChallengeStreak[] = [
   },
   {
     id: ChallengeStreakIds.fifteenStreakExpert,
-    title: 'Série de 15 questions - Expert',
+    title: 'Réponses pour un champion',
     description: 'Répondre correctement à 15 questions successives sur le salon expert public',
     requiredStreak: 15,
     hidden: false,
@@ -246,7 +246,7 @@ export enum ChallengeWinIds {
 export const challengeWin: ChallengeWin[] = [
   {
     id: ChallengeWinIds.oneWin,
-    title: 'Première victoire',
+    title: 'Gagné gagné poulet au dîner',
     description: 'Vous avez gagné votre première partie',
     requiredWin: 1,
     hidden: true,
