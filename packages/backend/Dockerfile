@@ -1,4 +1,4 @@
-FROM node:14 as builder
+FROM node:lts as builder
 WORKDIR /app
 COPY ./packages/backend/ ./packages/backend
 COPY ./packages/shared/ ./packages/shared

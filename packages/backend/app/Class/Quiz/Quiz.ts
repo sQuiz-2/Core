@@ -19,6 +19,7 @@ import { shuffle } from 'App/Utils/Array';
 import { isNumeric } from 'App/Utils/Number';
 import { Socket } from 'socket.io';
 import stringSimilarity from 'string-similarity';
+import { setTimeout as asyncSetTimeout } from 'timers/promises';
 
 import Player from '../Player';
 import Room, { RoomProps } from '../Room';
@@ -250,18 +251,11 @@ export default class Quiz extends Room {
    * Start a new round if it's not otherwise go to gameEnd
    */
   private startNewRound(): void {
-    this.status = RoomStatus.InProgress;
-    if (this.roundsCounter >= this.rounds.length) {
-      this.gameEnd();
-    } else {
-      this.resetRoomForNewRound();
-      const round = this.setNewCurrentRound();
-      if (round) {
-        this.emitCurrentRound(round);
-        this.quizAnswerTimer.reset();
-      }
-      // Wait the round time then send the answer
-      this.answerTimer = setTimeout(() => this.roundEnd(), this.timeToAnswer * SECOND);
+    this.resetRoomForNewRound();
+    const round = this.setNewCurrentRound();
+    if (round) {
+      this.emitCurrentRound(round);
+      this.quizAnswerTimer.reset();
     }
   }
 
@@ -280,13 +274,18 @@ export default class Quiz extends Room {
   /**
    * Start a new game
    */
-  private startGame(): void {
-    this.resetRoomForNewGame();
+  private async startGame(): Promise<void> {
     this.setStatus(RoomStatus.Starting);
-    this.roundTimer = setInterval(
-      () => this.startNewRound(),
-      (this.timeToAnswer + this.timeBetweenQuestion) * SECOND,
-    );
+    await this.resetRoomForNewGame();
+    await asyncSetTimeout((this.timeToAnswer + this.timeBetweenQuestion) * SECOND);
+    this.status = RoomStatus.InProgress;
+    while (this.roundsCounter < this.rounds.length) {
+      this.startNewRound();
+      await asyncSetTimeout(this.timeToAnswer * SECOND);
+      this.roundEnd();
+      await asyncSetTimeout(this.timeBetweenQuestion * SECOND);
+    }
+    this.gameEnd();
   }
 
   /**
