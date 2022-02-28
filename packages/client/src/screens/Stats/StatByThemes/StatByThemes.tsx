@@ -44,6 +44,17 @@ export default function StatByThemes() {
         getValue: (datum) => datum.secondary,
         hardMax: 100,
         hardMin: 0,
+        formatters: {
+          cursor: (value: any, formatters: any) => {
+            return formatters.default(value) + '%';
+          },
+          tooltip: (value: any, formatters: any) => {
+            return formatters.default(value) + '%';
+          },
+          scale: (value: any, formatters: any) => {
+            return formatters.default(value) + '%';
+          },
+        },
       },
     ],
     []
@@ -54,10 +65,13 @@ export default function StatByThemes() {
     primary: capitalizeFirstLetter(title),
   }));
 
-  const globalStats = stats.globalThemeStats.map(({ title, correct, played }) => ({
-    secondary: (correct / played) * 100,
-    primary: capitalizeFirstLetter(title),
-  }));
+  const allUserStatTitles = stats.userStatsThemes.map(({ title }) => title);
+  const globalStats = stats.globalThemeStats
+    .filter(({ title }) => allUserStatTitles.includes(title))
+    .map(({ title, correct, played }) => ({
+      secondary: (correct / played) * 100,
+      primary: capitalizeFirstLetter(title),
+    }));
 
   const data = [
     {

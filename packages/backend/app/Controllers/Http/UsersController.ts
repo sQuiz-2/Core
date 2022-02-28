@@ -18,8 +18,6 @@ import {
   TwitchInfo,
 } from '@squiz/shared';
 import RoomPool from 'App/Class/RoomPool';
-import GameStat from 'App/Models/GameStat';
-import RoundStat from 'App/Models/RoundStat';
 import StatTheme from 'App/Models/StatTheme';
 import User from 'App/Models/User';
 import Cache, { CacheKeys } from 'App/Utils/Cache';
@@ -78,8 +76,9 @@ export default class UsersController {
 
   public async meBasic({ auth }: HttpContextContract) {
     if (!auth.user) return;
-    const gameStats = await GameStat.query().where('user_id', auth.user.id);
-    const roundStats = await RoundStat.query().where('user_id', auth.user.id);
+    const completedChallenges = (await auth.user.related('challenges').query()).length;
+    const roundStats = await auth.user.related('roundStats').query().limit(3);
+    const gameStats = await auth.user.related('gameStats').query().limit(3);
     const meBasic: MeBasic = {
       experience: auth.user.experience,
       avatar: auth.user.avatar as keyof typeof Avatars,
@@ -88,6 +87,7 @@ export default class UsersController {
       badge: auth.user.badge,
       createdDate: (auth.user.createdAt as unknown) as string,
       rank: auth.user.rank as Ranks,
+      completedChallenges,
     };
     return meBasic;
   }

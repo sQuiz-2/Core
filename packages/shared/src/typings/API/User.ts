@@ -11,6 +11,7 @@ export type MeBasic = {
   badge: string;
   createdDate: string;
   rank: Ranks;
+  completedChallenges: number;
   gameStats: {
     difficultyId: number;
     id: number;

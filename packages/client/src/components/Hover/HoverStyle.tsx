@@ -1,19 +1,13 @@
 import React, { useRef } from 'react';
-import {
-  TouchableOpacity,
-  StyleProp,
-  Platform,
-  ViewStyle,
-  TouchableOpacityProps,
-} from 'react-native';
+import { StyleProp, Platform, ViewStyle, TouchableOpacityProps, View } from 'react-native';
 
 interface Props extends TouchableOpacityProps {
   onHover: StyleProp<ViewStyle>;
   children: React.ReactNode;
 }
 
-export default function OverStyle({ onHover, style, ...passThrough }: Props) {
-  const ref = useRef<TouchableOpacity | null>(null);
+export default function HoverStyle({ onHover, style, ...passThrough }: Props) {
+  const ref = useRef<View | null>(null);
 
   function setNativeProps(styles: any) {
     if (!ref.current) return;
@@ -23,7 +17,7 @@ export default function OverStyle({ onHover, style, ...passThrough }: Props) {
   }
 
   return (
-    <TouchableOpacity
+    <View
       ref={(component) => (ref.current = component)}
       {...Platform.select({
         web: {

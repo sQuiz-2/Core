@@ -50,7 +50,7 @@ export default function Stats() {
           )}
           {stats.gameStats.map((game) => {
             return (
-              <View style={styles.row}>
+              <View key={game.id} style={styles.row}>
                 <Image style={styles.image} source={require('@Assets/images/keyboard.png')} />
                 <View>
                   <Text fontSize="lg" style={styles.bold}>
@@ -72,7 +72,7 @@ export default function Stats() {
           )}
           {stats.roundStats.map((game) => {
             return (
-              <View style={styles.row}>
+              <View key={game.id} style={styles.row}>
                 <Image style={styles.image} source={require('@Assets/images/keyboard.png')} />
                 <View>
                   <Text fontSize="lg" style={styles.bold}>

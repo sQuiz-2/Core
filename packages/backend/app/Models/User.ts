@@ -13,7 +13,9 @@ import { DateTime } from 'luxon';
 
 import ApiToken from './ApiToken';
 import Challenge from './Challenge';
+import GameStat from './GameStat';
 import OauthToken from './OauthToken';
+import RoundStat from './RoundStat';
 import Theme from './Theme';
 import UserBadge from './UserBadge';
 
@@ -41,6 +43,12 @@ export default class User extends BaseModel {
 
   @hasMany(() => UserBadge)
   public badges: HasMany<typeof UserBadge>;
+
+  @hasMany(() => GameStat)
+  public gameStats: HasMany<typeof GameStat>;
+
+  @hasMany(() => RoundStat)
+  public roundStats: HasMany<typeof RoundStat>;
 
   @manyToMany(() => Challenge, {
     pivotTable: 'challenge_users',
