@@ -1,4 +1,4 @@
-import Card, { TitleCard } from '@Src/components/Card';
+import { TitleCard } from '@Src/components/Card';
 import React from 'react';
 import { View } from 'react-native';
 
