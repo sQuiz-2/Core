@@ -20,6 +20,8 @@ export default function CreateRoom() {
   const styles = useCreateRoomStyle();
   const [selectedDifficulty, setSelectedDifficulty] = useState('Initié');
   const [antiCheat, setAntiCheat] = useState(false);
+  const [startGameManually, setStartGameManually] = useState(false);
+  const [startRoundManually, setStartRoundManually] = useState(false);
   const [players, setPlayers] = useState(42);
   const [timeToAnswer, setTimeToAnswer] = useState(14);
   const [timeBetweenQuestion, setTimeBetweenQuestion] = useState(5);
@@ -45,6 +47,8 @@ export default function CreateRoom() {
     setSelectedDifficulty(myCustomSettings.selectedDifficulty);
     setTimeBetweenGames(myCustomSettings.timeBetweenGames);
     setRounds(myCustomSettings.rounds);
+    setStartGameManually(myCustomSettings.startGameManually);
+    setStartRoundManually(myCustomSettings.startRoundManually);
   }
 
   async function fetchThemes() {
@@ -82,6 +86,8 @@ export default function CreateRoom() {
       timeBetweenGames,
       selectedThemes,
       rounds,
+      startGameManually,
+      startRoundManually,
     };
     try {
       await setInStore(StorageEnum.CustomGameConfig, roomConfig);
@@ -186,9 +192,39 @@ export default function CreateRoom() {
           handleSelectedTheme={handleSelectedTheme}
         />
       )}
-      <Text style={[styles.title, styles.separator]}>Anti-triche</Text>
-      <View style={styles.cheatBox}>
-        <CheckBox selected={antiCheat} onSelect={(newSelected) => setAntiCheat(newSelected)} />
+      <View style={{ paddingTop: 10 }}>
+        <Text style={[styles.title, styles.separator]}>Paramètres</Text>
+        <View style={{ width: 'fit-content', paddingTop: 10 }}>
+          <View style={styles.boxContainer}>
+            <Text style={[styles.title, styles.separator]}>Activer l'anti-triche</Text>
+            <View style={styles.box}>
+              <CheckBox
+                selected={antiCheat}
+                onSelect={(newSelected) => setAntiCheat(newSelected)}
+              />
+            </View>
+          </View>
+          <View style={styles.boxContainer}>
+            <Text style={[styles.title, styles.separator]}>Démarrer la partie manuellement</Text>
+            <View style={styles.box}>
+              <CheckBox
+                selected={startGameManually}
+                onSelect={(newSelected) => setStartGameManually(newSelected)}
+              />
+            </View>
+          </View>
+          <View style={styles.boxContainer}>
+            <Text style={[styles.title, styles.separator]}>
+              Commencer les questions manuellement
+            </Text>
+            <View style={styles.box}>
+              <CheckBox
+                selected={startRoundManually}
+                onSelect={(newSelected) => setStartRoundManually(newSelected)}
+              />
+            </View>
+          </View>
+        </View>
       </View>
       <Pressable onPress={createRoom} style={styles.createButton}>
         <FontAwesome5

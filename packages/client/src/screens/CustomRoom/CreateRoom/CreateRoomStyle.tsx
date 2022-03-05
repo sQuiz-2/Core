@@ -22,8 +22,14 @@ export default function useCreateRoomStyle() {
     separator: {
       paddingTop: 8,
     },
-    cheatBox: {
+    boxContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+    },
+    box: {
       paddingTop: 5,
+      paddingLeft: 15,
       alignItems: 'center',
       justifyContent: 'center',
     },

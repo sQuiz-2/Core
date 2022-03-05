@@ -16,6 +16,9 @@ export type RoomConfig = {
   timeBetweenGames?: number;
   selectedThemes?: number[];
   rounds?: number;
+  startGameManually?: boolean;
+  startRoundManually?: boolean;
+  adminDbId?: number;
 };
 
 class RoomPool {

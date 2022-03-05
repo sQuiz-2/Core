@@ -3,6 +3,7 @@ export enum RoomStatus {
   Starting,
   InProgress,
   Ended,
+  Paused,
 }
 
 export enum RoomEvent {

@@ -7,6 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { View } from 'react-native';
 import { useRecoilValue } from 'recoil';
 
+import AdminGameButtons from '../AdminGameButtons';
 import GameInput from '../GameInput';
 import Guesses from '../Guesses';
 import Question from '../Question';
@@ -86,6 +87,7 @@ export default function GameInProgress() {
           <Question />
           <RoundEnd />
         </View>
+        <AdminGameButtons />
         <Guesses guesses={guesses} />
         <RoundCounter />
         <GameInput handleGuess={handleGuess} wrongGuess={wrongGuess} />

@@ -4,7 +4,6 @@ import { View } from 'react-native';
 
 import Avatars from './Avatars';
 import Badges from './Badges';
-import DisconnectButton from './Disconnect';
 import useProfileStyle from './ProfileStyle';
 
 export default function Profile() {
@@ -17,14 +16,11 @@ export default function Profile() {
           <Avatars />
         </TitleCard>
       </View>
-      <View style={styles.containerAvatar}>
+      <View style={styles.containerBadge}>
         <TitleCard title="BADGE">
           <Badges />
         </TitleCard>
       </View>
-      <Card style={styles.disconnectContainer}>
-        <DisconnectButton />
-      </Card>
     </View>
   );
 }

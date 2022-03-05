@@ -12,6 +12,7 @@ type Props = {
   avatar?: string;
   badge?: string;
   numberOfRounds: number;
+  isRoomAdmin: boolean;
 };
 
 export default class Player {
@@ -113,6 +114,8 @@ export default class Player {
    */
   fastestAnswer: number = 14 * SECOND;
 
+  isRoomAdmin: boolean = false;
+
   constructor(props: Props) {
     this.id = props.id;
     this.name = props.name;
@@ -124,6 +127,7 @@ export default class Player {
     this.badge = props.badge || '0';
     this.numberOfRounds = props.numberOfRounds;
     this.ranks = Array(props.numberOfRounds).fill(GameRank.RoundComing);
+    if (props.isRoomAdmin) this.isRoomAdmin = props.isRoomAdmin;
   }
 
   /**

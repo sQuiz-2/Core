@@ -9,6 +9,9 @@ export enum GameEvent {
   ValidAnswer = 'va',
   WrongAnswer = 'wa',
   GameEndPlayerInfos = 'gp',
+  RoomAdminStartGame = 'roomAdminStartGame',
+  RoomAdminStartRound = 'roomAdminStartRound',
+  Pause = 'pause',
 }
 
 export enum GameRank {
