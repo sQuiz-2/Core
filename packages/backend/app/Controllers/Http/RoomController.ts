@@ -19,6 +19,9 @@ export default class GamesController {
       timeBetweenGames: roomConfig.timeBetweenGames,
       selectedThemes: roomConfig.selectedThemes,
       rounds: roomConfig.rounds,
+      startGameManually: roomConfig.startGameManually,
+      startRoundManually: roomConfig.startRoundManually,
+      adminDbId: ctx.auth.user!.id,
     });
     return {
       roomId,

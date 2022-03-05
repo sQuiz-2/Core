@@ -19,6 +19,7 @@ import { shuffle } from 'App/Utils/Array';
 import { isNumeric } from 'App/Utils/Number';
 import { Socket } from 'socket.io';
 import stringSimilarity from 'string-similarity';
+import { setTimeout as asyncSetTimeout } from 'timers/promises';
 
 import Player from '../Player';
 import Room, { RoomProps } from '../Room';
@@ -29,7 +30,9 @@ import QuizExperience from './QuizExperience';
 import QuizStats from './QuizStats';
 
 export enum EmitterEvents {
+  Init = 'init',
   Start = 'start',
+  NewRound = 'newRound',
 }
 
 const SECOND = 1000;
@@ -121,7 +124,9 @@ export default class Quiz extends Room {
 
   constructor(props: RoomProps) {
     super(props);
-    this.eventEmitter.on(EmitterEvents.Start, this.startGame.bind(this));
+    this.eventEmitter.on(EmitterEvents.Init, this.initGame.bind(this));
+    this.eventEmitter.on(EmitterEvents.Start, this.gameLoop.bind(this));
+    this.eventEmitter.on(EmitterEvents.NewRound, this.startNewRound.bind(this));
   }
 
   /**
@@ -249,44 +254,54 @@ export default class Quiz extends Room {
    * Check if the game is finish or not.
    * Start a new round if it's not otherwise go to gameEnd
    */
-  private startNewRound(): void {
-    this.status = RoomStatus.InProgress;
+  private async startNewRound(): Promise<void> {
+    if (this.status === RoomStatus.Paused) return;
     if (this.roundsCounter >= this.rounds.length) {
       this.gameEnd();
-    } else {
-      this.resetRoomForNewRound();
-      const round = this.setNewCurrentRound();
-      if (round) {
-        this.emitCurrentRound(round);
-        this.quizAnswerTimer.reset();
-      }
-      // Wait the round time then send the answer
-      this.answerTimer = setTimeout(() => this.roundEnd(), this.timeToAnswer * SECOND);
+    }
+    this.resetRoomForNewRound();
+    const round = this.setNewCurrentRound();
+    if (round) {
+      this.emitCurrentRound(round);
+      this.quizAnswerTimer.reset();
+      await asyncSetTimeout(this.timeToAnswer * SECOND);
+      await this.roundEnd();
     }
   }
 
   /**
    * Handle round end
    */
-  private roundEnd(): void {
+  private async roundEnd(): Promise<void> {
     this.updateMissingRanks();
     this.isGuessTime = false;
     this.roundsCounter++;
     this.emitRoundEndInfos();
     this.updateStats();
     this.resetPlayersForNewRound();
+    if (!this.startRoundManually) {
+      await asyncSetTimeout(this.timeBetweenQuestion * SECOND);
+      this.eventEmitter.emit(EmitterEvents.NewRound);
+    }
   }
 
   /**
-   * Start a new game
+   * Init a new game and run the countdown before the beginning
    */
-  private startGame(): void {
+  private async initGame(): Promise<void> {
+    if (!this.startGameManually) {
+      this.setStatus(RoomStatus.Starting);
+      setTimeout(
+        () => this.eventEmitter.emit(EmitterEvents.Start),
+        (this.timeToAnswer + this.timeBetweenQuestion) * SECOND,
+      );
+    }
     this.resetRoomForNewGame();
-    this.setStatus(RoomStatus.Starting);
-    this.roundTimer = setInterval(
-      () => this.startNewRound(),
-      (this.timeToAnswer + this.timeBetweenQuestion) * SECOND,
-    );
+  }
+
+  private async gameLoop(): Promise<void> {
+    this.setStatus(RoomStatus.InProgress);
+    this.eventEmitter.emit(EmitterEvents.NewRound);
   }
 
   /**
@@ -296,9 +311,18 @@ export default class Quiz extends Room {
     this.emitStatusToSocket(socket.id);
     // We need at least one player to start the game
     if (this.status === RoomStatus.Waiting && this.players.length >= 1) {
-      this.eventEmitter.emit(EmitterEvents.Start);
+      this.eventEmitter.emit(EmitterEvents.Init);
     }
     socket.on(GameEvent.Guess, (guess) => this.playerGuess(socket, guess));
+    if (this.startGameManually && socket.id === this.adminSocketId) {
+      socket.on(GameEvent.RoomAdminStartGame, () => this.handleRoomAdminStartGame(socket));
+    }
+    if (this.startRoundManually && socket.id === this.adminSocketId) {
+      socket.on(GameEvent.RoomAdminStartRound, () => this.handleRoomAdminStartRound(socket));
+    }
+    if (this.isPrivate && !this.startRoundManually && socket.id === this.adminSocketId) {
+      socket.on(GameEvent.Pause, () => this.handlePauseGame(socket));
+    }
   }
 
   /**
@@ -362,10 +386,10 @@ export default class Quiz extends Room {
    */
   private restartGame(): void {
     this.removeDisconnectedPlayers();
+    this.setStatus(RoomStatus.Waiting);
     if (this.players.length > 0) {
-      this.eventEmitter.emit(EmitterEvents.Start);
+      this.eventEmitter.emit(EmitterEvents.Init);
     } else {
-      this.setStatus(RoomStatus.Waiting);
       this.deleteRoomIfPrivate();
     }
   }
@@ -428,6 +452,29 @@ export default class Quiz extends Room {
     }
     if (!player.triedToAnswer) {
       player.triedToAnswer = true;
+    }
+  }
+
+  private async handleRoomAdminStartGame(socket: Socket): Promise<void> {
+    if (this.status === RoomStatus.Waiting && socket.id === this.adminSocketId) {
+      this.eventEmitter.emit(EmitterEvents.Start);
+    }
+  }
+
+  private async handleRoomAdminStartRound(socket: Socket): Promise<void> {
+    if (socket.id === this.adminSocketId) {
+      this.eventEmitter.emit(EmitterEvents.NewRound);
+    }
+  }
+
+  private async handlePauseGame(socket: Socket): Promise<void> {
+    if (socket.id === this.adminSocketId) {
+      if (this.status === RoomStatus.Paused) {
+        this.setStatus(RoomStatus.InProgress);
+        this.eventEmitter.emit(EmitterEvents.NewRound);
+      } else {
+        this.setStatus(RoomStatus.Paused);
+      }
     }
   }
 

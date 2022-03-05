@@ -14,6 +14,12 @@ export default function useProfileStyle() {
       width: responsive(screenWidth, '90%', '80%', '70%'),
       maxWidth: 1300,
     },
+    containerBadge: {
+      paddingTop: 40,
+      paddingBottom: 40,
+      width: responsive(screenWidth, '90%', '80%', '70%'),
+      maxWidth: 1300,
+    },
     disconnectContainer: {
       marginTop: 40,
       marginBottom: 40,

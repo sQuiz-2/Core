@@ -23,9 +23,11 @@ export default function useRoomStatusListener() {
     const timeBetweenQuestion = roomInfos?.timeBetweenQuestion || GameTime.Answer;
     switch (roomStatus.status) {
       case RoomStatus.Starting:
-        resetStates();
         setTime(timeToAnswer + timeBetweenQuestion);
         gameStartSound?.play();
+        break;
+      case RoomStatus.Waiting:
+        resetStates();
         break;
       case RoomStatus.Ended:
         gameEndSound?.play();

@@ -93,6 +93,9 @@ export type EmitRoomInfos = {
   timeToAnswer: number;
   timeBetweenQuestion: number;
   timeBetweenGames: number;
+  isRoomAdmin: boolean;
+  startGameManually: boolean;
+  startRoundManually: boolean;
 };
 
 export type RoomCreateConfig = {
@@ -104,4 +107,6 @@ export type RoomCreateConfig = {
   timeBetweenGames: number;
   rounds: number;
   selectedThemes: number[];
+  startGameManually: boolean;
+  startRoundManually: boolean;
 };

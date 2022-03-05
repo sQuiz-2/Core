@@ -12,6 +12,8 @@ export default class CreateRoomValidator {
     timeBetweenQuestion: schema.number([rules.range(5, 25)]),
     timeToAnswer: schema.number([rules.range(6, 25)]),
     rounds: schema.number([rules.range(10, 45)]),
+    startGameManually: schema.boolean(),
+    startRoundManually: schema.boolean(),
     selectedThemes: schema
       .array()
       .members(schema.number([rules.exists({ table: 'themes', column: 'id' })])),

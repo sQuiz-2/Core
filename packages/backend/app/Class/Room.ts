@@ -91,6 +91,19 @@ export default class Room {
   timeBetweenGames: number;
   selectedThemes: number[];
 
+  roomAdminDbId?: number;
+  adminSocketId: string | undefined = '';
+
+  /**
+   * Will the game be run after one player joined ?
+   */
+  startGameManually: boolean = false;
+
+  /**
+   * Send a new rounds when the last one is ended
+   */
+  startRoundManually: boolean = false;
+
   /**
    * Number of rounds per game
    */
@@ -114,6 +127,9 @@ export default class Room {
       ? roomConfig.timeBetweenQuestion
       : GameTime.Answer;
     this.roundsToFetch = roomConfig.rounds ? roomConfig.rounds : 15;
+    if (roomConfig.adminDbId) this.roomAdminDbId = roomConfig.adminDbId;
+    if (roomConfig.startGameManually) this.startGameManually = roomConfig.startGameManually;
+    if (roomConfig.startRoundManually) this.startRoundManually = roomConfig.startRoundManually;
   }
 
   /**
@@ -304,6 +320,12 @@ export default class Room {
       position = lastPlayer.score === 0 ? lastPlayer.position : lastPlayer.position + 1;
     }
 
+    let isRoomAdmin = false;
+    if (this.isPrivate && !this.adminSocketId && this.roomAdminDbId === dbId) {
+      isRoomAdmin = true;
+      this.adminSocketId = socket.id;
+    }
+
     /**
      * Add the new player in the player's array
      */
@@ -317,6 +339,7 @@ export default class Room {
       avatar,
       badge,
       numberOfRounds: this.roundsToFetch,
+      isRoomAdmin,
     });
     this.players.push(newPlayer);
     if (this.players.length >= this.maxPlayers) {
@@ -493,6 +516,9 @@ export default class Room {
       timeToAnswer: this.timeToAnswer,
       timeBetweenQuestion: this.timeBetweenQuestion,
       timeBetweenGames: this.timeBetweenGames,
+      isRoomAdmin: player.isRoomAdmin,
+      startGameManually: this.startGameManually,
+      startRoundManually: this.startRoundManually,
     };
     this.emitToSocket(RoomEvent.Infos, roomInfos, socket.id);
   }
