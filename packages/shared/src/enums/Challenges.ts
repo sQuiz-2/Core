@@ -135,7 +135,7 @@ export const challengeStreak: ChallengeStreak[] = [
   },
   {
     id: ChallengeStreakIds.tenStreakBeginner,
-    title: 'Série de 10 questions - Initié',
+    title: 'Initiateur',
     description: 'Répondre correctement à 10 questions successives sur le salon initié public',
     requiredStreak: 10,
     hidden: false,
@@ -159,7 +159,7 @@ export const challengeStreak: ChallengeStreak[] = [
   },
   {
     id: ChallengeStreakIds.tenStreakConfirmed,
-    title: 'Série de 10 questions - Confirmé',
+    title: 'Confirmé avec confirmation',
     description: 'Répondre correctement à 10 questions successives sur le salon confirmé public',
     requiredStreak: 10,
     hidden: false,
@@ -183,7 +183,7 @@ export const challengeStreak: ChallengeStreak[] = [
   },
   {
     id: ChallengeStreakIds.tenStreakExpert,
-    title: 'Série de 10 questions - Expert',
+    title: 'Expert : Miami',
     description: 'Répondre correctement à 10 questions successives sur le salon expert public',
     requiredStreak: 10,
     hidden: false,
