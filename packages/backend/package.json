@@ -1,6 +1,6 @@
 {
   "name": "@squiz/backend",
-  "version": "0.16.3",
+  "version": "0.16.4",
   "private": true,
   "scripts": {
     "build": "node ace build",

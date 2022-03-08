@@ -47,8 +47,12 @@ export default function CreateRoom() {
     setSelectedDifficulty(myCustomSettings.selectedDifficulty);
     setTimeBetweenGames(myCustomSettings.timeBetweenGames);
     setRounds(myCustomSettings.rounds);
-    setStartGameManually(myCustomSettings.startGameManually);
-    setStartRoundManually(myCustomSettings.startRoundManually);
+    setStartGameManually(
+      !myCustomSettings.startGameManually ? false : myCustomSettings.startGameManually
+    );
+    setStartRoundManually(
+      !myCustomSettings.startRoundManually ? false : myCustomSettings.startRoundManually
+    );
   }
 
   async function fetchThemes() {
