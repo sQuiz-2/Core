@@ -62,7 +62,7 @@ class RoundFetcher {
       return roundIds;
     } else {
       // All rounds have been played we need to reset the 'played' boolean
-      await this.resetPlayedRounds(difficultyId);
+      await this.resetPlayedRounds(difficultyId, themes);
       // Fetch them again
       return this.fetchAllRoundsIds(difficultyId, themes);
     }
@@ -85,11 +85,14 @@ class RoundFetcher {
   /**
    * Set all rounds for a given category to played = false
    */
-  private async resetPlayedRounds(difficultyId: number): Promise<number[]> {
-    return Round.query()
-      .where('validated', true)
-      .where('difficulty_id', difficultyId)
-      .update({ played: false });
+  private async resetPlayedRounds(difficultyId: number, themes?: number[]): Promise<number[]> {
+    const resetQuery = Round.query().where('validated', true).update({ played: false });
+    if (difficultyId === DifficultyEnum.Random && themes && themes.length > 0) {
+      resetQuery.whereIn('theme_id', themes);
+    } else {
+      resetQuery.where('difficulty_id', difficultyId);
+    }
+    return resetQuery;
   }
 
   /**
