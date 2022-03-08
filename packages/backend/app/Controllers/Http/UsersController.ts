@@ -77,8 +77,16 @@ export default class UsersController {
   public async meBasic({ auth }: HttpContextContract) {
     if (!auth.user) return;
     const completedChallenges = (await auth.user.related('challenges').query()).length;
-    const roundStats = await auth.user.related('roundStats').query().limit(3);
-    const gameStats = await auth.user.related('gameStats').query().limit(3);
+    const roundStats = await auth.user
+      .related('roundStats')
+      .query()
+      .limit(3)
+      .orderBy('difficultyId', 'asc');
+    const gameStats = await auth.user
+      .related('gameStats')
+      .query()
+      .limit(3)
+      .orderBy('difficultyId', 'asc');
     const meBasic: MeBasic = {
       experience: auth.user.experience,
       avatar: auth.user.avatar as keyof typeof Avatars,
