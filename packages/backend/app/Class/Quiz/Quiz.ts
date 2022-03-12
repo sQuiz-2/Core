@@ -46,8 +46,7 @@ export default class Quiz extends Room {
   /**
    * Abort controller used to send abort signal to async timers
    */
-  ac = new AbortController();
-  signal = this.ac.signal;
+  abortController = new AbortController();
 
   /**
    * Rounds for the game
@@ -262,8 +261,8 @@ export default class Quiz extends Room {
       this.quizAnswerTimer.reset();
       try {
         await asyncSetTimeout(this.timeToAnswer * SECOND, null, {
-          ref: false,
-          signal: this.signal,
+          ref: true,
+          signal: this.abortController.signal,
         });
         await this.roundEnd();
       } catch (error) {}
@@ -283,8 +282,8 @@ export default class Quiz extends Room {
     if (!this.startRoundManually) {
       try {
         await asyncSetTimeout(this.timeBetweenQuestion * SECOND, null, {
-          ref: false,
-          signal: this.signal,
+          ref: true,
+          signal: this.abortController.signal,
         });
         this.eventEmitter.emit(EmitterEvents.NewRound);
       } catch (error) {}
@@ -404,7 +403,7 @@ export default class Quiz extends Room {
     if (this.timer) {
       clearInterval(this.timer);
     }
-    this.ac.abort();
+    this.abortController.abort();
   }
 
   /**
@@ -502,6 +501,7 @@ export default class Quiz extends Room {
       );
     }
     this.rounds = newRounds;
+    this.abortController = new AbortController();
   }
 
   /**
