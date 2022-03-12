@@ -184,6 +184,9 @@ export default class Room {
            * we are going to make a new link between your new connection and your saved data
            */
           player.reconnect(socket.id);
+          if (player.isRoomAdmin) {
+            this.adminSocketId = socket.id;
+          }
           this.emitReconnectInfos(player);
         } else {
           /**
@@ -320,7 +323,7 @@ export default class Room {
     }
 
     let isRoomAdmin = false;
-    if (this.isPrivate && !this.adminSocketId && this.roomAdminDbId === dbId) {
+    if (this.isPrivate && this.roomAdminDbId === dbId) {
       isRoomAdmin = true;
       this.adminSocketId = socket.id;
     }
