@@ -253,7 +253,6 @@ export default class Room {
       this.removePlayer(socket);
       this.updateRoom();
       if (this.players.length <= 0) {
-        this.gameStop();
         this.status = RoomStatus.Waiting;
         this.deleteRoomIfPrivate();
       }
@@ -565,6 +564,8 @@ export default class Room {
     if (this.isPrivate) {
       this.nameSpace.removeAllListeners();
       RoomPool.removeRoom();
+    } else {
+      this.gameStop();
     }
   }
 

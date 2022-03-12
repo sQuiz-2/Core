@@ -70,6 +70,7 @@ export default function AdminGameButtons() {
             )}
           {!isQuestionTime &&
             roomStatus.status !== RoomStatus.Waiting &&
+            roomStatus.status !== RoomStatus.Starting &&
             !roomInfos.startRoundManually && (
               <Pressable onPress={pause} style={styles.buttonContainer}>
                 <FontAwesome5
