@@ -39,19 +39,15 @@ const SECOND = 1000;
 
 export default class Quiz extends Room {
   /**
-   * Used for the interval between each rounds
-   */
-  roundTimer: NodeJS.Timeout | null = null;
-
-  /**
-   * Timeout before emitting answer
-   */
-  answerTimer: NodeJS.Timeout | null = null;
-
-  /**
    * Timeout before starting a new game
    */
-  endTimer: NodeJS.Timeout | null = null;
+  timer: NodeJS.Timeout | null = null;
+
+  /**
+   * Abort controller used to send abort signal to async timers
+   */
+  ac = new AbortController();
+  signal = this.ac.signal;
 
   /**
    * Rounds for the game
@@ -264,8 +260,13 @@ export default class Quiz extends Room {
     if (round) {
       this.emitCurrentRound(round);
       this.quizAnswerTimer.reset();
-      await asyncSetTimeout(this.timeToAnswer * SECOND);
-      await this.roundEnd();
+      try {
+        await asyncSetTimeout(this.timeToAnswer * SECOND, null, {
+          ref: false,
+          signal: this.signal,
+        });
+        await this.roundEnd();
+      } catch (error) {}
     }
   }
 
@@ -280,8 +281,13 @@ export default class Quiz extends Room {
     this.updateStats();
     this.resetPlayersForNewRound();
     if (!this.startRoundManually) {
-      await asyncSetTimeout(this.timeBetweenQuestion * SECOND);
-      this.eventEmitter.emit(EmitterEvents.NewRound);
+      try {
+        await asyncSetTimeout(this.timeBetweenQuestion * SECOND, null, {
+          ref: false,
+          signal: this.signal,
+        });
+        this.eventEmitter.emit(EmitterEvents.NewRound);
+      } catch (error) {}
     }
   }
 
@@ -291,7 +297,7 @@ export default class Quiz extends Room {
   private async initGame(): Promise<void> {
     if (!this.startGameManually) {
       this.setStatus(RoomStatus.Starting);
-      setTimeout(
+      this.timer = setTimeout(
         () => this.eventEmitter.emit(EmitterEvents.Start),
         (this.timeToAnswer + this.timeBetweenQuestion) * SECOND,
       );
@@ -344,11 +350,8 @@ export default class Quiz extends Room {
       }
     }
 
-    if (this.roundTimer) {
-      clearInterval(this.roundTimer);
-    }
     // Time before the next game
-    this.endTimer = setTimeout(() => this.restartGame(), this.timeBetweenGames * SECOND);
+    this.timer = setTimeout(() => this.restartGame(), this.timeBetweenGames * SECOND);
 
     // Save challenges
     if (!this.isPrivate && this.checkForCheat && !this.isPrivate) {
@@ -398,15 +401,10 @@ export default class Quiz extends Room {
    * Clear all timers
    */
   public gameStop(): void {
-    if (this.roundTimer) {
-      clearInterval(this.roundTimer);
+    if (this.timer) {
+      clearInterval(this.timer);
     }
-    if (this.answerTimer) {
-      clearInterval(this.answerTimer);
-    }
-    if (this.endTimer) {
-      clearInterval(this.endTimer);
-    }
+    this.ac.abort();
   }
 
   /**

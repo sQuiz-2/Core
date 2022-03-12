@@ -92,11 +92,13 @@ class RoomPool {
    * Remove room from the room pool
    */
   public removeRoom(): void {
-    this.rooms = this.rooms.filter(({ players, isPrivate, nameSpace }) => {
+    this.rooms = this.rooms.filter((room) => {
+      const { players, isPrivate, nameSpace, gameStop } = room;
       if (isPrivate) {
         const activePlayers = players.filter(({ disconnected }) => !disconnected);
         if (activePlayers.length <= 0) {
           nameSpace.removeAllListeners();
+          gameStop.bind(room)();
           return false;
         }
       }
