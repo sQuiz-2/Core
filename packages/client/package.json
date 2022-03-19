@@ -14,6 +14,7 @@
     "build-web": "expo build:web"
   },
   "dependencies": {
+    "@gorhom/portal": "^1.0.12",
     "@react-native-async-storage/async-storage": "^1.13.2",
     "@react-native-community/masked-view": "0.1.10",
     "@react-native-community/slider": "3.0.3",
@@ -31,6 +32,7 @@
     "react": "^17.0.1",
     "react-charts": "^3.0.0-beta.35",
     "react-dom": "^17.0.1",
+    "react-hot-toast": "^2.2.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-40.0.1.tar.gz",
     "react-native-gesture-handler": "~1.8.0",
     "react-native-modal": "^11.7.0",

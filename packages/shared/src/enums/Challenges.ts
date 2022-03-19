@@ -294,3 +294,19 @@ export const challengeWin: ChallengeWin[] = [
     hidden: false,
   },
 ];
+
+export const allChallenges = [
+  ...challengePoint,
+  ...challengeSpeed,
+  ...challengeStreak,
+  ...challengeSpeed,
+];
+
+export type AllChallengesIds = (
+  | ChallengeSpeedIds
+  | ChallengeStreakIds
+  | ChallengePointIds
+  | ChallengeWinIds
+)[];
+
+export type AllChallengesTypes = ChallengeWin | ChallengeStreak | ChallengePoint | ChallengeSpeed;

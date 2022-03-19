@@ -2,6 +2,7 @@ import { TitleCard } from '@Src/components/Card';
 import React from 'react';
 import { View } from 'react-native';
 
+import AdminMessage from './AdminMessage';
 import Avatars from './Avatars';
 import Badges from './Badges';
 import useProfileStyle from './ProfileStyle';
@@ -19,6 +20,11 @@ export default function Profile() {
       <View style={styles.containerBadge}>
         <TitleCard title="BADGE">
           <Badges />
+        </TitleCard>
+      </View>
+      <View style={styles.containerBadge}>
+        <TitleCard title="BADGE">
+          <AdminMessage />
         </TitleCard>
       </View>
     </View>
