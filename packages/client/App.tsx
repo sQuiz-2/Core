@@ -1,14 +1,17 @@
+import { AlertNotification } from '@Src/components/Notification';
 import SocketError from '@Src/components/SocketError';
 import soundVolumeState from '@Src/global/soundVolume';
 import userBasicInfoState from '@Src/global/userBasicInfos';
 import useHomeSocketError from '@Src/screens/Home/Home/useHomeSocketError';
 import useHomeSocket from '@Src/utils/hooks/homeSocket';
+import useListener from '@Src/utils/hooks/useListener';
 import { get } from '@Src/utils/wrappedFetch';
 import { NavigationContainer } from '@react-navigation/native';
-import { MeBasic, oAuthResponse, SocketErrors } from '@squiz/shared';
+import { MeBasic, oAuthResponse, RoomEvent, SocketErrors } from '@squiz/shared';
 import { registerRootComponent } from 'expo';
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
 import { Platform, ActivityIndicator } from 'react-native';
 import { RecoilRoot, useSetRecoilState } from 'recoil';
 
@@ -56,6 +59,17 @@ function AppWithProviders() {
   const setSoundVolume = useSetRecoilState(soundVolumeState);
   useHomeSocket(onSocketConnected);
   const error = useHomeSocketError();
+  useListener(RoomEvent.AdminMessage, handleMessage, true);
+
+  function handleMessage({ message, user }: { message: string; user: string }) {
+    toast.custom(
+      ({ duration }) => <AlertNotification user={user} message={message} duration={duration} />,
+      {
+        position: 'bottom-left',
+        duration: 5000,
+      }
+    );
+  }
   /* useAutoSetBadges(); */
 
   useEffect(function mount() {
@@ -105,6 +119,7 @@ function AppWithProviders() {
   } else {
     return (
       <NavigationContainer linking={Linking} theme={Theme}>
+        <Toaster />
         <HomeStack />
       </NavigationContainer>
     );

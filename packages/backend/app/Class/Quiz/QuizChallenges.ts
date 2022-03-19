@@ -13,6 +13,7 @@ import {
 import Challenge from 'App/Models/Challenge';
 import ChallengeUser from 'App/Models/ChallengeUser';
 import UserBadge from 'App/Models/UserBadge';
+import { PlayerChallenges } from 'packages/shared/src/typings/Room';
 
 import Player, { PlayerChallengeInfos } from '../Player';
 
@@ -20,9 +21,9 @@ export type QuizChallengeParams = {
   difficulty: Difficulty;
 };
 
-type PlayerChallenge = {
-  userId: number | undefined;
-  challengeId: ChallengeSpeedIds | ChallengeStreakIds | ChallengePointIds;
+export type PlayerChallenge = {
+  socketId: string;
+  challengeId: string;
 };
 
 type userBadge = {
@@ -37,15 +38,18 @@ class QuizChallenges {
     this.difficulty = params.difficulty;
   }
 
-  public async computeAndSaveChallenges(players: Player[]): Promise<void> {
-    if (players.length < 5 || this.difficulty.id === DifficultyEnum.Random) return;
+  public async computeAndSaveChallenges(players: Player[]): Promise<PlayerChallenge[]> {
+    if (players.length < 5 || this.difficulty.id === DifficultyEnum.Random) return [];
     const playersChallenges = this.checkAllPlayersChallenges(players);
-    if (playersChallenges.length <= 0) return;
+    if (playersChallenges.length <= 0) return [];
     await this.setSpecialBadges(playersChallenges);
-    await this.savePlayersChallenges(playersChallenges);
+    const playerToNotify = await this.savePlayersChallenges(playersChallenges);
+    return playerToNotify;
   }
 
-  private async savePlayersChallenges(playersChallenge: PlayerChallenge[]): Promise<void> {
+  private async savePlayersChallenges(
+    playersChallenge: PlayerChallenges[],
+  ): Promise<PlayerChallenge[]> {
     const challengeIds = await Challenge.all();
     let playersChallengeConverted = playersChallenge.map((playerChallenge) => {
       const challenge = challengeIds.find(({ title }) => title === playerChallenge.challengeId);
@@ -57,11 +61,27 @@ class QuizChallenges {
     playersChallengeConverted = playersChallengeConverted.filter(
       ({ challengeId }) => challengeId !== 0,
     );
+
     try {
-      await ChallengeUser.fetchOrCreateMany(['userId', 'challengeId'], playersChallengeConverted);
+      const result = await ChallengeUser.fetchOrCreateMany(
+        ['userId', 'challengeId'],
+        playersChallengeConverted,
+      );
+      /**
+       * Some people could already have unlocked trophies
+       * so we remove them to don't display the notification
+       */
+      const freshlyUnlocked = result
+        .filter(({ $isLocal }) => $isLocal)
+        .map(({ userId, challengeId }) => ({
+          socketId: playersChallenge.find(({ userId: id }) => id === userId)!.socketId,
+          challengeId: challengeIds.find(({ id }) => id === challengeId)!.title,
+        }));
+      return freshlyUnlocked;
     } catch (error) {
       Logger.error(error);
     }
+    return [];
   }
 
   private checkAllPlayersChallenges(players: Player[]) {
@@ -71,6 +91,7 @@ class QuizChallenges {
       return validatedChallenge.map((challenge) => ({
         userId: player.dbId,
         challengeId: challenge,
+        socketId: player.id,
       }));
     });
     return playersChallenge.flat();
@@ -114,7 +135,7 @@ class QuizChallenges {
   /**
    * Players can unlock special badges with their challenges
    */
-  private async setSpecialBadges(playersChallenge: PlayerChallenge[]) {
+  private async setSpecialBadges(playersChallenge: PlayerChallenges[]) {
     const badgesToCreates: userBadge[] = [];
     for (const i of playersChallenge) {
       if (i.challengeId === ChallengeSpeedIds.oneSec) {

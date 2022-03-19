@@ -353,8 +353,19 @@ export default class Quiz extends Room {
     this.timer = setTimeout(() => this.restartGame(), this.timeBetweenGames * SECOND);
 
     // Save challenges
-    if (!this.isPrivate && this.checkForCheat && !this.isPrivate) {
-      await this.quizChallenges.computeAndSaveChallenges(this.players);
+    if (!this.isPrivate && this.checkForCheat) {
+      const playerChallenges = await this.quizChallenges.computeAndSaveChallenges(this.players);
+      const assignPlayerChallenges = {};
+      playerChallenges.forEach(({ socketId, challengeId }) => {
+        if (assignPlayerChallenges[socketId]) {
+          assignPlayerChallenges[socketId].push(challengeId);
+        } else {
+          assignPlayerChallenges[socketId] = [challengeId];
+        }
+      });
+      Object.entries(assignPlayerChallenges).forEach(([socketId, challenges]) => {
+        this.nameSpace.to(socketId).emit(GameEvent.PlayerTrophies, challenges);
+      });
     }
 
     // Sort unknown rounds if there was unknown rounds in this game

@@ -1,3 +1,4 @@
+import { ResponsiveContainer } from '@Src/components/Containers';
 import Text from '@Src/components/Text';
 import userState from '@Src/global/userState';
 import { EmitRooms } from '@squiz/shared';
@@ -5,7 +6,6 @@ import React from 'react';
 import { View } from 'react-native';
 import { useRecoilValue } from 'recoil';
 
-import { ResponsiveContainer } from '../../../components/Containers';
 import HomeNews from '../Infos/News/News';
 import HomeProfile from '../Infos/Profile';
 import HomeRooms from '../Rooms/HomeRooms';

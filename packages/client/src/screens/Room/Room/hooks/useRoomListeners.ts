@@ -8,6 +8,7 @@ import useRoomInfosListener from './useRoomInfosListener';
 import useRoomStatusListener from './useRoomStatusListener';
 import useRoundEndListener from './useRoundEndListener';
 import useScoreboardListener from './useScoreboardListener';
+import useTrophiesListener from './useTrophiesListener';
 import useValidAnswerListener from './useValidAnswerListener';
 
 export default function useRoomListeners() {
@@ -22,4 +23,5 @@ export default function useRoomListeners() {
   useQuestionsListener();
   useCompleteScoreboardListener();
   useGameEndPlayerInfosListener();
+  useTrophiesListener();
 }
