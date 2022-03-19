@@ -9,11 +9,11 @@ import {
   ChallengeStreakIds,
   Difficulty,
   DifficultyEnum,
+  PlayerChallenges,
 } from '@squiz/shared';
 import Challenge from 'App/Models/Challenge';
 import ChallengeUser from 'App/Models/ChallengeUser';
 import UserBadge from 'App/Models/UserBadge';
-import { PlayerChallenges } from 'packages/shared/src/typings/Room';
 
 import Player, { PlayerChallengeInfos } from '../Player';
 

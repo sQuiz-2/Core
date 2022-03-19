@@ -18,6 +18,7 @@ export type {
   EmitRoomInfos,
   RoomCreateConfig,
   TopTimeAnswer,
+  PlayerChallenges,
 } from './Room';
 
 export * from './API';
