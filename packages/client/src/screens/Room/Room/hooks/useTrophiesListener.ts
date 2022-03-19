@@ -5,7 +5,7 @@ import { allChallenges, AllChallengesIds, AllChallengesTypes, GameEvent } from '
 import toast from 'react-hot-toast';
 
 export default function useTrophiesListener() {
-  const trophySound = useSound({ source: require('@Assets/sounds/right.mp3') });
+  const trophySound = useSound({ source: require('@Assets/sounds/trophy.mp3') });
   useListener(GameEvent.PlayerTrophies, displayTrophies);
 
   function displayTrophy(challenge: AllChallengesTypes) {

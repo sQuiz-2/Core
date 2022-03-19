@@ -18,7 +18,8 @@ export default function AlertNotification({ user, message, duration }: AlertProp
     <Notification
       duration={duration}
       title={user + ':'}
-      image={require('@Assets/images/alert.png')}>
+      image={require('@Assets/images/alert.png')}
+      pictureStyle={{ width: 64, height: 64 }}>
       <View style={styles.textContainer}>
         <Text fontSize="sm">{message}</Text>
       </View>

@@ -18,7 +18,8 @@ export default function TrophyNotification({ title, description, duration }: Not
     <Notification
       duration={duration}
       title="NOUVEAU TROPHÉE DÉBLOQUÉ !"
-      image={require('@Assets/images/trophy.png')}>
+      image={require('@Assets/images/trophy.png')}
+      pictureStyle={{ width: 45, height: 64 }}>
       <View style={styles.textContainer}>
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.description} fontSize="sm">

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { View, Image, ImageSourcePropType, Animated, Easing } from 'react-native';
+import { View, Image, ImageSourcePropType, Animated, Easing, ImageStyle } from 'react-native';
 
 import Card from '../Card';
 import Text from '../Text';
@@ -10,9 +10,16 @@ type NotificationProps = {
   image: ImageSourcePropType;
   children: React.ReactNode;
   duration: number | undefined;
+  pictureStyle: ImageStyle;
 };
 
-export default function Notification({ title, image, children, duration }: NotificationProps) {
+export default function Notification({
+  title,
+  image,
+  children,
+  duration,
+  pictureStyle,
+}: NotificationProps) {
   const opacity = useRef(new Animated.Value(0)).current;
   const styles = useNotificationStyle();
 
@@ -45,7 +52,7 @@ export default function Notification({ title, image, children, duration }: Notif
     <Animated.View style={[{ opacity }, styles.animatedContainer]}>
       <Card>
         <View style={styles.container}>
-          <Image source={image} style={styles.picture} />
+          <Image source={image} style={pictureStyle} />
           <View style={styles.textContainer}>
             <Text fontFamily="title" fontSize="xl">
               {title}

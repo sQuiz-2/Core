@@ -4,6 +4,7 @@ import soundVolumeState from '@Src/global/soundVolume';
 import userBasicInfoState from '@Src/global/userBasicInfos';
 import useHomeSocketError from '@Src/screens/Home/Home/useHomeSocketError';
 import useHomeSocket from '@Src/utils/hooks/homeSocket';
+import { useSound } from '@Src/utils/hooks/sound';
 import useListener from '@Src/utils/hooks/useListener';
 import { get } from '@Src/utils/wrappedFetch';
 import { NavigationContainer } from '@react-navigation/native';
@@ -59,6 +60,7 @@ function AppWithProviders() {
   const setSoundVolume = useSetRecoilState(soundVolumeState);
   useHomeSocket(onSocketConnected);
   const error = useHomeSocketError();
+  const notificationSound = useSound({ source: require('@Assets/sounds/notification.mp3') });
   useListener(RoomEvent.AdminMessage, handleMessage, true);
 
   function handleMessage({ message, user }: { message: string; user: string }) {
@@ -69,6 +71,7 @@ function AppWithProviders() {
         duration: 5000,
       }
     );
+    notificationSound?.play();
   }
   /* useAutoSetBadges(); */
 

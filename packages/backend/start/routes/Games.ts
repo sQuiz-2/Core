@@ -10,7 +10,6 @@ Route.group(() => {
 
   Route.post('send-message', ({ auth, request }) => {
     const { message } = request.body();
-    console.log(message);
     Ws.io.emit(RoomEvent.AdminMessage, { user: auth.user?.username, message });
   }).middleware(['auth', 'admin']);
 }).prefix(Application.version!.toString());

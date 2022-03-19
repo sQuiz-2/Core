@@ -10,10 +10,6 @@ export default function useNotificationStyle() {
       justifyContent: 'center',
       alignItems: 'center',
     },
-    picture: {
-      width: 64,
-      height: 64,
-    },
     textContainer: {
       flexDirection: 'column',
       paddingLeft: 20,
