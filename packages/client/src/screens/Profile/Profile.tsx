@@ -23,7 +23,7 @@ export default function Profile() {
         </TitleCard>
       </View>
       <View style={styles.containerBadge}>
-        <TitleCard title="BADGE">
+        <TitleCard title="ADMIN">
           <AdminMessage />
         </TitleCard>
       </View>

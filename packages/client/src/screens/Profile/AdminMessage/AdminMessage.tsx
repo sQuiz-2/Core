@@ -23,19 +23,9 @@ export default function AdminMessage() {
 
   return (
     <View style={styles.container}>
-      <Text fontSize="md">Envoyer un message au joueurs en ligne:</Text>
-      <TextInput
-        style={{
-          backgroundColor: 'white',
-          paddingHorizontal: 10,
-          paddingVertical: 5,
-          borderRadius: 4,
-          marginVertical: 10,
-        }}
-        value={message}
-        onChangeText={setMessage}
-      />
-      <Pressable onPress={sendMessage}>
+      <Text fontSize="md">Envoyer un message aux joueurs en ligne:</Text>
+      <TextInput style={styles.input} value={message} onChangeText={setMessage} />
+      <Pressable style={styles.sendButton} onPress={sendMessage}>
         <Text>Envoyer</Text>
       </Pressable>
     </View>

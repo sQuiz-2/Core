@@ -24,8 +24,8 @@ export default function useLockedChallengeStyle() {
       fontStyle: 'italic',
     },
     pictureWidth: {
-      width: 38,
-      height: 38,
+      width: 30,
+      height: 42,
     },
     pictureGray: {
       tintColor: 'gray',
