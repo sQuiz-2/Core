@@ -62,11 +62,13 @@ class QuizStats {
   }
 
   public async computeAndSaveStats(players: Player[], rounds: Round[]): Promise<void> {
-    if (players.length < 5 || this.difficulty.id === DifficultyEnum.Random) return;
+    if (this.difficulty.id === DifficultyEnum.Random) return;
     const playersWhoPlayedAllTheGame = players.filter((player) => player.joinedAtTheBeginning());
     const playersStats = this.computeStats(playersWhoPlayedAllTheGame, rounds);
-    await this.savePlayersGameStats(playersStats);
-    await this.savePlayersRoundStats(playersStats);
+    if (players.length >= 5) {
+      await this.savePlayersGameStats(playersStats);
+      await this.savePlayersRoundStats(playersStats);
+    }
     if (!this.isPrivate) {
       await this.savePlayersThemeStats(playersStats, rounds);
     }

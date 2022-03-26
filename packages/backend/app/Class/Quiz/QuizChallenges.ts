@@ -33,13 +33,17 @@ type userBadge = {
 
 class QuizChallenges {
   difficulty: Difficulty;
+  enoughPlayers: boolean = false;
 
   constructor(params: QuizChallengeParams) {
     this.difficulty = params.difficulty;
   }
 
   public async computeAndSaveChallenges(players: Player[]): Promise<PlayerChallenge[]> {
-    if (players.length < 5 || this.difficulty.id === DifficultyEnum.Random) return [];
+    if (this.difficulty.id === DifficultyEnum.Random) return [];
+    if (players.length >= 5) {
+      this.enoughPlayers = true;
+    }
     const playersChallenges = this.checkAllPlayersChallenges(players);
     if (playersChallenges.length <= 0) return [];
     await this.setSpecialBadges(playersChallenges);
@@ -98,9 +102,12 @@ class QuizChallenges {
   }
 
   private validatedChallenge(playerInfos: PlayerChallengeInfos) {
+    let pointChallenge: ChallengePointIds[] = [];
     const speedChallenge = this.checkSpeedChallenges(playerInfos.fastestAnswer);
     const streakChallenge = this.checkStreakChallenges(playerInfos.maxStreak);
-    const pointChallenge = this.checkPointChallenges(playerInfos.points);
+    if (this.enoughPlayers) {
+      pointChallenge = this.checkPointChallenges(playerInfos.points);
+    }
     return [...speedChallenge, ...streakChallenge, ...pointChallenge];
   }
 
