@@ -2,6 +2,11 @@ import { DifficultyEnum } from '@squiz/shared';
 import Round from 'App/Models/Round';
 
 class RoundFetcher {
+  isPrivate = true;
+
+  constructor(isPrivate: boolean) {
+    this.isPrivate = isPrivate;
+  }
   /**
    * Pull new random rounds
    */
@@ -72,7 +77,10 @@ class RoundFetcher {
    * Fetch all not played rounds for a given difficulty
    */
   private async fetchAllRoundsIds(difficultyId: number, themes?: number[]) {
-    const request = Round.query().select('id').where('validated', true).where('played', false);
+    const request = Round.query()
+      .select('id')
+      .where('validated', this.isPrivate)
+      .where('played', false);
     if (themes && themes.length > 0) {
       request.whereIn('theme_id', themes);
     }

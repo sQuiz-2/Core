@@ -217,7 +217,7 @@ export const challengeSpeed: ChallengeSpeed[] = [
     title: 'Le Fast',
     description: "Vous avez répondu correctement à une question en moins d'une seconde",
     maxTime: SECOND * 1,
-    hidden: true,
+    hidden: false,
   },
   {
     id: ChallengeSpeedIds.onePointFiveSec,
@@ -295,11 +295,31 @@ export const challengeWin: ChallengeWin[] = [
   },
 ];
 
+export interface ChallengeSpecial extends Challenge {
+  id: ChallengeSpecialIds;
+  customPicture?: boolean;
+}
+
+export enum ChallengeSpecialIds {
+  april2022 = 'april2022',
+}
+
+export const challengeSpecial: ChallengeSpecial[] = [
+  {
+    id: ChallengeSpecialIds.april2022,
+    title: 'Poisson d’Avril !',
+    description: 'Vous avez joué une partie le 1er avril 2022',
+    hidden: true,
+    customPicture: true,
+  },
+];
+
 export const allChallenges = [
   ...challengePoint,
   ...challengeSpeed,
   ...challengeStreak,
   ...challengeSpeed,
+  ...challengeSpecial,
 ];
 
 export type AllChallengesIds = (
@@ -307,6 +327,12 @@ export type AllChallengesIds = (
   | ChallengeStreakIds
   | ChallengePointIds
   | ChallengeWinIds
+  | ChallengeSpecialIds
 )[];
 
-export type AllChallengesTypes = ChallengeWin | ChallengeStreak | ChallengePoint | ChallengeSpeed;
+export type AllChallengesTypes =
+  | ChallengeWin
+  | ChallengeStreak
+  | ChallengePoint
+  | ChallengeSpeed
+  | ChallengeSpecial;

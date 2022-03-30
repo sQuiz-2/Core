@@ -3,6 +3,7 @@ import userState from '@Src/global/userState';
 import { get } from '@Src/utils/wrappedFetch';
 import {
   challengePoint,
+  challengeSpecial,
   challengeSpeed,
   challengeStreak,
   challengeWin,
@@ -95,6 +96,21 @@ export default function Challenges() {
                 key={challenge.id}
                 title={challenge.title}
                 description={challenge.description}
+                lock={!unlockedChallengesId.includes(challenge.id)}
+              />
+            ))}
+          </View>
+        </TitleCard>
+      </View>
+      <View style={styles.separator}>
+        <TitleCard title="SQUIZ">
+          <View style={styles.challengeContainer}>
+            {challengeSpecial.map((challenge) => (
+              <LockedChallenge
+                key={challenge.id}
+                title={challenge.title}
+                description={challenge.description}
+                customPicture={challenge.customPicture}
                 lock={!unlockedChallengesId.includes(challenge.id)}
               />
             ))}

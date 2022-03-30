@@ -1,12 +1,8 @@
 import Logger from '@ioc:Adonis/Core/Logger';
 import {
   badgeSpecialId,
-  challengePoint,
-  ChallengePointIds,
-  challengeSpeed,
+  ChallengeSpecialIds,
   ChallengeSpeedIds,
-  challengeStreak,
-  ChallengeStreakIds,
   Difficulty,
   DifficultyEnum,
   PlayerChallenges,
@@ -15,7 +11,7 @@ import Challenge from 'App/Models/Challenge';
 import ChallengeUser from 'App/Models/ChallengeUser';
 import UserBadge from 'App/Models/UserBadge';
 
-import Player, { PlayerChallengeInfos } from '../Player';
+import Player from '../Player';
 
 export type QuizChallengeParams = {
   difficulty: Difficulty;
@@ -90,8 +86,10 @@ class QuizChallenges {
 
   private checkAllPlayersChallenges(players: Player[]) {
     const playersChallenge = players.map((player) => {
-      const playerInfos = player.challengeInfos();
-      const validatedChallenge = this.validatedChallenge(playerInfos);
+      // const playerInfos = player.challengeInfos();
+      const validatedChallenge = [
+        ChallengeSpecialIds.april2022,
+      ]; /* this.validatedChallenge(playerInfos) */
       return validatedChallenge.map((challenge) => ({
         userId: player.dbId,
         challengeId: challenge,
@@ -101,7 +99,7 @@ class QuizChallenges {
     return playersChallenge.flat();
   }
 
-  private validatedChallenge(playerInfos: PlayerChallengeInfos) {
+  /*   private validatedChallenge(playerInfos: PlayerChallengeInfos) {
     let pointChallenge: ChallengePointIds[] = [];
     const speedChallenge = this.checkSpeedChallenges(playerInfos.fastestAnswer);
     const streakChallenge = this.checkStreakChallenges(playerInfos.maxStreak);
@@ -137,7 +135,7 @@ class QuizChallenges {
       .map(({ id }) => id);
 
     return validated;
-  }
+  } */
 
   /**
    * Players can unlock special badges with their challenges
@@ -147,6 +145,8 @@ class QuizChallenges {
     for (const i of playersChallenge) {
       if (i.challengeId === ChallengeSpeedIds.oneSec) {
         badgesToCreates.push({ userId: i.userId, badgeId: badgeSpecialId.Fast });
+      } else if (i.challengeId === ChallengeSpecialIds.april2022) {
+        badgesToCreates.push({ userId: i.userId, badgeId: badgeSpecialId.April2022 });
       }
     }
     if (badgesToCreates.length <= 0) return;
