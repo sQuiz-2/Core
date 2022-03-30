@@ -1,6 +1,7 @@
 import BaseSeeder from '@ioc:Adonis/Lucid/Seeder';
 import {
   ChallengePointIds,
+  ChallengeSpecialIds,
   ChallengeSpeedIds,
   ChallengeStreakIds,
   ChallengeWinIds,
@@ -14,6 +15,7 @@ export default class ChallengeSeeder extends BaseSeeder {
       ...Object.values(ChallengeSpeedIds),
       ...Object.values(ChallengeStreakIds),
       ...Object.values(ChallengeWinIds),
+      ...Object.values(ChallengeSpecialIds),
     ];
     const titles: { title: string }[] = allChallenges.map((title: string) => ({
       title,

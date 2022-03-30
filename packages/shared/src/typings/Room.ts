@@ -1,4 +1,9 @@
-import { ChallengePointIds, ChallengeSpeedIds, ChallengeStreakIds } from '../enums/Challenges';
+import {
+  ChallengePointIds,
+  ChallengeSpecialIds,
+  ChallengeSpeedIds,
+  ChallengeStreakIds,
+} from '../enums/Challenges';
 import { Difficulty } from '../enums/Difficulty';
 
 export type Room = {
@@ -114,6 +119,6 @@ export type RoomCreateConfig = {
 
 export type PlayerChallenges = {
   userId: number | undefined;
-  challengeId: ChallengeSpeedIds | ChallengeStreakIds | ChallengePointIds;
+  challengeId: ChallengeSpeedIds | ChallengeStreakIds | ChallengePointIds | ChallengeSpecialIds;
   socketId: string;
 };

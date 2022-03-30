@@ -21,8 +21,8 @@ export default function useGameCardStyle() {
       borderRadius: 10,
       position: 'relative',
       height: responsive(screenWidth, 100, 100, 130),
-      alignItems: responsive(screenWidth, 'center', 'center', 'flex-start'),
-      justifyContent: responsive(screenWidth, 'center', 'center', 'flex-start'),
+      alignItems: responsive(screenWidth, 'center', 'center', 'center'),
+      justifyContent: responsive(screenWidth, 'center', 'center', 'center'),
     },
     title: {
       fontWeight: '600',

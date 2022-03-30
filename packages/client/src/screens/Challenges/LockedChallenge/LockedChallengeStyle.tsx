@@ -14,7 +14,7 @@ export default function useLockedChallengeStyle() {
       paddingRight: 10,
     },
     textContainer: {
-      paddingLeft: 5,
+      paddingLeft: 10,
       flex: 1,
     },
     bold: {

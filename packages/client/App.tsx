@@ -68,7 +68,7 @@ function AppWithProviders() {
       ({ duration }) => <AlertNotification user={user} message={message} duration={duration} />,
       {
         position: 'bottom-left',
-        duration: 5000,
+        duration: 8000,
       }
     );
     notificationSound?.play();

@@ -1,4 +1,4 @@
-import { Difficulty, EmitRooms } from '@squiz/shared';
+import { Difficulties, Difficulty, EmitRooms } from '@squiz/shared';
 import Game from 'App/Models/Game';
 import { EventEmitter } from 'events';
 
@@ -36,8 +36,8 @@ class RoomPool {
    * Fetch Games and create a room for each games
    */
   public async init(): Promise<void> {
-    const games = await Game.query().orderBy('id', 'asc');
-    games.forEach((game) => {
+    await Game.query().orderBy('id', 'asc');
+    /* games.forEach((game) => {
       this.addRoom({
         difficulty: game.difficulty,
         title: game.title,
@@ -45,6 +45,13 @@ class RoomPool {
         antiCheat: true,
         maxPlayers: 200,
       });
+    }); */
+    this.addRoom({
+      difficulty: Difficulties[0],
+      title: 'Aquarium',
+      private: false,
+      antiCheat: true,
+      maxPlayers: 200,
     });
   }
 

@@ -10,14 +10,21 @@ export default function useTrophiesListener() {
   useListener(GameEvent.PlayerTrophies, displayTrophies);
 
   function displayTrophy(challenge: AllChallengesTypes) {
-    const { title, description } = challenge;
+    const { title, description, id } = challenge;
     toast.custom(
       ({ duration }) => (
-        <TrophyNotification description={description} duration={duration} title={title} />
+        <TrophyNotification
+          description={description}
+          duration={duration}
+          title={title}
+          //@ts-ignore
+          customPicture={challenge!.customPicture}
+          id={id}
+        />
       ),
       {
         position: 'bottom-right',
-        duration: 3000,
+        duration: 8000,
       }
     );
     trophySound?.play();

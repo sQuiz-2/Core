@@ -1,4 +1,4 @@
-import Logger from '@ioc:Adonis/Core/Logger';
+// import Logger from '@ioc:Adonis/Core/Logger';
 import {
   parseAnswer,
   GameEvent,
@@ -86,7 +86,7 @@ export default class Quiz extends Room {
   /**
    * Keep track of the number of rounds done
    */
-  roundFetcher: RoundFetcher = new RoundFetcher();
+  roundFetcher: RoundFetcher = new RoundFetcher(this.isPrivate);
 
   /**
    * Compute and save players experience
@@ -339,7 +339,7 @@ export default class Quiz extends Room {
     this.emitAllRounds();
     this.emitCompleteScoreboard();
     this.removeAfkPlayers();
-    if (this.checkForCheat) {
+    /* if (this.checkForCheat) {
       try {
         await this.quizExperience.computeAndSaveExperience(this.players);
         this.quizExperience.emitExperience(this.players);
@@ -347,7 +347,7 @@ export default class Quiz extends Room {
       } catch (error) {
         Logger.error('Error while saving stats', error);
       }
-    }
+    } */
 
     // Time before the next game
     this.timer = setTimeout(() => this.restartGame(), this.timeBetweenGames * SECOND);

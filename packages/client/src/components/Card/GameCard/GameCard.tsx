@@ -2,7 +2,7 @@ import { useTheme } from '@react-navigation/native';
 import { Difficulty } from '@squiz/shared';
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
-import { StyleProp, ViewStyle, TouchableOpacity, Image, View } from 'react-native';
+import { StyleProp, ViewStyle, TouchableOpacity, View } from 'react-native';
 
 import Text from '../../Text';
 import Card from '../Card';
@@ -39,7 +39,7 @@ export default function GameCard({ style, ...props }: ButtonProps) {
         <Text style={[{ color: colors.text }]} fontFamily="text" fontSize="md">
           {onlinePlayers}
         </Text>
-        <Image source={require('@Assets/images/question.png')} style={[styles.image]} />
+        {/* <Image source={require('@Assets/images/question.png')} style={[styles.image]} /> */}
         {xpMultiplier > 1 && (
           <Text
             style={[{ color: colors.text, fontWeight: 'bold' }]}
