@@ -9,8 +9,8 @@ export function normalizedValue(str: string): string {
   let value = str.toLowerCase();
   // Remove accents
   value = value.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-  // Remove hyphens, dot, colon
-  value = value.replace(/-|\.|:/g, '');
+  // Remove hyphens, dot, colon, coma
+  value = value.replace(/-|\.|:|\,/g, '');
   // Replace œ
   value = value.replace(/œ/g, 'oe');
   // Remove ending and beginning spaces
@@ -45,6 +45,7 @@ export function removePrefix(str: string): string {
     'aux',
     'dans',
     'a',
+    'mon',
   ];
   const splitAnswer = str.split(' ');
   if (splitAnswer.length > 1 && prefix.includes(splitAnswer[0])) {
